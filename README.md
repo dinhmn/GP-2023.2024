@@ -9,7 +9,7 @@ Front-End part using Framework:
 VueJS + VueX
 => Now will start the front-end before the interface.
 
-# vue-project
+# graduation-project (vue-js)
 
 This template should help get you started developing with Vue 3 in Vite.
 
