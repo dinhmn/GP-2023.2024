@@ -11,5 +11,9 @@
         <module name="backend-website-shoe.backend-website-shoe.main" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="backend-website-shoe.backend-website-shoe.main~1" target="17" />
+      <module name="backend-website-shoe.backend-website-shoe.test~1" target="17" />
+    </bytecodeTargetLevel>
   </component>
 </project>

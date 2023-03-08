@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  mysql:
+    build: ./docker/mysql
+    container_name: mysql_db
+    env_file:
+      - ./docker/mysql/db.env # DBMySQL
+    volumes:
+      - ./docker/mysql/sql_init:/docker-entrypoint-initdb.d
+    ports:
+      - "3306:3306"
+  backend:
+    build:
+      context: ./docker/backend
+    container_name: backend
+    env_file:
+      - ./docker/mysql/db.env
+    tty: true
+    working_dir: /app
+    volumes:
+      - ./app/backend:/app
+    ports:
+      - 8080:8080
+    depends_on:
+      - mysql
+#  api:
+#    container_name: shoes_api
+#    build:
+#      context: docker
+#      target: production
+#    image: shoes_api
+#    depends_on:
+#      - db
+#    ports:
+#      - 3000:3000
+#    environment:
+#      NODE_ENV: production
+#      DB_HOST: db
+#      DB_PORT: 3306
+#      DB_USER: root
+#      DB_PASSWORD: 2019605688
+#      DB_NAME: shoes
+#    links:
+#      - db
+#    volumes:
+#      - ./:/src
+volumes:
+  db:
+    driver: local
