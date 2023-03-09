@@ -1,20 +1,20 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import Home from './views/Home.vue'
+// import { useRoute } from 'vue-router'
+// export default {
+//   setup() {
+//     const route = useRoute()
+//     console.log(route)
+//     return { layout: 'default' }
+//   }
+// }
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  <!-- <component v-bind:is="layout">
+    <router-view />
+  </component> -->
+  <Home></Home>
 </template>
 
 <style scoped>
