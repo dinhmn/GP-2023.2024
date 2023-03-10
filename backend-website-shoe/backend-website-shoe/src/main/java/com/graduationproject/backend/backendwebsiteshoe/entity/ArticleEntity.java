@@ -24,6 +24,10 @@ public class ArticleEntity extends BaseEntity implements Serializable {
     @Column(name = "article_id", nullable = false)
     private Long articleId;
 
+    @Id
+    @Column(name = "product_id", nullable = false)
+    private Long productId;
+
     @Column(name = "article_name", nullable = false)
     private String articleName;
 

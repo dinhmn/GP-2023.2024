@@ -54,6 +54,7 @@ public class SourceImagesEntity extends BaseEntity implements Serializable {
     * ImageCode = 30 => Image user
     * ImageCode = 31 => Image main product
     * ImageCode = 32 => Image multiple product
+    * ImageCode = 33 => Image product color
     * */
     @Column(name = "image_code", length = 2)
     private String imageCode;

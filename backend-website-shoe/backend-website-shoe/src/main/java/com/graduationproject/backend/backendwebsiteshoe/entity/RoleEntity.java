@@ -22,11 +22,11 @@ public class RoleEntity extends BaseEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "role_id", nullable = false)
-    private Long role_id;
+    private Long roleId;
 
     @Id
     @Column(name = "user_id")
-    private Long user_id;
+    private Long userId;
 
     @Column(name = "role_name", nullable = false)
     private String role_name;

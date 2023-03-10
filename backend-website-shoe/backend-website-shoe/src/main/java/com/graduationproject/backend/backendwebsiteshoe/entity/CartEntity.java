@@ -9,7 +9,7 @@ import java.io.Serializable;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
-@IdClass(OrderEntityKey.class)
+@IdClass(CartEntityKey.class)
 public class CartEntity extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -21,7 +21,7 @@ public class CartEntity extends BaseEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "cartId", nullable = false)
+    @Column(name = "cart_id", nullable = false)
     private Long cartId;
 
     @Id

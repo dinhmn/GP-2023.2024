@@ -30,23 +30,22 @@ public class ProductEntity extends BaseEntity implements Serializable {
     private Long categoryId;
 
 
-    @Column(name = "product_name")
+    @Column(name = "product_name", nullable = false)
     private String productName;
 
     @Column(name = "product_description")
     private String productDescription;
 
-    @Column(name = "product_price")
+    @Column(name = "product_price", nullable = false)
     private BigDecimal productPrice;
 
     @Column(name = "product_price_sale")
     private BigDecimal productPriceSale;
 
-    @Column(name = "quantity")
+    @Column(name = "quantity", nullable = false)
     private Long quantity;
 
     @Column(name = "product_seo")
     private String productSeo;
-
 
 }
