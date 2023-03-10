@@ -10,6 +10,7 @@ import java.io.Serializable;
 @Entity
 @Data
 @IdClass(CommentEntityKey.class)
+@Table(name = "tbl_comment")
 public class CommentEntity extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;

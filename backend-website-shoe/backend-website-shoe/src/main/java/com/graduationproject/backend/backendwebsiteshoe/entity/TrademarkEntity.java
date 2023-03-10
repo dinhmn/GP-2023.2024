@@ -10,6 +10,7 @@ import java.io.Serializable;
 @Entity
 @Data
 @IdClass(TrademarkEntityKey.class)
+@Table(name = "tbl_trademark")
 public class TrademarkEntity extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;

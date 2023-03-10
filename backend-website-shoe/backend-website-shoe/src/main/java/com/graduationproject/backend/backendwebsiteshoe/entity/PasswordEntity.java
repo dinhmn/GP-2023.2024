@@ -10,6 +10,7 @@ import java.io.Serializable;
 @Entity
 @Data
 @IdClass(PasswordEntityKey.class)
+@Table(name = "tbl_password")
 public class PasswordEntity extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;

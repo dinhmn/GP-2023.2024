@@ -10,6 +10,7 @@ import java.io.Serializable;
 @Entity
 @Data
 @IdClass(ProductSizeEntityKey.class)
+@Table(name = "tbl_product_size")
 public class ProductSizeEntity extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;

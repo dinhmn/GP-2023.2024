@@ -11,6 +11,7 @@ import java.io.Serializable;
 @Entity
 @Data
 @IdClass(SourceImagesEntityKey.class)
+@Table(name = "tbl_source_images")
 public class SourceImagesEntity extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;

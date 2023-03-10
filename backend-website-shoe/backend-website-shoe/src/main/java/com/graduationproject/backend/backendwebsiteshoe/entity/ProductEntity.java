@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 @Entity
 @Data
 @IdClass(ProductEntityKey.class)
+@Table(name = "tbl_product")
 public class ProductEntity extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -28,7 +29,6 @@ public class ProductEntity extends BaseEntity implements Serializable {
     @Id
     @Column(name = "category_id", nullable = false)
     private Long categoryId;
-
 
     @Column(name = "product_name", nullable = false)
     private String productName;

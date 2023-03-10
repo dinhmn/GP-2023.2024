@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 @Entity
 @Data
 @IdClass(OrderEntityKey.class)
+@Table(name = "tbl_order")
 public class OrderEntity extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;

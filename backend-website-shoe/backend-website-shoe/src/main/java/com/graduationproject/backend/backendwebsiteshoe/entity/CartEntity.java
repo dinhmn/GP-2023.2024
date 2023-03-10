@@ -10,6 +10,7 @@ import java.io.Serializable;
 @Entity
 @Data
 @IdClass(CartEntityKey.class)
+@Table(name = "tbl_cart")
 public class CartEntity extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;

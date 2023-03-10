@@ -10,6 +10,7 @@ import java.io.Serializable;
 @Entity
 @Data
 @IdClass(RatesEntityKey.class)
+@Table(name = "tbl_rates")
 public class RatesEntity extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;

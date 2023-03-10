@@ -10,6 +10,7 @@ import java.io.Serializable;
 @Entity
 @Data
 @IdClass(ProductColorEntityKey.class)
+@Table(name = "tbl_product_color")
 public class ProductColorEntity extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;

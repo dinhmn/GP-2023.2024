@@ -10,6 +10,7 @@ import java.io.Serializable;
 @Entity
 @Data
 @IdClass(ContactEntityKey.class)
+@Table(name = "tbl_contact")
 public class ContactEntity extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
