@@ -1,0 +1,346 @@
+Index: backend-website-shoe/src/main/resources/application.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+># DB\r\nspring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver\r\nspring.datasource.url=jdbc:mysql://localhost:3306/shoes_db\r\nspring.datasource.username=root\r\nspring.datasource.password=2019605688\r\nspring.jpa.database=MYSQL\r\nspring.jpa.show-sql=true\r\nspring.servlet.multipart.enabled=true\r\nspring.servlet.multipart.file-size-threshold=20KB\r\nspring.servlet.multipart.max-file-size=300MB\r\nspring.servlet.multipart.max-request-size=3000MB
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/backend-website-shoe/src/main/resources/application.properties b/backend-website-shoe/src/main/resources/application.properties
+--- a/backend-website-shoe/src/main/resources/application.properties	(revision 376382a1b24b5f66924091b5d60a7602f516dc82)
++++ b/backend-website-shoe/src/main/resources/application.properties	(date 1678465800172)
+@@ -3,9 +3,12 @@
+ spring.datasource.url=jdbc:mysql://localhost:3306/shoes_db
+ spring.datasource.username=root
+ spring.datasource.password=2019605688
++spring.jpa.hibernate.ddl-auto=create
++#spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.MySQL5InnoDBDialect
+ spring.jpa.database=MYSQL
+ spring.jpa.show-sql=true
+ spring.servlet.multipart.enabled=true
+ spring.servlet.multipart.file-size-threshold=20KB
+ spring.servlet.multipart.max-file-size=300MB
+-spring.servlet.multipart.max-request-size=3000MB
+\ No newline at end of file
++spring.servlet.multipart.max-request-size=3000MB
++server.port=8088
+\ No newline at end of file
+Index: .idea/modules/backend-website-shoe.backend-website-shoe.test.iml
+===================================================================
+diff --git a/.idea/modules/backend-website-shoe.backend-website-shoe.test.iml b/.idea/modules/backend-website-shoe.backend-website-shoe.test.iml
+deleted file mode 100644
+--- a/.idea/modules/backend-website-shoe.backend-website-shoe.test.iml	(revision 376382a1b24b5f66924091b5d60a7602f516dc82)
++++ /dev/null	(revision 376382a1b24b5f66924091b5d60a7602f516dc82)
+@@ -1,4 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<module version="4">
+-  <component name="TestModuleProperties" production-module="backend-website-shoe.main" />
+-</module>
+\ No newline at end of file
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"c14e3382-f68b-494c-afcd-6b323d748bc5\" name=\"Default Changelist\" comment=\"\">\r\n      <change afterPath=\"$PROJECT_DIR$/../.idea/.gitignore\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/../.idea/dbnavigator.xml\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/../.idea/graduation-project-2022-2023.iml\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/../.idea/inspectionProfiles/Project_Default.xml\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/../.idea/modules.xml\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/../.idea/vcs.xml\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/.idea/modules/backend-website-shoe.backend-website-shoe.test.iml\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/backend-website-shoe/src/main/java/com/graduationproject/backend/backendwebsiteshoe/controller/TestController.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/../docker-compose.yml\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/../docker/backend/Dockerfile\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/../docker/mysql/Dockerfile\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/../docker/mysql/db.env\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/../docker/mysql/my.cnf\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/../docker/mysql/sql_init/01_CreateTable.sql\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/compiler.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/compiler.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/gradle.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/gradle.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/backend-website-shoe/build.gradle\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/backend-website-shoe/build.gradle\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/backend-website-shoe/src/main/resources/application.properties\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/backend-website-shoe/src/main/resources/application.properties\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"ExternalProjectsData\">\r\n    <projectState path=\"$PROJECT_DIR$/backend-website-shoe\">\r\n      <ProjectState />\r\n    </projectState>\r\n  </component>\r\n  <component name=\"ExternalProjectsManager\">\r\n    <system id=\"GRADLE\">\r\n      <state>\r\n        <task path=\"$PROJECT_DIR$/backend-website-shoe\">\r\n          <activation />\r\n        </task>\r\n        <projects_view>\r\n          <tree_state>\r\n            <expand>\r\n              <path>\r\n                <item name=\"\" type=\"6a2764b6:ExternalProjectsStructure$RootNode\" />\r\n                <item name=\"backend-website-shoe\" type=\"f1a62948:ProjectNode\" />\r\n              </path>\r\n              <path>\r\n                <item name=\"\" type=\"6a2764b6:ExternalProjectsStructure$RootNode\" />\r\n                <item name=\"backend-website-shoe\" type=\"f1a62948:ProjectNode\" />\r\n                <item name=\"Tasks\" type=\"e4a08cd1:TasksNode\" />\r\n              </path>\r\n              <path>\r\n                <item name=\"\" type=\"6a2764b6:ExternalProjectsStructure$RootNode\" />\r\n                <item name=\"backend-website-shoe\" type=\"f1a62948:ProjectNode\" />\r\n                <item name=\"Tasks\" type=\"e4a08cd1:TasksNode\" />\r\n                <item name=\"build\" type=\"c8890929:TasksNode$1\" />\r\n              </path>\r\n            </expand>\r\n            <select />\r\n          </tree_state>\r\n        </projects_view>\r\n      </state>\r\n    </system>\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"Class\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$/..\" />\r\n  </component>\r\n  <component name=\"ProjectId\" id=\"2Mh5ckCpVz98BTBLcFotMwRsnyC\" />\r\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\">\r\n    <ConfirmationsSetting value=\"2\" id=\"Add\" />\r\n  </component>\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\">\r\n    <property name=\"RequestMappingsPanelOrder0\" value=\"0\" />\r\n    <property name=\"RequestMappingsPanelOrder1\" value=\"1\" />\r\n    <property name=\"RequestMappingsPanelWidth0\" value=\"75\" />\r\n    <property name=\"RequestMappingsPanelWidth1\" value=\"75\" />\r\n    <property name=\"RunOnceActivity.OpenProjectViewOnStart\" value=\"true\" />\r\n    <property name=\"RunOnceActivity.ShowReadmeOnStart\" value=\"true\" />\r\n    <property name=\"SHARE_PROJECT_CONFIGURATION_FILES\" value=\"true\" />\r\n    <property name=\"WebServerToolWindowFactoryState\" value=\"false\" />\r\n    <property name=\"aspect.path.notification.shown\" value=\"true\" />\r\n    <property name=\"last_opened_file_path\" value=\"$PROJECT_DIR$/..\" />\r\n    <property name=\"node.js.detected.package.eslint\" value=\"true\" />\r\n    <property name=\"node.js.detected.package.tslint\" value=\"true\" />\r\n    <property name=\"node.js.selected.package.eslint\" value=\"(autodetect)\" />\r\n    <property name=\"node.js.selected.package.tslint\" value=\"(autodetect)\" />\r\n    <property name=\"restartRequiresConfirmation\" value=\"false\" />\r\n    <property name=\"vue.rearranger.settings.migration\" value=\"true\" />\r\n  </component>\r\n  <component name=\"RebelAgentSelection\">\r\n    <selection>jr</selection>\r\n  </component>\r\n  <component name=\"RunManager\" selected=\"Gradle.backend-website-shoe [jar]\">\r\n    <configuration default=\"true\" type=\"ArquillianTestNG\" factoryName=\"\" nameIsGenerated=\"true\">\r\n      <option name=\"arquillianRunConfiguration\">\r\n        <value>\r\n          <option name=\"containerStateName\" value=\"\" />\r\n        </value>\r\n      </option>\r\n      <option name=\"TEST_OBJECT\" value=\"CLASS\" />\r\n      <properties />\r\n      <listeners />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"backend-website-shoe [jar]\" type=\"GradleRunConfiguration\" factoryName=\"Gradle\" temporary=\"true\">\r\n      <ExternalSystemSettings>\r\n        <option name=\"executionName\" />\r\n        <option name=\"externalProjectPath\" value=\"$PROJECT_DIR$/backend-website-shoe\" />\r\n        <option name=\"externalSystemIdString\" value=\"GRADLE\" />\r\n        <option name=\"scriptParameters\" />\r\n        <option name=\"taskDescriptions\">\r\n          <list />\r\n        </option>\r\n        <option name=\"taskNames\">\r\n          <list>\r\n            <option value=\"jar\" />\r\n          </list>\r\n        </option>\r\n        <option name=\"vmOptions\" />\r\n      </ExternalSystemSettings>\r\n      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>\r\n      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>\r\n      <DebugAllEnabled>false</DebugAllEnabled>\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <configuration name=\"BackendWebsiteShoeApplication (1)\" type=\"SpringBootApplicationConfigurationType\" factoryName=\"Spring Boot\">\r\n      <module name=\"backend-website-shoe.backend-website-shoe.main~1\" />\r\n      <option name=\"SPRING_BOOT_MAIN_CLASS\" value=\"com.graduationproject.backend.backendwebsiteshoe.BackendWebsiteShoeApplication\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"BackendWebsiteShoeApplication\" type=\"SpringBootApplicationConfigurationType\" factoryName=\"Spring Boot\" nameIsGenerated=\"true\">\r\n      <module name=\"backend-website-shoe.backend-website-shoe.main\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"com.graduationproject.backend.backendwebsiteshoe.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <option name=\"SPRING_BOOT_MAIN_CLASS\" value=\"com.graduationproject.backend.backendwebsiteshoe.BackendWebsiteShoeApplication\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <recent_temporary>\r\n      <list>\r\n        <item itemvalue=\"Gradle.backend-website-shoe [jar]\" />\r\n      </list>\r\n    </recent_temporary>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"c14e3382-f68b-494c-afcd-6b323d748bc5\" name=\"Default Changelist\" comment=\"\" />\r\n      <created>1678207055461</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1678207055461</updated>\r\n      <workItem from=\"1678207058301\" duration=\"1042000\" />\r\n      <workItem from=\"1678280788636\" duration=\"155000\" />\r\n      <workItem from=\"1678282123652\" duration=\"467000\" />\r\n      <workItem from=\"1678287250641\" duration=\"128000\" />\r\n    </task>\r\n    <servers />\r\n  </component>\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"3\" />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State />\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n    <option name=\"oldMeFiltersMigrated\" value=\"true\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 376382a1b24b5f66924091b5d60a7602f516dc82)
++++ b/.idea/workspace.xml	(date 1678465647456)
+@@ -4,26 +4,28 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="c14e3382-f68b-494c-afcd-6b323d748bc5" name="Default Changelist" comment="">
+-      <change afterPath="$PROJECT_DIR$/../.idea/.gitignore" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/../.idea/dbnavigator.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/../.idea/graduation-project-2022-2023.iml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/../.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/../.idea/modules.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/../.idea/vcs.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/.idea/modules/backend-website-shoe.backend-website-shoe.test.iml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/backend-website-shoe/src/main/java/com/graduationproject/backend/backendwebsiteshoe/controller/TestController.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/../docker-compose.yml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/../docker/backend/Dockerfile" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/../docker/mysql/Dockerfile" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/../docker/mysql/db.env" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/../docker/mysql/my.cnf" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/../docker/mysql/sql_init/01_CreateTable.sql" afterDir="false" />
++    <list default="true" id="c14e3382-f68b-494c-afcd-6b323d748bc5" name="Default Changelist" comment="feature/#1: Update entity version 1.">
++      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/backend-website-shoe/src/main/java/com/graduationproject/backend/backendwebsiteshoe/entity/ProductColorEntity.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/backend-website-shoe/src/main/java/com/graduationproject/backend/backendwebsiteshoe/entity/ProductColorEntityKey.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/backend-website-shoe/src/main/java/com/graduationproject/backend/backendwebsiteshoe/entity/ProductSizeEntity.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/backend-website-shoe/src/main/java/com/graduationproject/backend/backendwebsiteshoe/entity/ProductSizeEntityKey.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/backend-website-shoe/src/main/java/com/graduationproject/backend/backendwebsiteshoe/entity/RatesEntity.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/backend-website-shoe/src/main/java/com/graduationproject/backend/backendwebsiteshoe/entity/RatesEntityKey.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/backend-website-shoe/src/main/java/com/graduationproject/backend/backendwebsiteshoe/entity/TrademarkEntity.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/backend-website-shoe/src/main/java/com/graduationproject/backend/backendwebsiteshoe/entity/TrademarkEntityKey.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/modules/backend-website-shoe.backend-website-shoe.test.iml" beforeDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/backend-website-shoe/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/backend-website-shoe/build.gradle" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/backend-website-shoe/src/main/java/com/graduationproject/backend/backendwebsiteshoe/entity/ArticleEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-website-shoe/src/main/java/com/graduationproject/backend/backendwebsiteshoe/entity/ArticleEntity.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/backend-website-shoe/src/main/java/com/graduationproject/backend/backendwebsiteshoe/entity/CartEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-website-shoe/src/main/java/com/graduationproject/backend/backendwebsiteshoe/entity/CartEntity.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/backend-website-shoe/src/main/java/com/graduationproject/backend/backendwebsiteshoe/entity/CommentEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-website-shoe/src/main/java/com/graduationproject/backend/backendwebsiteshoe/entity/CommentEntity.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/backend-website-shoe/src/main/java/com/graduationproject/backend/backendwebsiteshoe/entity/ContactEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-website-shoe/src/main/java/com/graduationproject/backend/backendwebsiteshoe/entity/ContactEntity.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/backend-website-shoe/src/main/java/com/graduationproject/backend/backendwebsiteshoe/entity/ProductEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-website-shoe/src/main/java/com/graduationproject/backend/backendwebsiteshoe/entity/ProductEntity.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/backend-website-shoe/src/main/java/com/graduationproject/backend/backendwebsiteshoe/entity/RoleEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-website-shoe/src/main/java/com/graduationproject/backend/backendwebsiteshoe/entity/RoleEntity.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/backend-website-shoe/src/main/java/com/graduationproject/backend/backendwebsiteshoe/entity/SourceImagesEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-website-shoe/src/main/java/com/graduationproject/backend/backendwebsiteshoe/entity/SourceImagesEntity.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/backend-website-shoe/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/backend-website-shoe/src/main/resources/application.properties" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/../docker/mysql/db.env" beforeDir="false" afterPath="$PROJECT_DIR$/../docker/mysql/db.env" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -99,13 +101,26 @@
+     <property name="node.js.detected.package.tslint" value="true" />
+     <property name="node.js.selected.package.eslint" value="(autodetect)" />
+     <property name="node.js.selected.package.tslint" value="(autodetect)" />
++    <property name="nodejs_package_manager_path" value="npm" />
+     <property name="restartRequiresConfirmation" value="false" />
+     <property name="vue.rearranger.settings.migration" value="true" />
+   </component>
+   <component name="RebelAgentSelection">
+     <selection>jr</selection>
+   </component>
+-  <component name="RunManager" selected="Gradle.backend-website-shoe [jar]">
++  <component name="RecentsManager">
++    <key name="CopyClassDialog.RECENTS_KEY">
++      <recent name="com.graduationproject.backend.backendwebsiteshoe.entity" />
++    </key>
++  </component>
++  <component name="RunDashboard">
++    <option name="configurationTypes">
++      <set>
++        <option value="SpringBootApplicationConfigurationType" />
++      </set>
++    </option>
++  </component>
++  <component name="RunManager" selected="Spring Boot.BackendWebsiteShoeApplication (1)">
+     <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
+       <option name="arquillianRunConfiguration">
+         <value>
+@@ -142,19 +157,6 @@
+     </configuration>
+     <configuration name="BackendWebsiteShoeApplication (1)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+       <module name="backend-website-shoe.backend-website-shoe.main~1" />
+-      <option name="SPRING_BOOT_MAIN_CLASS" value="com.graduationproject.backend.backendwebsiteshoe.BackendWebsiteShoeApplication" />
+-      <method v="2">
+-        <option name="Make" enabled="true" />
+-      </method>
+-    </configuration>
+-    <configuration name="BackendWebsiteShoeApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+-      <module name="backend-website-shoe.backend-website-shoe.main" />
+-      <extension name="coverage">
+-        <pattern>
+-          <option name="PATTERN" value="com.graduationproject.backend.backendwebsiteshoe.*" />
+-          <option name="ENABLED" value="true" />
+-        </pattern>
+-      </extension>
+       <option name="SPRING_BOOT_MAIN_CLASS" value="com.graduationproject.backend.backendwebsiteshoe.BackendWebsiteShoeApplication" />
+       <method v="2">
+         <option name="Make" enabled="true" />
+@@ -178,7 +180,16 @@
+       <workItem from="1678280788636" duration="155000" />
+       <workItem from="1678282123652" duration="467000" />
+       <workItem from="1678287250641" duration="128000" />
++      <workItem from="1678459605351" duration="5943000" />
+     </task>
++    <task id="LOCAL-00001" summary="feature/#1: Update entity version 1.">
++      <created>1678464342205</created>
++      <option name="number" value="00001" />
++      <option name="presentableId" value="LOCAL-00001" />
++      <option name="project" value="LOCAL" />
++      <updated>1678464342205</updated>
++    </task>
++    <option name="localTasksCounter" value="2" />
+     <servers />
+   </component>
+   <component name="TypeScriptGeneratedFilesManager">
+@@ -196,4 +207,8 @@
+     </option>
+     <option name="oldMeFiltersMigrated" value="true" />
+   </component>
++  <component name="VcsManagerConfiguration">
++    <MESSAGE value="feature/#1: Update entity version 1." />
++    <option name="LAST_COMMIT_MESSAGE" value="feature/#1: Update entity version 1." />
++  </component>
+ </project>
+\ No newline at end of file
+Index: ../docker/mysql/db.env
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>MYSQL_ROOT_PASSWORD=2019605688\r\nMYSQL_DATABASE=JavaWeb16\r\nMYSQL_USER=root\r\nMYSQL_PASSWORD=2019605688\r\nTZ=\"Asia/HaNoi\"\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../docker/mysql/db.env b/../docker/mysql/db.env
+--- a/../docker/mysql/db.env	(revision 376382a1b24b5f66924091b5d60a7602f516dc82)
++++ b/../docker/mysql/db.env	(date 1678458935109)
+@@ -1,5 +1,5 @@
+ MYSQL_ROOT_PASSWORD=2019605688
+-MYSQL_DATABASE=JavaWeb16
++MYSQL_DATABASE=shoes_db
+ MYSQL_USER=root
+ MYSQL_PASSWORD=2019605688
+ TZ="Asia/HaNoi"
+Index: .idea/uiDesigner.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/uiDesigner.xml b/.idea/uiDesigner.xml
+new file mode 100644
+--- /dev/null	(date 1678462658326)
++++ b/.idea/uiDesigner.xml	(date 1678462658326)
+@@ -0,0 +1,124 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="Palette2">
++    <group name="Swing">
++      <item class="com.intellij.uiDesigner.HSpacer" tooltip-text="Horizontal Spacer" icon="/com/intellij/uiDesigner/icons/hspacer.png" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="1" hsize-policy="6" anchor="0" fill="1" />
++      </item>
++      <item class="com.intellij.uiDesigner.VSpacer" tooltip-text="Vertical Spacer" icon="/com/intellij/uiDesigner/icons/vspacer.png" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="6" hsize-policy="1" anchor="0" fill="2" />
++      </item>
++      <item class="javax.swing.JPanel" icon="/com/intellij/uiDesigner/icons/panel.png" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="3" hsize-policy="3" anchor="0" fill="3" />
++      </item>
++      <item class="javax.swing.JScrollPane" icon="/com/intellij/uiDesigner/icons/scrollPane.png" removable="false" auto-create-binding="false" can-attach-label="true">
++        <default-constraints vsize-policy="7" hsize-policy="7" anchor="0" fill="3" />
++      </item>
++      <item class="javax.swing.JButton" icon="/com/intellij/uiDesigner/icons/button.png" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="3" anchor="0" fill="1" />
++        <initial-values>
++          <property name="text" value="Button" />
++        </initial-values>
++      </item>
++      <item class="javax.swing.JRadioButton" icon="/com/intellij/uiDesigner/icons/radioButton.png" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="3" anchor="8" fill="0" />
++        <initial-values>
++          <property name="text" value="RadioButton" />
++        </initial-values>
++      </item>
++      <item class="javax.swing.JCheckBox" icon="/com/intellij/uiDesigner/icons/checkBox.png" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="3" anchor="8" fill="0" />
++        <initial-values>
++          <property name="text" value="CheckBox" />
++        </initial-values>
++      </item>
++      <item class="javax.swing.JLabel" icon="/com/intellij/uiDesigner/icons/label.png" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="0" anchor="8" fill="0" />
++        <initial-values>
++          <property name="text" value="Label" />
++        </initial-values>
++      </item>
++      <item class="javax.swing.JTextField" icon="/com/intellij/uiDesigner/icons/textField.png" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1">
++          <preferred-size width="150" height="-1" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JPasswordField" icon="/com/intellij/uiDesigner/icons/passwordField.png" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1">
++          <preferred-size width="150" height="-1" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JFormattedTextField" icon="/com/intellij/uiDesigner/icons/formattedTextField.png" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1">
++          <preferred-size width="150" height="-1" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JTextArea" icon="/com/intellij/uiDesigner/icons/textArea.png" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
++          <preferred-size width="150" height="50" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JTextPane" icon="/com/intellij/uiDesigner/icons/textPane.png" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
++          <preferred-size width="150" height="50" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JEditorPane" icon="/com/intellij/uiDesigner/icons/editorPane.png" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
++          <preferred-size width="150" height="50" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JComboBox" icon="/com/intellij/uiDesigner/icons/comboBox.png" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="0" hsize-policy="2" anchor="8" fill="1" />
++      </item>
++      <item class="javax.swing.JTable" icon="/com/intellij/uiDesigner/icons/table.png" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
++          <preferred-size width="150" height="50" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JList" icon="/com/intellij/uiDesigner/icons/list.png" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="6" hsize-policy="2" anchor="0" fill="3">
++          <preferred-size width="150" height="50" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JTree" icon="/com/intellij/uiDesigner/icons/tree.png" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
++          <preferred-size width="150" height="50" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JTabbedPane" icon="/com/intellij/uiDesigner/icons/tabbedPane.png" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="3" hsize-policy="3" anchor="0" fill="3">
++          <preferred-size width="200" height="200" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JSplitPane" icon="/com/intellij/uiDesigner/icons/splitPane.png" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="3" hsize-policy="3" anchor="0" fill="3">
++          <preferred-size width="200" height="200" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JSpinner" icon="/com/intellij/uiDesigner/icons/spinner.png" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1" />
++      </item>
++      <item class="javax.swing.JSlider" icon="/com/intellij/uiDesigner/icons/slider.png" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1" />
++      </item>
++      <item class="javax.swing.JSeparator" icon="/com/intellij/uiDesigner/icons/separator.png" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3" />
++      </item>
++      <item class="javax.swing.JProgressBar" icon="/com/intellij/uiDesigner/icons/progressbar.png" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="6" anchor="0" fill="1" />
++      </item>
++      <item class="javax.swing.JToolBar" icon="/com/intellij/uiDesigner/icons/toolbar.png" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="6" anchor="0" fill="1">
++          <preferred-size width="-1" height="20" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JToolBar$Separator" icon="/com/intellij/uiDesigner/icons/toolbarSeparator.png" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="0" anchor="0" fill="1" />
++      </item>
++      <item class="javax.swing.JScrollBar" icon="/com/intellij/uiDesigner/icons/scrollbar.png" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="6" hsize-policy="0" anchor="0" fill="2" />
++      </item>
++    </group>
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/compiler.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"CompilerConfiguration\">\r\n    <annotationProcessing>\r\n      <profile name=\"Gradle Imported\" enabled=\"true\">\r\n        <outputRelativeToContentRoot value=\"true\" />\r\n        <processorPath useClasspath=\"false\">\r\n          <entry name=\"$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-configuration-processor/3.0.4/120cb2d8ed8f5f006bcc97813a920f25bd1a76da/spring-boot-configuration-processor-3.0.4.jar\" />\r\n          <entry name=\"$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.26/8f8cf0372abf564913e9796623aac4c8ea44025a/lombok-1.18.26.jar\" />\r\n        </processorPath>\r\n        <module name=\"backend-website-shoe.backend-website-shoe.main\" />\r\n      </profile>\r\n    </annotationProcessing>\r\n    <bytecodeTargetLevel>\r\n      <module name=\"backend-website-shoe.backend-website-shoe.main~1\" target=\"17\" />\r\n      <module name=\"backend-website-shoe.backend-website-shoe.test~1\" target=\"17\" />\r\n    </bytecodeTargetLevel>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/compiler.xml b/.idea/compiler.xml
+--- a/.idea/compiler.xml	(revision 376382a1b24b5f66924091b5d60a7602f516dc82)
++++ b/.idea/compiler.xml	(date 1678460005051)
+@@ -8,12 +8,8 @@
+           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-configuration-processor/3.0.4/120cb2d8ed8f5f006bcc97813a920f25bd1a76da/spring-boot-configuration-processor-3.0.4.jar" />
+           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.26/8f8cf0372abf564913e9796623aac4c8ea44025a/lombok-1.18.26.jar" />
+         </processorPath>
+-        <module name="backend-website-shoe.backend-website-shoe.main" />
++        <module name="backend-website-shoe.backend-website-shoe.main~1" />
+       </profile>
+     </annotationProcessing>
+-    <bytecodeTargetLevel>
+-      <module name="backend-website-shoe.backend-website-shoe.main~1" target="17" />
+-      <module name="backend-website-shoe.backend-website-shoe.test~1" target="17" />
+-    </bytecodeTargetLevel>
+   </component>
+ </project>
+\ No newline at end of file

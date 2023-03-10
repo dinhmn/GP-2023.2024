@@ -4,26 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c14e3382-f68b-494c-afcd-6b323d748bc5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../.idea/dbnavigator.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../.idea/graduation-project-2022-2023.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules/backend-website-shoe.backend-website-shoe.test.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend-website-shoe/src/main/java/com/graduationproject/backend/backendwebsiteshoe/controller/TestController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../docker-compose.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../docker/backend/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../docker/mysql/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../docker/mysql/db.env" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../docker/mysql/my.cnf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../docker/mysql/sql_init/01_CreateTable.sql" afterDir="false" />
+    <list default="true" id="c14e3382-f68b-494c-afcd-6b323d748bc5" name="Default Changelist" comment="feature/#1: Update alias entity.">
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/backend-website-shoe.backend-website-shoe.test.iml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend-website-shoe/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/backend-website-shoe/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend-website-shoe/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/backend-website-shoe/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docker/mysql/db.env" beforeDir="false" afterPath="$PROJECT_DIR$/../docker/mysql/db.env" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,6 +63,16 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
+  <component name="GitRewordedCommitMessages">
+    <option name="commitMessagesMapping">
+      <RewordedCommitMessageMapping>
+        <option name="originalMessage" value="feature/#1: Update entity version 1.1" />
+        <option name="rewordedMessage" value="feature/#1: Update entity version 1.1&#10;&#10;&#10;feature/#1: Update entity version 1.1" />
+      </RewordedCommitMessageMapping>
+    </option>
+    <option name="currentCommit" value="1" />
+    <option name="onto" value="5bea3a066a0587fc478d2c1ab74ff1c2cf5583ba" />
+  </component>
   <component name="ProjectId" id="2Mh5ckCpVz98BTBLcFotMwRsnyC" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -99,13 +96,26 @@
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RebelAgentSelection">
     <selection>jr</selection>
   </component>
-  <component name="RunManager" selected="Gradle.backend-website-shoe [jar]">
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.graduationproject.backend.backendwebsiteshoe.entity" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="SpringBootApplicationConfigurationType" />
+      </set>
+    </option>
+  </component>
+  <component name="RunManager" selected="Spring Boot.BackendWebsiteShoeApplication (1)">
     <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
@@ -147,19 +157,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="BackendWebsiteShoeApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
-      <module name="backend-website-shoe.backend-website-shoe.main" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.graduationproject.backend.backendwebsiteshoe.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="SPRING_BOOT_MAIN_CLASS" value="com.graduationproject.backend.backendwebsiteshoe.BackendWebsiteShoeApplication" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Gradle.backend-website-shoe [jar]" />
@@ -178,7 +175,37 @@
       <workItem from="1678280788636" duration="155000" />
       <workItem from="1678282123652" duration="467000" />
       <workItem from="1678287250641" duration="128000" />
+      <workItem from="1678459605351" duration="6970000" />
     </task>
+    <task id="LOCAL-00001" summary="feature/#1: Update entity version 1.">
+      <created>1678464342205</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1678464342205</updated>
+    </task>
+    <task id="LOCAL-00002" summary="feature/#1: Update entity version 1.1">
+      <created>1678465738895</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1678465738895</updated>
+    </task>
+    <task id="LOCAL-00003" summary="feature/#1: Update entity version 1.1">
+      <created>1678465786052</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1678465786052</updated>
+    </task>
+    <task id="LOCAL-00004" summary="feature/#1: Update alias entity.">
+      <created>1678466204865</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1678466204865</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -195,5 +222,11 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="feature/#1: Update entity version 1." />
+    <MESSAGE value="feature/#1: Update entity version 1.1" />
+    <MESSAGE value="feature/#1: Update alias entity." />
+    <option name="LAST_COMMIT_MESSAGE" value="feature/#1: Update alias entity." />
   </component>
 </project>
