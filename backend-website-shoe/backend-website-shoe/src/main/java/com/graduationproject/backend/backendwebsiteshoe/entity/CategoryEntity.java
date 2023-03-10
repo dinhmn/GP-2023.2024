@@ -4,24 +4,33 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.io.Serializable;
+
 @EqualsAndHashCode(callSuper = true)
-@Table(name = "tbl_category")
 @Entity
 @Data
-public class CategoryEntity extends BaseEntity{
+@IdClass(CategoryEntityKey.class)
+public class CategoryEntity extends BaseEntity implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    public CategoryEntity() {
+
+        super();
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "category_id")
+    @Column(name = "category_id", nullable = false)
     private Long categoryId;
 
-    @Column(name = "category_name")
+    @Column(name = "category_name", nullable = false)
     private String categoryName;
 
-    @Column(name = "category_description")
+    @Column(name = "category_description", nullable = false)
     private String categoryDescription;
 
-    @Column(name = "seo")
+    @Column(name = "seo", nullable = false)
     private String seo;
 
 }
