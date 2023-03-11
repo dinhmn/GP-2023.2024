@@ -1,47 +1,33 @@
-<script setup>
-import Home from './views/Home.vue'
-// import { useRoute } from 'vue-router'
-// export default {
-//   setup() {
-//     const route = useRoute()
-//     console.log(route)
-//     return { layout: 'default' }
-//   }
-// }
-</script>
-
-<template>
-  <!-- <component v-bind:is="layout">
+<!-- <script setup>
+import Navbar from './components/templates/Navbar.vue'
+</script> -->
+<template lang="">
+  <Navbar />
+  <router-view />
+  <!-- <component :is="layout">
     <router-view />
   </component> -->
-  <Home></Home>
+  <base-footer />
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
+<script>
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+import { PUBLIC_LAYOUT } from '@/constants'
+import Navbar from './components/templates/Navbar.vue'
+import Footer from './components/templates/Footer.vue'
+export default {
+  name: 'App',
+  components: {
+    Navbar: Navbar,
+    BaseFooter: Footer
+  },
+  setup() {
+    const route = useRoute()
+    return {
+      layout: computed(() => (route.meta.layout || PUBLIC_LAYOUT) + '-layout')
+    }
   }
 }
-</style>
+</script>
+<style></style>

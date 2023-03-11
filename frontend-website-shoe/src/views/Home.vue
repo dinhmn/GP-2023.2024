@@ -1,16 +1,15 @@
 <template lang="">
-  <base-header />
-  <div class="wrapper">{{ msg }}</div>
-  <base-footer />
+  <section>
+    <div class="h-[100vh]">This is home page.</div>
+    <vue-feather type="star"></vue-feather>
+  </section>
 </template>
 <script>
-import Header from '../components/templates/Header.vue'
-import Footer from '../components/templates/Footer.vue'
+import Navbar from '../components/templates/Navbar.vue'
 export default {
   name: 'HomePage',
-  components: {
-    BaseHeader: Header,
-    BaseFooter: Footer
+  component: {
+    BaseHeader: Navbar
   },
   setup(props, context) {
     let msg = 'body'
@@ -18,4 +17,4 @@ export default {
   }
 }
 </script>
-<style lang=""></style>
+<style lang="scss"></style>

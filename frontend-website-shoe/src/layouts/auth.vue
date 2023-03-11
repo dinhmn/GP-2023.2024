@@ -1,12 +1,10 @@
 <template lang="">
-  <div>Header</div>
+  <h1>author layout</h1>
+  <slot />
 </template>
 <script>
 export default {
-  name: 'HeaderItem',
-  setup(props) {
-    return { props }
-  }
+  name: 'authItem'
 }
 </script>
 <style lang=""></style>
