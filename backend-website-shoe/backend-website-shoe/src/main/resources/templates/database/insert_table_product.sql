@@ -1,0 +1,23 @@
+INSERT INTO `shoes_db`.`tbl_product`
+(`category_id`, `product_id`, `product_name`, `product_price`, `product_price_sale`, `product_seo`, `quantity`,
+ `created_by`, `created_date`, `status`, `updated_by`, `updated_date`)
+VALUES (1, 1, "Product 1", 2000000, 1800000, "product-1", 99,
+        1, SYSDATE(), 1, 1, SYSDATE()),
+       (1, 2, "Product 2", 3000000, 2900000, "product-2", 10,
+        1, SYSDATE(), 1, 1, SYSDATE()),
+       (2, 3, "Product 3", 2200000, 1800000, "product-3", 0,
+        1, SYSDATE(), 1, 1, SYSDATE()),
+       (2, 4, "Product 4", 2300000, 1900000, "product-4", 51,
+        1, SYSDATE(), 1, 1, SYSDATE()),
+       (3, 5, "Product 5", 3400000, 3000000, "product-5", 91,
+        1, SYSDATE(), 1, 1, SYSDATE()),
+       (4, 6, "Product 6", 5400000, 5200000, "product-6", 23,
+        1, SYSDATE(), 1, 1, SYSDATE()),
+       (4, 7, "Product 7", 6500000, 6300000, "product-7", 43,
+        1, SYSDATE(), 1, 1, SYSDATE()),
+       (7, 8, "Product 8", 3400000, 3000000, "product-8", 35,
+        1, SYSDATE(), 1, 1, SYSDATE()),
+       (6, 9, "Product 9", 5400000, 5200000, "product-9", 75,
+        1, SYSDATE(), 1, 1, SYSDATE()),
+       (8, 10, "Product 10", 6500000, 6300000, "product-10", 43,
+        1, SYSDATE(), 1, 1, SYSDATE());
