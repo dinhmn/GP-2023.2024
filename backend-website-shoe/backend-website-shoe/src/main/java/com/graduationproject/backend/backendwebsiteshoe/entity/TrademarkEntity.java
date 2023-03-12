@@ -25,10 +25,6 @@ public class TrademarkEntity extends BaseEntity implements Serializable {
     @Column(name = "trademark_id", nullable = false)
     private Long trademarkId;
 
-    @Id
-    @Column(name = "category_id", nullable = false)
-    private String categoryId;
-
     @Column(name = "trademark_name", nullable = false)
     private String trademarkName;
 

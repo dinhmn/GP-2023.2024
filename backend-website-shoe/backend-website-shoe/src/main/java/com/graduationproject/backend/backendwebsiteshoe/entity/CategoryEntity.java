@@ -25,6 +25,10 @@ public class CategoryEntity extends BaseEntity implements Serializable {
     @Column(name = "category_id", nullable = false)
     private Long categoryId;
 
+    @Id
+    @Column(name = "trademark_id", nullable = false)
+    private Long trademarkId;
+
     @Column(name = "category_name", nullable = false)
     private String categoryName;
 
