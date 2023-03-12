@@ -13,8 +13,12 @@ public class CategoryEntityKey implements Serializable {
     @Column(name = "category_id", nullable = false)
     private Long categoryId;
 
-    public CategoryEntityKey setPk(Long categoryId) {
+    @Column(name = "trademark_id", nullable = false)
+    private Long trademarkId;
+
+    public CategoryEntityKey setPk(Long categoryId, Long trademarkId) {
         setCategoryId(categoryId);
+        setTrademarkId(trademarkId);
         return this;
     }
 }
