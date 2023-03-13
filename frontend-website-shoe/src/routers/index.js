@@ -3,56 +3,75 @@ import Home from "../views/Home.vue";
 
 const routes = [
   {
+    path: "/",
+    name: "User",
+    meta: {
+      layout: 'user'
+    },
+    component: () => import("../authentication/User.vue"),
+  },
+  {
+    path: "/admin",
+    name: "Admin",
+    meta: {
+      layout: 'admin'
+    },
+    component: () => import("../authentication/Admin.vue"),
+  },
+  {
     path: "/home",
     name: "Home",
+    meta: {
+      layout: 'user'
+    },
     component: Home,
   },
   {
     path: "/feature",
     name: "Feature",
     meta: {
-      layout: 'default'
+      layout: 'user'
     },
     component: () => import("../views/Feature.vue"),
   },
   {
     path: "/about",
     name: "AboutPage",
-    // meta: {
-    //   layout: 'auth'
-    // },
+    meta: {
+      layout: 'user'
+    },
     component: () => import("../views/About.vue"),
   },
   {
     path: "/product",
     name: "Product",
-    // meta: {
-    //   layout: 'auth'
-    // },
+    meta: {
+      layout: 'user'
+    },
     component: () => import("../views/Product.vue"),
   },
   {
     path: "/contact",
     name: "Contact",
-    // meta: {
-    //   layout: 'auth'
-    // },
+    meta: {
+      layout: 'user'
+    },
     component: () => import("../views/Contact.vue"),
   },
   {
     path: "/login",
     name: "Login",
-    // meta: {
-    //   layout: 'auth'
-    // },
+    meta: {
+      layout: 'login'
+    },
     component: () => import("../views/Login.vue"),
   },
   {
     path: "/cart",
     name: "Cart",
-    // meta: {
-    //   layout: 'auth'
-    // },
+    meta: {
+      layout: 'user'
+    },
     component: () => import("../views/Cart.vue"),
   },
   

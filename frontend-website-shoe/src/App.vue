@@ -2,30 +2,23 @@
 import Navbar from './components/templates/Navbar.vue'
 </script> -->
 <template lang="">
-  <Navbar />
-  <router-view />
-  <!-- <component :is="layout">
+  <component :is="layout">
     <router-view />
-  </component> -->
-  <base-footer />
+  </component>
 </template>
 
 <script>
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { PUBLIC_LAYOUT } from '@/constants'
-import Navbar from './components/templates/Navbar.vue'
-import Footer from './components/templates/Footer.vue'
+import { PUBLIC_LOGIN } from '@/constants'
+
 export default {
   name: 'App',
-  components: {
-    Navbar: Navbar,
-    BaseFooter: Footer
-  },
   setup() {
     const route = useRoute()
+    console.log(route.meta.layout)
     return {
-      layout: computed(() => (route.meta.layout || PUBLIC_LAYOUT) + '-layout')
+      layout: computed(() => (route.meta.layout || PUBLIC_LOGIN) + '-layout')
     }
   }
 }
