@@ -4,10 +4,10 @@
   --button-brown-hover: rgba(87, 61, 61, 0.6);
   --text-color: #fff;
   --font-family: 'Poppins', sans-serif;
+  --font-space-grotesk: 'Space Grotesk', sans-serif;
 }
 body {
   background-color: var(--background-color);
-  font-family: var(--font-family);
 }
 button {
   padding: 8px 20px;

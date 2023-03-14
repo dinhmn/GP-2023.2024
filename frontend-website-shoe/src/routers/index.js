@@ -1,5 +1,4 @@
 import {createRouter, createWebHistory} from "vue-router"
-import Home from "../views/Home.vue";
 
 const routes = [
   {
@@ -8,7 +7,7 @@ const routes = [
     meta: {
       layout: 'user'
     },
-    component: () => import("../authentication/User.vue"),
+    component: () => import("../pages/user/Home.vue"),
   },
   {
     path: "/admin",
@@ -19,20 +18,12 @@ const routes = [
     component: () => import("../authentication/Admin.vue"),
   },
   {
-    path: "/home",
-    name: "Home",
-    meta: {
-      layout: 'user'
-    },
-    component: Home,
-  },
-  {
     path: "/feature",
     name: "Feature",
     meta: {
       layout: 'user'
     },
-    component: () => import("../views/Feature.vue"),
+    component: () => import("../pages/user/Feature.vue"),
   },
   {
     path: "/about",
@@ -40,7 +31,7 @@ const routes = [
     meta: {
       layout: 'user'
     },
-    component: () => import("../views/About.vue"),
+    component: () => import("../pages/user/About.vue"),
   },
   {
     path: "/product",
@@ -48,7 +39,7 @@ const routes = [
     meta: {
       layout: 'user'
     },
-    component: () => import("../views/Product.vue"),
+    component: () => import("../pages/user/Product.vue"),
   },
   {
     path: "/contact",
@@ -56,23 +47,41 @@ const routes = [
     meta: {
       layout: 'user'
     },
-    component: () => import("../views/Contact.vue"),
+    component: () => import("../pages/user/Contact.vue"),
   },
   {
-    path: "/login",
-    name: "Login",
+    path: "/auth",
+    component: () => import("../layouts/AuthLayout.vue"),
     meta: {
-      layout: 'login'
+      layout: 'auth'
     },
-    component: () => import("../views/Login.vue"),
+    children: [
+      {
+        path: "/login",
+        name: "Login",
+        meta: {
+          layout: 'auth'
+        },
+        component: () => import("../pages/auth/Login.vue"),
+      },
+      {
+        path: "/signup",
+        name: "Signup",
+        meta: {
+          layout: 'auth'
+        },
+        component: () => import("../pages/auth/Signup.vue"),
+      },
+    ]
   },
+
   {
     path: "/cart",
     name: "Cart",
     meta: {
       layout: 'user'
     },
-    component: () => import("../views/Cart.vue"),
+    component: () => import("../pages/user/Cart.vue"),
   },
   
 ]

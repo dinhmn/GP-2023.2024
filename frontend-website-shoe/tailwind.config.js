@@ -6,7 +6,12 @@ module.exports = {
     "./src/**/*.{vue,js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+          'grotesk':['Space Grotesk', 'sans-serif'],
+          'poppins': ['Poppins', 'sans-serif']
+      }
+    },
   },
   plugins: [],
 }
