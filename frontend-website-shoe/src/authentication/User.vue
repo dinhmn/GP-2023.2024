@@ -1,9 +1,6 @@
 <template lang="">
   <Navbar />
   <router-view />
-  <!-- <component :is="layout">
-    <router-view />
-  </component> -->
   <base-footer />
 </template>
 <script>
