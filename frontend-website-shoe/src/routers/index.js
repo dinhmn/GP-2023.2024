@@ -2,7 +2,7 @@ import {createRouter, createWebHistory} from "vue-router"
 
 const routes = [
   {
-    path: "/",
+    path: "/home",
     name: "User",
     meta: {
       layout: 'user'
@@ -50,31 +50,21 @@ const routes = [
     component: () => import("../pages/user/Contact.vue"),
   },
   {
-    path: "/auth",
-    component: () => import("../layouts/AuthLayout.vue"),
+    path: "/auth/login",
+    name: "Login",
     meta: {
       layout: 'auth'
     },
-    children: [
-      {
-        path: "/login",
-        name: "Login",
-        meta: {
-          layout: 'auth'
-        },
-        component: () => import("../pages/auth/Login.vue"),
-      },
-      {
-        path: "/signup",
-        name: "Signup",
-        meta: {
-          layout: 'auth'
-        },
-        component: () => import("../pages/auth/Signup.vue"),
-      },
-    ]
+    component: () => import("../pages/auth/Login.vue"),
   },
-
+  {
+    path: "/auth/signup",
+    name: "Signup",
+    meta: {
+      layout: 'auth'
+    },
+    component: () => import("../pages/auth/Signup.vue"),
+  },
   {
     path: "/cart",
     name: "Cart",

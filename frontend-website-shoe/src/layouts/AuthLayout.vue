@@ -1,15 +1,14 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <section class="flex items-center justify-center text-white font-poppins">
-    <div class="image bg-slate-800 w-[50%] h-[100vh]">
-      <img src="../../src/assets/images/login.png" alt="" />
-    </div>
-    <div
-      class="text-black form-login bg-slate-300 w-[50%] h-[100vh] flex flex-col gap-[50px] items-center justify-center"
-    >
-      <slot></slot>
-    </div>
-  </section>
+  <component :is="auth">
+    <router-view />
+  </component>
 </template>
-<script setup></script>
-<style lang="scss"></style>
+<script setup>
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+import { AUTH_LOGIN } from '@/constants/index'
+const route = useRoute()
+const auth = computed(() => (route.meta.layout || AUTH_LOGIN) + '-auth')
+</script>
+<style lang=""></style>

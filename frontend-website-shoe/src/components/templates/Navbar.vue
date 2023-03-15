@@ -30,7 +30,9 @@
           }}</span>
         </button>
       </router-link>
-      <router-link to="/login"><button class="font-bold">Login</button></router-link>
+      <router-link :to="{ name: 'Login', params: {} }"
+        ><button class="font-bold">Login</button></router-link
+      >
     </div>
   </nav>
 </template>

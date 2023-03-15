@@ -6,7 +6,8 @@
     :placeholder="placeholder"
     :name="name"
     :id="props.name"
-    value=""
+    :value="props.modelValue"
+    v-on:input="updateValue($event.target.value)"
   />
 </template>
 <script setup>
@@ -22,7 +23,16 @@ const props = defineProps({
   placeholder: {
     type: String,
     default: 'Enter you text'
+  },
+  modelValue: {
+    type: [String, Number],
+    default: ''
   }
 })
+const emit = defineEmits(['update:modelValue'])
+
+const updateValue = (value) => {
+  emit('update:modelValue', value)
+}
 </script>
 <style lang=""></style>

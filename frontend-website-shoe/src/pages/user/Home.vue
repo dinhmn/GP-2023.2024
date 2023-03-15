@@ -5,12 +5,8 @@
   </section>
 </template>
 <script>
-import Navbar from '../components/templates/Navbar.vue'
 export default {
   name: 'HomePage',
-  component: {
-    BaseHeader: Navbar
-  },
   setup(props, context) {
     let msg = 'body'
     return { props, context, msg }

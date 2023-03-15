@@ -1,52 +1,99 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <AuthLayout>
-    <div class="wrap w-[60%] h-[60%] bg-slate-300 flex flex-col items-center justify-center gap-5">
-      <div class="w-[360px] text-left">
-        <h1 class="text-3xl font-bold text-left">Welcome back, Olivia</h1>
-        <h3 class="">Welcome back! Please enter your details.</h3>
+  <Auth>
+    <div
+      class="wrap w-[500px] h-[60%] bg-slate-300 flex flex-col items-center justify-center gap-5"
+    >
+      <div class="w-full text-left">
+        <h1 class="text-3xl font-bold text-left">We will help you!</h1>
+        <h3 class="">
+          {{ recover === true ? 'Please enter your recent old password!' : 'Login now' }}!
+        </h3>
       </div>
       <Button
-        className="w-[360px] bg-transparent border-2 border-x-cyan-50 block text-center m-0 hover:text-white"
+        v-if="recover !== true"
+        className="w-full bg-transparent border-2 border-x-cyan-50 block text-center m-0 hover:text-white"
         name="loginWithGoogle"
         text="Login in with Google"
       />
-      <div class="w-[360px] py-5 text-center relative">
+      <div class="relative w-full py-5 text-center">
         <h5
+          v-if="recover !== true"
           class="absolute px-2 bg-slate-300 right-[50%] translate-x-[15px] translate-y-[-10px] z-10"
         >
           or
         </h5>
         <div class="w-full h-[2px] bg-gray-400 absolute top-[50%]"></div>
       </div>
-      <form action="" method="post" class="flex flex-col gap-5 w-[360px]">
-        <Input name="email" placeholder="Email/Username" />
-        <Input type="password" name="password" placeholder="Password" />
+      <form @submit.prevent="onSubmit" action="" method="post" class="flex flex-col w-full gap-5">
+        <Input v-model="data.username" name="username" placeholder="Username" />
+        <Input
+          v-if="recover === false"
+          v-model="data.password"
+          type="password"
+          name="password"
+          placeholder="Password"
+        />
+        <Input
+          v-if="recover === true"
+          v-model="data.email"
+          type="text"
+          name="email"
+          placeholder="Email"
+        />
+        <Input
+          v-if="recover === true"
+          v-model="data.recoverPassword"
+          type="password"
+          name="recoverPassword"
+          placeholder="Recover password"
+        />
         <div class="flex items-center justify-between">
-          <div class="checkbox">
+          <div v-if="recover !== true" class="checkbox">
             <Checkbox id="remember" />
             <label for="remember" class="text-sm">Remember for 30 days</label>
           </div>
-          <div>
-            <a href="#" class="text-sm underline">Forgot Password</a>
+          <div :class="recover === true ? 'inline-block w-full text-right' : ''">
+            <span @click="resetPassword" class="text-sm underline cursor-pointer">{{
+              recover === true ? 'Log in now !' : 'Forgot Password'
+            }}</span>
           </div>
         </div>
-        <Button className="bg-black text-white w-full m-0" name="login" text="Log in" />
+        <Button
+          type="submit"
+          className="bg-black text-white w-full m-0"
+          name="login"
+          :text="recover === true ? 'Reset password' : 'Log in'"
+        />
         <div class="block w-full text-center">
           <h5 class="text-xs italic">
             Don't have an account?
-            <span class="underline"><router-link to="/signup">Sign up for free</router-link></span>
+            <span class="underline"
+              ><router-link to="/auth/signup">Sign up for free</router-link></span
+            >
           </h5>
         </div>
       </form>
     </div>
-  </AuthLayout>
+  </Auth>
 </template>
 <script setup>
-import AuthLayout from '@/layouts/AuthLayout.vue'
+import { ref, reactive } from 'vue'
+import Auth from './Auth.vue'
 import Input from '@/components/common/input/Input.vue'
 import Button from '@/components/common/button/Button.vue'
 import Checkbox from '@/components/common/input/Checkbox.vue'
+const data = reactive({
+  username: '',
+  email: '',
+  password: '',
+  recoverPassword: '',
+  status: ''
+})
+const recover = ref(false)
+const resetPassword = () => {
+  recover.value = !recover.value
+}
 </script>
 <style lang="scss">
 section {
