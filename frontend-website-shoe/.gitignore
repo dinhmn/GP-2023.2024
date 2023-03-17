@@ -1,3 +1,23 @@
+# compiled output
+/dist
+/dist-ssr
+/tmp
+/out-tsc
+
+# dependencies
+/node_modules
+yarn.lock
+package-lock.json
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
 # Logs
 logs
 *.log
@@ -9,6 +29,7 @@ lerna-debug.log*
 
 node_modules
 .DS_Store
+Thumbs.db
 dist
 dist-ssr
 coverage
@@ -26,3 +47,16 @@ coverage
 *.njsproj
 *.sln
 *.sw?
+# misc
+/.sass-cache
+/connect.lock
+/coverage
+/libpeerconnection.log
+npm-debug.log
+testem.log
+/typings
+
+# e2e
+/e2e/src/*.js
+/e2e/src/*.map
+/cypress/screenshots
