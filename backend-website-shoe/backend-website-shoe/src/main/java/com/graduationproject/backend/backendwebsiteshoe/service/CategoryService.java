@@ -1,7 +1,9 @@
 package com.graduationproject.backend.backendwebsiteshoe.service;
 
+import com.graduationproject.backend.backendwebsiteshoe.dto.ICategory;
 import com.graduationproject.backend.backendwebsiteshoe.entity.CategoryEntity;
 import com.graduationproject.backend.backendwebsiteshoe.entity.CategoryEntityKey;
+import com.graduationproject.backend.backendwebsiteshoe.model.CategoryModel;
 import com.graduationproject.backend.backendwebsiteshoe.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
@@ -24,6 +26,27 @@ public class CategoryService {
      */
     public List<CategoryEntity> getAll() {
         return categoryRepository.findAll();
+    }
+
+    /**
+     * Get all category.
+     *
+     * @return list of entity category.
+     */
+    public List<ICategory> getAllByTrademark() {
+        return categoryRepository.findAllCategory();
+    }
+
+    /**
+     * Get all category.
+     *
+     * @return list of entity category.
+     */
+    public Optional<CategoryEntity> getCategoryByPrimaryKey(Long categoryId, Long trademarkId) {
+        CategoryEntityKey categoryEntityKey = new CategoryEntityKey();
+        categoryEntityKey.setCategoryId(categoryId);
+        categoryEntityKey.setTrademarkId(trademarkId);
+        return categoryRepository.findById(categoryEntityKey);
     }
 
     /**
