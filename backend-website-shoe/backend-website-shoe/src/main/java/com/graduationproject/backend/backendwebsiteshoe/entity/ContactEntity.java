@@ -25,7 +25,6 @@ public class ContactEntity extends BaseEntity implements Serializable {
     @Column(name = "contact_id", nullable = false)
     private Long contactId;
 
-    @Id
     @Column(name = "product_id", nullable = false)
     private Long productId;
 
