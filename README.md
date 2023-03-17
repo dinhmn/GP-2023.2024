@@ -18,7 +18,7 @@ You will need:
 
 ## Project Setup `Spring`
 
-###Computing all outputs
+### Computing all outputs
 ```sh
 gradle clean build
 ```
