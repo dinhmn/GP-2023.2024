@@ -29,10 +29,10 @@ gradle clean build
 grade run
 ```
 
-### Compile and Minify for Production
+### Running all checks for Production
 
 ```sh
-npm run build
+gradle check
 ```
 ---
 ## SQL use: 
