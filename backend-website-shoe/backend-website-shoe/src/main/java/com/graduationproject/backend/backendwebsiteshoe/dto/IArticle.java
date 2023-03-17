@@ -15,4 +15,10 @@ public interface IArticle {
     String getCommentLastName();
 
     String getCommentTitle();
+
+    String getCreateDate();
+
+    String getUpdateDate();
+
+    String getStatus();
 }

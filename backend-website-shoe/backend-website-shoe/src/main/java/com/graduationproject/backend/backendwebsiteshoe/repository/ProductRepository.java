@@ -27,4 +27,9 @@ public interface ProductRepository extends JpaRepository<ProductEntity, ProductE
     List<IProduct> findAllProduct();
 
 
+    /**
+     * Get information of product.
+     *
+     * @return product.
+     */
 }

@@ -24,7 +24,7 @@ public interface CommentRepository extends JpaRepository<CommentEntity, CommentE
             + " INNER JOIN tbl_comment comment ON product.product_id = comment.product_id"
             + " INNER JOIN tbl_user user ON user.user_id = comment.user_id"
             + " INNER JOIN tbl_user_information info ON info.user_id = user.user_id AND info.user_information_id = user.profile_id"
-            + " INNER JOIN tbl_rates rate ON rate.product_id = product.product_id AND comment.comment_id = rate.comment_id"
+            + " LEFT JOIN tbl_rates rate ON rate.product_id = product.product_id AND comment.comment_id = rate.comment_id"
             + " WHERE product.product_id = ?1", nativeQuery = true)
     List<IComment> findAllCommentByProductId(String productId);
 }
