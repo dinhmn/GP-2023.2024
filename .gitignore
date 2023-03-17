@@ -36,3 +36,82 @@ out/
 
 ### VS Code ###
 .vscode/
+
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# compiled output
+/dist
+/dist-ssr
+/tmp
+/out-tsc
+
+# dependencies
+/node_modules
+*.local
+yarn.lock
+package-lock.json
+
+# IDEs and editors
+/.idea
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+.vscode/*
+# !.vscode/settings.json
+# !.vscode/tasks.json
+# !.vscode/launch.json
+# !.vscode/extensions.json
+
+# misc
+/.sass-cache
+/connect.lock
+/coverage
+/libpeerconnection.log
+npm-debug.log
+testem.log
+/typings
+
+# e2e
+/e2e/src/*.js
+/e2e/src/*.map
+/cypress/screenshots
+
+# System Files
+.DS_Store
+Thumbs.db
+
+*#
+*.jar
+*.sw?
+*~
+.#*
+.*.md.html
+.attach_pid*
+.metadata
+.recommenders
+.vscode
+/code
+MANIFEST.MF
+_site/
+activemq-data
+bin
+build
+!/**/src/**/bin
+!/**/src/**/build
+build.log
+dependency-reduced-pom.xml
+dump.rdb
+interpolated*.xml
+lib/
+manifest.yml
+out
+overridedb.*
+target
+.flattened-pom.xml
+secrets.yml
+.gradletasknamecache
+.sts4-cache
+
