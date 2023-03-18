@@ -41,6 +41,7 @@
   </div>
 </template>
 <script>
+import { ref } from 'vue'
 import Input from '../common/input/Input.vue'
 const routes = [
   {
@@ -71,7 +72,8 @@ export default {
     InputCommon: Input
   },
   setup(props) {
-    return { props, routes, item }
+    const search = ref('')
+    return { props, routes, item, search }
   }
 }
 </script>
