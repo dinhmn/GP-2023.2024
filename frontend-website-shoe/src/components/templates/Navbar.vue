@@ -1,24 +1,23 @@
 <template lang="">
   <div class="w-full bg-[#425868] flex items-center justify-center">
     <nav class="2xl:w-[1280px] flex items-center justify-between h-[70px] text-white">
-      <div class="cursor-pointer logo hover:cursor-pointer">LOGO</div>
+      <div class="cursor-pointer logo hover:cursor-pointer">LOGO.</div>
       <ul class="flex items-center justify-center gap-3">
         <li v-for="(route, index) in routes" :key="index">
           <router-link :to="route.url">{{ route.urlName }}</router-link>
         </li>
       </ul>
       <div class="flex items-center justify-center gap-2 -mr-3">
-        <div class="relative flex items-center justify-center">
-          <input
+        <div class="flex items-center justify-center">
+          <input-common
             type="text"
-            class="text-black min-w-[300px]"
-            placeholder="Search"
+            classChild="min-w-[300px] px-2 py-2 rounded-sm"
             name="search"
-            value=""
-            :model="search"
+            placeholder="Search"
+            v-model="search"
           />
           <button
-            class="right-0 px-5 py-[9px] rounded-tr-[3px] -translate-x-3 rounded-br-[3px] m-0 text-xs rounded-none"
+            class="right-0 px-6 py-[9px] rounded-tr-[3px] -translate-x-3 rounded-br-[3px] m-0 text-xs rounded-none"
           >
             <vue-feather class="w-5 h-5" type="search"></vue-feather>
           </button>
@@ -42,6 +41,7 @@
   </div>
 </template>
 <script>
+import Input from '../common/input/Input.vue'
 const routes = [
   {
     url: '/',
@@ -67,6 +67,9 @@ const routes = [
 const item = 0
 export default {
   name: 'NavigationPage',
+  components: {
+    InputCommon: Input
+  },
   setup(props) {
     return { props, routes, item }
   }

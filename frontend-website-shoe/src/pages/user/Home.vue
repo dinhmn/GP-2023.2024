@@ -19,37 +19,89 @@
         <p class="mt-2 text-xl">Giày {{ item.title }}</p>
       </div>
     </div>
-    <div
-      class="flex flex-col items-start justify-between w-full my-4 rounded-[4px] bg-slate-600 px-1 py-4"
-    >
-      <div class="w-full px-4 py-2 rounded bg-brown">
-        <h3 class="text-2xl font-bold leading-9 tracking-widest uppercase">Giá sốc hôm nay</h3>
-      </div>
-      <div class="grid grid-cols-5 gap-5 py-4 mx-3">
-        <div
-          class="flex flex-col w-full gap-4 py-4 px-1 rounded cursor-pointer h-[360px] item bg-slate-700"
-          v-for="item in count"
-          :key="item"
-        >
-          <img
-            class="object-cover w-full h-full max-h-[230px]"
-            src="../../assets/images/item.png"
+    <box>
+      <template v-slot:title>
+        <div class="w-full px-4 py-2 rounded bg-brown">
+          <h3 class="text-2xl font-bold leading-9 tracking-widest uppercase">Giá sốc hôm nay</h3>
+        </div>
+      </template>
+      <template v-slot:detail>
+        <div class="grid grid-cols-5 gap-5 py-4 mx-3">
+          <Item
+            :price="item * 10 + 1100000"
+            :priceSale="item * 9 + 1100000"
+            :quantitySold="40 + item * 2"
+            productName="Giày Nike"
+            src="item.png"
             alt="Giày"
+            v-for="item in count"
+            :key="item"
           />
-          <div class="flex flex-col gap-2 ml-2">
-            <span class="text-base">Giày Nike</span>
-            <h4 class="text-base text-[#ff2347]">
-              Giá: <span class="text-sm line-through">1.100.000 đ</span> 1.100.000 đ
-            </h4>
-            <h5 class="text-sm text-[#ff2347]">Đã bán: 40</h5>
-          </div>
+        </div>
+      </template>
+    </box>
+    <div class="my-4 rounded-[4px] w-full bg-slate-600 shadow-custom">
+      <div class="flex flex-col items-start justify-between" v-for="item in count" :key="item">
+        <div class="flex items-center justify-between w-full px-4 py-2 rounded">
+          <h3 class="text-2xl font-bold leading-9 tracking-widest uppercase text-brown">
+            Giày NIKE
+          </h3>
+          <h3 class="flex text-lg font-bold align-middle cursor-pointer hover:text-brown">
+            <span class="mr-2">Xem tất cả</span>
+            <vue-feather class="w-6 h-6 translate-y-1" type="chevrons-right"></vue-feather>
+          </h3>
+        </div>
+        <ul class="flex items-center gap-4 ml-4 uppercase">
+          <li class="selected">Jordan 1</li>
+          <li>Air Force 1</li>
+          <li>Jordan 4</li>
+          <li>Sb dunk</li>
+        </ul>
+        <div class="grid grid-cols-5 gap-5 py-4 mx-3">
+          <Item
+            :price="item * 16456 + 80000"
+            :priceSale="item * 92340 + 70000"
+            :quantitySold="40 + item * 3"
+            productName="Giày Nike"
+            src="item.png"
+            alt="Giày"
+            v-for="item in count"
+            :key="item"
+          />
         </div>
       </div>
     </div>
-    <div>Item</div>
+    <box>
+      <template v-slot:title>
+        <div class="flex items-center justify-between w-full px-4 py-2 rounded">
+          <h3 class="text-2xl font-bold leading-9 tracking-widest uppercase text-brown">
+            Tư vấn chọn mua
+          </h3>
+          <h3 class="flex text-lg font-bold align-middle cursor-pointer hover:text-brown">
+            <span class="mr-2">Xem thêm</span>
+            <vue-feather class="w-6 h-6 translate-y-1" type="chevrons-right"></vue-feather>
+          </h3>
+        </div>
+      </template>
+      <template v-slot:detail>
+        <div class="grid w-full grid-cols-4 gap-6 py-4 pr-5 mx-3">
+          <article-item
+            title="Đánh giá giày Jordan 1 Zoom Air PSG Paris Saint"
+            src="item.png"
+            alt="Giày"
+            classTitle="text-center"
+            v-for="item in count - 1"
+            :key="item"
+          />
+        </div>
+      </template>
+    </box>
   </section>
 </template>
 <script>
+import Item from '@/components/common/product/Item.vue'
+import BoxCommon from '@/components/common/box-layout/BoxCommon.vue'
+import Article from '@/components/common/product/Article.vue'
 const trademark = [
   {
     img: 'sale-item.png',
@@ -82,12 +134,19 @@ const trademark = [
 ]
 export default {
   name: 'HomePage',
+  components: {
+    Item: Item,
+    Box: BoxCommon,
+    ArticleItem: Article
+  },
   setup(props, context) {
     const count = 5
+    const countMinus = 4
     const getImageUrl = (name) => {
       return new URL(`../../assets/images/trademark/${name}`, import.meta.url).href
     }
-    return { props, context, getImageUrl, trademark, count }
+    console.log(getImageUrl('s'))
+    return { props, context, getImageUrl, trademark, count, countMinus }
   }
 }
 </script>
@@ -105,6 +164,13 @@ section {
   }
   .item:hover img {
     transform: scale(1);
+  }
+}
+ul {
+  li.selected {
+    padding: 2px 10px;
+    background-color: #cc334d;
+    border-radius: 4px;
   }
 }
 </style>

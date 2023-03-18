@@ -6,6 +6,25 @@
         <p class="w-[300px] text-gray-300 text-base italic font-thin">
           4140 Parker Roas, Allentown, New Mexico 31123
         </p>
+        <div>
+          <h3 class="mb-2 text-lg font-bold text-brown">
+            Đăng kí để nhận ngay thông tin về sản phẩm mới.
+          </h3>
+          <form @submit.prevent="onSubmit" class="flex items-center justify-center h-full">
+            <input-common
+              type="text"
+              classChild="min-w-[500px] px-5 py-[10px] rounded-sm"
+              name="email"
+              placeholder="Email"
+              v-model="email"
+            />
+            <button-common
+              type="submit"
+              text="Đăng ký"
+              className="w-full px-5 py-3 m-0 ml-4 rounded-sm bg-brown hover:bg-brown-hover"
+            />
+          </form>
+        </div>
       </div>
       <div class="flex items-start justify-around gap-8">
         <div v-for="(items, key) in footList" :key="key" class="flex flex-col gap-8 mx-6">
@@ -25,6 +44,9 @@
   </div>
 </template>
 <script>
+import Input from '../common/input/Input.vue'
+import Button from '../common/button/Button.vue'
+import { ref } from 'vue'
 const footList = [
   {
     title: 'About',
@@ -41,8 +63,13 @@ const footList = [
 ]
 export default {
   name: 'FooterItem',
+  components: {
+    InputCommon: Input,
+    ButtonCommon: Button
+  },
   setup(props) {
-    return { props, footList }
+    const email = ref('')
+    return { props, footList, email }
   }
 }
 </script>
