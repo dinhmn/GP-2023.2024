@@ -8,6 +8,7 @@
     :id="props.name"
     :value="props.modelValue"
     v-on:input="updateValue($event.target.value)"
+    :class="classChild"
   />
 </template>
 <script setup>
@@ -26,6 +27,10 @@ const props = defineProps({
   },
   modelValue: {
     type: [String, Number],
+    default: ''
+  },
+  classChild: {
+    type: String,
     default: ''
   }
 })

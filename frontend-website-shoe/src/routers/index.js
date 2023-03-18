@@ -2,7 +2,7 @@ import {createRouter, createWebHistory} from "vue-router"
 
 const routes = [
   {
-    path: "/home",
+    path: "/",
     name: "User",
     meta: {
       layout: 'user'
