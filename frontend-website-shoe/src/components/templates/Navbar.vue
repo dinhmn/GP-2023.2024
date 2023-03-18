@@ -1,45 +1,50 @@
 <template lang="">
-  <nav class="flex items-center justify-around bg-[#425868] h-[70px] text-white">
-    <div class="cursor-pointer logo hover:cursor-pointer">LOGO</div>
-    <ul class="flex items-center justify-center gap-3">
-      <li v-for="(route, index) in routes" :key="index">
-        <router-link :to="route.url">{{ route.urlName }}</router-link>
-      </li>
-    </ul>
-    <div class="flex items-center justify-center gap-2">
-      <div class="relative flex items-center justify-center">
-        <input
-          type="text"
-          class="text-black min-w-[300px]"
-          placeholder="Search"
-          name="search"
-          value=""
-          :model="search"
-        />
-        <button class="right-0 px-5 m-0 text-xs rounded-none">
-          <vue-feather class="w-5 h-5" type="search"></vue-feather>
-        </button>
-      </div>
-      <router-link to="/cart">
-        <button
-          class="relative bg-transparent hover:border-[rgba(87, 61, 61, 0.6)] border-2 rounded-lg card py-[8px] px-[8px] -mr-1 flex items-center justify-center"
+  <div class="w-full bg-[#425868] flex items-center justify-center">
+    <nav class="2xl:w-[1280px] flex items-center justify-between h-[70px] text-white">
+      <div class="cursor-pointer logo hover:cursor-pointer">LOGO</div>
+      <ul class="flex items-center justify-center gap-3">
+        <li v-for="(route, index) in routes" :key="index">
+          <router-link :to="route.url">{{ route.urlName }}</router-link>
+        </li>
+      </ul>
+      <div class="flex items-center justify-center gap-2 -mr-3">
+        <div class="relative flex items-center justify-center">
+          <input
+            type="text"
+            class="text-black min-w-[300px]"
+            placeholder="Search"
+            name="search"
+            value=""
+            :model="search"
+          />
+          <button
+            class="right-0 px-5 py-[9px] rounded-tr-[3px] -translate-x-3 rounded-br-[3px] m-0 text-xs rounded-none"
+          >
+            <vue-feather class="w-5 h-5" type="search"></vue-feather>
+          </button>
+        </div>
+        <router-link to="/cart">
+          <button
+            class="relative bg-transparent hover:border-[rgba(87, 61, 61, 0.6)] border-2 rounded-lg card py-[8px] px-[8px] -mr-1 flex items-center justify-center"
+          >
+            <span class="relative mr-1">0đ</span>
+            <vue-feather class="w-5 h-5" type="shopping-bag"></vue-feather>
+            <span class="py-1 px-2 rounded-[100%] absolute -top-2 -right-3 z-[999] bg-slate-700">{{
+              item
+            }}</span>
+          </button>
+        </router-link>
+        <router-link :to="{ name: 'Login', params: {} }"
+          ><button class="font-bold">Login</button></router-link
         >
-          <vue-feather class="w-5 h-5" type="shopping-bag"></vue-feather>
-          <span class="py-1 px-2 rounded-[100%] absolute -top-2 -right-3 z-[999] bg-slate-700">{{
-            item
-          }}</span>
-        </button>
-      </router-link>
-      <router-link :to="{ name: 'Login', params: {} }"
-        ><button class="font-bold">Login</button></router-link
-      >
-    </div>
-  </nav>
+      </div>
+    </nav>
+  </div>
 </template>
 <script>
 const routes = [
   {
-    url: '/home',
+    url: '/',
     urlName: 'Home'
   },
   {

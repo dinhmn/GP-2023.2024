@@ -10,6 +10,13 @@ module.exports = {
       fontFamily: {
           'grotesk':['Space Grotesk', 'sans-serif'],
           'poppins': ['Poppins', 'sans-serif']
+      },
+      backgroundColor: {
+        'brown': '#cc334d',
+        'brown-hover': '#ad2a40'
+      },
+      textColor: {
+        'brown': '#cc334d',
       }
     },
   },
