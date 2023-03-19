@@ -1,11 +1,18 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template lang="">
   <div class="relative block mx-0 my-2 bg-gray-800">
-    <input :id="props.id" name="radio" type="radio" />
+    <input
+      :value="propsValue"
+      v-on:input="updateValue($event.target.value)"
+      :id="props.id"
+      name="method"
+      type="radio"
+    />
     <label :for="props.id">{{ props.text }}</label>
   </div>
 </template>
 <script setup>
+import { ref } from 'vue'
 const props = defineProps({
   id: {
     type: String,
@@ -14,8 +21,18 @@ const props = defineProps({
   text: {
     type: String,
     default: 'Radio Text'
+  },
+  modelValue: {
+    type: String,
+    default: 'cod'
   }
 })
+const propsValue = ref(props.modelValue)
+const emit = defineEmits(['update:modelValue'])
+const updateValue = (value) => {
+  emit('update:modelValue', value)
+  propsValue.value = value
+}
 </script>
 <style lang="scss" scoped>
 div {
@@ -24,7 +41,7 @@ div {
     width: 100%;
     display: block;
     text-align: left;
-    color: #3c454c;
+    color: rgb(180, 180, 180);
     cursor: pointer;
     position: relative;
     z-index: 2;

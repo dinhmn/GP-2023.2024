@@ -2,11 +2,11 @@
   <div class="w-full bg-[#425868] flex items-center justify-center">
     <nav class="2xl:w-[1280px] flex items-center justify-between h-[70px] text-white">
       <div class="cursor-pointer logo hover:cursor-pointer">LOGO.</div>
-      <ul class="flex items-center justify-center gap-3">
-        <li v-for="(route, index) in routes" :key="index">
-          <router-link :to="route.url">{{ route.urlName }}</router-link>
-        </li>
-      </ul>
+      <div class="flex items-center justify-center gap-3">
+        <router-link :to="route.url" v-for="(route, index) in routes" :key="index"
+          ><span>{{ route.urlName }}</span></router-link
+        >
+      </div>
       <div class="flex items-center justify-center gap-2 -mr-3">
         <div class="flex items-center justify-center">
           <input-common
@@ -22,7 +22,7 @@
             <vue-feather class="w-5 h-5" type="search"></vue-feather>
           </button>
         </div>
-        <router-link to="/cart">
+        <router-link to="/payment">
           <button
             class="relative bg-transparent hover:border-[rgba(87, 61, 61, 0.6)] border-2 rounded-lg card py-[8px] px-[8px] -mr-1 flex items-center justify-center"
           >
@@ -83,13 +83,32 @@ nav {
     font-size: 30px;
     font-weight: bold;
   }
-  ul {
-    li {
-      transition: all 0.5s;
+  div {
+    a {
       padding: 5px 20px;
+      transition: all 0.5s;
+      border-radius: 3px;
       &:hover {
-        background-color: #573d3d;
-        border-radius: 3px;
+        background-color: #cc334d;
+      }
+      &.router-link-active {
+        background-color: #cc334d;
+      }
+    }
+    &:last-child {
+      a {
+        &:hover {
+          background-color: transparent;
+          button {
+            background-color: #cc334d;
+          }
+        }
+        &.router-link-active {
+          button {
+            background-color: #cc334d;
+          }
+          background-color: transparent;
+        }
       }
     }
   }

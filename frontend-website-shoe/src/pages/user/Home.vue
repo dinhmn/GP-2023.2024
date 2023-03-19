@@ -145,7 +145,6 @@ export default {
     const getImageUrl = (name) => {
       return new URL(`../../assets/images/trademark/${name}`, import.meta.url).href
     }
-    console.log(getImageUrl('s'))
     return { props, context, getImageUrl, trademark, count, countMinus }
   }
 }
