@@ -73,6 +73,14 @@ const routes = [
     },
     component: () => import("../pages/user/Cart.vue"),
   },
+  {
+    path: "/payment",
+    name: "Payment",
+    meta: {
+      layout: 'user'
+    },
+    component: () => import("../pages/user/Payment.vue"),
+  },
   
 ]
 
