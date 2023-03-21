@@ -18,6 +18,14 @@ const routes = [
     component: () => import("../authentication/Admin.vue"),
   },
   {
+    path: "/admin/category",
+    name: "CategoryAdmin",
+    meta: {
+      layout: 'admin'
+    },
+    component: () => import("../pages/admin/Category.vue"),
+  },
+  {
     path: "/feature",
     name: "Feature",
     meta: {
