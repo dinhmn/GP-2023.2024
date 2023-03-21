@@ -13,7 +13,8 @@ module.exports = {
       },
       backgroundColor: {
         'brown': '#cc334d',
-        'brown-hover': '#ad2a40'
+        'brown-hover': '#ad2a40',
+        'dark-red': 'rgba(255, 35, 72, 0.302)'
       },
       textColor: {
         'brown': '#cc334d',

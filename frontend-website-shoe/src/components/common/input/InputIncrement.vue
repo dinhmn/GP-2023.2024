@@ -10,7 +10,7 @@
       :name="name"
       :id="props.name"
       :value="propsValue"
-      v-on:change="updateValue($event.target.value)"
+      v-on:input="updateValue($event.target.value)"
     />
     <button class="flex p-2 ml-1 align-middle" @click="increment">
       <vue-feather class="w-4 h-4" type="plus" />
@@ -41,11 +41,11 @@ const props = defineProps({
     default: ''
   }
 })
+
 const propsValue = ref(props.modelValue)
 const emit = defineEmits(['update:modelValue'])
 
 const updateValue = (value) => {
-  console.value
   value = propsValue.value
   emit('update:modelValue', value)
 }

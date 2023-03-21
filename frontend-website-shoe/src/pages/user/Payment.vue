@@ -36,12 +36,12 @@
                 :value="product.quantity"
               />
             </div>
-            <button class="bg-red-600" @click="handleDeleteItem($event, product.id)">Delete</button>
+            <button class="bg-red-600" @click="handleDeleteItem($event, product)">Delete</button>
           </div>
         </div>
         <!-- Total money a lot of product -->
         <div class="after-cart flex items-center font-bold justify-between mt-[30px]">
-          <span>Tạm tính ({{ product.length }} sản phẩm):</span>
+          <span>Tạm tính ({{ data.product.length }} sản phẩm):</span>
           <span>{{ formatPrice(moneyOfOneProduct) }} đ</span>
         </div>
       </div>
@@ -227,7 +227,7 @@ const formatPrice = (value) => {
   return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
 }
 const handleDeleteItem = (event, index) => {
-  data.product = product.filter((x) => x.id !== index)
+  data.product = data.product.filter((x) => x.id !== index)
 }
 </script>
 <style lang="scss">

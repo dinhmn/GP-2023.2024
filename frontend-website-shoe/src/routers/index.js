@@ -81,6 +81,14 @@ const routes = [
     },
     component: () => import("../pages/user/Payment.vue"),
   },
+  {
+    path: "/product/:id",
+    name: "DetailProduct",
+    meta: {
+      layout: 'user'
+    },
+    component: () => import("../pages/user/DetailProduct.vue"),
+  },
   
 ]
 

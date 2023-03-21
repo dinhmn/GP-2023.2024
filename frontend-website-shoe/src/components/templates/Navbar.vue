@@ -34,7 +34,7 @@
           </button>
         </router-link>
         <router-link :to="{ name: 'Login', params: {} }"
-          ><button class="font-bold">Login</button></router-link
+          ><button class="font-bold translate-x-4">Login</button></router-link
         >
       </div>
     </nav>
