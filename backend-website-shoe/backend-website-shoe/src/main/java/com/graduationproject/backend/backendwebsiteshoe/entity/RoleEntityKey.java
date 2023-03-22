@@ -14,7 +14,7 @@ public class RoleEntityKey implements Serializable {
     private Long roleId;
 
     public RoleEntityKey setPk(Long roleId) {
-        setUserId(userId);
+        setRoleId(roleId);
         return this;
     }
 }

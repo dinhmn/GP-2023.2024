@@ -9,7 +9,7 @@ import java.io.Serializable;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
-@IdClass(UserEntityKey.class)
+@IdClass(UserInformationEntityKey.class)
 @Table(name = "tbl_user_information")
 public class UserInformationEntity extends BaseEntity implements Serializable {
 
@@ -19,7 +19,6 @@ public class UserInformationEntity extends BaseEntity implements Serializable {
 
         super();
     }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_information_id", nullable = false)
@@ -43,7 +42,7 @@ public class UserInformationEntity extends BaseEntity implements Serializable {
     private String firstName;
 
     @Column(name = "lastName", length = 40)
-    private Long lastName;
+    private String lastName;
 
     @Column(name = "email", length = 80, nullable = false)
     private String email;
