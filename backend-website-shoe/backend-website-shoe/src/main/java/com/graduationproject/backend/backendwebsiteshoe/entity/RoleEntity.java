@@ -25,10 +25,6 @@ public class RoleEntity extends BaseEntity implements Serializable {
     @Column(name = "role_id", nullable = false)
     private Long roleId;
 
-    @Id
-    @Column(name = "user_id")
-    private Long userId;
-
     @Column(name = "role_name", nullable = false)
     private String role_name;
 

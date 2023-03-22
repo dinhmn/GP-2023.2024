@@ -10,14 +10,10 @@ public class RoleEntityKey implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
-
     @Column(name = "role_id", nullable = false)
     private Long roleId;
 
-    public RoleEntityKey setPk(Long roleId, Long userId) {
-        setUserId(userId);
+    public RoleEntityKey setPk(Long roleId) {
         setRoleId(roleId);
         return this;
     }
