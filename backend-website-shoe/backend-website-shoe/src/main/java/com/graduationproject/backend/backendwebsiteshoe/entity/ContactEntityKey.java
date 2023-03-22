@@ -10,14 +10,10 @@ public class ContactEntityKey implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Column(name = "product_id", nullable = false)
-    private Long productId;
-
     @Column(name = "contact_id", nullable = false)
     private Long contactId;
 
-    public ContactEntityKey setPk(Long productId, Long contactId) {
-        setProductId(productId);
+    public ContactEntityKey setPk(Long contactId) {
         setContactId(contactId);
         return this;
     }

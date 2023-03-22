@@ -1,0 +1,36 @@
+:root {
+  --background-color: #232E36;
+  --button-brown: #cc334d;
+  --button-brown-hover: #ad2a40;
+  --text-color: #fff;
+  --font-family: 'Poppins', sans-serif;
+  --font-space-grotesk: 'Space Grotesk', sans-serif;
+}
+body {
+  background-color: var(--background-color);
+}
+button {
+  padding: 8px 20px;
+  background-color: var(--button-brown);
+  margin: 5px 10px;
+  color: var(#fff);
+  transition: all 0.3s;
+  border-radius: 3px;
+}
+button:hover {
+  background-color: var(--button-brown-hover);
+}
+input {
+  padding: 5px 10px;
+  outline: none;
+  border-radius: 3px;
+  min-width: 200px;
+}
+ul li{
+  letter-spacing: 2px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 32px;
+  letter-spacing: 0em;
+  text-align: left;
+}

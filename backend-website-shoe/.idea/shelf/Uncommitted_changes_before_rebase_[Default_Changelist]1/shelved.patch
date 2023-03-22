@@ -1,0 +1,12 @@
+Index: .idea/modules/backend-website-shoe.backend-website-shoe.test.iml
+===================================================================
+diff --git a/.idea/modules/backend-website-shoe.backend-website-shoe.test.iml b/.idea/modules/backend-website-shoe.backend-website-shoe.test.iml
+deleted file mode 100644
+--- a/.idea/modules/backend-website-shoe.backend-website-shoe.test.iml	
++++ /dev/null	
+@@ -1,4 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<module version="4">
+-  <component name="TestModuleProperties" production-module="backend-website-shoe.main" />
+-</module>
+\ No newline at end of file

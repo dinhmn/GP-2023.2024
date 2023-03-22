@@ -1,27 +1,68 @@
+# Graduation Project (2022 - 2023)
 This is a project graduation of Mai Ngoc Dinh Start date Match 06, 2023. The project has a back-end and a front-end.
 
-Back-end uses the Spring Java framework language:
+## Back-end will use the Spring framework:
+- Spring Framework
+- Spring Boot
+- Spring Security + JWT Token
+- Spring JPA
+- Spring Web
+- REST API 
+- Websocket
 
-With technologies used such as: Spring Boot, Spring Web, Spring Data JPA, Security.
-The database used in the project is Postgresql running on Docker.
-Front-End part using Framework:
+### Building the project
+You will need:
+- Java JDK Amazon Corretto 17 or higher
+- Gradle 3.0.4 or higher
+- Git
 
-VueJS + VueX
-=> Now will start the front-end before the interface.
+## Project Setup `Spring`
 
-# graduation-project (vue-js)
+### Computing all outputs
+```sh
+gradle clean build
+```
+
+### Running applications for Development
+
+```sh
+grade run
+```
+
+### Running all checks for Production
+
+```sh
+gradle check
+```
+---
+## SQL use: 
+- MYSQL
+## Docker
+- Develop,deploy, run application: Backend, Frontend, MySQL
+
+---
+# Front-end will use the VueJS framework:
+- VueJS3
+- VueX
+- Composition API
+- Styles: SCSS, Tailwind
+- Websocket
+
+# Graduation Project (2022 - 2023)
 
 This template should help get you started developing with Vue 3 in Vite.
 
 ## Recommended IDE Setup
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+- [VSCode](https://code.visualstudio.com/)
+- [IntelliJ IDEA](https://www.jetbrains.com/)
+- [Docker](https://www.docker.com/)
 
 ## Customize configuration
 
 See [Vite Configuration Reference](https://vitejs.dev/config/).
 
-## Project Setup
+## Project Setup `Vue`
 
 ```sh
 npm install
