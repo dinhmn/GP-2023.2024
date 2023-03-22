@@ -33,7 +33,7 @@ public class UserEntity extends BaseEntity implements Serializable {
     private Long profileId;
 
     @Column(name = "username", nullable = false)
-    private Long username;
+    private String username;
 
     @Column(name = "user_password", nullable = false)
     private String userPassword;

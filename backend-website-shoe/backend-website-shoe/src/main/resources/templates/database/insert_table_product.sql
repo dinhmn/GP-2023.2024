@@ -1,23 +1,89 @@
-INSERT INTO `shoes_db`.`tbl_product`
-(`category_id`, `product_id`, `product_name`, `product_price`, `product_price_sale`, `product_seo`, `quantity`,
- `created_by`, `created_date`, `status`, `updated_by`, `updated_date`)
-VALUES (1, 1, "Product 1", 2000000, 1800000, "product-1", 99,
-        1, SYSDATE(), 1, 1, SYSDATE()),
-       (1, 2, "Product 2", 3000000, 2900000, "product-2", 10,
-        1, SYSDATE(), 1, 1, SYSDATE()),
-       (2, 3, "Product 3", 2200000, 1800000, "product-3", 0,
-        1, SYSDATE(), 1, 1, SYSDATE()),
-       (2, 4, "Product 4", 2300000, 1900000, "product-4", 51,
-        1, SYSDATE(), 1, 1, SYSDATE()),
-       (3, 5, "Product 5", 3400000, 3000000, "product-5", 91,
-        1, SYSDATE(), 1, 1, SYSDATE()),
-       (4, 6, "Product 6", 5400000, 5200000, "product-6", 23,
-        1, SYSDATE(), 1, 1, SYSDATE()),
-       (4, 7, "Product 7", 6500000, 6300000, "product-7", 43,
-        1, SYSDATE(), 1, 1, SYSDATE()),
-       (7, 8, "Product 8", 3400000, 3000000, "product-8", 35,
-        1, SYSDATE(), 1, 1, SYSDATE()),
-       (6, 9, "Product 9", 5400000, 5200000, "product-9", 75,
-        1, SYSDATE(), 1, 1, SYSDATE()),
-       (8, 10, "Product 10", 6500000, 6300000, "product-10", 43,
-        1, SYSDATE(), 1, 1, SYSDATE());
+-- INSERT INTO `shoes_db`.`tbl_product`
+-- (`category_id`, `product_id`, `product_name`, `product_price`, `product_price_sale`, `product_seo`, `quantity`,
+--  `created_by`, `created_date`, `status`, `updated_by`, `updated_date`)
+-- VALUES (1, 1, "Product 1", 2000000, 1800000, "product-1", 99,
+--         1, SYSDATE(), 1, 1, SYSDATE()),
+--        (1, 2, "Product 2", 3000000, 2900000, "product-2", 10,
+--         1, SYSDATE(), 1, 1, SYSDATE()),
+--        (2, 3, "Product 3", 2200000, 1800000, "product-3", 0,
+--         1, SYSDATE(), 1, 1, SYSDATE()),
+--        (2, 4, "Product 4", 2300000, 1900000, "product-4", 51,
+--         1, SYSDATE(), 1, 1, SYSDATE()),
+--        (3, 5, "Product 5", 3400000, 3000000, "product-5", 91,
+--         1, SYSDATE(), 1, 1, SYSDATE()),
+--        (4, 6, "Product 6", 5400000, 5200000, "product-6", 23,
+--         1, SYSDATE(), 1, 1, SYSDATE()),
+--        (4, 7, "Product 7", 6500000, 6300000, "product-7", 43,
+--         1, SYSDATE(), 1, 1, SYSDATE()),
+--        (7, 8, "Product 8", 3400000, 3000000, "product-8", 35,
+--         1, SYSDATE(), 1, 1, SYSDATE()),
+--        (6, 9, "Product 9", 5400000, 5200000, "product-9", 75,
+--         1, SYSDATE(), 1, 1, SYSDATE()),
+--        (8, 10, "Product 10", 6500000, 6300000, "product-10", 43,
+--         1, SYSDATE(), 1, 1, SYSDATE());
+
+create table tbl_product (
+                             product_id INT,
+                             category_id INT,
+                             product_seo VARCHAR(50),
+                             created_by INT,
+                             created_date DATE,
+                             status VARCHAR(50),
+                             updated_by INT,
+                             updated_date DATE,
+                             product_name VARCHAR(50),
+                             product_description VARCHAR(50),
+                             product_price INT,
+                             product_price_sale INT,
+                             quantity INT
+);
+insert into tbl_product (product_id, category_id, product_seo, created_by, created_date, status, updated_by, updated_date, product_name, product_description, product_price, product_price_sale, quantity) values (1, 10, 'US-AL', 82, '2022-07-16 12:42:36', false, 76, '2022-07-25 06:09:51', 'Gembucket', 'Other personal hygiene activity', 2067248, 9911119, 83);
+insert into tbl_product (product_id, category_id, product_seo, created_by, created_date, status, updated_by, updated_date, product_name, product_description, product_price, product_price_sale, quantity) values (2, 3, 'RU-BEL', 46, '2022-08-19 10:21:49', false, 49, '2022-06-07 01:21:14', 'Ronstring', 'Open fracture of base of skull with intracranial injury of other and unspecified nature, with prolonged [more than 24 hours] loss of consciousness, without return to pre-existing conscious level', 13246599, 1433592, 141);
+insert into tbl_product (product_id, category_id, product_seo, created_by, created_date, status, updated_by, updated_date, product_name, product_description, product_price, product_price_sale, quantity) values (3, 11, 'US-MN', 28, '2023-02-13 17:40:07', true, 58, '2022-03-27 11:20:45', 'Subin', 'Injury to renal artery', 14967764, 9602580, 130);
+insert into tbl_product (product_id, category_id, product_seo, created_by, created_date, status, updated_by, updated_date, product_name, product_description, product_price, product_price_sale, quantity) values (4, 14, 'LY-SH', 14, '2022-08-09 22:02:46', true, 91, '2022-11-08 12:42:35', 'Sonsing', 'Hereditary hemochromatosis', 3964310, 14968949, 156);
+insert into tbl_product (product_id, category_id, product_seo, created_by, created_date, status, updated_by, updated_date, product_name, product_description, product_price, product_price_sale, quantity) values (5, 9, 'US-MN', 8, '2022-11-16 23:09:33', false, 6, '2022-08-15 03:41:21', 'Tampflex', 'Hodgkin''s disease, lymphocytic-histiocytic predominance, intrathoracic lymph nodes', 11553014, 104053, 89);
+insert into tbl_product (product_id, category_id, product_seo, created_by, created_date, status, updated_by, updated_date, product_name, product_description, product_price, product_price_sale, quantity) values (6, 6, 'AU-QLD', 35, '2023-01-08 13:51:58', false, 22, '2022-05-21 03:21:39', 'Daltfresh', 'Malignant neoplasm of other specified part of esophagus', 10145264, 5637685, 77);
+insert into tbl_product (product_id, category_id, product_seo, created_by, created_date, status, updated_by, updated_date, product_name, product_description, product_price, product_price_sale, quantity) values (7, 8, 'ZA-NL', 95, '2022-10-29 13:45:41', true, 41, '2022-07-29 01:56:51', 'Trippledex', 'Pulmonary anthrax', 13558567, 10690084, 49);
+insert into tbl_product (product_id, category_id, product_seo, created_by, created_date, status, updated_by, updated_date, product_name, product_description, product_price, product_price_sale, quantity) values (8, 6, 'CO-CAS', 15, '2022-11-13 00:07:12', false, 39, '2022-12-15 17:11:58', 'Biodex', 'Erythema [first degree] of axilla', 4448564, 7529625, 39);
+insert into tbl_product (product_id, category_id, product_seo, created_by, created_date, status, updated_by, updated_date, product_name, product_description, product_price, product_price_sale, quantity) values (9, 8, 'IT-21', 60, '2022-06-12 23:41:54', true, 24, '2023-01-09 06:12:45', 'Bamity', 'Acoustic trauma (explosive) to ear', 999650, 4578704, 132);
+insert into tbl_product (product_id, category_id, product_seo, created_by, created_date, status, updated_by, updated_date, product_name, product_description, product_price, product_price_sale, quantity) values (10, 3, 'US-TX', 51, '2022-03-27 03:50:07', true, 42, '2022-10-21 20:55:52', 'Tresom', 'Fall on stairs or ladders in water transport injuring dockers, stevedores', 3482881, 11267700, 23);
+insert into tbl_product (product_id, category_id, product_seo, created_by, created_date, status, updated_by, updated_date, product_name, product_description, product_price, product_price_sale, quantity) values (11, 2, 'PF-U-A', 93, '2022-12-08 10:59:40', false, 98, '2023-02-19 12:35:45', 'Tampflex', 'Systemic inflammatory response syndrome due to noninfectious process with acute organ dysfunction', 3403768, 11305291, 130);
+insert into tbl_product (product_id, category_id, product_seo, created_by, created_date, status, updated_by, updated_date, product_name, product_description, product_price, product_price_sale, quantity) values (12, 8, 'US-MS', 9, '2023-03-01 14:05:16', false, 38, '2023-03-07 12:07:09', 'Prodder', 'Secondary neuroendocrine tumor, unspecified site', 10606283, 1981850, 96);
+insert into tbl_product (product_id, category_id, product_seo, created_by, created_date, status, updated_by, updated_date, product_name, product_description, product_price, product_price_sale, quantity) values (13, 9, 'MG-U', 37, '2022-07-10 08:53:02', false, 15, '2023-01-21 18:19:52', 'Toughjoyfax', 'Personal history of irradiation, presenting hazards to health', 5742816, 1375139, 195);
+insert into tbl_product (product_id, category_id, product_seo, created_by, created_date, status, updated_by, updated_date, product_name, product_description, product_price, product_price_sale, quantity) values (14, 5, 'SB-RB', 53, '2022-03-23 01:44:11', false, 52, '2023-02-07 13:50:33', 'Voyatouch', 'Amblyopia, unspecified', 8989458, 13421953, 148);
+insert into tbl_product (product_id, category_id, product_seo, created_by, created_date, status, updated_by, updated_date, product_name, product_description, product_price, product_price_sale, quantity) values (15, 10, 'US-NC', 85, '2022-04-20 07:45:02', false, 78, '2022-05-26 03:05:35', 'Mat Lam Tam', 'Extradural hemorrhage following injury with open intracranial wound, with brief [less than one hour] loss of consciousness', 8680894, 635989, 85);
+insert into tbl_product (product_id, category_id, product_seo, created_by, created_date, status, updated_by, updated_date, product_name, product_description, product_price, product_price_sale, quantity) values (16, 4, 'CZ-ST', 68, '2022-06-07 04:15:12', true, 88, '2022-09-18 21:34:06', 'Biodex', 'Retroverted and incarcerated gravid uterus, antepartum condition or complication', 11650383, 5819821, 96);
+insert into tbl_product (product_id, category_id, product_seo, created_by, created_date, status, updated_by, updated_date, product_name, product_description, product_price, product_price_sale, quantity) values (17, 12, 'US-IL', 55, '2022-06-21 20:43:40', false, 1, '2023-03-21 02:45:16', 'Trippledex', 'Dysmetabolic syndrome X', 3074753, 12485725, 187);
+insert into tbl_product (product_id, category_id, product_seo, created_by, created_date, status, updated_by, updated_date, product_name, product_description, product_price, product_price_sale, quantity) values (18, 14, 'SO-NU', 57, '2022-12-05 19:21:24', false, 64, '2022-10-31 06:43:49', 'Span', 'Body Mass Index 27.0-27.9, adult', 10970345, 9447805, 155);
+insert into tbl_product (product_id, category_id, product_seo, created_by, created_date, status, updated_by, updated_date, product_name, product_description, product_price, product_price_sale, quantity) values (19, 7, 'US-NY', 32, '2023-03-16 06:37:27', false, 53, '2023-02-14 06:52:29', 'Ventosanzap', 'Chronic meningitis', 11308085, 12749077, 153);
+insert into tbl_product (product_id, category_id, product_seo, created_by, created_date, status, updated_by, updated_date, product_name, product_description, product_price, product_price_sale, quantity) values (20, 4, 'SR-PM', 41, '2022-07-27 11:14:45', true, 87, '2022-11-15 05:37:35', 'Fintone', 'Other cystostomy', 10713826, 1369686, 6);
+insert into tbl_product (product_id, category_id, product_seo, created_by, created_date, status, updated_by, updated_date, product_name, product_description, product_price, product_price_sale, quantity) values (21, 12, 'VE-M', 84, '2022-05-20 03:55:52', true, 21, '2022-04-19 16:28:30', 'Konklux', 'Exposure to visible and ultraviolet light sources', 2119662, 4672106, 182);
+insert into tbl_product (product_id, category_id, product_seo, created_by, created_date, status, updated_by, updated_date, product_name, product_description, product_price, product_price_sale, quantity) values (22, 2, 'PH-AGN', 51, '2022-06-05 08:40:58', false, 84, '2022-12-11 19:44:05', 'Voyatouch', 'Other and unspecified respiratory drugs causing adverse effects in therapeutic use', 8280393, 6224230, 75);
+insert into tbl_product (product_id, category_id, product_seo, created_by, created_date, status, updated_by, updated_date, product_name, product_description, product_price, product_price_sale, quantity) values (23, 3, 'BS-NP', 86, '2022-08-20 19:27:33', true, 33, '2022-05-24 23:10:56', 'Stim', 'Poisoning by diphtheria vaccine', 7799487, 5837812, 104);
+insert into tbl_product (product_id, category_id, product_seo, created_by, created_date, status, updated_by, updated_date, product_name, product_description, product_price, product_price_sale, quantity) values (24, 2, 'MR-09', 9, '2022-07-29 13:33:09', true, 47, '2022-08-23 08:50:21', 'Fix San', 'Injury to blood vessels of unspecified site', 4078005, 1443000, 31);
+insert into tbl_product (product_id, category_id, product_seo, created_by, created_date, status, updated_by, updated_date, product_name, product_description, product_price, product_price_sale, quantity) values (25, 2, 'BR-BA', 45, '2022-07-02 10:19:08', true, 36, '2022-06-02 17:57:29', 'Bitwolf', 'Other viral conjunctivitis', 4447744, 13756588, 152);
+insert into tbl_product (product_id, category_id, product_seo, created_by, created_date, status, updated_by, updated_date, product_name, product_description, product_price, product_price_sale, quantity) values (26, 13, 'US-TX', 97, '2023-02-08 03:59:56', true, 49, '2022-06-14 16:56:01', 'Lotlux', 'Open fracture of glenoid cavity and neck of scapula', 7389788, 6561503, 81);
+insert into tbl_product (product_id, category_id, product_seo, created_by, created_date, status, updated_by, updated_date, product_name, product_description, product_price, product_price_sale, quantity) values (27, 10, 'US-MS', 63, '2022-10-11 22:40:46', true, 24, '2022-10-16 04:32:40', 'Gembucket', 'Closed fracture of base of skull with subarachnoid, subdural, and extradural hemorrhage, with moderate [1-24 hours] loss of consciousness', 4392453, 4080898, 92);
+insert into tbl_product (product_id, category_id, product_seo, created_by, created_date, status, updated_by, updated_date, product_name, product_description, product_price, product_price_sale, quantity) values (28, 1, 'ID-ST', 83, '2023-02-13 23:55:06', false, 42, '2022-08-04 22:35:09', 'Tampflex', 'Kaposi''s sarcoma, lymph nodes', 12470791, 7795437, 132);
+insert into tbl_product (product_id, category_id, product_seo, created_by, created_date, status, updated_by, updated_date, product_name, product_description, product_price, product_price_sale, quantity) values (29, 1, 'BR-AM', 73, '2022-11-24 00:55:53', false, 75, '2022-07-25 08:50:17', 'Cardguard', 'Pneumococcal peritonitis', 11141109, 12932322, 121);
+insert into tbl_product (product_id, category_id, product_seo, created_by, created_date, status, updated_by, updated_date, product_name, product_description, product_price, product_price_sale, quantity) values (30, 6, 'DZ-36', 47, '2023-02-23 17:48:09', true, 51, '2022-10-29 11:19:56', 'Temp', 'Corpus luteum cyst or hematoma', 1739444, 2730055, 86);
+insert into tbl_product (product_id, category_id, product_seo, created_by, created_date, status, updated_by, updated_date, product_name, product_description, product_price, product_price_sale, quantity) values (31, 11, 'CN-34', 45, '2022-09-12 00:17:40', false, 54, '2022-05-11 02:36:56', 'Duobam', 'Street and highway accidents', 14821583, 11243960, 173);
+insert into tbl_product (product_id, category_id, product_seo, created_by, created_date, status, updated_by, updated_date, product_name, product_description, product_price, product_price_sale, quantity) values (32, 7, 'US-AK', 72, '2022-10-11 20:44:59', true, 66, '2022-08-27 06:15:25', 'Viva', 'Unspecified reduction deformity of upper limb', 966063, 351548, 18);
+insert into tbl_product (product_id, category_id, product_seo, created_by, created_date, status, updated_by, updated_date, product_name, product_description, product_price, product_price_sale, quantity) values (33, 11, 'US-MN', 73, '2023-01-27 22:04:49', false, 56, '2022-08-18 15:30:17', 'Tampflex', 'Other emphysema', 2219568, 11090207, 131);
+insert into tbl_product (product_id, category_id, product_seo, created_by, created_date, status, updated_by, updated_date, product_name, product_description, product_price, product_price_sale, quantity) values (34, 9, 'AU-NT', 81, '2022-10-12 19:22:49', true, 55, '2022-11-12 10:52:19', 'Zontrax', 'Other specified crystal arthropathies, upper arm', 4483094, 6176038, 143);
+insert into tbl_product (product_id, category_id, product_seo, created_by, created_date, status, updated_by, updated_date, product_name, product_description, product_price, product_price_sale, quantity) values (35, 8, 'MP-U-A', 36, '2022-07-26 06:06:28', true, 16, '2022-06-11 21:34:36', 'Span', 'Encysted hydrocele', 10417584, 3007580, 94);
+insert into tbl_product (product_id, category_id, product_seo, created_by, created_date, status, updated_by, updated_date, product_name, product_description, product_price, product_price_sale, quantity) values (36, 7, 'AU-QLD', 70, '2022-08-21 15:52:55', false, 12, '2023-01-28 12:21:59', 'Bitwolf', 'Burn [any degree] involving 50-59 percent of body surface with third degree burn, less than 10 percent or unspecified', 609098, 8134495, 48);
+insert into tbl_product (product_id, category_id, product_seo, created_by, created_date, status, updated_by, updated_date, product_name, product_description, product_price, product_price_sale, quantity) values (37, 13, 'DE-SH', 5, '2022-09-27 09:53:22', true, 75, '2022-06-06 19:57:59', 'Bitwolf', 'Closed fractures involving skull or face with other bones, with cerebral laceration and contusion, with prolonged [more than 24 hours] loss of consciousness and return to pre-existing conscious level', 13948270, 10700219, 146);
+insert into tbl_product (product_id, category_id, product_seo, created_by, created_date, status, updated_by, updated_date, product_name, product_description, product_price, product_price_sale, quantity) values (38, 5, 'EC-W', 58, '2022-09-22 23:45:45', false, 65, '2022-06-11 15:19:40', 'Rank', 'Cubitus varus (acquired)', 3591945, 1167394, 71);
+insert into tbl_product (product_id, category_id, product_seo, created_by, created_date, status, updated_by, updated_date, product_name, product_description, product_price, product_price_sale, quantity) values (39, 5, 'US-KY', 50, '2022-08-28 07:19:43', true, 66, '2022-10-05 07:48:21', 'Y-find', 'Inhalation and ingestion of food causing obstruction of respiratory tract or suffocation', 5261491, 11262489, 98);
+insert into tbl_product (product_id, category_id, product_seo, created_by, created_date, status, updated_by, updated_date, product_name, product_description, product_price, product_price_sale, quantity) values (40, 7, 'CO-CES', 11, '2022-12-12 12:32:55', true, 9, '2022-03-22 06:24:32', 'Daltfresh', 'Conductive hearing loss, inner ear', 12420229, 12828357, 66);
+insert into tbl_product (product_id, category_id, product_seo, created_by, created_date, status, updated_by, updated_date, product_name, product_description, product_price, product_price_sale, quantity) values (41, 5, 'TR-73', 56, '2022-06-20 22:07:10', true, 18, '2022-07-30 16:57:45', 'Tresom', 'Accidental poisoning by gas distributed by pipeline', 11157013, 4511252, 19);
+insert into tbl_product (product_id, category_id, product_seo, created_by, created_date, status, updated_by, updated_date, product_name, product_description, product_price, product_price_sale, quantity) values (42, 14, 'PG-MRL', 11, '2022-09-15 12:52:08', true, 61, '2022-05-13 09:27:36', 'Sonair', 'Hypercementosis', 121366, 4856390, 54);
+insert into tbl_product (product_id, category_id, product_seo, created_by, created_date, status, updated_by, updated_date, product_name, product_description, product_price, product_price_sale, quantity) values (43, 5, 'BM-U-A', 88, '2023-03-21 14:31:20', false, 45, '2022-10-23 11:36:05', 'Alpha', 'Palindromic rheumatism, lower leg', 10103327, 12795016, 186);
+insert into tbl_product (product_id, category_id, product_seo, created_by, created_date, status, updated_by, updated_date, product_name, product_description, product_price, product_price_sale, quantity) values (44, 6, 'ID-MA', 97, '2023-01-12 08:19:24', true, 23, '2022-05-19 11:39:58', 'Kanlam', 'Supernumerary teeth', 677115, 9437793, 199);
+insert into tbl_product (product_id, category_id, product_seo, created_by, created_date, status, updated_by, updated_date, product_name, product_description, product_price, product_price_sale, quantity) values (45, 1, 'US-LA', 12, '2022-06-13 05:23:22', true, 15, '2022-05-20 15:58:07', 'Flowdesk', 'Alcoholic fatty liver', 1723037, 11130433, 128);
+insert into tbl_product (product_id, category_id, product_seo, created_by, created_date, status, updated_by, updated_date, product_name, product_description, product_price, product_price_sale, quantity) values (46, 14, 'CM-SU', 21, '2022-08-20 05:56:59', true, 71, '2023-03-05 10:06:42', 'Zontrax', 'Fitting and adjustment of gastric lap band', 2022402, 9916766, 168);
+insert into tbl_product (product_id, category_id, product_seo, created_by, created_date, status, updated_by, updated_date, product_name, product_description, product_price, product_price_sale, quantity) values (47, 10, 'US-MO', 51, '2022-10-02 17:21:56', true, 96, '2022-05-09 23:25:18', 'Fintone', 'Diabetes with ophthalmic manifestations, type I [juvenile type], not stated as uncontrolled', 11838988, 14925392, 145);
+insert into tbl_product (product_id, category_id, product_seo, created_by, created_date, status, updated_by, updated_date, product_name, product_description, product_price, product_price_sale, quantity) values (48, 2, 'CA-NT', 7, '2023-03-16 17:12:04', false, 69, '2022-05-16 13:29:32', 'Latlux', 'Other antepartum hemorrhage, unspecified as to episode of care or not applicable', 6937827, 634983, 177);
+insert into tbl_product (product_id, category_id, product_seo, created_by, created_date, status, updated_by, updated_date, product_name, product_description, product_price, product_price_sale, quantity) values (49, 8, 'AU-QLD', 51, '2022-04-14 07:37:47', true, 44, '2022-06-10 11:59:55', 'Daltfresh', 'Unspecified noninflammatory disorder of ovary, fallopian tube, and broad ligament', 13778298, 2976376, 54);
+insert into tbl_product (product_id, category_id, product_seo, created_by, created_date, status, updated_by, updated_date, product_name, product_description, product_price, product_price_sale, quantity) values (50, 13, 'AU-NSW', 85, '2022-12-22 16:56:31', true, 14, '2022-09-27 01:29:41', 'Daltfresh', 'Multiple and unspecified open wound of upper limb, without mention of complication', 7744034, 5280577, 63);
