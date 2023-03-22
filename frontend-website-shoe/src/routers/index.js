@@ -23,7 +23,7 @@ const routes = [
     meta: {
       layout: 'admin'
     },
-    component: () => import("../pages/admin/Category.vue"),
+    component: () => import("../pages/admin/category/Category.vue"),
   },
   {
     path: "/feature",
