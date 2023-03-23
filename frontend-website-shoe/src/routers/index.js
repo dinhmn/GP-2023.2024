@@ -26,6 +26,14 @@ const routes = [
     component: () => import("../pages/admin/category/Category.vue"),
   },
   {
+    path: "/admin/category/register",
+    name: "CategoryRegisterAdmin",
+    meta: {
+      layout: 'admin'
+    },
+    component: () => import("../pages/admin/category/CategoryForm.vue"),
+  },
+  {
     path: "/feature",
     name: "Feature",
     meta: {

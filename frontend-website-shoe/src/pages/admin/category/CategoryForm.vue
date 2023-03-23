@@ -1,5 +1,17 @@
 <template lang="">
   <div>
+    <div class="text-white">
+      <Button
+        type="button"
+        text="Back"
+        id="addCategory"
+        className="bg-green-700 hover:bg-green-600 -ml-[2px] text-white font-bold"
+      />
+    </div>
+    <strong
+      class="block w-full py-2 my-3 text-xl text-center text-white uppercase rounded-md bg-slate-500"
+      >Add new category</strong
+    >
     <form leave-to-class="w-full post">
       <!-- Form Payment -->
       <div class="w-fill">

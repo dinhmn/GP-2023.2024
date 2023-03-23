@@ -2,10 +2,31 @@
 <template lang="">
   <div class="w-full text-white">
     <h2 class="text-2xl font-bold uppercase text-brown">Category</h2>
-    <div>
+    <div class="flex items-center justify-between">
+      <div class="flex w-[600px] gap-2 items-center">
+        <Input
+          type="text"
+          placeholder="Search..."
+          name="search"
+          id="search"
+          classChild="min-w-[200px] py-1 max-w-[400px] max-h-[40px]"
+        />
+        <Button
+          type="button"
+          text="Search"
+          id="search"
+          className="bg-green-700 hover:bg-green-600"
+        />
+      </div>
       <div>
-        <input type="" name="" value="" />
-        <button type="button" class="bg-brown">Search</button>
+        <router-link :to="{ name: 'CategoryRegisterAdmin', params: {} }">
+          <Button
+            type="button"
+            text="New Category"
+            id="addCategory"
+            className="bg-green-700 hover:bg-green-600"
+          />
+        </router-link>
       </div>
     </div>
     <div class="w-full mt-5">
@@ -113,11 +134,33 @@
         </tbody>
       </table>
     </div>
-    <div>Phân trang</div>
+    <div class="w-full mt-3 text-right">
+      <ul class="flex items-center justify-end gap-1">
+        <li>Prev</li>
+        <li class="active">1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>Next</li>
+      </ul>
+    </div>
   </div>
 </template>
-<script setup></script>
-<style lang="css">
+<script setup>
+import Button from '@/components/common/button/Button.vue'
+import Input from '@/components/common/input/Input.vue'
+</script>
+<style lang="css" scoped>
+ul li {
+  padding: 4px 20px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+}
+ul li.active {
+  background-color: slategray;
+}
 table,
 tr,
 td,

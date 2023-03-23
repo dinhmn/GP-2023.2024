@@ -1,5 +1,5 @@
 <template lang="">
-  <div class="bg-slate-700 h-[100vh] w-[300px]">
+  <div class="bg-slate-600 h-[100vh]">
     <ul class="text-lg font-bold uppercase">
       <li class="bg-brown">
         <span>Category</span><vue-feather class="w-6 h-6" type="chevron-down"></vue-feather>
