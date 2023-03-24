@@ -46,15 +46,20 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="item in count" :key="item">
-            <td>1</td>
-            <td>1</td>
-            <td>SB-ML</td>
-            <td>2022-09-05 02:32:05</td>
-            <td>2023-11-04 07:59:54</td>
-            <td>True</td>
+          <tr v-for="(item, index) in api.category" :key="index">
+            <td>{{ index }}</td>
+            <td>{{ item.categoryId }}</td>
+            <td>{{ item.categoryName }}</td>
+            <td>{{ item.createdDate }}</td>
+            <td>{{ item.updatedDate }}</td>
+            <td>{{ item.categoryStatus }}</td>
             <td class="flex items-center justify-around gap-2">
-              <router-link :to="{ name: 'CategoryEditAdminParam', params: { id: item } }">
+              <router-link
+                :to="{
+                  name: 'CategoryEditAdminParam',
+                  params: { trademarkId: item.trademarkId, categoryId: item.categoryId }
+                }"
+              >
                 <button
                   className="min-w-[60px] px-2 text-sm bg-green-700 hover:bg-green-600 block text-center m-0 hover:text-white"
                   name="edit"
@@ -86,9 +91,25 @@
   </div>
 </template>
 <script setup>
+import { onMounted, reactive } from 'vue'
+import axios from 'axios'
 import Button from '@/components/common/button/Button.vue'
 import Input from '@/components/common/input/Input.vue'
-const count = 5
+import { API_CATEGORY_GET } from '@/stores/api'
+let api = reactive({
+  category: []
+})
+onMounted(() => {
+  axios
+    .get(API_CATEGORY_GET)
+    .then((response) => {
+      api.category = response.data
+      console.log(api.category)
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+})
 </script>
 <style lang="css" scoped>
 ul li {
