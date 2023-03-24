@@ -23,7 +23,23 @@ const routes = [
     meta: {
       layout: 'admin'
     },
-    component: () => import("../pages/admin/Category.vue"),
+    component: () => import("../pages/admin/category/Category.vue"),
+  },
+  {
+    path: "/admin/category/register",
+    name: "CategoryRegisterAdmin",
+    meta: {
+      layout: 'admin'
+    },
+    component: () => import("../pages/admin/category/CategoryForm.vue"),
+  },
+  {
+    path: "/admin/category/edit/:id",
+    name: "CategoryEditAdminParam",
+    meta: {
+      layout: 'admin'
+    },
+    component: () => import("../pages/admin/category/CategoryForm.vue"),
   },
   {
     path: "/feature",

@@ -2,7 +2,7 @@
 <template lang="">
   <textarea
     rows="2"
-    class="w-full p-2 text-gray-900 outline-none rounded-[4px] mt-1"
+    class="w-full p-2 text-gray-900 outline-none rounded-[4px] mt-2"
     :placeholder="props.placeholder"
     :id="props.name"
     :name="props.name"
