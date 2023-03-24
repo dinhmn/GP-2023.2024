@@ -25,9 +25,9 @@ public class CategoryModel {
 
     private String categorySeo;
 
-    private Date createdDate;
+    private String createdDate;
 
-    private Date updatedDate;
+    private String updatedDate;
 
     private String categoryStatus;
 }

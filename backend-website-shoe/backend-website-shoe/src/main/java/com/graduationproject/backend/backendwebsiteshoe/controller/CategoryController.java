@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping(value = "/category")
 public class CategoryController {
@@ -27,6 +29,16 @@ public class CategoryController {
     @GetMapping(value = "/init")
     public List<CategoryModel> selectAllCategory() {
         return categoryHelper.getAllCategory();
+    }
+
+    /**
+     * Get all category.
+     *
+     * @return list object.
+     */
+    @GetMapping(value = "/init/{trademarkId}/{categoryId}")
+    public CategoryModel selectById(@PathVariable String categoryId, @PathVariable String trademarkId) {
+        return categoryHelper.getById(Long.parseLong(categoryId), Long.parseLong(trademarkId));
     }
 
     /**
