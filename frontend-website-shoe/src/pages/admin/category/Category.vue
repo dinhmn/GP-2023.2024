@@ -46,7 +46,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr class="">
+          <tr v-for="item in count" :key="item">
             <td>1</td>
             <td>1</td>
             <td>SB-ML</td>
@@ -54,78 +54,15 @@
             <td>2023-11-04 07:59:54</td>
             <td>True</td>
             <td class="flex items-center justify-around gap-2">
-              <button
-                className="min-w-[60px] px-2 text-sm bg-green-700 hover:bg-green-600 block text-center m-0 hover:text-white"
-                name="edit"
-              >
-                Edit
-              </button>
-              <button
-                class="block min-w-[60px] px-2 m-0 text-sm text-center bg-red-700 hover:bg-red-600 mr-3"
-                name="delete"
-              >
-                Delete
-              </button>
-            </td>
-          </tr>
-          <tr>
-            <td>1</td>
-            <td>1</td>
-            <td>SB-ML</td>
-            <td>2022-09-05 02:32:05</td>
-            <td>2023-11-04 07:59:54</td>
-            <td>True</td>
-            <td class="flex items-center justify-around gap-2">
-              <button
-                className="min-w-[60px] px-2 text-sm bg-green-700 hover:bg-green-600 block text-center m-0 hover:text-white"
-                name="eidt"
-              >
-                Edit
-              </button>
-              <button
-                class="block min-w-[60px] px-2 m-0 text-sm text-center bg-red-700 hover:bg-red-600 mr-3"
-                name="delete"
-              >
-                Delete
-              </button>
-            </td>
-          </tr>
-          <tr>
-            <td>1</td>
-            <td>1</td>
-            <td>SB-ML</td>
-            <td>2022-09-05 02:32:05</td>
-            <td>2023-11-04 07:59:54</td>
-            <td>True</td>
-            <td class="flex items-center justify-around gap-2">
-              <button
-                className="min-w-[60px] px-2 text-sm bg-green-700 hover:bg-green-600 block text-center m-0 hover:text-white"
-                name="eidt"
-              >
-                Edit
-              </button>
-              <button
-                class="block min-w-[60px] px-2 m-0 text-sm text-center bg-red-700 hover:bg-red-600 mr-3"
-                name="delete"
-              >
-                Delete
-              </button>
-            </td>
-          </tr>
-          <tr>
-            <td>1</td>
-            <td>1</td>
-            <td>SB-ML</td>
-            <td>2022-09-05 02:32:05</td>
-            <td>2023-11-04 07:59:54</td>
-            <td>True</td>
-            <td class="flex items-center justify-around gap-2">
-              <button
-                className="min-w-[60px] px-2 text-sm bg-green-700 hover:bg-green-600 block text-center m-0 hover:text-white"
-                name="eidt"
-              >
-                Edit
-              </button>
+              <router-link :to="{ name: 'CategoryEditAdminParam', params: { id: item } }">
+                <button
+                  className="min-w-[60px] px-2 text-sm bg-green-700 hover:bg-green-600 block text-center m-0 hover:text-white"
+                  name="edit"
+                >
+                  Edit
+                </button>
+              </router-link>
+
               <button
                 class="block min-w-[60px] px-2 m-0 text-sm text-center bg-red-700 hover:bg-red-600 mr-3"
                 name="delete"
@@ -151,6 +88,7 @@
 <script setup>
 import Button from '@/components/common/button/Button.vue'
 import Input from '@/components/common/input/Input.vue'
+const count = 5
 </script>
 <style lang="css" scoped>
 ul li {

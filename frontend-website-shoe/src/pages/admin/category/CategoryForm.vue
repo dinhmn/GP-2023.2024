@@ -12,7 +12,7 @@
     </div>
     <strong
       class="block w-full py-2 my-3 text-xl text-center uppercase rounded-md bg-[#0c3247] text-[#17b1ea]"
-      >Add new category</strong
+      >{{ param == null ? 'Add new category' : 'Edit category' }}</strong
     >
     <form class="w-full post">
       <!-- Form Payment -->
@@ -58,15 +58,18 @@
         type="button"
         className="bg-brown hover:bg-brown-hover text-white w-full m-0 mt-3"
         name="login"
-        text="Đặt hàng"
+        :text="param == null ? 'Register' : 'Update'"
       />
     </form>
   </div>
 </template>
 <script setup>
+import { useRoute } from 'vue-router'
 import Input from '@/components/common/input/Input.vue'
 import Button from '@/components/common/button/Button.vue'
 import Textarea from '@/components/common/input/Textarea.vue'
+const route = useRoute()
+const param = route.params.id
 </script>
 <style lang="css" scoped>
 span {
