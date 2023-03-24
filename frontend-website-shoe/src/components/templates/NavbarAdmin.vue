@@ -1,10 +1,10 @@
 <template lang="">
-  <div class="w-full flex items-center justify-between h-[70px] text-white px-8 bg-slate-600">
+  <div class="w-full flex items-center justify-between h-[70px] text-white px-8 bg-[#171B2D]">
     <div
       class="text-3xl font-bold tracking-[5px] cursor-pointer logo hover:cursor-pointer flex items-center leading-[30px]"
     >
-      <vue-feather class="w-8 h-8 mt-1" type="menu"></vue-feather>
-      <span class="ml-3">DASHBOARD.</span>
+      <vue-feather class="mt-1 w-7 h-7" type="menu"></vue-feather>
+      <span class="ml-3 text-[#42bbff]">DASHBOARD.</span>
     </div>
     <div class="flex items-center justify-center gap-5 ml-2">
       <div class="relative h-full w-[50px] text-center">

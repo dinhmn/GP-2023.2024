@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <button :type="type" class="px-8 py-2 rounded hover:bg-gray-800" :class="className" :id="name">
+  <button :type="type" class="px-8 py-2 rounded" :class="className" :id="name">
     {{ props.text }}
   </button>
 </template>

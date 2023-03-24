@@ -1,21 +1,24 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template lang="">
   <div class="w-full text-white">
-    <h2 class="text-2xl font-bold uppercase text-brown">Category</h2>
-    <div class="flex items-center justify-between">
+    <h2 class="w-full my-2 mb-4 font-bold">
+      <span class="text-xl">Dashboard</span> <strong> > </strong>
+      <span class="text-[#17b1ea] text-xl">Category</span>
+    </h2>
+    <div class="flex items-center justify-between p-4 bg-[#1a1e30] rounded-md">
       <div class="flex w-[600px] gap-2 items-center">
         <Input
           type="text"
           placeholder="Search..."
           name="search"
           id="search"
-          classChild="min-w-[200px] py-1 max-w-[400px] max-h-[40px]"
+          classChild="min-w-[200px] py-[6px] rounded-sm max-w-[400px] max-h-[40px]"
         />
         <Button
           type="button"
           text="Search"
           id="search"
-          className="bg-green-700 hover:bg-green-600"
+          className="bg-[#0c3247] text-[#17b1ea] hover:bg-[#10405a] hover:text-white"
         />
       </div>
       <div>
@@ -24,16 +27,16 @@
             type="button"
             text="New Category"
             id="addCategory"
-            className="bg-green-700 hover:bg-green-600"
+            className="bg-[#0c3247] text-[#17b1ea] hover:bg-[#10405a] hover:text-white"
           />
         </router-link>
       </div>
     </div>
-    <div class="w-full mt-5">
-      <table clss="w-full">
-        <thead class="w-full bg-brown-hover">
+    <div class="w-full mt-5 rounded-md p-4 bg-[#1a1e30]">
+      <table class="w-full">
+        <thead class="w-full bg-[#0c3247] text-[#17b1ea]">
           <tr class="rounded-tl-md">
-            <th>STT</th>
+            <th>No.</th>
             <th>ID</th>
             <th>Category Name</th>
             <th>Created Date</th>
@@ -43,17 +46,17 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th>1</th>
-            <th>1</th>
-            <th>SB-ML</th>
-            <th>2022-09-05 02:32:05</th>
-            <th>2023-11-04 07:59:54</th>
-            <th>True</th>
-            <th class="flex items-center justify-around gap-2">
+          <tr class="">
+            <td>1</td>
+            <td>1</td>
+            <td>SB-ML</td>
+            <td>2022-09-05 02:32:05</td>
+            <td>2023-11-04 07:59:54</td>
+            <td>True</td>
+            <td class="flex items-center justify-around gap-2">
               <button
                 className="min-w-[60px] px-2 text-sm bg-green-700 hover:bg-green-600 block text-center m-0 hover:text-white"
-                name="eidt"
+                name="edit"
               >
                 Edit
               </button>
@@ -63,16 +66,16 @@
               >
                 Delete
               </button>
-            </th>
+            </td>
           </tr>
           <tr>
-            <th>1</th>
-            <th>1</th>
-            <th>SB-ML</th>
-            <th>2022-09-05 02:32:05</th>
-            <th>2023-11-04 07:59:54</th>
-            <th>True</th>
-            <th class="flex items-center justify-around gap-2">
+            <td>1</td>
+            <td>1</td>
+            <td>SB-ML</td>
+            <td>2022-09-05 02:32:05</td>
+            <td>2023-11-04 07:59:54</td>
+            <td>True</td>
+            <td class="flex items-center justify-around gap-2">
               <button
                 className="min-w-[60px] px-2 text-sm bg-green-700 hover:bg-green-600 block text-center m-0 hover:text-white"
                 name="eidt"
@@ -85,16 +88,16 @@
               >
                 Delete
               </button>
-            </th>
+            </td>
           </tr>
           <tr>
-            <th>1</th>
-            <th>1</th>
-            <th>SB-ML</th>
-            <th>2022-09-05 02:32:05</th>
-            <th>2023-11-04 07:59:54</th>
-            <th>True</th>
-            <th class="flex items-center justify-around gap-2">
+            <td>1</td>
+            <td>1</td>
+            <td>SB-ML</td>
+            <td>2022-09-05 02:32:05</td>
+            <td>2023-11-04 07:59:54</td>
+            <td>True</td>
+            <td class="flex items-center justify-around gap-2">
               <button
                 className="min-w-[60px] px-2 text-sm bg-green-700 hover:bg-green-600 block text-center m-0 hover:text-white"
                 name="eidt"
@@ -107,16 +110,16 @@
               >
                 Delete
               </button>
-            </th>
+            </td>
           </tr>
           <tr>
-            <th>1</th>
-            <th>1</th>
-            <th>SB-ML</th>
-            <th>2022-09-05 02:32:05</th>
-            <th>2023-11-04 07:59:54</th>
-            <th>True</th>
-            <th class="flex items-center justify-around gap-2">
+            <td>1</td>
+            <td>1</td>
+            <td>SB-ML</td>
+            <td>2022-09-05 02:32:05</td>
+            <td>2023-11-04 07:59:54</td>
+            <td>True</td>
+            <td class="flex items-center justify-around gap-2">
               <button
                 className="min-w-[60px] px-2 text-sm bg-green-700 hover:bg-green-600 block text-center m-0 hover:text-white"
                 name="eidt"
@@ -129,7 +132,7 @@
               >
                 Delete
               </button>
-            </th>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -157,18 +160,28 @@ ul li {
   align-items: center;
   justify-content: center;
   border-radius: 3px;
+  cursor: pointer;
 }
 ul li.active {
-  background-color: slategray;
+  background-color: #0c3247;
+  color: #17b1ea;
 }
 table,
 tr,
 td,
 th {
   padding: 5px 10px;
+  text-align: center;
 }
+
+table tbody tr {
+  border-bottom: 2px solid #464b53;
+}
+table tbody tr td {
+  padding: 5px;
+}
+
 tbody tr:nth-child(2n + 1) {
-  background-color: #6b7280;
 }
 tr th {
   padding: 10px 0;
