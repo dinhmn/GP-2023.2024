@@ -1,19 +1,3 @@
-DROP TABLE IF EXISTS tbl_contact;
-
-CREATE TABLE tbl_contact (
-                             id mediumint(8) unsigned NOT NULL auto_increment,
-                             contact_id mediumint,
-                             created_by mediumint default NULL,
-                             created_date varchar(255),
-                             updated_by mediumint default NULL,
-                             updated_date varchar(255),
-                             contact_message TEXT default NULL,
-                             contact_name varchar(255) default NULL,
-                             product_id mediumint default NULL,
-                             contact_email varchar(255) default NULL,
-                             PRIMARY KEY (id)
-) AUTO_INCREMENT=1;
-
 INSERT INTO tbl_contact (contact_id,created_by,created_date,updated_by,updated_date,contact_message,contact_name,product_id,contact_email)
 VALUES
 (1,4,'2024-01-16 08:28:37',4,'2022-03-25 00:02:32','non quam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac','Cedric Armstrong',28,'id.sapien@email.com'),

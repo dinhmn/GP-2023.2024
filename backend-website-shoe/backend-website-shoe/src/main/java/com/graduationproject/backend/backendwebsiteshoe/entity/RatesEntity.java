@@ -34,6 +34,6 @@ public class RatesEntity extends BaseEntity implements Serializable {
     @Column(name = "comment_id")
     private Long commentId;
 
-    @Column(name = "star_rating")
+    @Column(name = "star_rating", length = 10)
     private Double starRating;
 }

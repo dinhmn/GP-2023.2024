@@ -10,11 +10,11 @@ public class PasswordEntityKey implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
+    @Column(name = "password_id", nullable = false)
+    private Long passwordId;
 
-    public PasswordEntityKey setPk(Long userId) {
-        setUserId(userId);
+    public PasswordEntityKey setPk(Long passwordId) {
+        setPasswordId(passwordId);
         return this;
     }
 }

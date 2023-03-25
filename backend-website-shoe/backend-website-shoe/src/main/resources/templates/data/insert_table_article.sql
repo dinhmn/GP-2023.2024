@@ -1,15 +1,3 @@
-create table tbl_article (
-                             article_id INT,
-                             product_id INT,
-                             article_seo VARCHAR(50),
-                             created_by INT,
-                             created_date DATE,
-                             status VARCHAR(50),
-                             updated_by INT,
-                             updated_date DATE,
-                             article_name VARCHAR(50),
-                             article_description VARCHAR(50)
-);
 insert into tbl_article (article_id, product_id, article_seo, created_by, created_date, status, updated_by, updated_date, article_name, article_description) values (1, 13, 'MV-13', 5, '2022-10-10 09:20:42', true, 33, '2022-10-13 01:03:35', 'Biodex', 'Peripheral neuritis in pregnancy, delivered, with mention of postpartum complication');
 insert into tbl_article (article_id, product_id, article_seo, created_by, created_date, status, updated_by, updated_date, article_name, article_description) values (2, 12, 'CA-ON', 77, '2022-11-02 04:06:33', true, 24, '2022-06-16 17:21:25', 'Trippledex', 'Open wound of other and unspecified parts of genital organs (external), without mention of complication');
 insert into tbl_article (article_id, product_id, article_seo, created_by, created_date, status, updated_by, updated_date, article_name, article_description) values (3, 1, 'AU-QLD', 45, '2022-06-13 19:00:49', true, 36, '2022-06-27 08:07:47', 'Quo Lux', 'Adult emotional/psychological abuse');

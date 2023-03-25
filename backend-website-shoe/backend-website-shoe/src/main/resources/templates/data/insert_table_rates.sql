@@ -1,15 +1,3 @@
-create table tbl_rates (
-                           rate_id INT,
-                           created_by INT,
-                           created_date DATE,
-                           status VARCHAR(50),
-                           updated_by INT,
-                           updated_date DATE,
-                           comment_id INT,
-                           article_id INT,
-                           product_id INT,
-                           star_rating DECIMAL(2,1)
-);
 insert into tbl_rates (rate_id, created_by, created_date, status, updated_by, updated_date, comment_id, article_id, product_id, star_rating) values (1, 11, '2022-11-29 16:50:59', false, 42, '2022-09-07 07:58:28', 2, 10, 9, 4.7);
 insert into tbl_rates (rate_id, created_by, created_date, status, updated_by, updated_date, comment_id, article_id, product_id, star_rating) values (2, 98, '2022-10-30 21:34:40', true, 95, '2022-09-18 05:56:33', 14, 20, 21, 3.5);
 insert into tbl_rates (rate_id, created_by, created_date, status, updated_by, updated_date, comment_id, article_id, product_id, star_rating) values (3, 100, '2022-12-29 11:41:12', false, 100, '2022-09-27 06:39:00', 25, 18, 26, 3.3);

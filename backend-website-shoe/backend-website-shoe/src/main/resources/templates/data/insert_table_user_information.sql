@@ -1,24 +1,3 @@
-DROP TABLE IF EXISTS tbl_user_information;
-
-CREATE TABLE tbl_user_information (
-                                      id mediumint(8) unsigned NOT NULL auto_increment,
-                                      user_information_id mediumint,
-                                      created_by mediumint default NULL,
-                                      created_date varchar(255),
-                                      updated_by mediumint default NULL,
-                                      updated_date varchar(255),
-                                      source_image_id mediumint default NULL,
-                                      address varchar(255) default NULL,
-                                      age mediumint default NULL,
-                                      email varchar(255) default NULL,
-                                      first_name varchar(255) default NULL,
-                                      last_name varchar(255) default NULL,
-                                      phone varchar(100) default NULL,
-                                      user_code mediumint default NULL,
-                                      user_id mediumint default NULL,
-                                      PRIMARY KEY (id)
-) AUTO_INCREMENT=1;
-
 INSERT INTO tbl_user_information (user_information_id,created_by,created_date,updated_by,updated_date,source_image_id,address,age,email,first_name,last_name,phone,user_code,user_id)
 VALUES
 (1,2,'2023-08-01 07:44:59',5,'2023-09-23 05:13:27',4,'Ap #135-3824 A St.',24,'at.velit@gmail.com','Bree','Skyler','0686877735',11,10),

@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -32,9 +33,9 @@ public class CartEntity extends BaseEntity implements Serializable {
     @Column(name = "product_name", nullable = false)
     private String productName;
 
-    @Column(name = "product_quantity", nullable = false)
-    private String productQuantity;
+    @Column(name = "product_quantity", length = 15, nullable = false)
+    private Integer productQuantity;
 
-    @Column(name = "product_current_price", nullable = false)
-    private String productCurrentPrice;
+    @Column(name = "product_current_price", length = 15,  nullable = false)
+    private BigDecimal productCurrentPrice;
 }

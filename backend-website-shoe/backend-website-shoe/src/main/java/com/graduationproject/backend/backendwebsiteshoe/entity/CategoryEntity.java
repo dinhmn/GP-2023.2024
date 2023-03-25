@@ -32,7 +32,7 @@ public class CategoryEntity extends BaseEntity implements Serializable {
     @Column(name = "category_name", nullable = false)
     private String categoryName;
 
-    @Column(name = "category_description", nullable = false)
+    @Column(name = "category_description", length = 3000,nullable = false)
     private String categoryDescription;
 
     @Column(name = "seo", nullable = false)

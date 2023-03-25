@@ -22,8 +22,8 @@ public class PasswordEntity extends BaseEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "profile_id", nullable = false)
-    private Long profileId;
+    @Column(name = "password_id", nullable = false)
+    private Long passwordId;
 
     @Id
     @Column(name = "user_id", nullable = false)

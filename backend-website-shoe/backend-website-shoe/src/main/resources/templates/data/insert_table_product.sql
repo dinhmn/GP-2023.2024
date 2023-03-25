@@ -1,22 +1,3 @@
-DROP TABLE IF EXISTS tbl_product;
-
-CREATE TABLE tbl_product (
-                             id mediumint(8) unsigned NOT NULL auto_increment,
-                             product_id mediumint,
-                             created_by mediumint default NULL,
-                             created_date varchar(255),
-                             updated_by mediumint default NULL,
-                             updated_date varchar(255),
-                             category_id mediumint default NULL,
-                             product_name TEXT default NULL,
-                             product_description TEXT default NULL,
-                             product_price mediumint default NULL,
-                             product_price_sale mediumint default NULL,
-                             product_seo varchar(36) NOT NULL,
-                             quantity mediumint default NULL,
-                             PRIMARY KEY (id)
-) AUTO_INCREMENT=1;
-
 INSERT INTO tbl_product (product_id,created_by,created_date,updated_by,updated_date,category_id,product_name,product_description,product_price,product_price_sale,product_seo,quantity)
 VALUES
 (1,7,'2022-08-11 18:16:00',8,'2023-01-27 04:56:40',2,'vitae diam. Proin dolor. Nulla semper','dolor, nonummy ac, feugiat non, lobortis quis, pede. Suspendisse dui. Fusce diam nunc, ullamcorper eu, euismod ac, fermentum vel, mauris. Integer sem elit, pharetra ut, pharetra sed, hendrerit a, arcu. Sed et libero. Proin mi. Aliquam gravida mauris ut mi. Duis risus odio, auctor vitae, aliquet nec, imperdiet nec, leo. Morbi neque tellus, imperdiet',2598871,3781795,'5AEE221B-1327-2B41-6706-AAC149353FFC',82),

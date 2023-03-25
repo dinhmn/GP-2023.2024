@@ -1,19 +1,3 @@
-DROP TABLE IF EXISTS tbl_cart;
-
-CREATE TABLE tbl_cart (
-                          id mediumint(8) unsigned NOT NULL auto_increment,
-                          cart_id mediumint,
-                          created_by mediumint default NULL,
-                          created_date varchar(255),
-                          updated_by mediumint default NULL,
-                          updated_date varchar(255),
-                          product_current_price mediumint default NULL,
-                          product_name TEXT default NULL,
-                          product_quantity mediumint default NULL,
-                          product_id mediumint default NULL,
-                          PRIMARY KEY (id)
-) AUTO_INCREMENT=1;
-
 INSERT INTO tbl_cart (cart_id,created_by,created_date,updated_by,updated_date,product_current_price,product_name,product_quantity,product_id)
 VALUES
 (1,7,'2024-03-13 09:43:55',4,'2022-08-15 18:14:35',5382457,'tellus. Phasellus elit pede,',8,17),
