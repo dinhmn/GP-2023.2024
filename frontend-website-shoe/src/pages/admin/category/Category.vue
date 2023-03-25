@@ -33,7 +33,10 @@
       </div>
     </div>
     <div class="w-full mt-5 rounded-md p-4 bg-[#1a1e30]">
-      <table class="w-full">
+      <div v-if="errorMessage == true" class="text-lg font-bold text-red-500">
+        The connection to the network failed. Please check again.
+      </div>
+      <table v-if="errorMessage == false" class="w-full">
         <thead class="w-full bg-[#0c3247] text-[#17b1ea]">
           <tr class="rounded-tl-md">
             <th>No.</th>
@@ -47,7 +50,7 @@
         </thead>
         <tbody>
           <tr v-for="(item, index) in api.category" :key="index">
-            <td>{{ index }}</td>
+            <td>{{ index + 1 }}</td>
             <td>{{ item.categoryId }}</td>
             <td>{{ item.categoryName }}</td>
             <td>{{ item.createdDate }}</td>
@@ -71,6 +74,7 @@
               <button
                 class="block min-w-[60px] px-2 m-0 text-sm text-center bg-red-700 hover:bg-red-600 mr-3"
                 name="delete"
+                @click.prevent="onDelete($event, item.trademarkId, item.categoryId)"
               >
                 Delete
               </button>
@@ -79,7 +83,7 @@
         </tbody>
       </table>
     </div>
-    <div class="w-full mt-3 text-right">
+    <div v-if="errorMessage == false" class="w-full mt-3 text-right">
       <ul class="flex items-center justify-end gap-1">
         <li>Prev</li>
         <li class="active">1</li>
@@ -91,25 +95,47 @@
   </div>
 </template>
 <script setup>
-import { onMounted, reactive } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import axios from 'axios'
 import Button from '@/components/common/button/Button.vue'
 import Input from '@/components/common/input/Input.vue'
-import { API_CATEGORY_GET } from '@/stores/api'
+import { API_CATEGORY_GET, API_CATEGORY_DETELE } from '@/stores/api'
 let api = reactive({
   category: []
 })
+const errorMessage = ref(false)
 onMounted(() => {
+  apiGetAll()
+})
+const onDelete = (event, trademarkId, categoryId) => {
+  // Delete item
+  apiDelete(trademarkId, categoryId)
+}
+function apiDelete(trademarkId, categoryId) {
+  axios
+    .delete(API_CATEGORY_DETELE + trademarkId + '/' + categoryId)
+    .then(() => {
+      apiGetAll()
+    })
+    .catch((error) => {
+      if (error.code != null) {
+        errorMessage.value = true
+      }
+    })
+}
+
+function apiGetAll() {
   axios
     .get(API_CATEGORY_GET)
     .then((response) => {
       api.category = response.data
-      console.log(api.category)
     })
     .catch((error) => {
-      console.log(error)
+      if (error.code != null) {
+        errorMessage.value = true
+      }
     })
-})
+}
 </script>
 <style lang="css" scoped>
 ul li {
