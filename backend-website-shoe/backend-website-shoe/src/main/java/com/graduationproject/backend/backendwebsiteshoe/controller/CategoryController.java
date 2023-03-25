@@ -1,6 +1,7 @@
 package com.graduationproject.backend.backendwebsiteshoe.controller;
 
 import com.graduationproject.backend.backendwebsiteshoe.entity.CategoryEntity;
+import com.graduationproject.backend.backendwebsiteshoe.forms.CategoryForm;
 import com.graduationproject.backend.backendwebsiteshoe.helper.CategoryHelper;
 import com.graduationproject.backend.backendwebsiteshoe.model.CategoryModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +51,6 @@ public class CategoryController {
     @PostMapping(value = "/register")
     public ResponseEntity<CategoryEntity> registerCategory(@RequestBody CategoryModel categoryModel) {
         CategoryEntity categoryEntity = categoryHelper.saveOrInsert(categoryModel, "insert");
-
         return new ResponseEntity<>(categoryEntity, HttpStatus.OK);
     }
 
@@ -62,7 +62,7 @@ public class CategoryController {
      * @param trademarkId   trademarkId
      * @return response entity
      */
-    @PutMapping(value = "/update/{categoryId}/{trademarkId}")
+    @PutMapping(value = "/update/{trademarkId}/{categoryId}")
     public ResponseEntity<CategoryEntity> updateCategory(@RequestBody CategoryModel categoryModel, @PathVariable final String categoryId, @PathVariable final String trademarkId) {
         categoryModel.setCategoryId(Long.parseLong(categoryId));
         categoryModel.setTrademarkId(Long.parseLong(trademarkId));
@@ -78,7 +78,7 @@ public class CategoryController {
      * @param trademarkId trademarkId
      * @return response entity 200.
      */
-    @DeleteMapping(value = "/delete/{categoryId}/{trademarkId}")
+    @DeleteMapping(value = "/delete/{trademarkId}/{categoryId}")
     public ResponseEntity<Map<String, Boolean>> updateCategory(@PathVariable String categoryId, @PathVariable String trademarkId) {
 
         Boolean action = categoryHelper.deleteByPrimaryKey(Long.parseLong(categoryId), Long.parseLong(trademarkId));

@@ -54,11 +54,13 @@ public class CategoryHelper {
         CategoryEntity categoryEntity;
         if (Action.UPDATE.getValue().equals(type)) {
             Optional<CategoryEntity> category = categoryService.getCategoryByPrimaryKey(categoryModel.getCategoryId(), categoryModel.getTrademarkId());
-            categoryEntity = this.toBuildCategory(categoryModel, Boolean.FALSE);
-            BeanUtils.copyProperties(categoryEntity, category.get());
-            return categoryService.update(categoryEntity, categoryModel.getCategoryId(), category.get().getTrademarkId());
+            if (category.isPresent()) {
+                categoryEntity = this.toBuildCategory(categoryModel, category.get(), Boolean.FALSE);
+                return categoryService.update(categoryEntity, categoryModel.getCategoryId(), category.get().getTrademarkId());
+            }
+            return null;
         }
-        categoryEntity = this.toBuildCategory(categoryModel, Boolean.TRUE);
+        categoryEntity = this.toBuildCategory(categoryModel, new CategoryEntity(), Boolean.TRUE);
         return categoryService.insert(categoryEntity);
     }
 
@@ -85,21 +87,23 @@ public class CategoryHelper {
      * @param isChecked     check
      * @return entity
      */
-    private CategoryEntity toBuildCategory(CategoryModel categoryModel, Boolean isChecked) {
+    private CategoryEntity toBuildCategory(CategoryModel categoryModel,CategoryEntity category, Boolean isChecked) {
         CategoryEntity categoryEntity = new CategoryEntity();
-        categoryEntity.setCategoryId(categoryModel.getCategoryId());
         categoryEntity.setCategoryName(categoryModel.getCategoryName());
         categoryEntity.setCategoryDescription(categoryModel.getCategoryDescription());
         categoryEntity.setSeo(categoryModel.getCategoryName().toLowerCase().replace(" ", "-"));
         categoryEntity.setTrademarkId(categoryModel.getTrademarkId());
-        categoryEntity.setStatus(Boolean.TRUE);
+        categoryEntity.setStatus(categoryModel.getCategoryStatus().equals(Constant.TRUE) ? Boolean.TRUE : Boolean.FALSE);
         if (Boolean.TRUE.equals(isChecked)) {
             categoryEntity.setCreatedDate(new Date());
             categoryEntity.setCreatedBy(1);
             categoryEntity.setUpdatedDate(new Date());
             categoryEntity.setUpdatedBy(1);
         } else {
-            categoryEntity.setUpdatedDate(DatetimeConvertFormat.convertStringToDateWithFormat(categoryModel.getUpdatedDate()));
+            categoryEntity.setCreatedDate(category.getCreatedDate());
+            categoryEntity.setCreatedBy(category.getCreatedBy());
+            categoryEntity.setCategoryId(categoryModel.getCategoryId());
+            categoryEntity.setUpdatedDate(new Date());
             categoryEntity.setUpdatedBy(1);
         }
         return categoryEntity;
