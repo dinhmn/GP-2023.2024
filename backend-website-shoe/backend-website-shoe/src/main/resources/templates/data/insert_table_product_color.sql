@@ -1,17 +1,3 @@
-DROP TABLE IF EXISTS tbl_product_color;
-
-CREATE TABLE tbl_product_color (
-                                  id mediumint(8) unsigned NOT NULL auto_increment,
-                                  product_color_id mediumint,
-                                  created_by mediumint default NULL,
-                                  created_date varchar(255),
-                                  updated_by mediumint default NULL,
-                                  updated_date varchar(255),
-                                  product_id mediumint default NULL,
-                                  product_color_name string(12) default NULL,
-                                  PRIMARY KEY (id)
-) AUTO_INCREMENT=1;
-
 INSERT INTO tbl_product_color (product_color_id,created_by,created_date,updated_by,updated_date,product_id,product_color_name)
 VALUES
 (1,5,'2023-03-01 22:27:17',2,'2023-06-13 09:59:29',16,'#ffcac9'),

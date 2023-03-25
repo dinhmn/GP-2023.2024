@@ -1,21 +1,3 @@
-DROP TABLE IF EXISTS tbl_order;
-
-CREATE TABLE tbl_order (
-                           id mediumint(8) unsigned NOT NULL auto_increment,
-                           order_id mediumint,
-                           created_by mediumint default NULL,
-                           created_date varchar(255),
-                           updated_by mediumint default NULL,
-                           updated_date varchar(255),
-                           user_id mediumint default NULL,
-                           product_id mediumint default NULL,
-                           order_code varchar(36) NOT NULL,
-                           order_status varchar(255) default NULL,
-                           order_total_price mediumint default NULL,
-                           user_information_id mediumint default NULL,
-                           PRIMARY KEY (id)
-) AUTO_INCREMENT=1;
-
 INSERT INTO tbl_order (order_id,created_by,created_date,updated_by,updated_date,user_id,product_id,order_code,order_status,order_total_price,user_information_id)
 VALUES
 (1,6,'2022-05-20 05:53:57',7,'2022-12-06 16:40:21',6,20,'869C7A85-3AC5-34CB-6B27-775193E6B99E',FALSE,7485505,9),

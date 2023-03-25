@@ -1,17 +1,3 @@
-DROP TABLE IF EXISTS tbl_product_size;
-
-CREATE TABLE tbl_product_size (
-                                  id mediumint(8) unsigned NOT NULL auto_increment,
-                                  product_size_id mediumint,
-                                  created_id mediumint default NULL,
-                                  created_date varchar(255),
-                                  updated_id mediumint default NULL,
-                                  updated_date varchar(255),
-                                  product_id mediumint default NULL,
-                                  product_size_name mediumint default NULL,
-                                  PRIMARY KEY (id)
-) AUTO_INCREMENT=1;
-
 INSERT INTO tbl_product_size (product_size_id,created_by,created_date,updated_by,updated_date,product_id,product_size_name)
 VALUES
 (1,10,'2023-08-06 07:38:51',2,'2022-11-25 03:28:18',2,38),

@@ -1,16 +1,3 @@
-create table tbl_user (
-                          user_id INT,
-                          role_id INT,
-                          article_seo VARCHAR(50),
-                          created_by INT,
-                          created_date DATE,
-                          status VARCHAR(50),
-                          updated_by INT,
-                          updated_date DATE,
-                          profile_id INT,
-                          user_password VARCHAR(50),
-                          username VARCHAR(50)
-);
 insert into tbl_user (user_id, role_id,  created_by, created_date, status, updated_by, updated_date, profile_id, user_password, username) values (1, 2, 61, '2023-02-24 08:12:11', true, 59, '2023-01-08 15:57:38', 25, 'N0gKkZ', 'jfortnam0');
 insert into tbl_user (user_id, role_id,  created_by, created_date, status, updated_by, updated_date, profile_id, user_password, username) values (2, 1, 6, '2022-11-25 00:16:58', true, 53, '2022-09-17 10:24:48', 7, '2ktILe6', 'tbellwood1');
 insert into tbl_user (user_id, role_id,  created_by, created_date, status, updated_by, updated_date, profile_id, user_password, username) values (3, 3, 10, '2022-12-18 04:27:06', true, 44, '2023-03-09 17:56:01', 28, 'EFWc1s', 'lsnell2');

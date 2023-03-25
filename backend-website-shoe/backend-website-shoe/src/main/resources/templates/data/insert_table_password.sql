@@ -1,18 +1,4 @@
-DROP TABLE IF EXISTS tbl_password;
-
-CREATE TABLE tbl_password (
-                                  id mediumint(8) unsigned NOT NULL auto_increment,
-                                  user_id mediumint,
-                                  created_by mediumint default NULL,
-                                  created_date varchar(255),
-                                  updated_by mediumint default NULL,
-                                  updated_date varchar(255),
-                                  profile_id mediumint default NULL,
-                                  old_password varchar(255),
-                                  PRIMARY KEY (id)
-) AUTO_INCREMENT=1;
-
-INSERT INTO tbl_password (user_id,created_by,created_date,updated_by,updated_date,profile_id,old_password)
+INSERT INTO tbl_password (password_Id,created_by,created_date,updated_by,updated_date,user_id,old_password)
 VALUES
 (1,7,'2022-07-18 10:11:42',5,'2024-01-16 08:05:23',30,'rDM14WuY8Nv'),
 (2,3,'2022-11-29 23:50:20',5,'2023-02-07 23:34:32',9,'kSH86EhJ3Ps'),

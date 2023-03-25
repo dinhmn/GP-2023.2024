@@ -1,24 +1,11 @@
--- INSERT INTO `shoes_db`.`tbl_trademark`
--- (`trademark_id`, `seo`, `trademark_name`, `created_by`, `created_date`, `status`, `updated_by`,
---  `updated_date`)
--- VALUES (1, "Nike", "Nike", 1, SYSDATE(), 1, 1, SYSDATE()),
---        (2, "Jordan", "Jordan", 1, SYSDATE(), 1, 1, SYSDATE()),
---        (3, "Adidas", "Adidas", 1, SYSDATE(), 1, 1, SYSDATE()),
---        (4, "NB", "NB", 1, SYSDATE(), 1, 1, SYSDATE()),
---        (5, "Kakulo", "Kakulo", 1, SYSDATE(), 1, 1, SYSDATE()),
---        (6, "Yezzy", "Yezzy", 1, SYSDATE(), 1, 1, SYSDATE()),
---        (7, "Socioak", "Socioak", 1, SYSDATE(), 1, 1, SYSDATE());
-truncate tbl_trademark;
-create table tbl_trademark (
-                               trademark_id INT,
-                               trademark_name VARCHAR(50),
-                               seo VARCHAR(50),
-                               created_by INT,
-                               created_date DATE,
-                               status VARCHAR(50),
-                               updated_by INT,
-                               updated_date DATE
-);
+INSERT INTO `shoes_db`.`tbl_trademark`(`trademark_id`, `seo`, `trademark_name`, `created_by`, `created_date`, `status`, `updated_by`,`updated_date`)
+VALUES (31, 'Nike', 'Nike', 1, SYSDATE(), 1, 1, SYSDATE()),
+       (32, 'Jordan', 'Jordan', 1, SYSDATE(), 1, 1, SYSDATE()),
+       (33, 'Adidas', 'Adidas', 1, SYSDATE(), 1, 1, SYSDATE()),
+       (34, 'NB', 'NB', 1, SYSDATE(), 1, 1, SYSDATE()),
+       (35, 'Kakulo', 'Kakulo', 1, SYSDATE(), 1, 1, SYSDATE()),
+       (36, 'Yezzy', 'Yezzy', 1, SYSDATE(), 1, 1, SYSDATE()),
+       (37, 'Socioak', 'Socioak', 1, SYSDATE(), 1, 1, SYSDATE());
 insert into tbl_trademark (trademark_id, trademark_name, seo, created_by, created_date, status, updated_by, updated_date) values (1, 'Menthol', 'AO-LNO', 92, '2023-01-22 07:00:54', false, 90, '2022-10-17 07:45:57');
 insert into tbl_trademark (trademark_id, trademark_name, seo, created_by, created_date, status, updated_by, updated_date) values (2, 'Avobenzone, Homosalate, Octisalate, Octocrylene, and Oxybenzone', 'RO-B', 58, '2022-10-19 10:42:40', false, 23, '2022-11-18 21:18:01');
 insert into tbl_trademark (trademark_id, trademark_name, seo, created_by, created_date, status, updated_by, updated_date) values (3, 'Paroxetine Hydrochloride', 'IN-HP', 42, '2022-09-20 18:20:10', false, 83, '2023-02-11 12:52:28');

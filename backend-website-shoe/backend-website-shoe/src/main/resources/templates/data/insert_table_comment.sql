@@ -1,20 +1,3 @@
-DROP TABLE IF EXISTS tbl_comment;
-
-CREATE TABLE tbl_comment (
-                             id mediumint(8) unsigned NOT NULL auto_increment,
-                             comment_id mediumint,
-                             created_by mediumint default NULL,
-                             created_date varchar(255),
-                             updated_by mediumint default NULL,
-                             updated_date varchar(255),
-                             user_id mediumint default NULL,
-                             article_id mediumint default NULL,
-                             comment_code mediumint default NULL,
-                             comment_detail TEXT default NULL,
-                             product_id mediumint default NULL,
-                             PRIMARY KEY (id)
-) AUTO_INCREMENT=1;
-
 INSERT INTO tbl_comment (comment_id,created_by,created_date,updated_by,updated_date,user_id,article_id,comment_code,comment_detail,product_id)
 VALUES
 (1,8,'2023-03-01 19:30:22',9,'2022-07-21 01:43:47',19,25,2,'vestibulum lorem, sit amet ultricies sem magna nec quam. Curabitur vel lectus. Cum sociis',27),
