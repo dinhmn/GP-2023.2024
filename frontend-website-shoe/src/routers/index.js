@@ -34,7 +34,7 @@ const routes = [
     component: () => import("../pages/admin/category/CategoryForm.vue"),
   },
   {
-    path: "/admin/category/edit/:id",
+    path: "/admin/category/edit/:trademarkId/:categoryId",
     name: "CategoryEditAdminParam",
     meta: {
       layout: 'admin'

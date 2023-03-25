@@ -1,6 +1,8 @@
 package com.graduationproject.backend.backendwebsiteshoe.helper;
 
 import com.graduationproject.backend.backendwebsiteshoe.Common.Action;
+import com.graduationproject.backend.backendwebsiteshoe.Common.Constant;
+import com.graduationproject.backend.backendwebsiteshoe.Common.DatetimeConvertFormat;
 import com.graduationproject.backend.backendwebsiteshoe.dto.ICategory;
 import com.graduationproject.backend.backendwebsiteshoe.entity.CategoryEntity;
 import com.graduationproject.backend.backendwebsiteshoe.model.CategoryModel;
@@ -11,7 +13,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 
 @Component
@@ -37,8 +38,9 @@ public class CategoryHelper {
      *
      * @return list category
      */
-    public List<CategoryEntity> getAll() {
-        return categoryService.getAll();
+    public CategoryModel getById(Long categoryId, Long trademarkId) {
+        Optional<CategoryEntity> categoryEntity = categoryService.getCategoryByPrimaryKey(categoryId, trademarkId);
+        return this.convertCategory(categoryEntity.get());
     }
 
     /**
@@ -52,11 +54,13 @@ public class CategoryHelper {
         CategoryEntity categoryEntity;
         if (Action.UPDATE.getValue().equals(type)) {
             Optional<CategoryEntity> category = categoryService.getCategoryByPrimaryKey(categoryModel.getCategoryId(), categoryModel.getTrademarkId());
-            categoryEntity = this.toBuildCategory(categoryModel, Boolean.FALSE);
-            BeanUtils.copyProperties(categoryEntity, category.get());
-            return categoryService.update(categoryEntity, categoryModel.getCategoryId(), category.get().getTrademarkId());
+            if (category.isPresent()) {
+                categoryEntity = this.toBuildCategory(categoryModel, category.get(), Boolean.FALSE);
+                return categoryService.update(categoryEntity, categoryModel.getCategoryId(), category.get().getTrademarkId());
+            }
+            return null;
         }
-        categoryEntity = this.toBuildCategory(categoryModel, Boolean.TRUE);
+        categoryEntity = this.toBuildCategory(categoryModel, new CategoryEntity(), Boolean.TRUE);
         return categoryService.insert(categoryEntity);
     }
 
@@ -83,21 +87,23 @@ public class CategoryHelper {
      * @param isChecked     check
      * @return entity
      */
-    private CategoryEntity toBuildCategory(CategoryModel categoryModel, Boolean isChecked) {
+    private CategoryEntity toBuildCategory(CategoryModel categoryModel,CategoryEntity category, Boolean isChecked) {
         CategoryEntity categoryEntity = new CategoryEntity();
-        categoryEntity.setCategoryId(categoryModel.getCategoryId());
         categoryEntity.setCategoryName(categoryModel.getCategoryName());
         categoryEntity.setCategoryDescription(categoryModel.getCategoryDescription());
         categoryEntity.setSeo(categoryModel.getCategoryName().toLowerCase().replace(" ", "-"));
         categoryEntity.setTrademarkId(categoryModel.getTrademarkId());
-        categoryEntity.setStatus(Boolean.TRUE);
+        categoryEntity.setStatus(categoryModel.getCategoryStatus().equals(Constant.TRUE) ? Boolean.TRUE : Boolean.FALSE);
         if (Boolean.TRUE.equals(isChecked)) {
             categoryEntity.setCreatedDate(new Date());
             categoryEntity.setCreatedBy(1);
             categoryEntity.setUpdatedDate(new Date());
             categoryEntity.setUpdatedBy(1);
         } else {
-            categoryEntity.setUpdatedDate(categoryModel.getUpdatedDate());
+            categoryEntity.setCreatedDate(category.getCreatedDate());
+            categoryEntity.setCreatedBy(category.getCreatedBy());
+            categoryEntity.setCategoryId(categoryModel.getCategoryId());
+            categoryEntity.setUpdatedDate(new Date());
             categoryEntity.setUpdatedBy(1);
         }
         return categoryEntity;
@@ -116,10 +122,29 @@ public class CategoryHelper {
         categoryModel.setCategorySeo(category.getCategorySeo());
         categoryModel.setCategoryDescription(category.getCategoryDescription());
         categoryModel.setCategoryStatus(category.getCategoryStatus());
-        categoryModel.setCreatedDate(category.getCreatedDate());
-        categoryModel.setUpdatedDate(category.getUpdatedDate());
+        categoryModel.setCreatedDate(DatetimeConvertFormat.convertDateToStringWithFormat(Constant.PATTERN_DATETIME, category.getCreatedDate()));
+        categoryModel.setUpdatedDate(DatetimeConvertFormat.convertDateToStringWithFormat(Constant.PATTERN_DATETIME, category.getUpdatedDate()));
         categoryModel.setTrademarkId(category.getTrademarkId());
         categoryModel.setTrademarkName(category.getTrademarkName());
+        return categoryModel;
+    }
+
+    /**
+     * Convert category entity => model.
+     *
+     * @param category category
+     * @return category model.
+     */
+    private CategoryModel convertCategory(CategoryEntity category) {
+        CategoryModel categoryModel = new CategoryModel();
+        categoryModel.setCategoryId(category.getCategoryId());
+        categoryModel.setCategoryName(category.getCategoryName());
+        categoryModel.setCategorySeo(category.getSeo());
+        categoryModel.setCategoryDescription(category.getCategoryDescription());
+        categoryModel.setCategoryStatus(category.getStatus().toString());
+        categoryModel.setCreatedDate(DatetimeConvertFormat.convertDateToStringWithFormat(Constant.PATTERN_DATETIME, category.getCreatedDate()));
+        categoryModel.setUpdatedDate(DatetimeConvertFormat.convertDateToStringWithFormat(Constant.PATTERN_DATETIME, category.getUpdatedDate()));
+        categoryModel.setTrademarkId(category.getTrademarkId());
         return categoryModel;
     }
 }
