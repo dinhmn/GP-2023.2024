@@ -1,14 +1,21 @@
 package com.graduationproject.backend.backendwebsiteshoe.Common;
 
+/**
+ * Define constant.
+ *
+ * @author Mai Ngoc Dinh
+ */
 public interface Constant {
 
-    String INSERT = "insert";
+  Integer ZERO = 0;
 
-    String UPDATE = "update";
+  String INSERT = "insert";
 
-    String PATTERN_DATETIME = "dd-MM-yyyy";
+  String UPDATE = "update";
 
-    String TRUE = "1";
+  String PATTERN_DATETIME = "dd-MM-yyyy";
 
-    String FALSE = "0";
+  String TRUE = "1";
+
+  String FALSE = "0";
 }

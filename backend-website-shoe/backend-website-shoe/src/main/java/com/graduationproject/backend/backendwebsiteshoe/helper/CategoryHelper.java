@@ -7,7 +7,6 @@ import com.graduationproject.backend.backendwebsiteshoe.dto.ICategory;
 import com.graduationproject.backend.backendwebsiteshoe.entity.CategoryEntity;
 import com.graduationproject.backend.backendwebsiteshoe.model.CategoryModel;
 import com.graduationproject.backend.backendwebsiteshoe.service.CategoryService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
