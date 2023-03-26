@@ -30,4 +30,7 @@ public class ProductSizeEntity extends BaseEntity implements Serializable {
 
     @Column(name = "product_size_name", nullable = false)
     private String productSizeName;
+
+    @Column(name = "product_size_quantity")
+    private Integer productSizeQuantity;
 }

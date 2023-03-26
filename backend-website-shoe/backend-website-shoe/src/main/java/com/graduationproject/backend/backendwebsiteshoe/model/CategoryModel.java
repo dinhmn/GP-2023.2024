@@ -5,29 +5,32 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
+/**
+ * Model category.
+ *
+ * @author Mai Ngoc Dinh.
+ */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class CategoryModel {
 
-    private Long categoryId;
+  private Long categoryId;
 
-    private Long trademarkId;
+  private Long trademarkId;
 
-    private String trademarkName;
+  private String trademarkName;
 
-    private String categoryDescription;
+  private String categoryDescription;
 
-    private String categoryName;
+  private String categoryName;
 
-    private String categorySeo;
+  private String categorySeo;
 
-    private String createdDate;
+  private String createdDate;
 
-    private String updatedDate;
+  private String updatedDate;
 
-    private String categoryStatus;
+  private String categoryStatus;
 }
