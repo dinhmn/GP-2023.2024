@@ -45,6 +45,8 @@ public class CategoryController {
   /**
    * Get all category.
    *
+   * @param categoryId categoryId
+   * @param trademarkId trademarkId
    * @return list object.
    */
   @GetMapping(value = "/init/{trademarkId}/{categoryId}")

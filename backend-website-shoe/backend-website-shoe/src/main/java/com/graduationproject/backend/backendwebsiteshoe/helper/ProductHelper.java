@@ -2,14 +2,16 @@ package com.graduationproject.backend.backendwebsiteshoe.helper;
 
 import com.graduationproject.backend.backendwebsiteshoe.Common.CommonService;
 import com.graduationproject.backend.backendwebsiteshoe.Common.Constant;
+import com.graduationproject.backend.backendwebsiteshoe.Common.Image;
 import com.graduationproject.backend.backendwebsiteshoe.dto.IOneProduct;
 import com.graduationproject.backend.backendwebsiteshoe.dto.IProduct;
+import com.graduationproject.backend.backendwebsiteshoe.entity.ProductColorEntity;
 import com.graduationproject.backend.backendwebsiteshoe.entity.ProductEntity;
-import com.graduationproject.backend.backendwebsiteshoe.entity.ProductSizeEntity;
 import com.graduationproject.backend.backendwebsiteshoe.model.ProductColorModel;
 import com.graduationproject.backend.backendwebsiteshoe.model.ProductModel;
 import com.graduationproject.backend.backendwebsiteshoe.model.ProductSizeModel;
 import com.graduationproject.backend.backendwebsiteshoe.model.SourceImageModel;
+import com.graduationproject.backend.backendwebsiteshoe.service.ProductColorService;
 import com.graduationproject.backend.backendwebsiteshoe.service.ProductService;
 import com.graduationproject.backend.backendwebsiteshoe.service.ProductSizeService;
 import com.graduationproject.backend.backendwebsiteshoe.service.SourceImageService;
@@ -38,6 +40,9 @@ public class ProductHelper {
 
   @Autowired
   ProductSizeService productSizeService;
+
+  @Autowired
+  ProductColorService productColorService;
 
   @Autowired
   SourceImageService sourceImageService;
@@ -76,7 +81,10 @@ public class ProductHelper {
 
     // insert data of table product size into database
     List<ProductSizeModel> productSizeModelList = productModel.getProductSizeModelList();
-    productSizeService.insertAll(productSizeModelList);
+    productSizeService.insertAll(productSizeModelList, productEntity.getProductId());
+
+    List<ProductColorModel> productColorModelList = productModel.getProductColorModelList();
+    productColorService.insertAll(productColorModelList, productEntity.getProductId());
 
     // Insert image into database
     sourceImageService.insertOrUpdateImages(productEntity.getProductId(), files, new ProductModel(),
@@ -103,11 +111,13 @@ public class ProductHelper {
       ProductEntity productEntity = productService.update(productModel);
 
       // Update product size
-      List<ProductSizeEntity> productSizeEntityList =
-          productModel.getProductSizeModelList().stream()
-              .map(model -> productSizeService.update(model))
-              .toList();
-      System.out.println(productSizeEntityList);
+      productSizeService
+          .updateAll(productModel.getProductSizeModelList(), productEntity.getProductId());
+
+      // Update product color
+      productColorService
+          .updateAll(productModel.getProductColorModelList(), productEntity.getProductId());
+
       // Save file image of product
       sourceImageService
           .insertOrUpdateImages(productEntity.getProductId(), files, productModel, Constant.UPDATE);
@@ -119,13 +129,47 @@ public class ProductHelper {
 
     // insert product size
     List<ProductSizeModel> productSizeModelList = productModel.getProductSizeModelList();
-    productSizeService.insertAll(productSizeModelList);
+    productSizeService.insertAll(productSizeModelList, productEntity.getProductId());
+
+    // insert product color
+    List<ProductColorModel> productColorModelList = productModel.getProductColorModelList();
+    productColorService.insertAll(productColorModelList, productEntity.getProductId());
 
     // insert product model
     sourceImageService
         .insertOrUpdateImages(productEntity.getProductId(), files, productModel, Constant.INSERT);
 
     return productEntity;
+  }
+
+  /**
+   * Delete all product.
+   *
+   * @param categoryId categoryId
+   * @param productId  productId
+   * @return TRUE or FALSE
+   */
+  public Boolean delete(Long categoryId, Long productId) {
+    // Delete all product color
+    productColorService.deleteByProductId(productId);
+
+    // Delete all product size
+    productSizeService.deleteByProductId(productId);
+
+    // Delete source image
+    List<String> productImagesCode =
+        List.of(Image.IMAGE_MAIN_PRODUCT.getCode(), Image.IMAGE_SECONDARY_PRODUCT.getCode(),
+            Image.IMAGE_COLOR.getCode());
+    sourceImageService.deleteByProductId(productId, productImagesCode);
+
+    // Delete product
+    Optional<ProductEntity> productEntity = productService.getProductById(categoryId, productId);
+    if (productEntity.isPresent()) {
+      productService.delete(productId, categoryId);
+      return Boolean.TRUE;
+    }
+
+    return Boolean.FALSE;
   }
 
   /**
