@@ -41,7 +41,7 @@ public class SourceImageService {
    * @throws Error with image.
    */
   public void insertOrUpdateImages(@NonNull Long productId, @NonNull List<MultipartFile> files,
-                                    ProductModel productModel, String type) throws IOException {
+                                   ProductModel productModel, String type) throws IOException {
     // Insert file image
     if (Constant.INSERT.equals(type)) {
       this.insertFileImage(files, productModel.getProductId(), Constant.ZERO);
@@ -154,6 +154,16 @@ public class SourceImageService {
         throw new IOException("Could not save File: " + fileName);
       }
     }
+  }
+
+  /**
+   * Delete all source image of product by productId.
+   *
+   * @param productId  productId
+   * @param imagesCode imagesCode
+   */
+  public void deleteByProductId(Long productId, List<String> imagesCode) {
+    sourceImagesRepository.deleteByProductId(productId, imagesCode);
   }
 
   /**
