@@ -4,7 +4,7 @@
       class="text-3xl font-bold tracking-[5px] cursor-pointer logo hover:cursor-pointer flex items-center leading-[30px]"
     >
       <vue-feather class="mt-1 w-7 h-7" type="menu"></vue-feather>
-      <span class="ml-3 text-[#42bbff]">DASHBOARD.</span>
+      <router-link to="/admin"><span class="ml-3 text-[#42bbff]">DASHBOARD.</span></router-link>
     </div>
     <div class="flex items-center justify-center gap-5 ml-2">
       <div class="relative h-full w-[50px] text-center">
