@@ -11,6 +11,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 /**
@@ -31,6 +35,28 @@ public class CategoryHelper {
    */
   public List<CategoryModel> getAllCategory() {
     return categoryService.getAllByTrademark().stream()
+        .distinct()
+        .map(this::convertCategory)
+        .toList();
+  }
+
+  /**
+   * Select all category use pageable and sorting.
+   *
+   * @return list category
+   */
+  public List<CategoryModel> getAllCategoryPageable(int page, int size, String sortBy, String sortDir) {
+    Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
+        : Sort.by(sortBy).descending();
+
+    // Create pageable instance
+    Pageable pageable = PageRequest.of(page, size, sort);
+    Page<ICategory> categoryModelListPage = categoryService.getAllByTrademark(pageable);
+
+    // Get content for page object
+    List<ICategory> listOfCategoryModel = categoryModelListPage.getContent();
+
+    return listOfCategoryModel.stream()
         .distinct()
         .map(this::convertCategory)
         .toList();
