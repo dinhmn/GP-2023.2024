@@ -15,7 +15,7 @@ const routes = [
     meta: {
       layout: 'admin'
     },
-    component: () => import("../authentication/Admin.vue"),
+    component: () => import("../pages/admin/Dashboard.vue"),
   },
   {
     path: "/admin/category",
@@ -40,6 +40,22 @@ const routes = [
       layout: 'admin'
     },
     component: () => import("../pages/admin/category/CategoryForm.vue"),
+  },
+  {
+    path: "/admin/product",
+    name: "ProductAdmin",
+    meta: {
+      layout: 'admin'
+    },
+    component: () => import("../pages/admin/product/Product.vue"),
+  },
+  {
+    path: "/admin/product/register",
+    name: "ProductRegisterAdmin",
+    meta: {
+      layout: 'admin'
+    },
+    component: () => import("../pages/admin/product/ProductForm.vue"),
   },
   {
     path: "/feature",
