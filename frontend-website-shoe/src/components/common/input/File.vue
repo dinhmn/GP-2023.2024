@@ -5,11 +5,11 @@
       <input
         type="text"
         class="col-span-7 rounded-tr-none rounded-br-none disabled:bg-white max-h-[40px]"
-        name="fileChange"
+        name="fileName"
         for="file"
         disabled
         :value="fileName"
-        v-on:input="updateValue($event.target.value)"
+        v-on:change="updateValue($event.target.value)"
         placeholder="Choose file..."
       />
       <span
@@ -17,17 +17,15 @@
         >Upload file</span
       >
     </label>
-    <input @change="onChange($event)" type="file" id="file" class="w-full" multiple />
+    <input @change="onChange($event)" type="file" id="file" class="hidden w-full" multiple />
   </div>
 </template>
 <script setup>
 import { ref } from 'vue'
-const fileName = ref('')
+const fileName = ref([])
 const onChange = (event) => {
-  console.log('====================================')
-  console.log(event.target)
-  console.log('====================================')
-  fileName.value = event.target.value
+  fileName.value = event.target.files
+  console.log(fileName.value)
 }
 const emit = defineEmits(['update:fileName'])
 

@@ -1,6 +1,8 @@
 <template lang="">
   <div class="relative">
-    <div :class="modal.isDisplay == true && modal.isDisplay !== 'none' ? 'opacity-5' : ''">
+    <div
+      :class="modal.isDisplay == true && modal.isDisplay !== 'none' ? 'opacity-5 select-none' : ''"
+    >
       <div class="text-white">
         <router-link to="/">
           <Button
@@ -51,7 +53,9 @@
           <div class="mb-3">
             <span class="text-base">Product description</span>
             <!-- <Textarea name="categoryDescription" placeholder="Mô tả sản phẩm" /> -->
-            <TextEditor />
+            <div class="bg-white">
+              <quill-editor v-model:content="data.productDescription" theme="snow"></quill-editor>
+            </div>
           </div>
           <!-- Form product price. -->
           <div class="mb-3">
@@ -86,7 +90,30 @@
           </div>
           <div class="mb-3">
             <span class="text-base">Upload file</span>
-            <File />
+            <div class="">
+              <label for="file" class="grid grid-cols-8 mt-2">
+                <input
+                  type="text"
+                  class="col-span-7 rounded-tr-none rounded-br-none disabled:bg-white max-h-[40px]"
+                  name="fileName"
+                  for="file"
+                  disabled
+                  :value="files"
+                  placeholder="Choose file..."
+                />
+                <span
+                  class="text-[#17b1ea] block text-center rounded-tl-none rounded-bl-none col-span-1 rounded cursor-pointer bg-[#0c3247] py-2 px-3"
+                  >Upload file</span
+                >
+              </label>
+              <input
+                @change="onChangeFile($event)"
+                type="file"
+                id="file"
+                class="hidden w-full"
+                multiple
+              />
+            </div>
           </div>
           <div class="grid grid-cols-2 gap-5 mb-3">
             <p
@@ -143,7 +170,7 @@
         {{ errorSize !== null ? errorSize : '' }}
       </h5>
       <div v-for="(item, index) in productSize" :key="index">
-        <div class="flex mb-3">
+        <div class="flex mb-3 title">
           <p class="text-[#17b1ea] bg-[#0c3247] text-center py-2 px-3 w-[100px]">
             {{ item.productSize }}
           </p>
@@ -160,44 +187,54 @@
         type="button"
         text="OK"
         id="addCategory"
-        @click="submitSize"
-        className="bg-green-700 hover:bg-green-600 -ml-[2px] text-white font-bold"
+        @click="submitSize($event, 'size')"
+        className="bg-green-700 hover:bg-green-600 min-w-[200px] -ml-[2px] text-white font-bold"
       />
     </form>
     <form
       v-if="modal.isDisplay == true && modal.isType == 'color'"
-      class="absolute top-[10%] right-[50%] m-auto bg-[#171B2D] py-5 px-5 flex flex-col items-center justify-center"
+      class="rounded absolute top-[10%] right-[40%] m-auto bg-[#31395f] py-5 px-5 flex flex-col items-center justify-center"
     >
-      Color
-      <!-- <h1 class="text-[#17b1ea] block text-center text-lg uppercase mb-2 font-bold">
-      Product size
-    </h1>
-    <h5 class="text-[#17b1ea] block text-center text-xs uppercase mb-2 font-thin">
-      Total quantity: {{ data.quantity }}
-    </h5>
-    <h5 class="block mb-2 text-xs font-thin text-center text-red-500 uppercase">
-      {{ errorSize !== null ? errorSize : '' }}
-    </h5>
-    <div v-for="(item, index) in productSize" :key="index">
-      <div class="flex mb-3">
-        <p class="text-[#17b1ea] bg-[#0c3247] text-center py-2 px-3 w-[100px]">
-          {{ item.productSize }}
-        </p>
-        <input
-          @change="onChangeSize($event, item.productId)"
-          :name="item.productId"
-          type="text"
-          :value="item.productQuantity"
-          class="text-center rounded-none"
-        />
+      <h1 class="text-[#17b1ea] block text-center text-lg uppercase mb-2 font-bold">
+        Product color
+      </h1>
+      <h5 class="text-[#17b1ea] block text-center text-xs uppercase mb-2 font-thin">
+        Total quantity: {{ data.quantity }}
+      </h5>
+      <h5 class="block mb-2 text-xs font-thin text-center text-red-500 uppercase">
+        {{ errorSize !== null ? errorSize : '' }}
+      </h5>
+      <div class="flex mb-3 title">
+        <p class="text-[#17b1ea] bg-[#0c3247] text-center py-2 px-3 w-[100px]">Size</p>
+        <p class="text-[#17b1ea] bg-[#0c3247] text-center py-2 px-3 w-[100px] border">Quantity</p>
+        <p class="text-[#17b1ea] bg-[#0c3247] text-center py-2 px-3 w-[200px] border">Color</p>
       </div>
-    </div> -->
+
+      <div v-for="(item, indexColor) in productSize" :key="indexColor">
+        <div class="flex mb-3 title">
+          <p class="text-[#17b1ea] bg-[#0c3247] text-center py-2 px-3 w-[100px]">
+            {{ item.productSize }}
+          </p>
+          <p class="text-[#17b1ea] bg-[#0c3247] text-center py-2 px-3 w-[100px] border">
+            {{ item.productQuantity }}
+          </p>
+          <input
+            @change="onChangeColor($event, item.productId)"
+            :name="item.productId"
+            :value="item.productColor"
+            :disabled="item.productQuantity == 0"
+            type="text"
+            class="text-left rounded-none text-[#17b1ea] bg-[#0c3247]"
+            :placeholder="item.productQuantity != 0 ? 'Color...' : ''"
+          />
+        </div>
+      </div>
       <Button
         type="button"
         text="OK"
         id="addCategory"
-        @click="submitSize"
-        className="bg-green-700 hover:bg-green-600 -ml-[2px] text-white font-bold"
+        @click="submitSize($event, 'color')"
+        className="bg-green-700 hover:bg-green-600 min-w-[200px] -ml-[2px] text-white font-bold"
       />
     </form>
   </div>
@@ -206,50 +243,58 @@
 import { reactive, ref } from 'vue'
 import Input from '@/components/common/input/Input.vue'
 import Button from '@/components/common/button/Button.vue'
-import TextEditor from '@/components/common/textEditor/TextEditor.vue'
-import File from '@/components/common/input/File.vue'
 const productSize = reactive([
   {
     productId: 1,
     productSize: 36,
+    productColor: '',
     productQuantity: 0
   },
   {
     productId: 2,
     productSize: 37,
+    productColor: '',
     productQuantity: 0
   },
   {
     productId: 3,
     productSize: 38,
+    productColor: '',
     productQuantity: 0
   },
   {
     productId: 4,
     productSize: 39,
+    productColor: '',
     productQuantity: 0
   },
   {
     productId: 5,
     productSize: 40,
+    productColor: '',
     productQuantity: 0
   },
   {
     productId: 6,
     productSize: 41,
+    productColor: '',
     productQuantity: 0
   },
   {
     productId: 7,
     productSize: 42,
+    productColor: '',
     productQuantity: 0
   },
   {
     productId: 8,
     productSize: 43,
+    productColor: '',
     productQuantity: 0
   }
 ])
+const productColor = reactive({})
+addProductColor(productSize)
 const errorSize = ref('')
 const modal = ref({
   isDisplay: false,
@@ -288,10 +333,23 @@ const onChangeSize = (event, productId) => {
     }
   })
 }
-const submitSize = () => {
+const onChangeColor = (event, productId) => {
+  productSize.forEach((element) => {
+    if (element.productId === productId) {
+      element.productColor = event.target.value
+    }
+  })
+}
+const submitSize = ($event, type) => {
   modal.value.isDisplay = false
   modal.value.isType = 'none'
-  console.log(productSize)
+  if (type === 'size') {
+    data.productSizeModelList.value = productSize
+    addProductColor(productSize)
+  }
+  if (type === 'color') {
+    data.productColorModelList.value = productColor
+  }
 }
 const switchSelectStatus = (event) => {
   data.status = event.target.value
@@ -299,12 +357,32 @@ const switchSelectStatus = (event) => {
 const switchSelectTrademark = (event) => {
   data.categoryId = event.target.value
 }
+const onChangeFile = (event) => {
+  files.value = event.target.files
+}
 const onSubmit = () => {
   console.log(data)
+  console.log(files)
+}
+function addProductColor(productSize) {
+  let array = []
+  for (let index = 0; index < productSize.length; index++) {
+    let color = productSize[index]
+    color.productColor = ''
+    array.push(color)
+  }
+  productColor.value = array
 }
 </script>
 <style lang="css" scoped>
 span {
   color: white;
+}
+.title p,
+.title input {
+  border-right: 2px #17b1ea solid;
+}
+.title p:first-child {
+  border-left: 2px #17b1ea solid;
 }
 </style>
