@@ -1,7 +1,8 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template lang="">
   <div
-    class="flex flex-col w-full gap-4 py-4 px-1 rounded cursor-pointer h-[360px] item bg-slate-700"
+    class="flex flex-col w-full gap-4 py-4 px-1 rounded cursor-pointer h-[360px] item bg-slate-700 hover:bg-slate-600 transition-all"
+    :class="classChild"
   >
     <img
       class="object-cover w-full h-full max-h-[230px]"
@@ -10,11 +11,11 @@
     />
     <div class="flex flex-col gap-2 ml-2">
       <span class="text-base">{{ productName }}</span>
-      <h4 class="text-base text-[#ff2347]">
-        Giá: <span class="text-sm line-through">{{ formatPrice(product.price) }} đ</span>
+      <h4 class="text-base text-white">
+        Giá: <span class="text-sm line-through ">{{ formatPrice(product.price) }} đ</span>
         {{ formatPrice(product.priceSale) }} đ
       </h4>
-      <h5 class="text-sm text-[#ff2347]">Đã bán: {{ product.quantitySold }}</h5>
+      <h5 class="text-sm text-[#17b1ea]">Đã bán: {{ product.quantitySold }}</h5>
     </div>
   </div>
 </template>
@@ -43,6 +44,10 @@ const product = defineProps({
   quantitySold: {
     type: Number,
     default: 0
+  },
+  classChild: {
+    type: String,
+    default: ''
   }
 })
 const getImageUrl = (root) => {
