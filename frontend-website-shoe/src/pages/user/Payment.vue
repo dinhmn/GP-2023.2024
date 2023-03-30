@@ -49,7 +49,7 @@
       <div class="order w-[40%] bg-slate-600 p-5 rounded-lg">
         <h2 class="my-2 text-xl font-bold uppercase text-brown">Thanh toán và giao hàng</h2>
         <!-- Order -->
-        <form leave-to-class="w-full post">
+        <form class="w-full">
           <!-- Form Payment -->
           <div class="w-fill">
             <!-- Form full name. -->
