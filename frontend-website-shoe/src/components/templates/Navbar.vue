@@ -28,14 +28,16 @@
           >
             <span class="relative mr-1">0đ</span>
             <vue-feather class="w-5 h-5" type="shopping-bag"></vue-feather>
-            <span class="py-1 px-2 rounded-[100%] absolute -top-2 -right-3 z-[999] bg-slate-700 ">{{
+            <span class="py-1 px-2 rounded-[100%] absolute -top-2 -right-3 z-[999] bg-slate-700">{{
               item
             }}</span>
           </button>
         </router-link>
         <router-link :to="{ name: 'Login', params: {} }"
-          ><button class="font-bold w-full  bg-[#0c3247] text-[#17b1ea]">Login</button></router-link
-        >
+          ><button-component
+            text="Login"
+            class="button font-bold w-full hover:bg-[#0c3247] text-[#17b1ea]"
+        /></router-link>
       </div>
     </nav>
   </div>
@@ -43,6 +45,7 @@
 <script>
 import { ref } from 'vue'
 import Input from '../common/input/Input.vue'
+import Button from '../common/button/Button.vue'
 const routes = [
   {
     url: '/',
@@ -69,7 +72,8 @@ const item = 0
 export default {
   name: 'NavigationPage',
   components: {
-    InputCommon: Input
+    InputCommon: Input,
+    ButtonComponent: Button
   },
   setup(props) {
     const search = ref('')
@@ -123,5 +127,8 @@ nav {
       font-size: 12spx;
     }
   }
+}
+.button {
+  background-color: #0c3247;
 }
 </style>
