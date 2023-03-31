@@ -1,24 +1,39 @@
 <template lang="">
-  <div class="bg-[#171B2D] h-[100vh]">
-    <ul class="text-lg font-bold">
-      <li class="active">
+  <div class="bg-[#171B2D] h-full">
+    <div class="flex flex-col text-lg font-bold">
+      <router-link :to="{ name: 'CategoryAdmin' }">
         <span>Category</span>
-      </li>
-      <!-- <vue-feather class="w-6 h-6" type="chevron-down"></vue-feather> -->
-      <li><span>Product</span></li>
-      <li><span>Article</span></li>
-      <li><span>Contact</span></li>
-      <li><span>Cart</span></li>
-      <li><span>User</span></li>
-      <li><span>404 Page</span></li>
-    </ul>
+      </router-link>
+      <router-link :to="{ name: 'ProductAdmin' }">
+        <span>Product</span>
+      </router-link>
+      <!-- <span>Article</span>
+      <span>Contact</span>
+      <span>Cart</span>
+      <span>User</span>
+      <span>404 Page</span> -->
+    </div>
   </div>
 </template>
 <script></script>
 <style lang="scss" scoped>
 div {
-  ul {
-    li {
+  div {
+    & > a {
+      padding: 5px 20px;
+      transition: all 0.2s;
+      border-radius: 3px;
+      border-left: 4px solid transparent;
+      &:hover {
+        color: #17b1ea;
+      }
+      &.router-link-active {
+        background: #0c3247;
+        color: #17b1ea;
+        border-left: 4px solid #17b1ea;
+      }
+    }
+    span {
       font-size: 16px;
       font-weight: 500;
       padding: 8px 40px;
@@ -29,11 +44,6 @@ div {
       align-items: center;
       border-left: 3px transparent solid;
       &:hover {
-        color: #17b1ea;
-      }
-      &.active {
-        border-left: 3px #17b1ea solid;
-        background: #0c3247;
         color: #17b1ea;
       }
     }
