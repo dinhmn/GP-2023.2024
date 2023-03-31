@@ -8,6 +8,8 @@ import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import {registerGlobalComponents} from "./utils/import";
 import VueFeather from 'vue-feather';
+import { setupCalendar, Calendar, DatePicker } from 'v-calendar';
+import 'v-calendar/style.css';
 import './assets/styles/reset.css'
 import './assets/styles/tailwind.css'
 import './assets/styles/global.css'
@@ -17,6 +19,10 @@ const app = createApp(App);
 registerGlobalComponents(app);
 
 app.use(router)
+app.use(setupCalendar, {})
 app.component(VueFeather.name, VueFeather);
 app.component("QuillEditor", QuillEditor);
+// Use the components
+app.component('VCalendar', Calendar)
+app.component('VDatePicker', DatePicker)
 app.mount('#app');

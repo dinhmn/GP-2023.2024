@@ -1,5 +1,5 @@
 <template lang="">
-  <div class="w-full flex items-center justify-between h-[70px] text-white px-8 bg-[#171B2D]">
+  <div class="w-full flex items-center justify-between h-[70px] text-white px-8 bg-[#202641]">
     <div
       class="text-3xl font-bold tracking-[5px] cursor-pointer logo hover:cursor-pointer flex items-center leading-[30px]"
     >
@@ -7,7 +7,7 @@
       <router-link to="/admin"><span class="ml-3 text-[#42bbff]">DASHBOARD.</span></router-link>
     </div>
     <div class="flex items-center justify-center gap-5 ml-2">
-      <div class="relative h-full w-[50px] text-center">
+      <div class="relative h-full w-[50px] text-center cursor-pointer announce">
         <vue-feather
           class="relative w-8 h-8 mt-1 message-circle"
           type="message-circle"
@@ -15,12 +15,26 @@
         <span class="py-1 px-2 text-xs rounded-[100%] absolute -top-0 -right-0 z-[999] bg-brown"
           >0</span
         >
+        <div class="bg-white w-[400px] z-99 -left-[350px] absolute rounded-md text-black">
+          <div class="flex flex-col items-start justify-center">
+            <span class="announce-check">Thông báo 1</span>
+            <span class="">Thông báo 1</span>
+            <span class="">Thông báo 1</span>
+          </div>
+        </div>
       </div>
-      <div class="relative h-full w-[50px] text-center mr-6">
+      <div class="relative h-full w-[50px] text-center mr-6 cursor-pointer announce">
         <vue-feather class="relative w-8 h-8 mt-1 message-circle" type="bell"></vue-feather>
         <span class="py-1 px-2 text-xs rounded-[100%] absolute -top-0 -right-0 z-[999] bg-brown"
           >0</span
         >
+        <div class="bg-white w-[400px] z-99 -left-[350px] absolute rounded-md text-black">
+          <div class="flex flex-col items-start justify-center">
+            <span class="announce-check">Thông báo 1</span>
+            <span class="">Thông báo 1</span>
+            <span class="">Thông báo 1</span>
+          </div>
+        </div>
       </div>
       <div
         class="relative flex items-center justify-center gap-3 cursor-pointer logout"
@@ -60,6 +74,42 @@
 </template>
 <script setup></script>
 <style lang="scss">
+.announce {
+  &:hover {
+    & > div {
+      display: block;
+    }
+  }
+  & > div {
+    top: 50px;
+    display: none;
+    transition: all 0.3s ease-in-out;
+    div {
+      & > span {
+        text-align: left;
+        width: 100%;
+        padding: 10px;
+        border-bottom: 1px solid gray;
+        &.announce-check {
+          background-color: rgb(201, 201, 201);
+        }
+      }
+    }
+    &::after {
+      position: absolute;
+      content: '';
+      right: 15px;
+      top: -10px;
+      width: 0;
+      height: 0;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-bottom: 10px solid white;
+
+      clear: both;
+    }
+  }
+}
 .logout {
   position: relative;
   .logout-child {
