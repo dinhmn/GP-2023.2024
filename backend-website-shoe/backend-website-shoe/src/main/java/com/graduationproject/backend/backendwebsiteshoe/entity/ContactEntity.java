@@ -1,11 +1,21 @@
 package com.graduationproject.backend.backendwebsiteshoe.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
+import jakarta.persistence.Table;
+import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.io.Serializable;
-
+/**
+ * Contact entity.
+ *
+ * @author Mai Ngoc Dinh.
+ */
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
@@ -13,27 +23,27 @@ import java.io.Serializable;
 @Table(name = "tbl_contact")
 public class ContactEntity extends BaseEntity implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    public ContactEntity() {
+  public ContactEntity() {
 
-        super();
-    }
+    super();
+  }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "contact_id", nullable = false)
-    private Long contactId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "contact_id", nullable = false)
+  private Long contactId;
 
-    @Column(name = "product_id", nullable = false)
-    private Long productId;
+  @Column(name = "product_id", nullable = false)
+  private Long productId;
 
-    @Column(name = "contact_name", nullable = false)
-    private String contactName;
+  @Column(name = "contact_name", nullable = false)
+  private String contactName;
 
-    @Column(name = "contact_email", nullable = false)
-    private String contactEmail;
+  @Column(name = "contact_email", nullable = false)
+  private String contactEmail;
 
-    @Column(name = "contact_message", length = 1000)
-    private String contactMessage;
+  @Column(name = "contact_message", length = 1000)
+  private String contactMessage;
 }

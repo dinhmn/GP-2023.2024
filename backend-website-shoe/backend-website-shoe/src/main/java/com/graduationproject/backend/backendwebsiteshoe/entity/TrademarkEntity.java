@@ -1,11 +1,21 @@
 package com.graduationproject.backend.backendwebsiteshoe.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
+import jakarta.persistence.Table;
+import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.io.Serializable;
-
+/**
+ * Trademark entity.
+ *
+ * @author Mai Ngoc Dinh.
+ */
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
@@ -13,22 +23,22 @@ import java.io.Serializable;
 @Table(name = "tbl_trademark")
 public class TrademarkEntity extends BaseEntity implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    public TrademarkEntity() {
+  public TrademarkEntity() {
 
-        super();
-    }
+    super();
+  }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "trademark_id", nullable = false)
-    private Long trademarkId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "trademark_id", nullable = false)
+  private Long trademarkId;
 
-    @Column(name = "trademark_name", nullable = false)
-    private String trademarkName;
+  @Column(name = "trademark_name", nullable = false)
+  private String trademarkName;
 
-    @Column(name = "seo", nullable = false)
-    private String seo;
+  @Column(name = "seo", nullable = false)
+  private String seo;
 
 }

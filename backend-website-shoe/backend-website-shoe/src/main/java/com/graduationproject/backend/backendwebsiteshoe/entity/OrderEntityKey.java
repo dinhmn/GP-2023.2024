@@ -1,24 +1,35 @@
 package com.graduationproject.backend.backendwebsiteshoe.entity;
 
 import jakarta.persistence.Column;
+import java.io.Serializable;
 import lombok.Data;
 
-import java.io.Serializable;
-
+/**
+ * Order entity key.
+ *
+ * @author Mai Ngoc Dinh.
+ */
 @Data
 public class OrderEntityKey implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    @Column(name = "order_id", nullable = false)
-    private Long orderId;
+  @Column(name = "order_id", nullable = false)
+  private Long orderId;
 
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
+  @Column(name = "user_id", nullable = false)
+  private Long userId;
 
-    public OrderEntityKey setPk(Long orderId, Long userId) {
-        setOrderId(orderId);
-        setUserId(userId);
-        return this;
-    }
+  /**
+   * Set PK.
+   *
+   * @param orderId orderId
+   * @param userId  userId
+   * @return key.
+   */
+  public OrderEntityKey setPk(Long orderId, Long userId) {
+    setOrderId(orderId);
+    setUserId(userId);
+    return this;
+  }
 }
