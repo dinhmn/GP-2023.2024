@@ -5,6 +5,7 @@ import com.graduationproject.backend.backendwebsiteshoe.Common.Constant;
 import com.graduationproject.backend.backendwebsiteshoe.Common.DatetimeConvertFormat;
 import com.graduationproject.backend.backendwebsiteshoe.dto.ICategory;
 import com.graduationproject.backend.backendwebsiteshoe.entity.CategoryEntity;
+import com.graduationproject.backend.backendwebsiteshoe.forms.CategoryForm;
 import com.graduationproject.backend.backendwebsiteshoe.model.CategoryModel;
 import com.graduationproject.backend.backendwebsiteshoe.service.CategoryService;
 import java.util.Date;
@@ -43,20 +44,44 @@ public class CategoryHelper {
   /**
    * Select all category use pageable and sorting.
    *
-   * @return list category
+   * @return category response
    */
-  public List<CategoryModel> getAllCategoryPageable(int page, int size, String sortBy, String sortDir) {
+  public CategoryForm getAllCategoryPageable(int page, int size, String sortBy,
+                                             String sortDir) {
     Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
         : Sort.by(sortBy).descending();
 
     // Create pageable instance
     Pageable pageable = PageRequest.of(page, size, sort);
-    Page<ICategory> categoryModelListPage = categoryService.getAllByTrademark(pageable);
+    Page<ICategory> categoryModelListPage = categoryService.getAllByTrademark(sortBy, pageable);
 
     // Get content for page object
-    List<ICategory> listOfCategoryModel = categoryModelListPage.getContent();
+    List<CategoryModel> listOfCategoryModel = categoryModelListPage.getContent().stream()
+        .map(this::convertCategory)
+        .toList();
 
-    return listOfCategoryModel.stream()
+    return CategoryForm.builder()
+        .categoryModelList(listOfCategoryModel)
+        .pageNo(categoryModelListPage.getNumber())
+        .pageSize(categoryModelListPage.getSize())
+        .totalElements(categoryModelListPage.getTotalElements())
+        .totalPages(categoryModelListPage.getTotalPages())
+        .last(categoryModelListPage.isLast())
+        .build();
+  }
+
+  /**
+   * Select all category use pageable and sorting.
+   *
+   * @return list category
+   */
+  public List<CategoryModel> getAllCategory(int page, int size, String sortBy, String sortDir) {
+    // Create pageable instance
+    List<ICategory> categoryModelListPage =
+
+        categoryService.getAllByTrademark((page - 1) * size, size, sortDir, sortBy);
+
+    return categoryModelListPage.stream()
         .distinct()
         .map(this::convertCategory)
         .toList();
