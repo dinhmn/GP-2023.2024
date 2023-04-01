@@ -1,6 +1,236 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template lang="">
-  <div>Chart UI</div>
+  <div class="flex flex-col justify-between">
+    <div class="grid grid-cols-4 gap-5 text-white h-[100px]">
+      <div class="col-span-1 p-4 bg-purple-500 rounded-lg">
+        <p class="flex items-center justify-between">
+          <strong class="text-lg">Order</strong>
+          <span class="p-1 px-2 text-black bg-white rounded-full">
+            <vue-feather class="w-5 h-5 mt-1" type="shopping-bag"></vue-feather>
+          </span>
+        </p>
+        <h5 class="text-xl">54</h5>
+      </div>
+      <div class="col-span-1 p-4 bg-blue-500 rounded-lg">
+        <p class="flex items-center justify-between">
+          <strong class="text-lg">Total Quantity Sold</strong>
+          <span class="p-1 px-2 text-black bg-white rounded-full">
+            <vue-feather class="w-5 h-5 mt-1" type="gift"></vue-feather>
+          </span>
+        </p>
+        <h5 class="text-xl">54</h5>
+      </div>
+      <div class="col-span-1 p-4 bg-green-500 rounded-lg">
+        <p class="flex items-center justify-between">
+          <strong class="text-lg">Complete</strong>
+          <span class="p-1 px-2 text-black bg-white rounded-full">
+            <vue-feather class="w-5 h-5 mt-1" type="pocket"></vue-feather>
+          </span>
+        </p>
+        <h5 class="text-xl">54</h5>
+      </div>
+      <div class="col-span-1 p-4 bg-red-500 rounded-lg">
+        <p class="flex items-center justify-between">
+          <strong class="text-lg">Total Price</strong>
+          <span class="p-1 px-2 text-black bg-white rounded-full">
+            <vue-feather class="w-5 h-5 mt-1" type="award"></vue-feather>
+          </span>
+        </p>
+        <h5 class="text-xl">54</h5>
+      </div>
+    </div>
+    <div class="grid grid-cols-3 gap-2 mt-5">
+      <div class="col-span-2 bg-[#0c32477e] px-2 py-4 rounded-lg">
+        <Bar
+          id="my-chart-id"
+          height="600"
+          class="w-full"
+          :options="chartOptions"
+          :data="chartData"
+        />
+      </div>
+      <div class="col-span-1 bg-[#0c32477e] px-2 py-4 my-calendar rounded-lg">
+        <div>
+          <Pie :options="pieOptions" :data="pieData" />
+        </div>
+        <div class="mt-8">
+          <VDatePicker :attributes="attributes" is-dark="system" expanded theme="dark" />
+        </div>
+      </div>
+    </div>
+    <div class="w-full mt-5">
+      <table class="w-full text-white">
+        <thead class="w-full bg-[#0c3247] text-[#17b1ea]">
+          <tr class="rounded-tl-md">
+            <th>Order No.</th>
+            <th>Full name</th>
+            <th>Quantity Sold</th>
+            <th>Order date</th>
+            <th>Total Price</th>
+            <th>Status</th>
+            <th class="w-[150px]">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>1</td>
+            <td>1</td>
+            <td>1</td>
+            <td>1</td>
+            <td>
+              <strong
+                class="px-[20px] py-[4px] text-xs min-w-[100px] text-green-700 bg-green-400 rounded-full"
+                >Done</strong
+              >
+            </td>
+            <td class="flex items-center w-[150px] justify-around text-xs cursor-pointer">
+              <button class="bg-blue-500">View</button>
+              <button class="bg-green-500">Print</button>
+            </td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>1</td>
+            <td>1</td>
+            <td>1</td>
+            <td>1</td>
+            <td>
+              <strong class="px-[20px] py-[4px] text-xs text-yellow-700 bg-yellow-400 rounded-full"
+                >Wait</strong
+              >
+            </td>
+            <td class="flex items-center w-[150px] justify-around text-xs cursor-pointer">
+              <button class="bg-blue-500">View</button>
+              <button class="bg-green-500">Print</button>
+            </td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>1</td>
+            <td>1</td>
+            <td>1</td>
+            <td>1</td>
+            <td>
+              <strong class="px-[20px] py-[4px] text-xs text-red-700 bg-red-400 rounded-full"
+                >Cancel</strong
+              >
+            </td>
+            <td class="flex items-center w-[150px] justify-around text-xs cursor-pointer">
+              <button class="bg-blue-500">View</button>
+              <button class="bg-green-500">Print</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </template>
-<script setup></script>
-<style lang=""></style>
+<script lang="">
+import { ref } from 'vue'
+import { Bar, Pie } from 'vue-chartjs'
+import {
+  Chart as ChartJS,
+  Title,
+  Tooltip,
+  Legend,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+  ArcElement
+} from 'chart.js'
+
+ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, ArcElement)
+const date = ref(new Date())
+const attributes = ref([
+  {
+    highlight: true,
+    dates: [new Date()]
+  }
+])
+const status = ['done', 'pending', 'wait']
+export default {
+  name: 'BarChart',
+  components: { Bar, Pie },
+  data() {
+    return {
+      chartData: {
+        labels: [
+          'January',
+          'February',
+          'March',
+          'April',
+          'May',
+          'June',
+          'July',
+          'August',
+          'September',
+          'October',
+          'November',
+          'December'
+        ],
+        datasets: [
+          {
+            label: 'Monthly revenue',
+            data: [40, 20, 12, 80, 22, 56, 90, 120, 200, 156, 98, 150],
+            backgroundColor: '#17b1ea',
+            width: '300px',
+            height: '400px'
+          }
+        ]
+      },
+      pieData: {
+        labels: ['VueJs', 'EmberJs', 'ReactJs', 'AngularJs'],
+        datasets: [
+          {
+            backgroundColor: ['#41B883', '#E46651', '#00D8FF', '#DD1B16'],
+            data: [40, 20, 80, 10]
+          }
+        ]
+      },
+      chartOptions: {
+        responsive: true
+      },
+      pieOptions: {
+        responsive: true,
+        maintainAspectRatio: false
+      },
+      date,
+      attributes,
+      status
+    }
+  }
+}
+</script>
+<style lang="css">
+.my-calendar :deep(.vc-weekday-1, .vc-weekday-7) {
+  color: #6366f1;
+}
+ul li {
+  padding: 4px 20px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+  cursor: pointer;
+}
+ul li.active {
+  background-color: #0c3247;
+  color: #17b1ea;
+}
+table,
+tr,
+td,
+th {
+  padding: 5px 10px;
+  text-align: center;
+}
+
+table tbody tr {
+  border-bottom: 2px solid #464b53;
+}
+table tbody tr td {
+  padding: 5px;
+}
+</style>

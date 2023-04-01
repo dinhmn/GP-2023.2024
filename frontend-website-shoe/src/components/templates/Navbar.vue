@@ -17,14 +17,14 @@
             v-model="search"
           />
           <button
-            class="right-0 px-6 py-[9px] rounded-tr-[3px] -translate-x-3 rounded-br-[3px] m-0 text-xs rounded-none"
+            class="right-0 px-6 py-[9px] bg-[#0c3247] hover:bg-[#135070] rounded-tr-[3px] -translate-x-3 rounded-br-[3px] m-0 text-xs rounded-none"
           >
             <vue-feather class="w-5 h-5" type="search"></vue-feather>
           </button>
         </div>
         <router-link to="/payment">
           <button
-            class="relative bg-transparent hover:border-[rgba(87, 61, 61, 0.6)] border-2 rounded-lg card py-[8px] px-[8px] -mr-1 flex items-center justify-center"
+            class="w-full relative bg-transparent hover:border-[rgba(87, 61, 61, 0.6)] border-2 rounded-lg card py-[8px] px-[8px] -mr-1 flex items-center justify-center"
           >
             <span class="relative mr-1">0đ</span>
             <vue-feather class="w-5 h-5" type="shopping-bag"></vue-feather>
@@ -34,8 +34,10 @@
           </button>
         </router-link>
         <router-link :to="{ name: 'Login', params: {} }"
-          ><button class="font-bold translate-x-4">Login</button></router-link
-        >
+          ><button-component
+            text="Login"
+            class="button font-bold w-full hover:bg-[#0c3247] text-[#17b1ea]"
+        /></router-link>
       </div>
     </nav>
   </div>
@@ -43,6 +45,7 @@
 <script>
 import { ref } from 'vue'
 import Input from '../common/input/Input.vue'
+import Button from '../common/button/Button.vue'
 const routes = [
   {
     url: '/',
@@ -69,7 +72,8 @@ const item = 0
 export default {
   name: 'NavigationPage',
   components: {
-    InputCommon: Input
+    InputCommon: Input,
+    ButtonComponent: Button
   },
   setup(props) {
     const search = ref('')
@@ -86,13 +90,14 @@ nav {
   div {
     a {
       padding: 5px 20px;
-      transition: all 0.5s;
+      transition: all 0.2s;
       border-radius: 3px;
       &:hover {
-        background-color: #cc334d;
+        color: #17b1ea;
       }
       &.router-link-active {
-        background-color: #cc334d;
+        background: #0c3247;
+        color: #17b1ea;
       }
     }
     &:last-child {
@@ -100,12 +105,13 @@ nav {
         &:hover {
           background-color: transparent;
           button {
-            background-color: #cc334d;
+            background-color: #0e3b53;
+            color: white;
           }
         }
         &.router-link-active {
           button {
-            background-color: #cc334d;
+            background-color: #0c3247;
           }
           background-color: transparent;
         }
@@ -121,5 +127,8 @@ nav {
       font-size: 12spx;
     }
   }
+}
+.button {
+  background-color: #0c3247;
 }
 </style>

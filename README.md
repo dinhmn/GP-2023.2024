@@ -1,17 +1,21 @@
 # Graduation Project (2022 - 2023)
+
 This is a project graduation of Mai Ngoc Dinh Start date Match 06, 2023. The project has a back-end and a front-end.
 
 ## Back-end will use the Spring framework:
+
 - Spring Framework
 - Spring Boot
 - Spring Security + JWT Token
 - Spring JPA
 - Spring Web
-- REST API 
+- REST API
 - Websocket
 
 ### Building the project
+
 You will need:
+
 - Java JDK Amazon Corretto 17 or higher
 - Gradle 3.0.4 or higher
 - Git
@@ -19,6 +23,7 @@ You will need:
 ## Project Setup `Spring`
 
 ### Computing all outputs
+
 ```sh
 gradle clean build
 ```
@@ -34,21 +39,30 @@ grade run
 ```sh
 gradle check
 ```
+
 ---
-## SQL use: 
+
+## SQL use:
+
 - MYSQL
+
 ## Docker
+
 - Develop,deploy, run application: Backend, Frontend, MySQL
 
 ---
+
 # Front-end will use the VueJS framework:
+
 - VueJS3
 - VueX
 - Composition API
 - Styles: SCSS, Tailwind
 - Websocket
-
-# Graduation Project (2022 - 2023)
+- [ChartJS](https://vue-chartjs.org/guide/#chart-with-dynamic-styles)
+- VueMap
+- VueQuill
+- VDatetime
 
 This template should help get you started developing with Vue 3 in Vite.
 
