@@ -1,8 +1,8 @@
 package com.graduationproject.backend.backendwebsiteshoe.helper;
 
-import com.graduationproject.backend.backendwebsiteshoe.Common.Action;
-import com.graduationproject.backend.backendwebsiteshoe.Common.Constant;
-import com.graduationproject.backend.backendwebsiteshoe.Common.DatetimeConvertFormat;
+import com.graduationproject.backend.backendwebsiteshoe.common.Action;
+import com.graduationproject.backend.backendwebsiteshoe.common.Constant;
+import com.graduationproject.backend.backendwebsiteshoe.common.DatetimeConvertFormat;
 import com.graduationproject.backend.backendwebsiteshoe.dto.ICategory;
 import com.graduationproject.backend.backendwebsiteshoe.entity.CategoryEntity;
 import com.graduationproject.backend.backendwebsiteshoe.forms.CategoryForm;
@@ -48,8 +48,9 @@ public class CategoryHelper {
    */
   public CategoryForm getAllCategoryPageable(int page, int size, String sortBy,
                                              String sortDir) {
-    Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
-        : Sort.by(sortBy).descending();
+    Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name())
+        ? Sort.by("category_id").ascending().and(Sort.by(sortBy).ascending())
+        : Sort.by("category_id").descending().and(Sort.by(sortBy).descending());
 
     // Create pageable instance
     Pageable pageable = PageRequest.of(page, size, sort);
@@ -73,6 +74,10 @@ public class CategoryHelper {
   /**
    * Select all category use pageable and sorting.
    *
+   * @param page    page
+   * @param size    size
+   * @param sortBy  sortBy
+   * @param sortDir sortDir
    * @return list category
    */
   public List<CategoryModel> getAllCategory(int page, int size, String sortBy, String sortDir) {

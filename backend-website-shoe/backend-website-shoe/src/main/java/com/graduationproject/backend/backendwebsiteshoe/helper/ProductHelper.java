@@ -1,12 +1,12 @@
 package com.graduationproject.backend.backendwebsiteshoe.helper;
 
-import com.graduationproject.backend.backendwebsiteshoe.Common.CommonService;
-import com.graduationproject.backend.backendwebsiteshoe.Common.Constant;
-import com.graduationproject.backend.backendwebsiteshoe.Common.Image;
+import com.graduationproject.backend.backendwebsiteshoe.common.CommonService;
+import com.graduationproject.backend.backendwebsiteshoe.common.Constant;
+import com.graduationproject.backend.backendwebsiteshoe.common.Image;
 import com.graduationproject.backend.backendwebsiteshoe.dto.IOneProduct;
 import com.graduationproject.backend.backendwebsiteshoe.dto.IProduct;
-import com.graduationproject.backend.backendwebsiteshoe.entity.ProductColorEntity;
 import com.graduationproject.backend.backendwebsiteshoe.entity.ProductEntity;
+import com.graduationproject.backend.backendwebsiteshoe.forms.ProductForm;
 import com.graduationproject.backend.backendwebsiteshoe.model.ProductColorModel;
 import com.graduationproject.backend.backendwebsiteshoe.model.ProductModel;
 import com.graduationproject.backend.backendwebsiteshoe.model.ProductSizeModel;
@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -55,6 +57,44 @@ public class ProductHelper {
   @NonNull
   public List<IProduct> getAllProduct() {
     return productService.getAll();
+  }
+
+  /**
+   * Select all product.
+   *
+   * @return list product.
+   */
+  @NonNull
+  public List<IProduct> getAllProduct(String searchValue) {
+    return productService.getAll(searchValue);
+  }
+
+  /**
+   * Select all product.
+   *
+   * @param pageNo        pageNo
+   * @param pageSize      pageSize
+   * @param sortBy        sortBy
+   * @param sortDirection sortDirection
+   * @return list product.
+   */
+  public ProductForm getAllProduct(int pageNo, int pageSize, String sortBy, String sortDirection) {
+    Pageable pageable = commonService.setPageable(pageSize, pageNo, sortBy, sortDirection);
+
+    // Create pageable instance
+    Page<IProduct> productList = productService.getAll(pageable);
+
+    // Get content for page object
+    List<IProduct> listOfProductModel = productList.getContent();
+
+    return ProductForm.builder()
+        .productModelList(listOfProductModel)
+        .pageNo(productList.getNumber())
+        .pageSize(productList.getSize())
+        .totalElements(productList.getTotalElements())
+        .totalPages(productList.getTotalPages())
+        .last(productList.isLast())
+        .build();
   }
 
   /**

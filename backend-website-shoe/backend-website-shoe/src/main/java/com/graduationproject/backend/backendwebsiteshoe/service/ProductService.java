@@ -1,6 +1,6 @@
 package com.graduationproject.backend.backendwebsiteshoe.service;
 
-import com.graduationproject.backend.backendwebsiteshoe.Common.CommonService;
+import com.graduationproject.backend.backendwebsiteshoe.common.CommonService;
 import com.graduationproject.backend.backendwebsiteshoe.dto.IOneProduct;
 import com.graduationproject.backend.backendwebsiteshoe.dto.IProduct;
 import com.graduationproject.backend.backendwebsiteshoe.entity.ProductEntity;
@@ -12,6 +12,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +38,26 @@ public class ProductService {
    */
   public List<IProduct> getAll() {
     return productRepository.findAllProduct();
+  }
+
+  /**
+   * Get all product.
+   *
+   * @param searchValue value
+   * @return list of entity product.
+   */
+  public List<IProduct> getAll(String searchValue) {
+    return productRepository.findAllProduct(searchValue);
+  }
+
+  /**
+   * Get all product.
+   *
+   * @param pageable pageable
+   * @return list of entity product.
+   */
+  public Page<IProduct> getAll(Pageable pageable) {
+    return productRepository.findAllProduct(pageable);
   }
 
   /**

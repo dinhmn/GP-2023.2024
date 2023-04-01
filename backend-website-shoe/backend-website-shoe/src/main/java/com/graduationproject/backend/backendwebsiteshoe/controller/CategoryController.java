@@ -1,6 +1,6 @@
 package com.graduationproject.backend.backendwebsiteshoe.controller;
 
-import com.graduationproject.backend.backendwebsiteshoe.Common.Constant;
+import com.graduationproject.backend.backendwebsiteshoe.common.Constant;
 import com.graduationproject.backend.backendwebsiteshoe.entity.CategoryEntity;
 import com.graduationproject.backend.backendwebsiteshoe.forms.CategoryForm;
 import com.graduationproject.backend.backendwebsiteshoe.helper.CategoryHelper;
