@@ -14,7 +14,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 /**
- * Implement helper of category.
+ * Implement service of category.
  *
  * @author Mai Ngoc Dinh
  */
