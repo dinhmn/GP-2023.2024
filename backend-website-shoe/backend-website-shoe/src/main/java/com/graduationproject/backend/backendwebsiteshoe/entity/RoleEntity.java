@@ -1,11 +1,21 @@
 package com.graduationproject.backend.backendwebsiteshoe.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
+import jakarta.persistence.Table;
+import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.io.Serializable;
-
+/**
+ * Role entity.
+ *
+ * @author Mai Ngoc Dinh.
+ */
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
@@ -13,22 +23,22 @@ import java.io.Serializable;
 @Table(name = "tbl_role")
 public class RoleEntity extends BaseEntity implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    public RoleEntity() {
+  public RoleEntity() {
 
-        super();
-    }
+    super();
+  }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "role_id", nullable = false)
-    private Long roleId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "role_id", nullable = false)
+  private Long roleId;
 
-    @Column(name = "role_name", nullable = false)
-    private String role_name;
+  @Column(name = "role_name", nullable = false)
+  private String role_name;
 
-    @Column(name = "role_description", nullable = false)
-    private String role_description;
+  @Column(name = "role_description", nullable = false)
+  private String role_description;
 
 }

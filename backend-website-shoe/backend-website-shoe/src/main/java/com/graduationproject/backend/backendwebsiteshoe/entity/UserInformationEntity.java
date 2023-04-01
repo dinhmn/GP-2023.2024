@@ -1,11 +1,21 @@
 package com.graduationproject.backend.backendwebsiteshoe.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
+import jakarta.persistence.Table;
+import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.io.Serializable;
-
+/**
+ * User information entity.
+ *
+ * @author Mai Ngoc Dinh.
+ */
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
@@ -13,47 +23,48 @@ import java.io.Serializable;
 @Table(name = "tbl_user_information")
 public class UserInformationEntity extends BaseEntity implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    public UserInformationEntity() {
+  public UserInformationEntity() {
 
-        super();
-    }
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_information_id", nullable = false)
-    private Long userInformationId;
+    super();
+  }
 
-    @Id
-    @Column(name = "source_image_id", nullable = false)
-    private Long sourceImageId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "user_information_id", nullable = false)
+  private Long userInformationId;
 
-    @Column(name = "user_id")
-    private Long userId;
+  @Id
+  @Column(name = "source_image_id", nullable = false)
+  private Long sourceImageId;
 
-    /*
-    * UserCode = 10 => User
-    * UserCode = 11 => Customer Not User
-    * */
-    @Column(name = "user_code", length = 2, nullable = false)
-    private String userCode;
+  @Column(name = "user_id")
+  private Long userId;
 
-    @Column(name = "first_name", length = 40)
-    private String firstName;
+  /*
+   * UserCode = 10 => User
+   * UserCode = 11 => Customer Not User
+   * */
+  @Column(name = "user_code", length = 2, nullable = false)
+  private String userCode;
 
-    @Column(name = "lastName", length = 40)
-    private String lastName;
+  @Column(name = "first_name", length = 40)
+  private String firstName;
 
-    @Column(name = "email", length = 80, nullable = false)
-    private String email;
+  @Column(name = "lastName", length = 40)
+  private String lastName;
 
-    @Column(name = "phone", length = 10, nullable = false)
-    private String phone;
+  @Column(name = "email", length = 80, nullable = false)
+  private String email;
 
-    @Column(name = "address", nullable = false)
-    private String address;
+  @Column(name = "phone", length = 10, nullable = false)
+  private String phone;
 
-    @Column(name = "age", length = 2)
-    private String age;
+  @Column(name = "address", nullable = false)
+  private String address;
+
+  @Column(name = "age", length = 2)
+  private String age;
 
 }

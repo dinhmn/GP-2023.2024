@@ -16,6 +16,7 @@ CREATE TABLE tbl_article (
 DROP TABLE if EXISTS tbl_cart CASCADE;
 create table tbl_cart (
       cart_id BIGINT NOT NULL AUTO_INCREMENT,
+      order_id BIGINT NOT NULL,
       product_id BIGINT NOT NULL,
       product_current_price DECIMAL(15, 2) NOT NULL,
       product_name VARCHAR(255) NOT NULL,
@@ -25,7 +26,7 @@ create table tbl_cart (
       status BIT,
       updated_by INTEGER NOT NULL,
       updated_date DATETIME(6) NOT NULL,
-      PRIMARY KEY (cart_id, product_id)
+      PRIMARY KEY (cart_id, order_id, product_id)
 );
 
 DROP TABLE if EXISTS tbl_category CASCADE;

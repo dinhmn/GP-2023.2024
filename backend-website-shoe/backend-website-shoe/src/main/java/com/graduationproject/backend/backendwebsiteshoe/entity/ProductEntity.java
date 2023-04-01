@@ -1,12 +1,22 @@
 package com.graduationproject.backend.backendwebsiteshoe.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
+import jakarta.persistence.Table;
+import java.io.Serializable;
+import java.math.BigDecimal;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
-
+/**
+ * Product entity.
+ *
+ * @author Mai Ngoc Dinh.
+ */
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
@@ -14,38 +24,38 @@ import java.math.BigDecimal;
 @Table(name = "tbl_product")
 public class ProductEntity extends BaseEntity implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    public ProductEntity() {
+  public ProductEntity() {
 
-        super();
-    }
+    super();
+  }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "product_id", nullable = false)
-    private Long productId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "product_id", nullable = false)
+  private Long productId;
 
-    @Id
-    @Column(name = "category_id", nullable = false)
-    private Long categoryId;
+  @Id
+  @Column(name = "category_id", nullable = false)
+  private Long categoryId;
 
-    @Column(name = "product_name", nullable = false)
-    private String productName;
+  @Column(name = "product_name", nullable = false)
+  private String productName;
 
-    @Column(name = "product_description", length = 2000)
-    private String productDescription;
+  @Column(name = "product_description", length = 2000)
+  private String productDescription;
 
-    @Column(name = "product_price", length = 20,nullable = false)
-    private BigDecimal productPrice;
+  @Column(name = "product_price", length = 20, nullable = false)
+  private BigDecimal productPrice;
 
-    @Column(name = "product_price_sale", length = 20)
-    private BigDecimal productPriceSale;
+  @Column(name = "product_price_sale", length = 20)
+  private BigDecimal productPriceSale;
 
-    @Column(name = "quantity", nullable = false)
-    private Integer quantity;
+  @Column(name = "quantity", nullable = false)
+  private Integer quantity;
 
-    @Column(name = "product_seo")
-    private String productSeo;
+  @Column(name = "product_seo")
+  private String productSeo;
 
 }

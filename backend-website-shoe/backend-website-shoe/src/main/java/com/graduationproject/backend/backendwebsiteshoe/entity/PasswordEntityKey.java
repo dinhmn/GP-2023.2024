@@ -1,20 +1,30 @@
 package com.graduationproject.backend.backendwebsiteshoe.entity;
 
 import jakarta.persistence.Column;
+import java.io.Serializable;
 import lombok.Data;
 
-import java.io.Serializable;
-
+/**
+ * Password entity key.
+ *
+ * @author Mai Ngoc Dinh.
+ */
 @Data
 public class PasswordEntityKey implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    @Column(name = "password_id", nullable = false)
-    private Long passwordId;
+  @Column(name = "password_id", nullable = false)
+  private Long passwordId;
 
-    public PasswordEntityKey setPk(Long passwordId) {
-        setPasswordId(passwordId);
-        return this;
-    }
+  /**
+   * Set PK.
+   *
+   * @param passwordId passwordId
+   * @return key.
+   */
+  public PasswordEntityKey setPk(Long passwordId) {
+    setPasswordId(passwordId);
+    return this;
+  }
 }
