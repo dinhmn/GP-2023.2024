@@ -1,6 +1,6 @@
 package com.graduationproject.backend.backendwebsiteshoe.service;
 
-import com.graduationproject.backend.backendwebsiteshoe.Common.CommonService;
+import com.graduationproject.backend.backendwebsiteshoe.common.CommonService;
 import com.graduationproject.backend.backendwebsiteshoe.entity.ProductColorEntity;
 import com.graduationproject.backend.backendwebsiteshoe.entity.ProductColorEntityKey;
 import com.graduationproject.backend.backendwebsiteshoe.model.ProductColorModel;

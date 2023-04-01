@@ -1,8 +1,8 @@
 package com.graduationproject.backend.backendwebsiteshoe.service;
 
-import com.graduationproject.backend.backendwebsiteshoe.Common.CommonService;
-import com.graduationproject.backend.backendwebsiteshoe.Common.Constant;
-import com.graduationproject.backend.backendwebsiteshoe.Common.Image;
+import com.graduationproject.backend.backendwebsiteshoe.common.CommonService;
+import com.graduationproject.backend.backendwebsiteshoe.common.Constant;
+import com.graduationproject.backend.backendwebsiteshoe.common.Image;
 import com.graduationproject.backend.backendwebsiteshoe.entity.SourceImagesEntity;
 import com.graduationproject.backend.backendwebsiteshoe.entity.SourceImagesEntityKey;
 import com.graduationproject.backend.backendwebsiteshoe.model.ProductModel;

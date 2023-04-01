@@ -1,6 +1,6 @@
 package com.graduationproject.backend.backendwebsiteshoe.forms;
 
-import com.graduationproject.backend.backendwebsiteshoe.model.CategoryModel;
+import com.graduationproject.backend.backendwebsiteshoe.dto.IProduct;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,7 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Form response pageable.
+ * Form product response pageable.
  *
  * @author Mai Ngoc Dinh
  */
@@ -16,9 +16,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CategoryForm {
+public class ProductForm {
 
-  private List<CategoryModel> categoryModelList;
+  private List<IProduct> productModelList;
 
   private int pageNo;
 

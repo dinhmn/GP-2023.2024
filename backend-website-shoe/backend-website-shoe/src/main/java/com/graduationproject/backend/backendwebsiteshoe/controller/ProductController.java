@@ -1,7 +1,9 @@
 package com.graduationproject.backend.backendwebsiteshoe.controller;
 
+import com.graduationproject.backend.backendwebsiteshoe.common.Constant;
 import com.graduationproject.backend.backendwebsiteshoe.dto.IProduct;
 import com.graduationproject.backend.backendwebsiteshoe.entity.ProductEntity;
+import com.graduationproject.backend.backendwebsiteshoe.forms.ProductForm;
 import com.graduationproject.backend.backendwebsiteshoe.helper.ProductHelper;
 import com.graduationproject.backend.backendwebsiteshoe.model.ProductModel;
 import java.io.IOException;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -30,7 +33,7 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @CrossOrigin("*")
 @RestController
-@RequestMapping(value = "/product")
+@RequestMapping(value = "api/products")
 public class ProductController {
 
   @Autowired
@@ -44,6 +47,36 @@ public class ProductController {
   @GetMapping(value = "/init")
   public List<IProduct> selectAllProduct() {
     return productHelper.getAllProduct();
+  }
+
+  /**
+   * Get all product.
+   *
+   * @param pageNo        pageNo
+   * @param pageSize      pageSize
+   * @param sortBy        sortBy
+   * @param sortDirection sortDirection
+   * @return list object.
+   */
+  @GetMapping(value = "/init/pageable")
+  public ProductForm selectAllProduct(
+      @RequestParam(value = "page_no", defaultValue = Constant.DEFAULT_PAGE_NUMBER) int pageNo,
+      @RequestParam(value = "page_size", defaultValue = Constant.DEFAULT_PAGE_SIZE) int pageSize,
+      @RequestParam(value = "sort_direction", defaultValue = Constant.DEFAULT_SORT_DIRECTION)
+          String sortDirection,
+      @RequestParam(value = "sort_by", defaultValue = "product_id") String sortBy) {
+    return productHelper.getAllProduct(pageNo, pageSize, sortBy, sortDirection);
+  }
+
+  /**
+   * Get all product.
+   *
+   * @param searchValue searchValue
+   * @return list object.
+   */
+  @GetMapping(value = "/search")
+  public List<IProduct> search(@RequestParam(value = "search_value") String searchValue) {
+    return productHelper.getAllProduct(searchValue);
   }
 
   /**

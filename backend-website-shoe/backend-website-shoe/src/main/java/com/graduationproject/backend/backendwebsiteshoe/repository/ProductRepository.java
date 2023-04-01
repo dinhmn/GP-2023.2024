@@ -5,6 +5,8 @@ import com.graduationproject.backend.backendwebsiteshoe.dto.IProduct;
 import com.graduationproject.backend.backendwebsiteshoe.entity.ProductEntity;
 import com.graduationproject.backend.backendwebsiteshoe.entity.ProductEntityKey;
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -38,6 +40,56 @@ public interface ProductRepository extends JpaRepository<ProductEntity, ProductE
           + " INNER JOIN tbl_product product ON product.category_id = category.category_id",
       nativeQuery = true)
   List<IProduct> findAllProduct();
+
+  /**
+   * Get all product.
+   *
+   * @param searchValue searchValue
+   * @return list of product.
+   */
+  @Query(value =
+      "SELECT trade.trademark_name as trademarkName, "
+          + " category.category_id AS categoryId, "
+          + " category.category_name AS categoryName, "
+          + " product.product_id AS productId, "
+          + " product.product_name AS productName, "
+          + " product.product_price AS productPrice, "
+          + " product.product_price_sale AS productPriceSale, "
+          + " product.quantity AS productQuantity, "
+          + " product.product_description AS productDescription, "
+          + " product.product_seo AS productSeo"
+          + " FROM tbl_trademark trade "
+          + " INNER JOIN tbl_category category ON trade.trademark_id =  category.trademark_id"
+          + " INNER JOIN tbl_product product ON product.category_id = category.category_id"
+      + " WHERE product.product_name LIKE %?1%"
+      + " ORDER BY product.product_name",
+      nativeQuery = true)
+  List<IProduct> findAllProduct(String searchValue);
+
+  /**
+   * Get all product.
+   *
+   * @param pageable pageable
+   * @return list of product.
+   */
+  @Query(value = "SELECT trade.trademark_name as trademarkName, "
+      + " category.category_id AS categoryId, "
+      + " category.category_name AS categoryName, "
+      + " product.product_id AS productId, "
+      + " product.product_name AS productName, "
+      + " product.product_price AS productPrice, "
+      + " product.product_price_sale AS productPriceSale, "
+      + " product.quantity AS productQuantity, "
+      + " product.product_description AS productDescription, "
+      + " product.product_seo AS productSeo"
+      + " FROM tbl_product product "
+      + " INNER JOIN tbl_category category ON product.category_id = category.category_id"
+      + " INNER JOIN tbl_trademark trade ON trade.trademark_id =  category.trademark_id",
+      nativeQuery = true, countQuery = "SELECT COUNT(*) "
+      + " FROM tbl_product product "
+      + " INNER JOIN tbl_category category ON product.category_id = category.category_id"
+      + " INNER JOIN tbl_trademark trade ON trade.trademark_id =  category.trademark_id")
+  Page<IProduct> findAllProduct(Pageable pageable);
 
   /**
    * Get information of product.

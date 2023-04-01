@@ -8,6 +8,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
@@ -38,6 +40,25 @@ public class CategoryService {
    */
   public List<ICategory> getAllByTrademark() {
     return categoryRepository.findAllCategory();
+  }
+
+  /**
+   * Get all category.
+   *
+   * @return list of entity category.
+   */
+  public List<ICategory> getAllByTrademark(int pageNo, int pageSize, String searchValue,
+                                           String sortBy) {
+    return categoryRepository.findAllCategory(pageNo, pageSize, searchValue, sortBy);
+  }
+
+  /**
+   * Get all category.
+   *
+   * @return list of entity category.
+   */
+  public Page<ICategory> getAllByTrademark(String searchValue, Pageable pageable) {
+    return categoryRepository.findAllCategory(searchValue, pageable);
   }
 
   /**

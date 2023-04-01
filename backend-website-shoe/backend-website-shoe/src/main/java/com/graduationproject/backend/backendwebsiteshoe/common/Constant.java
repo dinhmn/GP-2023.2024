@@ -1,4 +1,4 @@
-package com.graduationproject.backend.backendwebsiteshoe.Common;
+package com.graduationproject.backend.backendwebsiteshoe.common;
 
 /**
  * Define constant.
@@ -18,4 +18,11 @@ public interface Constant {
   String TRUE = "1";
 
   String FALSE = "0";
+
+  final String DEFAULT_PAGE_NUMBER = "0";
+
+  final String DEFAULT_PAGE_SIZE = "10";
+
+  final String DEFAULT_SORT_DIRECTION = "ASC";
+
 }

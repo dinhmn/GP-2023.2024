@@ -1,24 +1,29 @@
 package com.graduationproject.backend.backendwebsiteshoe.dto;
 
+/**
+ * Interface product.
+ *
+ * @author Mai Ngoc Dinh
+ */
 public interface IProduct {
-    
-    String getTrademarkName();
 
-     String getCategoryId();
+  String getTrademarkName();
 
-     String getCategoryName();
+  String getCategoryId();
 
-     String getProductId();
+  String getCategoryName();
 
-     String getProductName();
+  String getProductId();
 
-     String getProductPrice();
+  String getProductName();
 
-     String getProductPriceSale();
+  String getProductPrice();
 
-     String getProductQuantity();
+  String getProductPriceSale();
 
-     String getProductDescription();
+  String getProductQuantity();
 
-     String getProductSeo();
+  String getProductDescription();
+
+  String getProductSeo();
 }

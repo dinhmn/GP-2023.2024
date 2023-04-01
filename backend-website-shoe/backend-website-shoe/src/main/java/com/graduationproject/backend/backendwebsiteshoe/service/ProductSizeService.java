@@ -1,6 +1,6 @@
 package com.graduationproject.backend.backendwebsiteshoe.service;
 
-import com.graduationproject.backend.backendwebsiteshoe.Common.CommonService;
+import com.graduationproject.backend.backendwebsiteshoe.common.CommonService;
 import com.graduationproject.backend.backendwebsiteshoe.entity.ProductSizeEntity;
 import com.graduationproject.backend.backendwebsiteshoe.entity.ProductSizeEntityKey;
 import com.graduationproject.backend.backendwebsiteshoe.model.ProductSizeModel;

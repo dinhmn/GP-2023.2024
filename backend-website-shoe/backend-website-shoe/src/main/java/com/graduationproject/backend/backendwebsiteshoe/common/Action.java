@@ -1,4 +1,4 @@
-package com.graduationproject.backend.backendwebsiteshoe.Common;
+package com.graduationproject.backend.backendwebsiteshoe.common;
 
 import lombok.Getter;
 

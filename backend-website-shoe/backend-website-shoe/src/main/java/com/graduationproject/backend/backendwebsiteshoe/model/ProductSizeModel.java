@@ -5,15 +5,20 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Model product size.
+ *
+ * @author Mai Ngoc Dinh
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class ProductSizeModel {
 
-    private Long productSizeId;
-    
-    private String productSizeName;
-    
-    private Integer productSizeQuantity;
+  private Long productSizeId;
+
+  private String productSizeName;
+
+  private Integer productSizeQuantity;
 }
