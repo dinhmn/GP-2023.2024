@@ -23,7 +23,7 @@ const routes = [
     meta: {
       layout: 'admin'
     },
-    component: () => import("../pages/admin/category/Category.vue"),
+    component: () => import("../pages/admin/admin-page/Category.vue"),
   },
   {
     path: "/admin/category/register",
@@ -31,7 +31,7 @@ const routes = [
     meta: {
       layout: 'admin'
     },
-    component: () => import("../pages/admin/category/CategoryForm.vue"),
+    component: () => import("../pages/admin/admin-form/CategoryForm.vue"),
   },
   {
     path: "/admin/category/edit/:trademarkId/:categoryId",
@@ -39,7 +39,7 @@ const routes = [
     meta: {
       layout: 'admin'
     },
-    component: () => import("../pages/admin/category/CategoryForm.vue"),
+    component: () => import("../pages/admin/admin-form/CategoryForm.vue"),
   },
   {
     path: "/admin/product",
@@ -47,7 +47,7 @@ const routes = [
     meta: {
       layout: 'admin'
     },
-    component: () => import("../pages/admin/product/Product.vue"),
+    component: () => import("../pages/admin/admin-page/Product.vue"),
   },
   {
     path: "/admin/product/register",
@@ -55,7 +55,7 @@ const routes = [
     meta: {
       layout: 'admin'
     },
-    component: () => import("../pages/admin/product/ProductForm.vue"),
+    component: () => import("../pages/admin/admin-form/ProductForm.vue"),
   },
   {
     path: "/feature",

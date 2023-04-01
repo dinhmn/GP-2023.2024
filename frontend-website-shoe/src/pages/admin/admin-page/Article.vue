@@ -71,9 +71,9 @@
   </CommonAdmin>
 </template>
 <script setup>
-import CommonAdmin from '@/components/common/box-layout/CommonAdmin.vue'
+import CommonAdmin from '@/components/common/CommonAdmin.vue.js'
 </script>
-<style lang="css">
+<style lang="">
 ul li {
   padding: 4px 20px;
   text-align: center;
