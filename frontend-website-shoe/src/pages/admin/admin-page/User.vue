@@ -1,14 +1,15 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template lang="">
-  <CommonAdmin title="Product" page="5" actionNew="ProductRegisterAdmin">
+  <CommonAdmin title="User" page="5" actionNew="false">
     <template v-slot:thead>
       <thead class="w-full bg-[#0c3247] text-[#17b1ea]">
         <tr class="rounded-tl-md">
           <th>No.</th>
-          <th>Category Name</th>
-          <th>Product Name</th>
-          <th>Product Price</th>
-          <th>Quantity</th>
+          <th>User name</th>
+          <th>Full name</th>
+          <th>Email</th>
+          <th>Created date</th>
+          <th>Update date</th>
           <th>Status</th>
           <th class="w-[150px]">Action</th>
         </tr>
@@ -23,8 +24,9 @@
           <td>1</td>
           <td>1</td>
           <td>1</td>
+          <td>1</td>
           <td class="flex items-center justify-around gap-2">
-            <router-link to="/">
+            <router-link :to="{ name: 'UserUpdateAdmin', params: { id: 1 } }">
               <button
                 className="min-w-[60px] px-2 text-sm bg-green-700 hover:bg-green-600 block text-center m-0 hover:text-white"
                 name="edit"
@@ -48,8 +50,9 @@
           <td>1</td>
           <td>1</td>
           <td>1</td>
+          <td>1</td>
           <td class="flex items-center justify-around gap-2">
-            <router-link to="/">
+            <router-link :to="{ name: 'UserUpdateAdmin', params: { id: 2 } }">
               <button
                 className="min-w-[60px] px-2 text-sm bg-green-700 hover:bg-green-600 block text-center m-0 hover:text-white"
                 name="edit"
@@ -71,9 +74,9 @@
   </CommonAdmin>
 </template>
 <script setup>
-import CommonAdmin from '@/components/common/CommonAdmin.vue.js'
+import CommonAdmin from '@/components/common/CommonAdmin.vue'
 </script>
-<style lang="">
+<style lang="css">
 ul li {
   padding: 4px 20px;
   text-align: center;

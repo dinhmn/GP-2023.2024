@@ -1,14 +1,14 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template lang="">
-  <CommonAdmin title="Product" page="5" actionNew="ProductRegisterAdmin">
+  <CommonAdmin title="Cart" page="5" actionNew="false">
     <template v-slot:thead>
       <thead class="w-full bg-[#0c3247] text-[#17b1ea]">
         <tr class="rounded-tl-md">
           <th>No.</th>
-          <th>Category Name</th>
-          <th>Product Name</th>
-          <th>Product Price</th>
+          <th>Order code</th>
+          <th>Cart id</th>
           <th>Quantity</th>
+          <th>Created date</th>
           <th>Status</th>
           <th class="w-[150px]">Action</th>
         </tr>
@@ -71,9 +71,9 @@
   </CommonAdmin>
 </template>
 <script setup>
-import CommonAdmin from '@/components/common/CommonAdmin.vue.js'
+import CommonAdmin from '@/components/common/CommonAdmin.vue'
 </script>
-<style lang="">
+<style lang="css">
 ul li {
   padding: 4px 20px;
   text-align: center;

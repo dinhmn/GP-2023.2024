@@ -20,7 +20,7 @@
           className="bg-[#0c3247] text-[#17b1ea] hover:bg-[#10405a] hover:text-white"
         />
       </div>
-      <div>
+      <div v-if="props.actionNew != 'false'">
         <router-link :to="{ name: props.actionNew }">
           <Button
             type="button"

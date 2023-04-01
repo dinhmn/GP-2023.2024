@@ -1,6 +1,7 @@
 import {createRouter, createWebHistory} from "vue-router"
 
 const routes = [
+  // Router user
   {
     path: "/",
     name: "User",
@@ -9,6 +10,64 @@ const routes = [
     },
     component: () => import("../pages/user/Home.vue"),
   },
+  {
+    path: "/feature",
+    name: "Feature",
+    meta: {
+      layout: 'user'
+    },
+    component: () => import("../pages/user/Feature.vue"),
+  },
+  {
+    path: "/about",
+    name: "AboutPage",
+    meta: {
+      layout: 'user'
+    },
+    component: () => import("../pages/user/About.vue"),
+  },
+  {
+    path: "/product",
+    name: "Product",
+    meta: {
+      layout: 'user'
+    },
+    component: () => import("../pages/user/Product.vue"),
+  },
+  {
+    path: "/contact",
+    name: "Contact",
+    meta: {
+      layout: 'user'
+    },
+    component: () => import("../pages/user/Contact.vue"),
+  },
+  {
+    path: "/cart",
+    name: "Cart",
+    meta: {
+      layout: 'user'
+    },
+    component: () => import("../pages/user/Cart.vue"),
+  },
+  {
+    path: "/payment",
+    name: "Payment",
+    meta: {
+      layout: 'user'
+    },
+    component: () => import("../pages/user/Payment.vue"),
+  },
+  {
+    path: "/product/:id",
+    name: "DetailProduct",
+    meta: {
+      layout: 'user'
+    },
+    component: () => import("../pages/user/DetailProduct.vue"),
+  },
+
+  // Router Admin
   {
     path: "/admin",
     name: "Admin",
@@ -58,37 +117,71 @@ const routes = [
     component: () => import("../pages/admin/admin-form/ProductForm.vue"),
   },
   {
-    path: "/feature",
-    name: "Feature",
+    name: "ContactAdmin",
+    path: "/admin/contact",
     meta: {
-      layout: 'user'
+      layout: 'admin'
     },
-    component: () => import("../pages/user/Feature.vue"),
+    component: () => import("../pages/admin/admin-page/Contact.vue")
   },
   {
-    path: "/about",
-    name: "AboutPage",
+    name: "ArticleAdmin",
+    path: "/admin/article",
     meta: {
-      layout: 'user'
+      layout: 'admin'
     },
-    component: () => import("../pages/user/About.vue"),
+    component: () => import("../pages/admin/admin-page/Article.vue")
   },
   {
-    path: "/product",
-    name: "Product",
+    name: "CartAdmin",
+    path: "/admin/cart",
     meta: {
-      layout: 'user'
+      layout: 'admin'
     },
-    component: () => import("../pages/user/Product.vue"),
+    component: () => import("../pages/admin/admin-page/Cart.vue")
   },
   {
-    path: "/contact",
-    name: "Contact",
+    name: "OrderAdmin",
+    path: "/admin/order",
     meta: {
-      layout: 'user'
+      layout: 'admin'
     },
-    component: () => import("../pages/user/Contact.vue"),
+    component: () => import("../pages/admin/admin-page/Order.vue")
   },
+  {
+    name: "UserAdmin",
+    path: "/admin/user",
+    meta: {
+      layout: 'admin'
+    },
+    component: () => import("../pages/admin/admin-page/User.vue")
+  },
+  {
+    name: "UserUpdateAdmin",
+    path: "/admin/user/detail/:id",
+    meta: {
+      layout: 'admin'
+    },
+    component: () => import("../pages/admin/admin-form/UserForm.vue")
+  },
+  {
+    name: "RoleAdmin",
+    path: "/admin/role",
+    meta: {
+      layout: 'admin'
+    },
+    component: () => import("../pages/admin/admin-page/Role.vue")
+  },
+  {
+    name: "RoleRegisterAdmin",
+    path: "/admin/role/register",
+    meta: {
+      layout: 'admin'
+    },
+    component: () => import("../pages/admin/admin-form/RoleForm.vue")
+  },
+
+  // Router Login
   {
     path: "/auth/login",
     name: "Login",
@@ -105,31 +198,16 @@ const routes = [
     },
     component: () => import("../pages/auth/Signup.vue"),
   },
+
+  // Router 404
   {
-    path: "/cart",
-    name: "Cart",
+    path: '/:pathMatch(.*)*',
+    name: "404",
     meta: {
-      layout: 'user'
+      layout: '404'
     },
-    component: () => import("../pages/user/Cart.vue"),
-  },
-  {
-    path: "/payment",
-    name: "Payment",
-    meta: {
-      layout: 'user'
-    },
-    component: () => import("../pages/user/Payment.vue"),
-  },
-  {
-    path: "/product/:id",
-    name: "DetailProduct",
-    meta: {
-      layout: 'user'
-    },
-    component: () => import("../pages/user/DetailProduct.vue"),
-  },
-  
+    component: () => import("../pages/auth/404-page.vue")
+  }
 ]
 
 const router = createRouter({

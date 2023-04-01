@@ -1,14 +1,16 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template lang="">
-  <CommonAdmin title="Product" page="5" actionNew="ProductRegisterAdmin">
+  <CommonAdmin title="Order" page="5" actionNew="false">
     <template v-slot:thead>
       <thead class="w-full bg-[#0c3247] text-[#17b1ea]">
         <tr class="rounded-tl-md">
           <th>No.</th>
-          <th>Category Name</th>
-          <th>Product Name</th>
-          <th>Product Price</th>
+          <th>Full name</th>
+          <th>Order code</th>
           <th>Quantity</th>
+          <th>Order total price</th>
+          <th>Created date</th>
+          <th>Updated date</th>
           <th>Status</th>
           <th class="w-[150px]">Action</th>
         </tr>
@@ -23,13 +25,15 @@
           <td>1</td>
           <td>1</td>
           <td>1</td>
+          <td>1</td>
+          <td>1</td>
           <td class="flex items-center justify-around gap-2">
             <router-link to="/">
               <button
                 className="min-w-[60px] px-2 text-sm bg-green-700 hover:bg-green-600 block text-center m-0 hover:text-white"
                 name="edit"
               >
-                Edit
+                View
               </button>
             </router-link>
 
@@ -37,7 +41,7 @@
               class="block min-w-[60px] px-2 m-0 text-sm text-center bg-red-700 hover:bg-red-600 mr-3"
               name="delete"
             >
-              Delete
+              Print
             </button>
           </td>
         </tr>
@@ -48,13 +52,15 @@
           <td>1</td>
           <td>1</td>
           <td>1</td>
+          <td>1</td>
+          <td>1</td>
           <td class="flex items-center justify-around gap-2">
             <router-link to="/">
               <button
                 className="min-w-[60px] px-2 text-sm bg-green-700 hover:bg-green-600 block text-center m-0 hover:text-white"
                 name="edit"
               >
-                Edit
+                View
               </button>
             </router-link>
 
@@ -62,7 +68,7 @@
               class="block min-w-[60px] px-2 m-0 text-sm text-center bg-red-700 hover:bg-red-600 mr-3"
               name="delete"
             >
-              Delete
+              Print
             </button>
           </td>
         </tr>
@@ -71,9 +77,9 @@
   </CommonAdmin>
 </template>
 <script setup>
-import CommonAdmin from '@/components/common/CommonAdmin.vue.js'
+import CommonAdmin from '@/components/common/CommonAdmin.vue'
 </script>
-<style lang="">
+<style lang="css">
 ul li {
   padding: 4px 20px;
   text-align: center;
