@@ -6,5 +6,6 @@ export function registerGlobalComponents(app) {
   app.component("auth-layout", defineAsyncComponent(() => import("@/layouts/AuthLayout.vue")));
   app.component("login-auth", defineAsyncComponent(() => import("@/pages/auth/Login.vue")));
   app.component("signup-auth", defineAsyncComponent(() => import("@/pages/auth/Signup.vue")));
+  app.component("404-layout", defineAsyncComponent(() => import("@/pages/auth/404-page.vue")));
 };
 

@@ -7,15 +7,16 @@
 <script>
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { PUBLIC_AUTH } from '@/constants'
-import { PUBLIC_ADMIN } from '@/constants'
+import { PUBLIC_AUTH, PUBLIC_ADMIN, NOT_FOUND } from '@/constants'
 
 export default {
   name: 'App',
   setup() {
     const route = useRoute()
     return {
-      layout: computed(() => (route.meta.layout || PUBLIC_AUTH || PUBLIC_ADMIN) + '-layout')
+      layout: computed(
+        () => (route.meta.layout || PUBLIC_AUTH || PUBLIC_ADMIN || NOT_FOUND) + '-layout'
+      )
     }
   }
 }
