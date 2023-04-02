@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template lang="">
-  <CommonAdmin title="Product" page="5" actionNew="false">
+  <CommonAdmin title="Article" page="5" actionNew="ArticleRegisterAdmin">
     <template v-slot:thead>
       <thead class="w-full bg-[#0c3247] text-[#17b1ea]">
         <tr class="rounded-tl-md">
