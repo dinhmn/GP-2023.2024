@@ -25,4 +25,8 @@ public interface Constant {
 
   final String DEFAULT_SORT_DIRECTION = "ASC";
 
+  String EMPTY_SPACE = "";
+
+  Long EMPTY_NULL = null;
+
 }

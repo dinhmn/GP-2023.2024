@@ -7,7 +7,6 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.IdClass;
 import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 import java.io.Serializable;
@@ -23,7 +22,6 @@ import org.hibernate.annotations.GenericGenerator;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
-@IdClass(SourceImagesEntityKey.class)
 @Table(name = "tbl_source_images")
 public class SourceImagesEntity extends BaseEntity implements Serializable {
 
@@ -53,9 +51,11 @@ public class SourceImagesEntity extends BaseEntity implements Serializable {
   @GenericGenerator(name = "uuid", strategy = "uuid2")
   private Long imageId;
 
-  @Id
-  @Column(name = "product_id", nullable = false)
+  @Column(name = "product_id")
   private Long productId;
+
+  @Column(name = "article_id")
+  private Long articleId;
 
   @Column(name = "user_information_id")
   private Long userInformationId;
@@ -76,6 +76,7 @@ public class SourceImagesEntity extends BaseEntity implements Serializable {
    * ImageCode = 31 => Image main product
    * ImageCode = 32 => Image multiple product
    * ImageCode = 33 => Image product color
+   * ImageCode = 34 => Image article
    * */
   @Column(name = "image_code", length = 2)
   private String imageCode;

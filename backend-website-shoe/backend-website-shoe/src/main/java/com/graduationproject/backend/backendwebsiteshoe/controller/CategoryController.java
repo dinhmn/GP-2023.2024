@@ -85,7 +85,7 @@ public class CategoryController {
    */
   @PostMapping(value = "/register")
   public ResponseEntity<CategoryEntity> registerCategory(@RequestBody CategoryModel categoryModel) {
-    CategoryEntity categoryEntity = categoryHelper.saveOrInsert(categoryModel, "insert");
+    CategoryEntity categoryEntity = categoryHelper.insertOrUpdate(categoryModel, "insert");
     return new ResponseEntity<>(categoryEntity, HttpStatus.OK);
   }
 
@@ -103,7 +103,7 @@ public class CategoryController {
                                                        @PathVariable final String trademarkId) {
     categoryModel.setCategoryId(Long.parseLong(categoryId));
     categoryModel.setTrademarkId(Long.parseLong(trademarkId));
-    CategoryEntity categoryEntity = categoryHelper.saveOrInsert(categoryModel, "update");
+    CategoryEntity categoryEntity = categoryHelper.insertOrUpdate(categoryModel, "update");
 
     return new ResponseEntity<>(categoryEntity, HttpStatus.OK);
   }

@@ -4,7 +4,6 @@ import com.graduationproject.backend.backendwebsiteshoe.common.CommonService;
 import com.graduationproject.backend.backendwebsiteshoe.common.Constant;
 import com.graduationproject.backend.backendwebsiteshoe.common.Image;
 import com.graduationproject.backend.backendwebsiteshoe.entity.SourceImagesEntity;
-import com.graduationproject.backend.backendwebsiteshoe.entity.SourceImagesEntityKey;
 import com.graduationproject.backend.backendwebsiteshoe.model.ProductModel;
 import com.graduationproject.backend.backendwebsiteshoe.repository.SourceImagesRepository;
 import java.io.IOException;
@@ -12,6 +11,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -56,12 +56,10 @@ public class SourceImageService {
       if (files.size() < productModel.getSourceImageModelList().size()) {
         // Delete image when file image in database > file image in input
         for (int i = files.size(); i < productModel.getSourceImageModelList().size(); i++) {
-          SourceImagesEntityKey sourceImagesEntityKey = new SourceImagesEntityKey();
-          sourceImagesEntityKey.setPk(productModel.getProductId(),
-              Long.parseLong(productModel.getSourceImageModelList().get(i).getImageId()));
+          Long imageId = Long.parseLong(productModel.getSourceImageModelList().get(i).getImageId());
 
           // Delete by primary key
-          sourceImagesRepository.deleteById(sourceImagesEntityKey);
+          sourceImagesRepository.deleteById(imageId);
         }
 
         this.updateFileImages(files, productId, productModel);
@@ -77,6 +75,63 @@ public class SourceImageService {
       }
     }
 
+  }
+
+  /**
+   * Upload file article.
+   *
+   * @param file      file
+   * @param articleId articleId
+   * @param type      type
+   * @throws Error with image.
+   */
+  @NonNull
+  public void insertOrUpdate(MultipartFile file, Long articleId, String type) throws IOException {
+    // Insert file image
+    this.insertFileImage(file, articleId, type);
+  }
+
+  /**
+   * Upload file article.
+   *
+   * @param file      file
+   * @param articleId articleId
+   * @throws Error with image.
+   */
+  private void insertFileImage(MultipartFile file, Long articleId, String type) throws IOException {
+    String fileName =
+        StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
+    try {
+      // Check file name
+      if (fileName.contains("..")) {
+        throw new IOException("Filename contains invalid path sequence" + fileName);
+      }
+
+      if (Constant.UPDATE.equals(type)) {
+        Optional<SourceImagesEntity> sourceImagesEntity =
+            sourceImagesRepository.findByArticleId(articleId);
+        SourceImagesEntity entity;
+        if (sourceImagesEntity.isPresent()) {
+          entity = this.toBuildSourceImageArticle(sourceImagesEntity.get(), file, fileName);
+        } else {
+          entity =
+              this.toBuildSourceImageArticle(file, fileName, articleId);
+        }
+        sourceImagesRepository.save(entity);
+      }
+
+      if (Constant.INSERT.equals(type)) {
+        // Insert data into database if type is insert.
+        SourceImagesEntity entity =
+            this.toBuildSourceImageArticle(file, fileName, articleId);
+
+        // Save data into database.
+        sourceImagesRepository.save(entity);
+      }
+
+    } catch (Exception e) {
+      throw new IOException("Could not save File: " + fileName);
+    }
   }
 
   /**
@@ -100,12 +155,11 @@ public class SourceImageService {
         }
 
         // Update data into database if type is update
-        SourceImagesEntityKey keyImage = new SourceImagesEntityKey();
-        keyImage.setPk(productId,
-            Long.parseLong(productModel.getSourceImageModelList().get(i).getImageId()));
+        Long imageId = Long.parseLong(productModel.getSourceImageModelList().get(i).getImageId());
+
         SourceImagesEntity entity;
         Optional<SourceImagesEntity> imageInDatabase =
-            sourceImagesRepository.findById(keyImage);
+            sourceImagesRepository.findById(imageId);
         if (imageInDatabase.isPresent()) {
           entity = this.toBuildSourceImage(file, fileName, imageInDatabase.get());
         } else {
@@ -167,6 +221,37 @@ public class SourceImageService {
   }
 
   /**
+   * Select source image of article by articleId.
+   *
+   * @param articleId  articleId
+   * @return entity
+   */
+  public Optional<SourceImagesEntity> selectImageIdByArticleId(Long articleId) {
+    return sourceImagesRepository.findByArticleId(articleId);
+  }
+
+  /**
+   * Delete all source image of article by articleId.
+   *
+   * @param articleId  articleId
+   * @return True or False.
+   */
+  public Boolean deleteByArticleId(Long articleId) {
+    Optional<SourceImagesEntity> entity = this.selectImageIdByArticleId(articleId);
+
+    if (entity.isPresent()) {
+      try {
+        sourceImagesRepository.deleteById(entity.get().getImageId());
+        return Boolean.TRUE;
+      } catch (DataAccessException dataAccessException) {
+        dataAccessException.printStackTrace();
+      }
+    }
+
+    return Boolean.FALSE;
+  }
+
+  /**
    * To build source image use update.
    *
    * @param file          file
@@ -210,6 +295,46 @@ public class SourceImageService {
     entity.setImageCode(imageCode);
     entity.setUserInformationId(null);
     commonService.setCommonCreatedEntity(entity);
+
+    return entity;
+  }
+
+  /**
+   * To build source image use create new with article.
+   *
+   * @param file      file
+   * @param fileName  fileName
+   * @param articleId articleId
+   * @return entity
+   */
+  private SourceImagesEntity toBuildSourceImageArticle(MultipartFile file, String fileName,
+                                                       Long articleId) throws IOException {
+    SourceImagesEntity entity = new SourceImagesEntity();
+    entity.setArticleId(articleId);
+    entity.setData(file.getBytes());
+    entity.setFileType(file.getContentType());
+    entity.setFileName(fileName);
+    entity.setImageCode(Image.IMAGE_ARTICLE.getCode());
+    commonService.setCommonCreatedEntity(entity);
+
+    return entity;
+  }
+
+  /**
+   * To build source image use create new with article.
+   *
+   * @param entity   entity
+   * @param file     file
+   * @param fileName fileName
+   * @return entity
+   */
+  private SourceImagesEntity toBuildSourceImageArticle(SourceImagesEntity entity,
+                                                       MultipartFile file, String fileName)
+      throws IOException {
+    entity.setData(file.getBytes());
+    entity.setFileType(file.getContentType());
+    entity.setFileName(fileName);
+    commonService.setCommonUpdateEntity(entity);
 
     return entity;
   }

@@ -110,7 +110,7 @@ public class CategoryHelper {
    * @param type          type
    * @return entity
    */
-  public CategoryEntity saveOrInsert(CategoryModel categoryModel, String type) {
+  public CategoryEntity insertOrUpdate(CategoryModel categoryModel, String type) {
     CategoryEntity categoryEntity;
     if (Action.UPDATE.getValue().equals(type)) {
       Optional<CategoryEntity> category = categoryService
