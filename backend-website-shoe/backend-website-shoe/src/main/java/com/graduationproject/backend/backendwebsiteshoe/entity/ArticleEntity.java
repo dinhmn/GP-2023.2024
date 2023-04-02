@@ -5,7 +5,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.IdClass;
 import jakarta.persistence.Table;
 import java.io.Serializable;
 import lombok.Data;
@@ -19,7 +18,6 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
-@IdClass(ArticleEntityKey.class)
 @Table(name = "tbl_article")
 public class ArticleEntity extends BaseEntity implements Serializable {
 
@@ -35,8 +33,7 @@ public class ArticleEntity extends BaseEntity implements Serializable {
   @Column(name = "article_id", nullable = false)
   private Long articleId;
 
-  @Id
-  @Column(name = "product_id", nullable = false)
+  @Column(name = "product_id")
   private Long productId;
 
   @Column(name = "article_name", nullable = false)
