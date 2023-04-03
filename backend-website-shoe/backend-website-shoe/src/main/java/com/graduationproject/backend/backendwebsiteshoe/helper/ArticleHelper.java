@@ -181,7 +181,8 @@ public class ArticleHelper {
     articleEntity.setArticleSeo(commonService.setSeo(articleEntity.getArticleName()));
     articleEntity.setProductId(articleModel.getProductId());
     commonService.setCommonCreatedEntity(articleEntity);
-
+    articleEntity.setStatus(
+        articleModel.getArticleStatus().equals(Constant.TRUE) ? Boolean.TRUE : Boolean.FALSE);
     return articleEntity;
   }
 }

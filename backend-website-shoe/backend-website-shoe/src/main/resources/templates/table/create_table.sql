@@ -2,7 +2,7 @@ DROP TABLE if EXISTS tbl_article CASCADE;
 CREATE TABLE tbl_article (
      article_id BIGINT NOT NULL AUTO_INCREMENT,
      product_id BIGINT,
-     article_description VARCHAR(255) NOT NULL,
+     article_description LONGTEXT NOT NULL,
      article_name VARCHAR(255) NOT NULL,
      article_seo VARCHAR(255) NOT NULL,
      created_by INTEGER NOT NULL,
@@ -182,10 +182,10 @@ create table tbl_role (
 DROP TABLE if EXISTS tbl_source_images CASCADE;
 create table tbl_source_images (
    image_id BIGINT NOT NULL AUTO_INCREMENT,
-   product_id BIGINT NOT NULL,
+   product_id BIGINT,
    user_information_id BIGINT,
    article_id BIGINT,
-   data tinyblob NOT NULL,
+   data BLOB NOT NULL,
    file_name VARCHAR(255) NOT NULL,
    file_type VARCHAR(255) NOT NULL,
    image_code VARCHAR(2),
@@ -194,7 +194,7 @@ create table tbl_source_images (
    status BIT,
    updated_by INTEGER NOT NULL,
    updated_date DATETIME(6) NOT NULL,
-   PRIMARY KEY (image_id, product_id)
+   PRIMARY KEY (image_id)
 );
 
 DROP TABLE if EXISTS tbl_trademark CASCADE;

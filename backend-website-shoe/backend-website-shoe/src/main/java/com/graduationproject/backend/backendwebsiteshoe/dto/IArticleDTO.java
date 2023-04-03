@@ -21,6 +21,10 @@ public interface IArticleDTO {
 
   String getCreatedDate();
 
+  String getUpdatedDate();
+
+  String getArticleStatus();
+
   String getFileName();
 
   String getFileType();
