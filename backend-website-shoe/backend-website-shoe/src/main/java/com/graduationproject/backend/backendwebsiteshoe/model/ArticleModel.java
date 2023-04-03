@@ -24,4 +24,6 @@ public class ArticleModel {
 
   private Long productId;
 
+  private String articleStatus;
+
 }

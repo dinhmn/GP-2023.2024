@@ -1,5 +1,5 @@
 <template lang="">
-  <div class="w-full h-[100vh] text-white">
+  <div class="w-full text-white">
     <h2 class="w-full my-2 mb-4 font-bold">
       <span class="text-xl">Dashboard</span> <strong> > </strong>
       <span class="text-[#17b1ea] text-xl">{{ props.title }}</span>
@@ -53,6 +53,7 @@
 </template>
 <script setup>
 import { ref } from 'vue'
+import Input from '@/components/common/input/Input.vue'
 import Button from '@/components/common/button/Button.vue'
 const errorMessage = ref(false)
 const props = defineProps({

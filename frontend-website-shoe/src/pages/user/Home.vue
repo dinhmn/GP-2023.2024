@@ -100,7 +100,7 @@
 </template>
 <script>
 import Item from '@/components/common/product/Item.vue'
-import BoxCommon from '@/components/common/BoxCommon.vue.js'
+import BoxCommon from '@/components/common/BoxCommon.vue'
 import Article from '@/components/common/product/Article.vue'
 const trademark = [
   {
