@@ -141,6 +141,14 @@ const routes = [
     component: () => import("../pages/admin/admin-form/ArticleForm.vue")
   },
   {
+    name: "ArticleUpdateAdmin",
+    path: "/admin/article/update/:articleId",
+    meta: {
+      layout: 'admin'
+    },
+    component: () => import("../pages/admin/admin-form/ArticleForm.vue")
+  },
+  {
     name: "CartAdmin",
     path: "/admin/cart",
     meta: {

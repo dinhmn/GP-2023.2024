@@ -16,7 +16,13 @@
         >Add new article</strong
       >
       <!-- {{ param == null ? 'Add new product' : 'Edit product' }} -->
-      <form class="w-full post" method="post" enctype="multipart/form-data">
+      <form
+        class="w-full post"
+        @submit.prevent="onSubmit"
+        method="post"
+        enctype="multipart/form-data"
+        name="articleForm"
+      >
         <!-- Form Payment -->
         <div class="w-full">
           <!-- Form full name. -->
@@ -34,7 +40,11 @@
           <div class="mb-3">
             <span class="text-base">Article description</span>
             <div class="bg-white">
-              <quill-editor v-model:content="state.articleDescription" theme="snow"></quill-editor>
+              <quill-editor
+                v-model:content="state.articleDescription"
+                contentType="html"
+                theme="snow"
+              ></quill-editor>
             </div>
           </div>
           <!-- Form upload image. -->
@@ -48,7 +58,7 @@
                   name="fileName"
                   for="file"
                   disabled
-                  :value="files"
+                  :value="fileName"
                   placeholder="Choose file..."
                 />
                 <span
@@ -56,13 +66,7 @@
                   >Upload file</span
                 >
               </label>
-              <input
-                @change="onChangeFile($event)"
-                type="file"
-                id="file"
-                class="hidden w-full"
-                multiple
-              />
+              <input @change="onChangeFile($event)" type="file" id="file" class="hidden w-full" />
             </div>
           </div>
         </div>
@@ -74,7 +78,7 @@
               name="categoryStatus"
               class="w-full p-2 mt-1 rounded-sm outline-none"
               id="status"
-              @change="switchSelectStatus($event)"
+              @change="switchSelectStatus(event)"
             >
               <option value="1" selected>Active</option>
               <option value="0">In-Active</option>
@@ -83,8 +87,7 @@
         </div>
         <!-- Button submit order. -->
         <Button
-          @click.prevent="onSubmit"
-          type="button"
+          type="submit"
           className="bg-brown hover:bg-brown-hover text-white w-full m-0 mt-3"
           name="login"
           text="Register"
@@ -103,33 +106,35 @@ const state = reactive({
   articleId: 1,
   articleName: '',
   articleDescription: '',
-  productId: 1
+  productId: 1,
+  articleStatus: '1'
 })
-const articleForm = reactive({
-  articleModel: {},
-  file: {}
-})
-const files = ref([])
-const switchSelectStatus = (event) => {
-  state.status = event.target.value
-}
+const fileName = ref('')
+const file = ref()
 const onChangeFile = (event) => {
-  files.value = event.target.files[0]
+  file.value = event.target.files[0]
+  fileName.value = event.target.files[0].name
 }
-
-const onSubmit = () => {
-  articleForm.articleModel = state
-  articleForm.file = files.value
-  const formData = new FormData(['file', files.value])
-  // formData.append('file', files.value)
-  console.log(formData)
-  apiPost(state, files.value)
+const switchSelectStatus = (event) => {
+  state.articleStatus = event.target.value
 }
-
-function apiPost(articleModel, file) {
-  console.log(file)
+async function onSubmit() {
+  try {
+    const formData = new FormData()
+    formData.append('file', file.value)
+    formData.append('article', JSON.stringify(state))
+    await apiPost(formData)
+    state.articleName = ''
+    state.articleDescription = ''
+    state.articleStatus = '1'
+    fileName.value = ''
+  } catch (e) {
+    console.log(e)
+  }
+}
+async function apiPost(formData) {
   axios
-    .post(API_ARTICLE_POST, { articleModel, file })
+    .post(API_ARTICLE_POST, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
     .then((response) => {
       console.log('Success: ' + response)
     })
