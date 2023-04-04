@@ -3,7 +3,7 @@ package com.graduationproject.backend.backendwebsiteshoe.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.graduationproject.backend.backendwebsiteshoe.common.Constant;
-import com.graduationproject.backend.backendwebsiteshoe.dto.IArticle;
+import com.graduationproject.backend.backendwebsiteshoe.dto.IArticleDTO;
 import com.graduationproject.backend.backendwebsiteshoe.entity.ArticleEntity;
 import com.graduationproject.backend.backendwebsiteshoe.forms.ArticleForm;
 import com.graduationproject.backend.backendwebsiteshoe.forms.ArticleFormPage;
@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -88,7 +87,7 @@ public class ArticleController {
    * @return list object.
    */
   @GetMapping(value = "/init/{articleId}")
-  public IArticle selectByArticleId(@PathVariable Long articleId) {
+  public IArticleDTO selectByArticleId(@PathVariable Long articleId) {
     return articleHelper.getArticleByKey(articleId).get();
   }
 

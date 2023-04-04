@@ -4,10 +4,8 @@ import com.graduationproject.backend.backendwebsiteshoe.common.CommonService;
 import com.graduationproject.backend.backendwebsiteshoe.common.Constant;
 import com.graduationproject.backend.backendwebsiteshoe.common.Image;
 import com.graduationproject.backend.backendwebsiteshoe.common.User;
-import com.graduationproject.backend.backendwebsiteshoe.dto.IArticle;
 import com.graduationproject.backend.backendwebsiteshoe.dto.IArticleDTO;
 import com.graduationproject.backend.backendwebsiteshoe.entity.ArticleEntity;
-import com.graduationproject.backend.backendwebsiteshoe.entity.ProductEntity;
 import com.graduationproject.backend.backendwebsiteshoe.forms.ArticleForm;
 import com.graduationproject.backend.backendwebsiteshoe.forms.ArticleFormPage;
 import com.graduationproject.backend.backendwebsiteshoe.model.ArticleModel;
@@ -107,9 +105,9 @@ public class ArticleHelper {
    * @return article.
    */
   @NonNull
-  public Optional<IArticle> getArticleByKey(Long articleId) {
+  public Optional<IArticleDTO> getArticleByKey(Long articleId) {
     return articleService
-        .getArticleByKey(articleId, User.CUSTOMER.getCode(), Image.IMAGE_ARTICLE.getCode());
+        .getArticleByKey(articleId);
   }
 
   /**

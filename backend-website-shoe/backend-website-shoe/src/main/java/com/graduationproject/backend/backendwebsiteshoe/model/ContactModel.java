@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Model article.
+ * Model contact.
  *
  * @author Mai Ngoc Dinh.
  */
@@ -14,16 +14,16 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ArticleModel {
-
-  private Long articleId;
-
-  private String articleName;
-
-  private String articleDescription;
+public class ContactModel {
 
   private Long productId;
 
-  private String articleStatus;
+  private String contactEmail;
+
+  private String contactMessage;
+
+  private String contactName;
+
+  private String contactStatus;
 
 }

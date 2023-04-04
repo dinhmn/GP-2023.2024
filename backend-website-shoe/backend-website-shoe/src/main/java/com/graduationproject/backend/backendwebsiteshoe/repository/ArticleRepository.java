@@ -40,6 +40,24 @@ public interface ArticleRepository extends JpaRepository<ArticleEntity, Long> {
   Optional<IArticle> findByArticleId(Long articleId, String userCode, String commentCode);
 
   /**
+   * Get article.
+   *
+   * @param articleId articleId
+   * @return article.
+   */
+  @Query(value = "SELECT article.article_id AS articleId, article.article_name AS articleName, "
+      + " article.article_description AS articleDescription, product.product_id AS productName, "
+      + " article.article_seo AS articleSeo, article.created_date AS createdDate, "
+      + " images.file_name AS fileName, images.file_type AS fileType, images.data AS fileData, "
+      + " product.product_name AS productName, article.updated_date AS updatedDate, "
+      + " article.status AS articleStatus"
+      + " FROM tbl_article article"
+      + " LEFT JOIN tbl_product product ON product.product_id = article.product_id"
+      + " LEFT JOIN tbl_source_images images ON images.article_id = article.article_id"
+      + " WHERE article.article_id = ?1 AND images.image_code = 34", nativeQuery = true)
+  Optional<IArticleDTO> findByArticleId(Long articleId);
+
+  /**
    * Get all article.
    *
    * @param pageable pageable

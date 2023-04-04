@@ -1,7 +1,7 @@
 package com.graduationproject.backend.backendwebsiteshoe.forms;
 
-import com.graduationproject.backend.backendwebsiteshoe.dto.IArticleDTO;
-import com.graduationproject.backend.backendwebsiteshoe.entity.ArticleEntity;
+import com.graduationproject.backend.backendwebsiteshoe.dto.IContact;
+import com.graduationproject.backend.backendwebsiteshoe.entity.ContactEntity;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Form article response pageable.
+ * Form contact response pageable.
  *
  * @author Mai Ngoc Dinh
  */
@@ -17,11 +17,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ArticleFormPage {
+public class ContactFormPage {
 
-  private List<ArticleEntity> articleEntityList;
+  private List<ContactEntity> contactModelList;
 
-  private List<IArticleDTO> articleDTOList;
+  private List<IContact> contactList;
 
   private int pageNo;
 

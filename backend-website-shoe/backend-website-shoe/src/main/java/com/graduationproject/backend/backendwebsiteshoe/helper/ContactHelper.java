@@ -2,18 +2,12 @@ package com.graduationproject.backend.backendwebsiteshoe.helper;
 
 import com.graduationproject.backend.backendwebsiteshoe.common.CommonService;
 import com.graduationproject.backend.backendwebsiteshoe.common.Constant;
-import com.graduationproject.backend.backendwebsiteshoe.common.Image;
-import com.graduationproject.backend.backendwebsiteshoe.common.User;
-import com.graduationproject.backend.backendwebsiteshoe.dto.IArticleDTO;
-import com.graduationproject.backend.backendwebsiteshoe.entity.ArticleEntity;
-import com.graduationproject.backend.backendwebsiteshoe.forms.ArticleForm;
-import com.graduationproject.backend.backendwebsiteshoe.forms.ArticleFormPage;
-import com.graduationproject.backend.backendwebsiteshoe.model.ArticleModel;
-import com.graduationproject.backend.backendwebsiteshoe.service.ArticleService;
-import com.graduationproject.backend.backendwebsiteshoe.service.SourceImageService;
-import java.io.IOException;
+import com.graduationproject.backend.backendwebsiteshoe.dto.IContact;
+import com.graduationproject.backend.backendwebsiteshoe.entity.ContactEntity;
+import com.graduationproject.backend.backendwebsiteshoe.forms.ContactFormPage;
+import com.graduationproject.backend.backendwebsiteshoe.model.ContactModel;
+import com.graduationproject.backend.backendwebsiteshoe.service.ContactService;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,166 +15,108 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
 /**
- * Implement helper of article.
+ * Implement helper of contact.
  *
  * @author Mai Ngoc Dinh
  */
 @Component
-public class ArticleHelper {
+public class ContactHelper {
 
   @Autowired
   CommonService commonService;
 
   @Autowired
-  ArticleService articleService;
-
-  @Autowired
-  SourceImageService sourceImageService;
+  ContactService contactService;
 
   /**
-   * Select all article.
+   * Select all contact.
    *
-   * @param pageNo pageNo
-   * @param pageSize pageSize
-   * @param sortBy sortBy
+   * @param pageNo        pageNo
+   * @param pageSize      pageSize
+   * @param sortBy        sortBy
    * @param sortDirection sortDirection
-   * @return list article.
+   * @return list contact.
    */
   @NonNull
-  public ArticleFormPage getAllArticle(int pageNo, int pageSize, String sortBy,
+  public ContactFormPage getAllContact(int pageNo, int pageSize, String sortBy,
                                        String sortDirection) {
     Pageable pageable = commonService.setPageable(pageSize, pageNo, sortBy, sortDirection);
 
     // Create pageable instance
-    Page<ArticleEntity> article = articleService.getAll(pageable);
+    Page<ContactEntity> contact = contactService.getAll(pageable);
 
     // Get content for page object
-    List<ArticleEntity> articleList = article.getContent();
+    List<ContactEntity> contactModelList = contact.getContent();
 
-    return ArticleFormPage.builder()
-        .articleEntityList(articleList)
-        .pageNo(article.getNumber())
-        .pageSize(article.getSize())
-        .totalElements(article.getTotalElements())
-        .totalPages(article.getTotalPages())
-        .last(article.isLast())
+    return ContactFormPage.builder()
+        .contactModelList(contactModelList)
+        .pageNo(contact.getNumber())
+        .pageSize(contact.getSize())
+        .totalElements(contact.getTotalElements())
+        .totalPages(contact.getTotalPages())
+        .last(contact.isLast())
         .build();
   }
 
   /**
-   * Select all article.
+   * Select all contact.
    *
-   * @param pageNo pageNo
-   * @param pageSize pageSize
-   * @param sortBy sortBy
+   * @param pageNo        pageNo
+   * @param pageSize      pageSize
+   * @param sortBy        sortBy
    * @param sortDirection sortDirection
-   * @return list article.
+   * @param searchValue   searchValue
+   * @return list contact.
    */
   @NonNull
-  public ArticleFormPage getAllArticleUser(int pageNo, int pageSize, String sortBy,
-                                             String sortDirection) {
+  public ContactFormPage getAllContactUser(int pageNo, int pageSize, String sortBy,
+                                           String sortDirection, String searchValue) {
 
     Pageable pageable = commonService.setPageable(pageSize, pageNo, sortBy, sortDirection);
 
     // Create pageable instance
-    Page<IArticleDTO> article = articleService.getAllArticle(pageable);
+    Page<IContact> contact = contactService.getAllPageable(searchValue, pageable);
 
     // Get content for page object
-    List<IArticleDTO> articleList = article.getContent();
+    List<IContact> contactList = contact.getContent();
 
-    return ArticleFormPage.builder()
-        .articleDTOList(articleList)
-        .pageNo(article.getNumber())
-        .pageSize(article.getSize())
-        .totalElements(article.getTotalElements())
-        .totalPages(article.getTotalPages())
-        .last(article.isLast())
+    return ContactFormPage.builder()
+        .contactList(contactList)
+        .pageNo(contact.getNumber())
+        .pageSize(contact.getSize())
+        .totalElements(contact.getTotalElements())
+        .totalPages(contact.getTotalPages())
+        .last(contact.isLast())
         .build();
   }
 
   /**
-   * Select article by articleId.
+   * Insert new entity of contact.
    *
-   * @param articleId articleId
-   * @return article.
+   * @param contactModel contactModel
+   * @return entity contact.
    */
-  @NonNull
-  public Optional<IArticleDTO> getArticleByKey(Long articleId) {
-    return articleService
-        .getArticleByKey(articleId);
+  public ContactEntity insert(@NonNull ContactModel contactModel) {
+    ContactEntity contactEntity =
+        this.toBuildContact(contactModel);
+    return contactService.insert(contactEntity);
   }
 
   /**
-   * Insert new entity of article.
+   * Build contact entity.
    *
-   * @param articleForm articleForm
-   * @return entity category.
-   */
-  public ArticleEntity insert(@NonNull ArticleForm articleForm) throws IOException {
-    ArticleEntity articleEntity =
-        this.toBuildArticle(articleForm.getArticleModel(), Constant.INSERT);
-    ArticleEntity entity = articleService.insert(articleEntity);
-
-    sourceImageService
-        .insertOrUpdate(articleForm.getFile(), entity.getArticleId(), Constant.INSERT);
-    return entity;
-  }
-
-  /**
-   * Insert new entity of article.
-   *
-   * @param articleForm articleForm
-   * @return entity category.
-   */
-  public ArticleEntity update(@NonNull ArticleForm articleForm) throws IOException {
-    ArticleEntity articleEntity =
-        this.toBuildArticle(articleForm.getArticleModel(), Constant.UPDATE);
-    ArticleEntity entity = articleService.update(articleEntity, articleEntity.getArticleId());
-
-    sourceImageService
-        .insertOrUpdate(articleForm.getFile(), entity.getArticleId(), Constant.UPDATE);
-    return entity;
-  }
-
-  /**
-   * Delete all article.
-   *
-   * @param articleId articleId
-   * @return TRUE or FALSE
-   */
-  public Boolean delete(Long articleId) {
-    // Delete article
-    Optional<ArticleEntity> articleEntityOptional = articleService.getArticleByArticle(articleId);
-
-    // Delete source image
-    if (articleEntityOptional.isPresent()) {
-      articleService.delete(articleId);
-      sourceImageService.deleteByArticleId(articleId);
-      return Boolean.TRUE;
-    }
-
-    return Boolean.FALSE;
-  }
-
-  /**
-   * Build article entity.
-   *
-   * @param articleModel articleModel
-   * @param type         type
+   * @param contactModel contactModel
    * @return entity.
    */
-  private ArticleEntity toBuildArticle(ArticleModel articleModel, String type) {
-    ArticleEntity articleEntity = new ArticleEntity();
-    if (Constant.UPDATE.equals(type)) {
-      articleEntity.setArticleId(articleModel.getArticleId());
-    }
-    articleEntity.setArticleName(articleModel.getArticleName());
-    articleEntity.setArticleDescription(articleModel.getArticleDescription());
-    articleEntity.setArticleSeo(commonService.setSeo(articleEntity.getArticleName()));
-    articleEntity.setProductId(articleModel.getProductId());
-    commonService.setCommonCreatedEntity(articleEntity);
-    articleEntity.setStatus(
-        articleModel.getArticleStatus().equals(Constant.TRUE) ? Boolean.TRUE : Boolean.FALSE);
-    return articleEntity;
+  private ContactEntity toBuildContact(ContactModel contactModel) {
+    ContactEntity contactEntity = new ContactEntity();
+    contactEntity.setProductId(contactModel.getProductId());
+    contactEntity.setContactEmail(contactModel.getContactEmail());
+    contactEntity.setContactName(contactModel.getContactName());
+    contactEntity.setContactMessage(contactModel.getContactMessage());
+    commonService.setCommonCreatedEntity(contactEntity);
+    contactEntity.setStatus(
+        contactModel.getContactStatus().equals(Constant.TRUE) ? Boolean.TRUE : Boolean.FALSE);
+    return contactEntity;
   }
 }

@@ -25,7 +25,7 @@ public class ContactService {
    * @return list of entity contact.
    */
   public Page<ContactEntity> getAll(Pageable pageable) {
-    return contactRepository.findAll(pageable);
+    return contactRepository.findAllPageable(pageable);
   }
 
   /**
