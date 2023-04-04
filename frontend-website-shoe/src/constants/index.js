@@ -7,3 +7,7 @@ export const NOT_FOUND = "404"
 
 export const CATEGORY_EDIT = "CategoryEditAdminParam";
 export const CATEGORY_NEW = "CategoryRegisterAdmin";
+export const ARTICLE_NEW = "ArticleRegisterAdmin";
+export const ARTICLE_EDIT = "ArticleUpdateAdmin";
+export const INSERT = "insert";
+export const UPDATE = "update";
