@@ -1,6 +1,5 @@
 package com.graduationproject.backend.backendwebsiteshoe.service;
 
-import com.graduationproject.backend.backendwebsiteshoe.dto.IArticle;
 import com.graduationproject.backend.backendwebsiteshoe.dto.IArticleDTO;
 import com.graduationproject.backend.backendwebsiteshoe.entity.ArticleEntity;
 import com.graduationproject.backend.backendwebsiteshoe.repository.ArticleRepository;
@@ -57,12 +56,10 @@ public class ArticleService {
    * Get one article.
    *
    * @param articleId   articleId
-   * @param userCode    userCode
-   * @param commentCode commentCode
    * @return article.
    */
-  public Optional<IArticle> getArticleByKey(Long articleId, String userCode, String commentCode) {
-    return articleRepository.findByArticleId(articleId, userCode, commentCode);
+  public Optional<IArticleDTO> getArticleByKey(Long articleId) {
+    return articleRepository.findByArticleId(articleId);
   }
 
   /**

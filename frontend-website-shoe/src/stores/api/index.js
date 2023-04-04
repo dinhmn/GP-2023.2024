@@ -11,3 +11,5 @@ export const API_CATEGORY_BY_KEY = "http://localhost:8088/api/categories/init/";
 // api article
 export const API_ARTICLE_POST = "http://localhost:8088/api/article/register";
 export const API_ARTICLE_PREFIX = "/api/article";
+export const API_PRODUCT_PREFIX = "/api/products";
+export const API_CONTACT_PREFIX = "/api/contact";

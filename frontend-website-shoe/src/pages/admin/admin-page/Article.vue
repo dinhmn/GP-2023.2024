@@ -24,11 +24,12 @@
           <td>{{ item.updatedDate }}</td>
           <td>{{ item.articleStatus }}</td>
           <td class="flex items-center justify-around gap-2">
-            <router-link to="/">
+            <router-link
+              :to="{ name: 'ArticleUpdateAdmin', params: { articleId: item.articleId } }"
+            >
               <button
                 className="min-w-[60px] px-2 text-sm bg-green-700 hover:bg-green-600 block text-center m-0 hover:text-white"
                 name="edit"
-                :to="{ name: 'ArticleUpdateAdmin', params: { articleId: item.articleId } }"
               >
                 Edit
               </button>
@@ -45,10 +46,24 @@
         </tr>
       </tbody>
     </template>
+    <template v-slot:page>
+      <ul class="flex items-center justify-end gap-1">
+        <li @click="onPreviousPage">Prev</li>
+        <li
+          @click="onSetPage(item)"
+          v-for="item in api.totalPages"
+          :key="item"
+          :class="active == item ? 'active' : ''"
+        >
+          {{ item }}
+        </li>
+        <li @click="onNextPage">Next</li>
+      </ul>
+    </template>
   </CommonAdmin>
 </template>
 <script setup>
-import { onMounted, reactive } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import CommonAdmin from '@/components/common/CommonAdmin.vue'
 import ArticleService from '@/stores/modules/ArticleService'
 const api = reactive({
@@ -63,15 +78,16 @@ const result = reactive({
   putResult: null,
   deleteResult: null
 })
+const active = ref(1)
 
 onMounted(async () => {
-  getAllData(api)
+  await getAllData(api, 0)
   console.log(api)
 })
 
-async function getAllData(api) {
+async function getAllData(api, pageNo) {
   try {
-    const res = await ArticleService.getAll('/init/pageable')
+    const res = await ArticleService.getAll('/init/pageable', pageNo)
 
     const result = {
       status: res.status + '-' + res.statusText,
@@ -82,7 +98,7 @@ async function getAllData(api) {
     fetchData(result.data, api)
     console.log(api)
   } catch (error) {
-    api = fortmatResponse(error.response?.data) || error
+    api = formatResponse(error.response?.data) || error
     console.log(api)
   }
 }
@@ -97,9 +113,41 @@ async function onDelete(event, articleId) {
       data: res.data
     }
 
-    result.deleteResult = fortmatResponse(result)
+    result.deleteResult = formatResponse(result)
+    await getAllData(api)
   } catch (err) {
-    result.deleteResult = fortmatResponse(err.response?.data) || err
+    result.deleteResult = formatResponse(err.response?.data) || err
+  }
+}
+
+async function onSetPage(pageNo) {
+  try {
+    await getAllData(api, pageNo - 1)
+    active.value = pageNo
+  } catch (err) {
+    result.deleteResult = formatResponse(err.response?.data) || err
+  }
+}
+
+function onPreviousPage() {
+  try {
+    if (active.value <= api.totalPages && active.value > 1) {
+      active.value -= 1
+    }
+    getAllData(api, active.value - 1)
+  } catch (err) {
+    result.deleteResult = formatResponse(err.response?.data) || err
+  }
+}
+
+function onNextPage() {
+  try {
+    if (active.value < api.totalPages) {
+      active.value += 1
+    }
+    getAllData(api, active.value - 1)
+  } catch (err) {
+    result.deleteResult = formatResponse(err.response?.data) || err
   }
 }
 
@@ -112,7 +160,7 @@ function fetchData(result, api) {
   api.totalPages = result.totalPages
 }
 
-function fortmatResponse(res) {
+function formatResponse(res) {
   return JSON.stringify(res, null, 2)
 }
 </script>

@@ -2,7 +2,7 @@
   <div class="relative h-[100vh]">
     <div>
       <div class="text-white">
-        <router-link to="/">
+        <router-link :to="{ name: 'ArticleAdmin' }">
           <Button
             type="button"
             text="< Back"
@@ -13,12 +13,12 @@
       </div>
       <strong
         class="block w-full py-2 my-3 text-xl text-center uppercase rounded-md bg-[#0c3247] text-[#17b1ea]"
-        >Add new article</strong
+        >{{ pathName == 'ArticleRegisterAdmin' ? 'Add new article' : 'Edit article' }}</strong
       >
       <!-- {{ param == null ? 'Add new product' : 'Edit product' }} -->
       <form
         class="w-full post"
-        @submit.prevent="onSubmit"
+        @submit.prevent="onSubmitForm(pathName)"
         method="post"
         enctype="multipart/form-data"
         name="articleForm"
@@ -90,18 +90,19 @@
           type="submit"
           className="bg-brown hover:bg-brown-hover text-white w-full m-0 mt-3"
           name="login"
-          text="Register"
+          :text="pathName == 'ArticleRegisterAdmin' ? 'Register' : 'Update'"
         />
       </form>
     </div>
   </div>
 </template>
 <script setup>
-import { reactive, ref } from 'vue'
+import { reactive, ref, onMounted } from 'vue'
 import Input from '@/components/common/input/Input.vue'
 import Button from '@/components/common/button/Button.vue'
-import axios from 'axios'
-import { API_ARTICLE_POST } from '@/stores/api'
+import { useRoute } from 'vue-router'
+import ArticleService from '@/stores/modules/ArticleService'
+import { INSERT, UPDATE, ARTICLE_NEW, ARTICLE_EDIT } from '../../../constants/index'
 const state = reactive({
   articleId: 1,
   articleName: '',
@@ -109,38 +110,56 @@ const state = reactive({
   productId: 1,
   articleStatus: '1'
 })
+const form = reactive({ ...state })
 const fileName = ref('')
 const file = ref()
 const onChangeFile = (event) => {
   file.value = event.target.files[0]
   fileName.value = event.target.files[0].name
 }
+const pathName = useRoute().matched[0].name
+onMounted(() => {
+  if (pathName === 'ArticleUpdateAdmin') {
+    getById(useRoute().params.articleId)
+  }
+})
 const switchSelectStatus = (event) => {
   state.articleStatus = event.target.value
 }
-async function onSubmit() {
+
+async function onSubmitForm(pathName) {
   try {
-    const formData = new FormData()
-    formData.append('file', file.value)
-    formData.append('article', JSON.stringify(state))
-    await apiPost(formData)
-    state.articleName = ''
-    state.articleDescription = ''
-    state.articleStatus = '1'
-    fileName.value = ''
+    if (ARTICLE_NEW === pathName) {
+      ArticleService.insertOrUpdate(file.value, state, '/register', INSERT)
+    }
+
+    if (ARTICLE_EDIT === pathName) {
+      ArticleService.insertOrUpdate(file.value, state, '/update', UPDATE)
+    }
+    console.log(form)
+    Object.assign(form, state)
   } catch (e) {
     console.log(e)
   }
 }
-async function apiPost(formData) {
-  axios
-    .post(API_ARTICLE_POST, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
-    .then((response) => {
-      console.log('Success: ' + response)
-    })
-    .catch((error) => {
-      console.log('Error: ' + error)
-    })
+async function getById(articleId) {
+  try {
+    const res = await ArticleService.getById('/init', articleId)
+
+    const result = {
+      status: res.status + '-' + res.statusText,
+      headers: res.headers,
+      data: res.data
+    }
+
+    // fetchData(result.data, api)
+    console.log(result.data)
+  } catch (error) {
+    fortmatResponse(error.response?.data) || error
+  }
+}
+function fortmatResponse(res) {
+  return JSON.stringify(res, null, 2)
 }
 </script>
 <style lang="css" scoped>

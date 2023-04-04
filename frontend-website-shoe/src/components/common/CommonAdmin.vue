@@ -41,13 +41,7 @@
       </table>
     </div>
     <div class="w-full mt-3 text-right">
-      <ul class="flex items-center justify-end gap-1">
-        <li>Prev</li>
-        <li v-for="item in Number(props.page)" :key="item" :class="item == 1 ? 'active' : ''">
-          {{ item }}
-        </li>
-        <li>Next</li>
-      </ul>
+      <slot name="page" />
     </div>
   </div>
 </template>
