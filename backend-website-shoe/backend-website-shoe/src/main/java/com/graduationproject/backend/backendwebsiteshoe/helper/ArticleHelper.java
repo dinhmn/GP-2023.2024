@@ -2,8 +2,6 @@ package com.graduationproject.backend.backendwebsiteshoe.helper;
 
 import com.graduationproject.backend.backendwebsiteshoe.common.CommonService;
 import com.graduationproject.backend.backendwebsiteshoe.common.Constant;
-import com.graduationproject.backend.backendwebsiteshoe.common.Image;
-import com.graduationproject.backend.backendwebsiteshoe.common.User;
 import com.graduationproject.backend.backendwebsiteshoe.dto.IArticleDTO;
 import com.graduationproject.backend.backendwebsiteshoe.entity.ArticleEntity;
 import com.graduationproject.backend.backendwebsiteshoe.forms.ArticleForm;
