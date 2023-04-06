@@ -25,6 +25,9 @@
       <router-link :to="{ name: 'UserAdmin' }">
         <span>User</span>
       </router-link>
+      <router-link :to="{ name: 'SubscribeAdmin' }">
+        <span>Subscribe</span>
+      </router-link>
       <router-link :to="{ name: 'RoleAdmin' }">
         <span>Role</span>
       </router-link>
