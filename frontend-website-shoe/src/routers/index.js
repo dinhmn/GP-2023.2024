@@ -181,14 +181,6 @@ const routes = [
     component: () => import("../pages/admin/admin-form/UserForm.vue")
   },
   {
-    name: "SubscribeAdmin",
-    path: "/admin/subscribe",
-    meta: {
-      layout: 'admin'
-    },
-    component: () => import("../pages/admin/admin-page/Subscribe.vue")
-  },
-  {
     name: "RoleAdmin",
     path: "/admin/role",
     meta: {
