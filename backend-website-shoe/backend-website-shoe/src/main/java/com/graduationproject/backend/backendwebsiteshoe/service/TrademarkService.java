@@ -1,5 +1,6 @@
 package com.graduationproject.backend.backendwebsiteshoe.service;
 
+import com.graduationproject.backend.backendwebsiteshoe.entity.CategoryEntity;
 import com.graduationproject.backend.backendwebsiteshoe.entity.TrademarkEntity;
 import com.graduationproject.backend.backendwebsiteshoe.repository.TrademarkRepository;
 import java.util.List;

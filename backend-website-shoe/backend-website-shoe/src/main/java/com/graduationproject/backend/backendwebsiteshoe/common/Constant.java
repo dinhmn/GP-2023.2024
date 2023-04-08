@@ -29,4 +29,6 @@ public interface Constant {
 
   Long EMPTY_NULL = null;
 
+  String PATTERN_HH_MM = "HH:mm";
+
 }
