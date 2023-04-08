@@ -11,28 +11,28 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * Subscribe entity.
+ * Chat entity.
  *
  * @author Mai Ngoc Dinh.
  */
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
-@Table(name = "tbl_subscribe")
-public class SubscribeEntity extends BaseEntity implements Serializable {
+@Table(name = "tbl_chat")
+public class ChatEntity extends BaseEntity implements Serializable {
 
-  private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-  public SubscribeEntity() {
+    public ChatEntity() {
 
-    super();
-  }
+        super();
+    }
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "subscribe_id", nullable = false)
-  private Long subscribeId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "chat_id", nullable = false)
+    private Long chatId;
 
-  @Column(name = "subscribe_email", nullable = false)
-  private String subscribeEmail;
+    @Column(name = "user_id")
+    private Long userId;
 }
