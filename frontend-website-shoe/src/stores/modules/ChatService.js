@@ -7,5 +7,9 @@ class ChatService {
 
     return http.get(API_CHAT_PREFIX + "/" + messageFrom + "/" + messageTo);
   }
+
+  async getAllMessage() {
+    return http.get(API_CHAT_PREFIX)
+  }
 }
 export default new ChatService();
