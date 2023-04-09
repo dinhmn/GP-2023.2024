@@ -72,14 +72,7 @@
     </div>
   </div>
 </template>
-<script setup>
-import { onMounted } from 'vue'
-import ChatService from '@/stores/modules/ChatService'
-onMounted(async () => {
-  const res = await ChatService.getAllMessage()
-  console.log(res.data)
-})
-</script>
+<script setup></script>
 <style lang="scss">
 .announce {
   &:hover {
@@ -88,7 +81,6 @@ onMounted(async () => {
     }
   }
   & > div {
-    z-index: 1;
     top: 50px;
     display: none;
     transition: all 0.3s ease-in-out;
