@@ -33,7 +33,6 @@ public class UserEntity extends BaseEntity implements Serializable {
   @Column(name = "user_id", nullable = false)
   private Long userId;
 
-  @Id
   @Column(name = "role_id", nullable = false)
   private Long roleId;
 
