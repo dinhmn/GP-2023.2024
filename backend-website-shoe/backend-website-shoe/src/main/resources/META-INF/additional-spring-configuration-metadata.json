@@ -1,0 +1,14 @@
+{
+  "properties": [
+    {
+      "name": "shoe.app.jwtExpirationMs",
+      "type": "java.lang.String",
+      "description": "Description for shoe.app.jwtExpirationMs."
+    },
+    {
+      "name": "shoe.app.jwtSecret",
+      "type": "java.lang.String",
+      "description": "Description for shoe.app.jwtSecret."
+    }
+  ]
+}
