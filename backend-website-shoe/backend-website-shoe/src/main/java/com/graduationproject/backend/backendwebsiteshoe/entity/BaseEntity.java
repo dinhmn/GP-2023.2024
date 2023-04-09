@@ -1,8 +1,8 @@
 package com.graduationproject.backend.backendwebsiteshoe.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.MappedSuperclass;
 import java.util.Date;
+import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 

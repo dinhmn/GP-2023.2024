@@ -2,7 +2,6 @@ package com.graduationproject.backend.backendwebsiteshoe.service;
 
 import com.graduationproject.backend.backendwebsiteshoe.common.CommonService;
 import com.graduationproject.backend.backendwebsiteshoe.entity.ProductColorEntity;
-import com.graduationproject.backend.backendwebsiteshoe.entity.ProductColorEntityKey;
 import com.graduationproject.backend.backendwebsiteshoe.model.ProductColorModel;
 import com.graduationproject.backend.backendwebsiteshoe.repository.ProductColorRepository;
 import java.util.ArrayList;
@@ -56,10 +55,8 @@ public class ProductColorService {
    * @return entity
    */
   public ProductColorEntity update(ProductColorModel productColorModel, Long productId) {
-    ProductColorEntityKey productColorEntityKey = new ProductColorEntityKey();
-    productColorEntityKey.setPk(productColorModel.getProductColorId());
     Optional<ProductColorEntity> productColor =
-        productColorRepository.findById(productColorEntityKey);
+        productColorRepository.findById(productColorModel.getProductColorId());
 
     if (productColor.isPresent()) {
       ProductColorEntity productColorEntity =
@@ -80,10 +77,8 @@ public class ProductColorService {
   public void updateAll(List<ProductColorModel> productColorModelList, Long productId) {
     List<ProductColorEntity> productColorEntityList = new ArrayList<>();
     for (ProductColorModel productColorModel : productColorModelList) {
-      ProductColorEntityKey productColorEntityKey = new ProductColorEntityKey();
-      productColorEntityKey.setPk(productColorModel.getProductColorId());
       Optional<ProductColorEntity> productColor =
-          productColorRepository.findById(productColorEntityKey);
+          productColorRepository.findById(productColorModel.getProductColorId());
 
       ProductColorEntity productColorEntity;
       productColorEntity = productColor
