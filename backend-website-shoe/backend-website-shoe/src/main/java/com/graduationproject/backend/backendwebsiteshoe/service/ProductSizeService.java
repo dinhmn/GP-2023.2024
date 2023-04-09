@@ -2,7 +2,6 @@ package com.graduationproject.backend.backendwebsiteshoe.service;
 
 import com.graduationproject.backend.backendwebsiteshoe.common.CommonService;
 import com.graduationproject.backend.backendwebsiteshoe.entity.ProductSizeEntity;
-import com.graduationproject.backend.backendwebsiteshoe.entity.ProductSizeEntityKey;
 import com.graduationproject.backend.backendwebsiteshoe.model.ProductSizeModel;
 import com.graduationproject.backend.backendwebsiteshoe.repository.ProductSizeRepository;
 import java.util.ArrayList;
@@ -57,9 +56,8 @@ public class ProductSizeService {
    * @return entity
    */
   public ProductSizeEntity update(ProductSizeModel productSizeModel, Long productId) {
-    ProductSizeEntityKey productSizeEntityKey = new ProductSizeEntityKey();
-    productSizeEntityKey.setPk(productSizeModel.getProductSizeId());
-    Optional<ProductSizeEntity> productSize = productSizeRepository.findById(productSizeEntityKey);
+    Optional<ProductSizeEntity> productSize =
+        productSizeRepository.findById(productSizeModel.getProductSizeId());
 
     if (productSize.isPresent()) {
       ProductSizeEntity productSizeEntity =
@@ -78,14 +76,12 @@ public class ProductSizeService {
    * @param productId            productId
    */
   public void updateAll(List<ProductSizeModel> productSizeModelList,
-                                           Long productId) {
+                        Long productId) {
     List<ProductSizeEntity> productSizeEntityList = new ArrayList<>();
 
     for (ProductSizeModel productSizeModel : productSizeModelList) {
-      ProductSizeEntityKey productSizeEntityKey = new ProductSizeEntityKey();
-      productSizeEntityKey.setPk(productSizeModel.getProductSizeId());
       Optional<ProductSizeEntity> productSize =
-          productSizeRepository.findById(productSizeEntityKey);
+          productSizeRepository.findById(productSizeModel.getProductSizeId());
 
       ProductSizeEntity productSizeEntity;
       productSizeEntity = productSize

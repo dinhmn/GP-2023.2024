@@ -1,13 +1,13 @@
 package com.graduationproject.backend.backendwebsiteshoe.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.IdClass;
-import jakarta.persistence.Table;
 import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -46,7 +46,7 @@ public class CommentEntity extends BaseEntity implements Serializable {
   private Long articleId;
 
   @Column(name = "comment_detail", nullable = false)
-  private String comment_detail;
+  private String commentDetail;
 
   /*
    * Code = 01 => Product
