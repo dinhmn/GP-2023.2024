@@ -13,6 +13,8 @@ import 'v-calendar/style.css';
 import './assets/styles/reset.css'
 import './assets/styles/tailwind.css'
 import './assets/styles/global.css'
+
+
 const app = createApp(App);
 registerGlobalComponents(app);
 
