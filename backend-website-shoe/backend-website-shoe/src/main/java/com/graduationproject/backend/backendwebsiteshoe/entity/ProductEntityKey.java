@@ -1,7 +1,7 @@
 package com.graduationproject.backend.backendwebsiteshoe.entity;
 
-import jakarta.persistence.Column;
 import java.io.Serializable;
+import javax.persistence.Column;
 import lombok.Data;
 
 /**
