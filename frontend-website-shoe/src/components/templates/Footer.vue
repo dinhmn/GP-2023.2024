@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template lang="">
   <div class="w-full bg-[#425868] flex items-center justify-center">
     <footer class="2xl:w-[1280px] flex items-center justify-between h-[300px] text-white">
@@ -11,14 +12,14 @@
             Đăng kí để nhận ngay thông tin về sản phẩm mới.
           </h3>
           <form @submit.prevent="onSubmit" class="flex items-center justify-center h-full">
-            <input-common
+            <Input
               type="text"
               classChild="min-w-[500px] px-5 py-[10px] rounded-sm"
               name="email"
               placeholder="Email"
-              v-model="email"
+              v-model="subscribe.subscribeEmail"
             />
-            <button-common
+            <Button
               type="submit"
               text="Đăng ký"
               className="w-full px-5 py-3 m-0 ml-4 rounded-sm bg-brown hover:bg-brown-hover"
@@ -43,10 +44,14 @@
     </footer>
   </div>
 </template>
-<script>
+<script setup>
 import Input from '../common/input/Input.vue'
 import Button from '../common/button/Button.vue'
 import { ref } from 'vue'
+import SubscribeService from '@/stores/modules/SubscribeService'
+const subscribe = ref({
+  subscribeEmail: ''
+})
 const footList = [
   {
     title: 'About',
@@ -61,15 +66,11 @@ const footList = [
     items: ['Shop Page', 'FAQ', 'Blog']
   }
 ]
-export default {
-  name: 'FooterItem',
-  components: {
-    InputCommon: Input,
-    ButtonCommon: Button
-  },
-  setup(props) {
-    const email = ref('')
-    return { props, footList, email }
+async function onSubmit() {
+  try {
+    SubscribeService.insert(subscribe.value)
+  } catch (error) {
+    console.log(error)
   }
 }
 </script>
