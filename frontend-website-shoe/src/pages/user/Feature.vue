@@ -1,9 +1,11 @@
-<template lang="">
-  <div>This is feature page.</div>
+<template>
+  <div>Hello</div>
 </template>
+
 <script>
 export default {
-  name: 'featurePage'
+  name: 'FeaturePage'
 }
 </script>
-<style lang=""></style>
+
+<style scoped></style>

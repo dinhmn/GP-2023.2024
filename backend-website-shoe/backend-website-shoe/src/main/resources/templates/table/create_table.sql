@@ -80,6 +80,34 @@ create table tbl_contact
     PRIMARY KEY (contact_id)
 );
 
+DROP TABLE if EXISTS tbl_chat CASCADE;
+create table tbl_chat (
+     chat_id BIGINT NOT NULL AUTO_INCREMENT,
+     user_id BIGINT,
+     created_by INTEGER NOT NULL,
+     created_date DATETIME(6) NOT NULL,
+     status BIT,
+     updated_by INTEGER NOT NULL,
+     updated_date DATETIME(6) NOT NULL,
+     PRIMARY KEY (chat_id)
+);
+
+DROP TABLE if EXISTS tbl_message CASCADE;
+create table tbl_message (
+     message_id BIGINT NOT NULL AUTO_INCREMENT,
+     chat_id BIGINT NOT NULL,
+     message_text VARCHAR(3000),
+     message_from VARCHAR(255),
+     message_to VARCHAR(255),
+     created_by INTEGER NOT NULL,
+     created_date DATETIME(6) NOT NULL,
+     status BIT,
+     updated_by INTEGER NOT NULL,
+     updated_date DATETIME(6) NOT NULL,
+     PRIMARY KEY (message_id)
+);
+
+
 DROP TABLE if EXISTS tbl_order CASCADE;
 create table tbl_order
 (
