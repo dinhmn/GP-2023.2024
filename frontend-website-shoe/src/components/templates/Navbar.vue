@@ -52,10 +52,6 @@ const routes = [
     urlName: 'Home'
   },
   {
-    url: '/feature',
-    urlName: 'Feature'
-  },
-  {
     url: '/about',
     urlName: 'About'
   },
