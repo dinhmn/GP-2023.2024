@@ -49,7 +49,7 @@
             <span class="text-lg"
               >Size <span class="text-lg align-middle text-brown">*</span>
             </span>
-            <Select name="city" :value="1">
+            <Select name="productSize" v-model="product.productSize" :modelValue="Number(38)">
               <template v-slot:option>
                 <option
                   class="text-black"
@@ -68,20 +68,20 @@
             <InputIncrement
               classChild="text-sm p-0 w-full"
               name="quantity"
-              v-model="quantity"
+              v-model="product.productQuantity"
               :value="quantity"
             />
           </div>
           <div class="flex w-full gap-10">
             <Button
-              @click.prevent="onSubmit"
+              @click.prevent="onSubmit($event, 'add')"
               type="button"
               className="bg-brown text-white w-full m-0"
               name="addCart"
               text="Thêm vào giỏ hàng"
             />
             <Button
-              @click.prevent="onSubmit"
+              @click.prevent="onSubmit($event, 'buy')"
               type="button"
               className="bg-brown text-white w-full m-0"
               name="buyNow"
@@ -146,7 +146,7 @@
           </CommonItem>
           <CommonItem :title="'Đánh giá sản phẩm: ' + productName" class="w-full mt-5">
             <form
-              @submit.prevent="onSubmit"
+              @submit.prevent="onSubmit($event, 'comment')"
               action=""
               method="post"
               class="flex flex-col w-full mt-5"
@@ -193,7 +193,7 @@
   </BasePage>
 </template>
 <script setup>
-import { ref } from 'vue'
+import { reactive, ref } from 'vue'
 import BasePage from '../auth/BasePage.vue'
 import InputIncrement from '@/components/common/input/InputIncrement.vue'
 import Button from '@/components/common/button/Button.vue'
@@ -202,9 +202,31 @@ import Input from '@/components/common/input/Input.vue'
 import Textarea from '@/components/common/input/Textarea.vue'
 import ArticleSmall from '@/components/common/ArticleSmall.vue'
 import Select from '@/components/common/input/Select.vue'
+import { useRoute } from 'vue-router'
+import render from '@/stores/modules/re-render'
+const product = reactive({
+  productId: useRoute().params.id,
+  productName: 'Giày Gucci Men’s Screener GG Sneaker Like Auth',
+  productQuantity: 0,
+  productColor: '',
+  productSize: 0,
+  productPrice: 1000000
+})
+const order = ref([])
 const quantity = ref(0)
 const count = 8
 const productName = 'Giày Gucci Men’s Screener GG Sneaker Like Auth'
+const onSubmit = (event, type) => {
+  if (type == 'add') {
+    if (window.localStorage.getItem('order') !== null) {
+      order.value = JSON.parse(window.localStorage.getItem('order'))
+    }
+    order.value.push(product)
+    localStorage.setItem('order', JSON.stringify(order.value))
+    console.log(order)
+  }
+  render()
+}
 </script>
 <style lang="scss" scoped>
 .active {
