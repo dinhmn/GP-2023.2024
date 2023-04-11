@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template lang="">
   <div class="w-full bg-[#425868] flex items-center justify-center">
     <nav class="2xl:w-[1280px] flex items-center justify-between h-[70px] text-white">
@@ -9,7 +10,7 @@
       </div>
       <div class="flex items-center justify-center gap-2 -mr-3">
         <div class="flex items-center justify-center">
-          <input-common
+          <Input
             type="text"
             classChild="min-w-[300px] px-2 py-2 rounded-sm"
             name="search"
@@ -28,21 +29,21 @@
           >
             <span class="relative mr-1">0đ</span>
             <vue-feather class="w-5 h-5" type="shopping-bag"></vue-feather>
-            <span class="py-1 px-2 rounded-[100%] absolute -top-2 -right-3 z-[999] bg-slate-700">{{
-              item
-            }}</span>
+            <span
+              class="py-1 px-2 rounded-[100%] absolute -top-2 -right-3 z-[999] bg-slate-700"
+              id="cart"
+              >{{ item }}</span
+            >
           </button>
         </router-link>
         <router-link :to="{ name: 'Login', params: {} }"
-          ><button-component
-            text="Login"
-            class="button font-bold w-full hover:bg-[#0c3247] text-[#17b1ea]"
+          ><Button text="Login" class="button font-bold w-full hover:bg-[#0c3247] text-[#17b1ea]"
         /></router-link>
       </div>
     </nav>
   </div>
 </template>
-<script>
+<script setup>
 import { ref } from 'vue'
 import Input from '../common/input/Input.vue'
 import Button from '../common/button/Button.vue'
@@ -64,18 +65,13 @@ const routes = [
     urlName: 'Contact'
   }
 ]
-const item = 0
-export default {
-  name: 'NavigationPage',
-  components: {
-    InputCommon: Input,
-    ButtonComponent: Button
-  },
-  setup(props) {
-    const search = ref('')
-    return { props, routes, item, search }
-  }
+const item = ref(0)
+if (window.localStorage.getItem('order') !== null) {
+  item.value = JSON.parse(window.localStorage.getItem('order')).length
+} else {
+  item.value = 0
 }
+const search = ref('')
 </script>
 <style lang="scss" scoped>
 nav {
