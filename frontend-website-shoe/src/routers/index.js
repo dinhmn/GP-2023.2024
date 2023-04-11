@@ -11,14 +11,6 @@ const routes = [
     component: () => import("../pages/user/Home.vue"),
   },
   {
-    path: "/feature",
-    name: "Feature",
-    meta: {
-      layout: 'user'
-    },
-    component: () => import("../pages/user/Feature.vue"),
-  },
-  {
     path: "/about",
     name: "AboutPage",
     meta: {
