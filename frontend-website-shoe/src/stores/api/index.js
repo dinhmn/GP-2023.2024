@@ -17,3 +17,6 @@ export const API_SUBSCRIBE_PREFIX = "/api/subscribe";
 
 // api chat realtime
 export const API_CHAT_PREFIX = "/api/messages";
+
+// api login/logout 
+export const API_AUTH = "/api/auth"

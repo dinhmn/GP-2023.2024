@@ -79,6 +79,7 @@
 </template>
 <script setup>
 import { ref, reactive } from 'vue'
+// import { Form, Field, ErrorMessage } from 'vee-validate'
 import Auth from './Auth.vue'
 import Input from '@/components/common/input/Input.vue'
 import Button from '@/components/common/button/Button.vue'
