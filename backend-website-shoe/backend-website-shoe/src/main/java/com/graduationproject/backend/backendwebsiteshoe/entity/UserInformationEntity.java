@@ -6,7 +6,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
 import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -19,7 +18,6 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
-@IdClass(UserInformationEntityKey.class)
 @Table(name = "tbl_user_information")
 public class UserInformationEntity extends BaseEntity implements Serializable {
 
@@ -35,8 +33,7 @@ public class UserInformationEntity extends BaseEntity implements Serializable {
   @Column(name = "user_information_id", nullable = false)
   private Long userInformationId;
 
-  @Id
-  @Column(name = "source_image_id", nullable = false)
+  @Column(name = "source_image_id")
   private Long sourceImageId;
 
   @Column(name = "user_id")

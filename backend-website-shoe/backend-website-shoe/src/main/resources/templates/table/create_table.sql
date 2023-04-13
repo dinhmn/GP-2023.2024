@@ -242,9 +242,9 @@ DROP TABLE if EXISTS tbl_user CASCADE;
 create table tbl_user (
   user_id BIGINT NOT NULL AUTO_INCREMENT,
   role_id BIGINT NOT NULL,
-  profile_id BIGINT,
   user_password VARCHAR(255) NOT NULL,
   username VARCHAR(255) NOT NULL,
+  user_email VARCHAR(80) NOT NULL,
   created_by INTEGER NOT NULL,
   created_date DATETIME(6) NOT NULL,
   status BIT,
@@ -256,7 +256,7 @@ create table tbl_user (
 DROP TABLE if EXISTS tbl_user_information CASCADE;
 create table tbl_user_information (
   user_information_id BIGINT NOT NULL AUTO_INCREMENT,
-  source_image_id BIGINT NOT NULL,
+  source_image_id BIGINT,
   user_id BIGINT,
   address VARCHAR(255) NOT NULL,
   age VARCHAR(2),
@@ -270,5 +270,5 @@ create table tbl_user_information (
   status BIT,
   updated_by INTEGER NOT NULL,
   updated_date DATETIME(6) NOT NULL,
-  PRIMARY KEY (user_information_id, source_image_id)
+  PRIMARY KEY (user_information_id)
 );
