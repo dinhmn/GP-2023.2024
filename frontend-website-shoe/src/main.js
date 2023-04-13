@@ -1,7 +1,6 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from "./routers"
-import store from "./store";
 import 'leaflet/dist/leaflet.css';
 import 'vue-map-ui/dist/normalize.css';
 import 'vue-map-ui/dist/style.css';
@@ -14,18 +13,12 @@ import 'v-calendar/style.css';
 import './assets/styles/reset.css'
 import './assets/styles/tailwind.css'
 import './assets/styles/global.css'
-import Vue3Storage, { StorageType } from "vue3-storage";
-import { FontAwesomeIcon } from './plugins/font-awesome'
-
 
 const app = createApp(App);
 registerGlobalComponents(app);
 
 app.use(router)
 app.use(setupCalendar, {})
-app.use(Vue3Storage, { namespace: "shoe_", storage: StorageType.Session, secureKey: "246810" })
-app.use(store)
-app.component("font-awesome-icon", FontAwesomeIcon)
 app.component(VueFeather.name, VueFeather);
 app.component("QuillEditor", QuillEditor);
 // Use the components

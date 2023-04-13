@@ -30,50 +30,50 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("api/auth")
 public class AuthController {
 
-//  @Autowired
-//  AuthenticationManager authenticationManager;
-//
-//  @Autowired
-//  UserRepository userRepository;
-//
-//  @Autowired
-//  RoleRepository roleRepository;
-//
-//  @Autowired
-//  PasswordEncoder encoder;
-//
-//  @Autowired
-//  JwtUtils jwtUtils;
-//
-//  /**
-//   * Login with information from UI.
-//   *
-//   * @return response entity.
-//   */
-//  @PostMapping("/signin")
-//  public ResponseEntity<?> authenticateUser(@Validated @RequestBody LoginForm loginRequest) {
-//
-//    Authentication authentication = authenticationManager.authenticate(
-//        new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),
-//            loginRequest.getPassword()));
-//
-//    SecurityContextHolder.getContext().setAuthentication(authentication);
-//    String jwt = jwtUtils.generateJwtToken(authentication);
-//
-//    UserDetailsModel userDetails = (UserDetailsModel) authentication.getPrincipal();
-//    List<String> roles = userDetails.getAuthorities().stream()
-//        .map(GrantedAuthority::getAuthority)
-//        .collect(Collectors.toList());
-//
-//    return ResponseEntity.ok(new JwtResponse(jwt,
-//        userDetails.getUserId(),
-//        userDetails.getUsername(),
-//        userDetails.getEmail(),
-//        roles));
-//  }
+  @Autowired
+  AuthenticationManager authenticationManager;
+
+  @Autowired
+  UserRepository userRepository;
+
+  @Autowired
+  RoleRepository roleRepository;
+
+  @Autowired
+  PasswordEncoder encoder;
+
+  @Autowired
+  JwtUtils jwtUtils;
+
+  /**
+   * Login with information from UI.
+   *
+   * @return response entity.
+   */
+  @PostMapping("/signin")
+  public ResponseEntity<?> authenticateUser(@Validated @RequestBody LoginForm loginRequest) {
+
+    Authentication authentication = authenticationManager.authenticate(
+        new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),
+            loginRequest.getPassword()));
+
+    SecurityContextHolder.getContext().setAuthentication(authentication);
+    String jwt = jwtUtils.generateJwtToken(authentication);
+
+    UserDetailsModel userDetails = (UserDetailsModel) authentication.getPrincipal();
+    List<String> roles = userDetails.getAuthorities().stream()
+        .map(GrantedAuthority::getAuthority)
+        .collect(Collectors.toList());
+
+    return ResponseEntity.ok(new JwtResponse(jwt,
+        userDetails.getUserId(),
+        userDetails.getUsername(),
+        userDetails.getEmail(),
+        roles));
+  }
 
 //  @PostMapping("/signup")
 //  public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
