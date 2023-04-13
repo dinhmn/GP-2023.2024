@@ -1,5 +1,6 @@
 package com.graduationproject.backend.backendwebsiteshoe.repository;
 
+import com.graduationproject.backend.backendwebsiteshoe.dto.UserDTO;
 import com.graduationproject.backend.backendwebsiteshoe.entity.UserEntity;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,8 +21,12 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
    * @param username username
    * @return user.
    */
-  @Query(value = "SELECT * FROM tbl_user usr WHERE usr.username = ?1", nativeQuery = true)
-  Optional<UserEntity> findByUsername(String username);
+  @Query(value = "SELECT NEW com.graduationproject.backend.backendwebsiteshoe.dto.UserDTO("
+      + " usr.userId, usr.username, usr.userPassword, usrIn.email) "
+      + " FROM UserEntity usr "
+      + " INNER JOIN UserInformationEntity usrIn ON usr.profileId = usrIn.userInformationId"
+      + " WHERE usr.username = ?1")
+  Optional<UserDTO> findByUsername(String username);
 
   /**
    * Get TRUE or FALSE.

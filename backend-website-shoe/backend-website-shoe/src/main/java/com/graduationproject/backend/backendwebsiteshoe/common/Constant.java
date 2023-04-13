@@ -29,6 +29,12 @@ public interface Constant {
 
   Long EMPTY_NULL = null;
 
+  String NULL = null;
+
   String PATTERN_HH_MM = "HH:mm";
+
+  String PATTERN_ANT_AUTH = "/api/auth/**";
+
+  String PATTERN_ANT_USER = "/api/test/**";
 
 }
