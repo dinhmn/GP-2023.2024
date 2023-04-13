@@ -56,6 +56,8 @@ public class AuthController {
   @PostMapping("/signin")
   public ResponseEntity<?> authenticateUser(@Validated @RequestBody LoginForm loginRequest) {
 
+    // $2a$10$TQwKVRH05PCXNdVZqByT/OU.QWsdOa1aFMYOvauZRrcvH2Zr9PK1y
+    // 12345678
     Authentication authentication = authenticationManager.authenticate(
         new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),
             loginRequest.getPassword()));
