@@ -1,14 +1,18 @@
 package com.graduationproject.backend.backendwebsiteshoe.helper;
 
 import com.graduationproject.backend.backendwebsiteshoe.common.CommonService;
+import com.graduationproject.backend.backendwebsiteshoe.common.Constant;
+import com.graduationproject.backend.backendwebsiteshoe.common.User;
 import com.graduationproject.backend.backendwebsiteshoe.dto.RoleDTO;
 import com.graduationproject.backend.backendwebsiteshoe.entity.UserEntity;
+import com.graduationproject.backend.backendwebsiteshoe.entity.UserInformationEntity;
 import com.graduationproject.backend.backendwebsiteshoe.forms.LoginForm;
 import com.graduationproject.backend.backendwebsiteshoe.forms.SignUpForm;
 import com.graduationproject.backend.backendwebsiteshoe.model.UserDetailsModel;
 import com.graduationproject.backend.backendwebsiteshoe.response.JwtResponse;
 import com.graduationproject.backend.backendwebsiteshoe.response.SignUpResponse;
 import com.graduationproject.backend.backendwebsiteshoe.security.jwt.JwtUtils;
+import com.graduationproject.backend.backendwebsiteshoe.service.UserInformationService;
 import com.graduationproject.backend.backendwebsiteshoe.service.UserService;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +43,9 @@ public class AuthHelper {
 
   @Autowired
   UserService userService;
+
+  @Autowired
+  UserInformationService userInformationService;
 
   @Autowired
   PasswordEncoder encoder;
@@ -99,9 +106,11 @@ public class AuthHelper {
         UserEntity userEntity = this.toBuildUserEntity(signUpForm, roleId);
 
         userEntityList.add(userEntity);
+        Long userId = userService.insert(userEntity).getUserId();
+        UserInformationEntity userInformationEntity = this.toBuildUserInformationEntity(signUpForm, userId);
+        userInformationService.insert(userInformationEntity);
       }
 
-      userService.insert(userEntityList);
       return ResponseEntity.ok(new SignUpResponse("User registered successfully!"));
     }
 
@@ -123,5 +132,25 @@ public class AuthHelper {
     userEntity.setUserEmail(signUpForm.getEmail());
     commonService.setCommonCreatedEntity(userEntity);
     return userEntity;
+  }
+
+  /**
+   * To build signUpForm entity.
+   *
+   * @param signUpForm userDTO
+   * @param userId userId
+   * @return signUpForm details model
+   */
+  private UserInformationEntity toBuildUserInformationEntity(SignUpForm signUpForm, Long userId) {
+    UserInformationEntity userInformationEntity = new UserInformationEntity();
+    userInformationEntity.setUserId(userId);
+    userInformationEntity.setAddress(Constant.EMPTY_SPACE);
+    userInformationEntity.setEmail(signUpForm.getEmail());
+    userInformationEntity.setFirstName(signUpForm.getFirstName());
+    userInformationEntity.setLastName(signUpForm.getLastName());
+    userInformationEntity.setPhone(Constant.EMPTY_SPACE);
+    userInformationEntity.setUserCode(User.USER.getCode());
+    commonService.setCommonCreatedEntity(userInformationEntity);
+    return userInformationEntity;
   }
 }

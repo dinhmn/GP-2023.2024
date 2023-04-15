@@ -21,12 +21,9 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
    * @param username username
    * @return user.
    */
-  @Query(value = "SELECT NEW com.graduationproject.backend.backendwebsiteshoe.dto.UserDTO("
-      + " usr.userId, usr.username, usr.userPassword, usrIn.email) "
-      + " FROM UserEntity usr "
-      + " INNER JOIN UserInformationEntity usrIn ON usr.profileId = usrIn.userInformationId"
+  @Query(value = " FROM UserEntity usr "
       + " WHERE usr.username = ?1")
-  Optional<UserDTO> findByUsername(String username);
+  Optional<UserEntity> findByUsername(String username);
 
   /**
    * Get TRUE or FALSE.
@@ -46,7 +43,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
    */
   @Query(value = "SELECT CASE WHEN COUNT(usr) > 0 THEN TRUE ELSE FALSE END"
       + " FROM UserEntity usr "
-      + " INNER JOIN UserInformationEntity usrIn ON usr.profileId = usrIn.userInformationId"
+      + " INNER JOIN UserInformationEntity usrIn ON usr.userId = usrIn.userId"
       + " WHERE LOWER(usrIn.email) LIKE LOWER(?1)")
   Boolean existsByEmail(String email);
 
