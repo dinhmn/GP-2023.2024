@@ -13,13 +13,12 @@ import 'v-calendar/style.css';
 import './assets/styles/reset.css'
 import './assets/styles/tailwind.css'
 import './assets/styles/global.css'
-import Vue3Storage, { StorageType } from "vue3-storage";
+
 const app = createApp(App);
 registerGlobalComponents(app);
 
 app.use(router)
 app.use(setupCalendar, {})
-app.use(Vue3Storage, { namespace: "shoe_", storage: StorageType.Session, secureKey: "246810" })
 app.component(VueFeather.name, VueFeather);
 app.component("QuillEditor", QuillEditor);
 // Use the components
