@@ -1,7 +1,6 @@
 package com.graduationproject.backend.backendwebsiteshoe.service;
 
 import com.graduationproject.backend.backendwebsiteshoe.dto.RoleDTO;
-import com.graduationproject.backend.backendwebsiteshoe.dto.UserDTO;
 import com.graduationproject.backend.backendwebsiteshoe.entity.UserEntity;
 import com.graduationproject.backend.backendwebsiteshoe.model.UserDetailsModel;
 import com.graduationproject.backend.backendwebsiteshoe.repository.RoleRepository;
@@ -19,7 +18,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 /**
- * Config security project.
+ * Implement user service.
  *
  * @author Mai Ngoc Dinh
  */
@@ -46,7 +45,7 @@ public class UserService implements UserDetailsService {
    */
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    UserDTO user = userRepository.findByUsername(username)
+    UserEntity user = userRepository.findByUsername(username)
         .orElseThrow(() -> new UsernameNotFoundException("Username not found.!"));
 
     return this.toBuildUserDetailsModel(user);
@@ -103,12 +102,22 @@ public class UserService implements UserDetailsService {
   }
 
   /**
+   * Insert user with role.
+   *
+   * @param userEntity userEntity
+   * @return TRUE if exist else FALSE.
+   */
+  public UserEntity insert(UserEntity userEntity) {
+    return userRepository.save(userEntity);
+  }
+
+  /**
    * Map object DTO to model.
    *
    * @param user userDTO
    * @return user details model
    */
-  private UserDetailsModel toBuildUserDetailsModel(@NotNull UserDTO user) {
+  private UserDetailsModel toBuildUserDetailsModel(@NotNull UserEntity user) {
     List<GrantedAuthority> authorityList = roleRepository.findAll().stream()
         .map(role -> new SimpleGrantedAuthority(role.getRoleName()))
         .collect(Collectors.toList());
@@ -116,8 +125,8 @@ public class UserService implements UserDetailsService {
     return UserDetailsModel.builder()
         .userId(user.getUserId())
         .username(user.getUsername())
-        .password(user.getPassword())
-        .email(user.getEmail())
+        .password(user.getUserPassword())
+        .email(user.getUserEmail())
         .authorities(authorityList)
         .build();
   }
