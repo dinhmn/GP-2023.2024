@@ -6,7 +6,7 @@ class AuthSevice {
   login(user) {
     console.log(user)
     return http
-      .post(API_AUTH + '/signin', {
+      .post(API_AUTH + '/sign-in', {
         username: user.username,
         password: user.password
       })
@@ -25,10 +25,16 @@ class AuthSevice {
   }
 
   register(user) {
-    return http.post(API_AUTH + '/signup', {
+    return http.post(API_AUTH + '/sign-up', {
       username: user.username,
       email: user.email,
-      password: user.password
+      password: user.password,
+      roleIdList: ['1'],
+      firstName: user.firstName,
+      lastName: user.lastName
+    })
+    .then(response => {
+      console.log(response);
     });
   }
 
