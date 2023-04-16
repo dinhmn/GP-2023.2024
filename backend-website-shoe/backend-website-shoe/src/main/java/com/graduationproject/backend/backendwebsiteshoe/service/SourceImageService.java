@@ -44,7 +44,7 @@ public class SourceImageService {
                                    ProductModel productModel, String type) throws IOException {
     // Insert file image
     if (Constant.INSERT.equals(type)) {
-      this.insertFileImage(files, productModel.getProductId(), Constant.ZERO);
+      this.insertFileImage(files, productId, Constant.ZERO);
     }
 
     // Update file image
@@ -70,7 +70,7 @@ public class SourceImageService {
         this.updateFileImages(files, productId, productModel);
 
         // Insert new file image.
-        this.insertFileImage(files, productModel.getProductId(),
+        this.insertFileImage(files, productId,
             productModel.getSourceImageModelList().size());
       }
     }

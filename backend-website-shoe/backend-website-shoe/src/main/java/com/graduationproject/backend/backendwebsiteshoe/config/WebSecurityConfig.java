@@ -1,6 +1,5 @@
 package com.graduationproject.backend.backendwebsiteshoe.config;
 
-import com.graduationproject.backend.backendwebsiteshoe.common.Constant;
 import com.graduationproject.backend.backendwebsiteshoe.security.jwt.AuthEntryPointJwt;
 import com.graduationproject.backend.backendwebsiteshoe.security.jwt.AuthTokenFilter;
 import com.graduationproject.backend.backendwebsiteshoe.service.UserService;
@@ -59,8 +58,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     http.cors().and().csrf().disable()
         .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-        .authorizeRequests().antMatchers("/api/auth/signin").permitAll()
-        .antMatchers("/api/**").permitAll()
+        .authorizeRequests().antMatchers("/api/auth/sign-in").permitAll()
+        .antMatchers("/api/**", "*").permitAll()
+        .antMatchers("/chat").permitAll()
         .anyRequest().authenticated();
 
     http.addFilterBefore(authenticationJwtTokenFilter(),

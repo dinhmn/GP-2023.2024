@@ -1,5 +1,6 @@
 package com.graduationproject.backend.backendwebsiteshoe.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.graduationproject.backend.backendwebsiteshoe.common.Constant;
 import com.graduationproject.backend.backendwebsiteshoe.dto.IProduct;
 import com.graduationproject.backend.backendwebsiteshoe.entity.ProductEntity;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -95,18 +98,21 @@ public class ProductController {
   /**
    * Register new product.
    *
-   * @param productModel productModel
-   * @param files        files
+   * @param product product
+   * @param files   files
    * @return response entity
    */
   @PostMapping(value = "/register")
-  public ResponseEntity<ProductEntity> registerProduct(@RequestBody ProductModel productModel,
-                                                       @RequestBody List<MultipartFile> files)
+  public ResponseEntity<ProductEntity> registerProduct(@RequestPart("product") String product,
+                                                       @RequestPart("files")
+                                                           List<MultipartFile> files)
       throws IOException {
+    ObjectMapper mapper = new ObjectMapper();
+    ProductModel productModel = mapper.readValue(product, ProductModel.class);
     ProductEntity productEntity = null;
     try {
       productEntity = productHelper.insert(productModel, files);
-    } catch (FileUploadException fileUploadException) {
+    } catch (DataAccessException | FileUploadException fileUploadException) {
       fileUploadException.printStackTrace();
     }
 
