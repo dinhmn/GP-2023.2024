@@ -109,6 +109,14 @@ const routes = [
     component: () => import("../pages/admin/admin-form/ProductForm.vue"),
   },
   {
+    path: "/admin/product/register/:categoryId/:productId",
+    name: "ProductEditAdmin",
+    meta: {
+      layout: 'admin'
+    },
+    component: () => import("../pages/admin/admin-form/ProductForm.vue"),
+  },
+  {
     name: "ContactAdmin",
     path: "/admin/contact",
     meta: {

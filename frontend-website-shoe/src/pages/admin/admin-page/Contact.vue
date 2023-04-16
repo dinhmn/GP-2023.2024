@@ -81,7 +81,6 @@ const result = reactive({
 const active = ref(1)
 onMounted(async () => {
   await getAllData(api, 0)
-  console.log(api)
 })
 async function getAllData(api, pageNo) {
   try {
