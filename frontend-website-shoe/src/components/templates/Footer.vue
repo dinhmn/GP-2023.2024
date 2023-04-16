@@ -16,7 +16,8 @@
               classChild="min-w-[500px] px-5 py-[10px] rounded-sm"
               name="email"
               placeholder="Email"
-              v-model="email"
+              v-model="data.email"
+              @keyup="v$.$validate()"
             />
             <button-common
               type="submit"
@@ -24,6 +25,9 @@
               className="w-full px-5 py-3 m-0 ml-4 rounded-sm bg-brown hover:bg-brown-hover"
             />
           </form>
+          <span class="h-[20px] px-1 text-xs leading-4 text-red-600">
+            {{ v$.email.$error ? v$.email.$errors[0].$message : '' }}
+          </span>
         </div>
       </div>
       <div class="flex items-start justify-around gap-8">
@@ -46,7 +50,9 @@
 <script>
 import Input from '../common/input/Input.vue'
 import Button from '../common/button/Button.vue'
-import { ref } from 'vue'
+import { reactive, computed } from 'vue'
+import useValidate from '@vuelidate/core'
+import { required, email } from '@vuelidate/validators'
 const footList = [
   {
     title: 'About',
@@ -68,8 +74,16 @@ export default {
     ButtonCommon: Button
   },
   setup(props) {
-    const email = ref('')
-    return { props, footList, email }
+    const data = reactive({
+      email: ''
+    })
+    const rules = computed(() => {
+      return {
+        email: { required, email }
+      }
+    })
+    const v$ = useValidate(rules, data)
+    return { props, footList, data, v$ }
   }
 }
 </script>
