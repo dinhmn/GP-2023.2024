@@ -6,13 +6,18 @@
   <component name="ChangeListManager">
     <list default="true" id="c14e3382-f68b-494c-afcd-6b323d748bc5" name="Default Changelist" comment="feature/backend/#27: Update service, form of category screen.">
       <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_rebase_[Default_Changelist]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_rebase_[Default_Changelist]1/shelved.patch" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_rebase_[Default_Changelist]1/shelved.patch" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_rebase_[Default_Changelist]2/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_rebase__Default_Changelist_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_rebase__Default_Changelist_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_rebase__Default_Changelist_1.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_rebase__Default_Changelist_2.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-website-shoe/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-website-shoe/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-website-shoe/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-website-shoe/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-website-shoe/src/components/common/form-payment/FormPayment.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-website-shoe/src/components/common/input/Input.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-website-shoe/src/components/common/input/Input.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-website-shoe/src/components/templates/Footer.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-website-shoe/src/components/templates/Footer.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-website-shoe/src/pages/auth/Signup.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-website-shoe/src/pages/auth/Signup.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-website-shoe/src/pages/user/Contact.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-website-shoe/src/pages/user/Contact.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-website-shoe/src/pages/user/Payment.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-website-shoe/src/pages/user/Payment.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-website-shoe/src/stores/api/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-website-shoe/src/stores/api/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -122,7 +127,18 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.BackendWebsiteShoeApplication (1)">
+  <component name="RunManager" selected="Spring Boot.BackendWebsiteShoeApplication">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="backend-website-shoe [jar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -179,6 +195,7 @@
       <workItem from="1678459605351" duration="6970000" />
       <workItem from="1679106076925" duration="120000" />
       <workItem from="1679107354372" duration="461000" />
+      <workItem from="1681651231564" duration="1289000" />
     </task>
     <task id="LOCAL-00001" summary="feature/#1: Update entity version 1.">
       <created>1678464342205</created>
