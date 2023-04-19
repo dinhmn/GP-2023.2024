@@ -1,6 +1,35 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template lang="">
   <CommonAdmin title="Product" page="5" actionNew="ProductRegisterAdmin">
+    <template v-slot:search>
+      <form class="flex w-[600px] gap-2 items-center justify-center">
+        <Input
+          type="text"
+          placeholder="Search..."
+          name="search"
+          id="search"
+          classChild="min-w-[200px] py-[6px] rounded-sm max-w-[400px] max-h-[40px]"
+          v-model="searchData.searchValue"
+        />
+        <select
+          name="categoryId"
+          class="w-full p-2 text-black rounded-sm outline-none"
+          id="categoryId"
+          v-model="searchData.sortBy"
+        >
+          <option value="product_name">ProductName</option>
+          <option value="category_name">CategoryName</option>
+          <option value="product_price">Price</option>
+        </select>
+        <Button
+          type="button"
+          text="Search"
+          id="search"
+          @click="search"
+          className="bg-[#0c3247] text-[#17b1ea] hover:bg-[#10405a] hover:text-white"
+        />
+      </form>
+    </template>
     <template v-slot:thead>
       <thead class="w-full bg-[#0c3247] text-[#17b1ea]">
         <tr class="rounded-tl-md">
@@ -74,6 +103,9 @@
 <script setup>
 import { onMounted, reactive, ref } from 'vue'
 import CommonAdmin from '@/components/common/CommonAdmin.vue'
+import Input from '@/components/common/input/Input.vue'
+import Button from '@/components/common/button/Button.vue'
+import axios from 'axios'
 import ProductService from '@/stores/modules/ProductService'
 const api = reactive({
   data: [],
@@ -86,6 +118,13 @@ const api = reactive({
 const result = reactive({
   putResult: null,
   deleteResult: null
+})
+const searchData = reactive({
+  pageNo: '',
+  pageSize: '',
+  sortDirection: 'ASC',
+  sortBy: 'product_name',
+  searchValue: ''
 })
 const active = ref(1)
 onMounted(async () => {
@@ -103,8 +142,28 @@ async function getAllData(api, pageNo) {
     }
 
     fetchData(result.data, api)
+    searchData.pageNo = api.pageNo
+    searchData.pageSize = api.pageSize
   } catch (error) {
     api = formatResponse(error.response?.data) || error
+  }
+}
+
+async function search() {
+  try {
+    const res = await ProductService.search('/init/pageable', searchData)
+
+    const result = {
+      status: res.status + '-' + res.statusText,
+      headers: res.headers,
+      data: res.data
+    }
+
+    fetchData(result.data, api)
+    searchData.pageNo = api.pageNo
+    searchData.pageSize = api.pageSize
+  } catch (error) {
+    formatResponse(error.response?.data) || error
   }
 }
 
@@ -136,6 +195,22 @@ function onNextPage() {
     getAllData(api, active.value - 1)
   } catch (err) {
     result.deleteResult = formatResponse(err.response?.data) || err
+  }
+}
+
+async function onDelete(event, categoryId, productId) {
+  try {
+    ProductService.delete('/delete', categoryId, productId)
+    axios
+      .get('http://localhost:8088/api/products/init?page_no=0')
+      .then((response) => {
+        api.data = response.data
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  } catch (error) {
+    console.log(error)
   }
 }
 

@@ -15,9 +15,9 @@
       </div>
       <strong
         class="block w-full py-2 my-3 text-xl text-center uppercase rounded-md bg-[#0c3247] text-[#17b1ea]"
-        >Add new product</strong
       >
-      <!-- {{ param == null ? 'Add new product' : 'Edit product' }} -->
+        {{ pathName !== 'ProductEditAdmin' ? 'Add new product' : 'Edit product' }}
+      </strong>
       <form
         class="w-full post"
         method="post"
@@ -41,6 +41,7 @@
                   v-for="item in category.data"
                   :key="item.categoryId"
                   :value="item.categoryId"
+                  :selected="data.categoryId == item"
                 >
                   {{ item.categoryName }}
                 </option>
@@ -165,9 +166,8 @@
           className="bg-brown
         hover:bg-brown-hover text-white w-full m-0 mt-3"
           name="login"
-          text="Register"
+          :text="pathName !== 'ProductEditAdmin' ? 'Register' : 'Update'"
         />
-        <!-- :text="param == null ? 'Register' : 'Update'" -->
       </form>
     </div>
     <form
@@ -311,12 +311,16 @@ const productSize = reactive([
     productQuantity: 0
   }
 ])
-const pathName = useRoute().matched[0].name
 const category = reactive({
   data: []
 })
+const route = useRoute()
+const pathName = useRoute().matched[0].name
 onMounted(async () => {
   await getAllDataCategory(category)
+  if (pathName === 'ProductEditAdmin') {
+    await getById(route.params.categoryId, route.params.productId, data)
+  }
 })
 const productColor = reactive({})
 addProductColor(productSize)
@@ -339,7 +343,6 @@ const data = reactive({
 })
 const form = reactive({ ...data })
 const files = ref([])
-console.log(data, files)
 const onPropsModalSize = (event, type) => {
   modal.value.isDisplay = true
   modal.value.isType = type
@@ -424,7 +427,38 @@ async function getAllDataCategory(api) {
     data.categoryId = category.data[0].categoryId
   } catch (error) {
     api = formatResponse(error.response?.data) || error
-    console.log(api)
+  }
+}
+
+async function getById(categoryId, productId, data) {
+  try {
+    const res = await ProductService.getProductById('/init', categoryId, productId)
+
+    const result = {
+      status: res.status + '-' + res.statusText,
+      headers: res.headers,
+      data: res.data
+    }
+
+    Object.assign(data, result.data)
+    data.productSizeModelList.forEach((element) => {
+      productSize
+        .filter((condition) => condition.productId === element.productSizeId)
+        .map((item) => {
+          item.productSize = element.productSize
+          item.productQuantity = element.productSizeQuantity
+        })
+    })
+    data.productColorModelList.forEach((element) => {
+      productSize
+        .filter((condition) => condition.productId === element.productSizeId)
+        .map((item) => {
+          item.productSize = element.productColor
+          item.productColor = element.productColorQuantity
+        })
+    })
+  } catch (error) {
+    formatResponse(error.response?.data) || error
   }
 }
 function formatResponse(res) {
