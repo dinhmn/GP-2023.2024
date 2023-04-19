@@ -64,7 +64,7 @@ public interface ArticleRepository extends JpaRepository<ArticleEntity, Long> {
    * @return article.
    */
   @Query(value = "SELECT article.article_id AS articleId, article.article_name AS articleName, "
-      + " article.article_description AS articleDescription, product.product_id AS productName, "
+      + " article.article_description AS articleDescription, product.product_id AS productId, "
       + " article.article_seo AS articleSeo, article.created_date AS createdDate, "
       + " images.file_name AS fileName, images.file_type AS fileType, images.data AS fileData, "
       + " product.product_name AS productName, article.updated_date AS updatedDate, "

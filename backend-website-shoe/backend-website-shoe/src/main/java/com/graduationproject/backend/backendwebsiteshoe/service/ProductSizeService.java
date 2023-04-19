@@ -1,6 +1,7 @@
 package com.graduationproject.backend.backendwebsiteshoe.service;
 
 import com.graduationproject.backend.backendwebsiteshoe.common.CommonService;
+import com.graduationproject.backend.backendwebsiteshoe.entity.ProductColorEntity;
 import com.graduationproject.backend.backendwebsiteshoe.entity.ProductSizeEntity;
 import com.graduationproject.backend.backendwebsiteshoe.model.ProductSizeModel;
 import com.graduationproject.backend.backendwebsiteshoe.repository.ProductSizeRepository;
@@ -94,12 +95,31 @@ public class ProductSizeService {
   }
 
   /**
-   * Insert product size image use create new.
+   * Select all entity by product id.
+   *
+   * @param productId productId
+   * @return list of entity
+   */
+  public List<ProductSizeEntity> selectByPrimaryKey(Long productId) {
+    return productSizeRepository.selectByPrimaryKey(productId);
+  }
+
+  /**
+   * Delete product size image use create new.
    *
    * @param productId productId
    */
   public void deleteByProductId(Long productId) {
     productSizeRepository.deleteByProductId(productId);
+  }
+
+  /**
+   * Delete product size image use create new.
+   *
+   * @param productSizeId productSizeId
+   */
+  public void deleteByPrimaryKey(Long productSizeId) {
+    productSizeRepository.deleteById(productSizeId);
   }
 
   /**

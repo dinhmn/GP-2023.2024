@@ -27,6 +27,16 @@ public interface SourceImagesRepository
   void deleteByProductId(Long productId, List<String> imagesCode);
 
   /**
+   * Delete all image of product.
+   *
+   * @param productId productId
+   * @param imagesCode imagesCode
+   */
+  @Query(value = "FROM SourceImagesEntity source "
+          + " WHERE source.productId = ?1 AND source.imageCode IN ?2")
+  List<SourceImagesEntity> selectByProductId(Long productId, List<String> imagesCode);
+
+  /**
    * Select source image.
    *
    * @param articleId articleId

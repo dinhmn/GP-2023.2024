@@ -22,7 +22,7 @@ public interface ProductColorRepository
    * @return list product color.
    */
   @Query(value = "FROM ProductColorEntity color WHERE color.productId = ?1")
-  List<ProductColorEntity> selectByProductId(String productId);
+  List<ProductColorEntity> selectByProductId(Long productId);
 
   /**
    * Delete all product color.

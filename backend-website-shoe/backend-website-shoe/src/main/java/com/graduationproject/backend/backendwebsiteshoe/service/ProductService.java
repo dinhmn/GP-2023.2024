@@ -54,10 +54,11 @@ public class ProductService {
    * Get all product.
    *
    * @param pageable pageable
+   * @param searchValue searchValue
    * @return list of entity product.
    */
-  public Page<IProduct> getAll(Pageable pageable) {
-    return productRepository.findAllProduct(pageable);
+  public Page<IProduct> getAll(Pageable pageable, String searchValue) {
+    return productRepository.findAllProduct(searchValue, pageable);
   }
 
   /**
