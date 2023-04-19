@@ -132,7 +132,6 @@
   </div>
 </template>
 <script setup>
-import { useCookies } from 'vue3-cookies'
 import { reactive, onMounted } from 'vue'
 import Input from '../components/common/input/Input.vue'
 import Navbar from '../components/templates/Navbar.vue'
@@ -157,7 +156,6 @@ const socket = reactive({
   stompClient: '',
   connected: false
 })
-const { cookies } = useCookies()
 globalCookiesConfig({
   expireTimes: '30d',
   path: '/',
@@ -165,14 +163,11 @@ globalCookiesConfig({
   secure: true,
   sameSite: 'None'
 })
-// cookies.set('user_cookie', globalCookiesConfig)
 onMounted(async () => {
   // await connect()
-  cookies.config('7d', '', '', true)
 })
 
 const send = () => {
-  console.log(message.receivedMessages)
   if (socket.stompClient && socket.stompClient.connected) {
     const sendMessage = message.sendMessage
     if (login.username == null) {

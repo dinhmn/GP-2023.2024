@@ -213,7 +213,7 @@ create table tbl_source_images (
    product_id BIGINT,
    user_information_id BIGINT,
    article_id BIGINT,
-   data BLOB NOT NULL,
+   data LONGBLOB NOT NULL,
    file_name VARCHAR(255) NOT NULL,
    file_type VARCHAR(255) NOT NULL,
    image_code VARCHAR(2),

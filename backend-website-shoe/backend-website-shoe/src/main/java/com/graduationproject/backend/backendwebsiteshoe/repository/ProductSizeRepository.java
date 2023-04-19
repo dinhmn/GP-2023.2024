@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * Implement repository of product size.
  *
@@ -21,4 +23,12 @@ public interface ProductSizeRepository
    */
   @Query(value = "DELETE FROM ProductSizeEntity productSize WHERE productSize.productId = ?1")
   void deleteByProductId(Long productId);
+
+  /**
+   * Select all product size.
+   *
+   * @param productId productId
+   */
+  @Query(value = "FROM ProductSizeEntity productSize WHERE productSize.productId = ?1")
+  List<ProductSizeEntity> selectByPrimaryKey(Long productId);
 }

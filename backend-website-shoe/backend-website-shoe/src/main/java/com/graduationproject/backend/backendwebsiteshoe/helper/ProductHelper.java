@@ -5,7 +5,9 @@ import com.graduationproject.backend.backendwebsiteshoe.common.Constant;
 import com.graduationproject.backend.backendwebsiteshoe.common.Image;
 import com.graduationproject.backend.backendwebsiteshoe.dto.IOneProduct;
 import com.graduationproject.backend.backendwebsiteshoe.dto.IProduct;
+import com.graduationproject.backend.backendwebsiteshoe.entity.ProductColorEntity;
 import com.graduationproject.backend.backendwebsiteshoe.entity.ProductEntity;
+import com.graduationproject.backend.backendwebsiteshoe.entity.ProductSizeEntity;
 import com.graduationproject.backend.backendwebsiteshoe.forms.ProductForm;
 import com.graduationproject.backend.backendwebsiteshoe.model.ProductColorModel;
 import com.graduationproject.backend.backendwebsiteshoe.model.ProductModel;
@@ -76,13 +78,14 @@ public class ProductHelper {
    * @param pageSize      pageSize
    * @param sortBy        sortBy
    * @param sortDirection sortDirection
+   * @param searchValue searchValue
    * @return list product.
    */
-  public ProductForm getAllProduct(int pageNo, int pageSize, String sortBy, String sortDirection) {
+  public ProductForm getAllProduct(int pageNo, int pageSize, String sortBy, String sortDirection,String searchValue) {
     Pageable pageable = commonService.setPageable(pageSize, pageNo, sortBy, sortDirection);
 
     // Create pageable instance
-    Page<IProduct> productList = productService.getAll(pageable);
+    Page<IProduct> productList = productService.getAll(pageable,searchValue);
 
     // Get content for page object
     List<IProduct> listOfProductModel = productList.getContent();
@@ -191,10 +194,17 @@ public class ProductHelper {
    */
   public Boolean delete(Long categoryId, Long productId) {
     // Delete all product color
-    productColorService.deleteByProductId(productId);
+    List<Long> productColorIdList = productColorService.selectByProductId(productId).stream()
+            .map(ProductColorEntity::getProductColorId)
+            .toList();
+    productColorIdList.forEach(productColorId -> productColorService.deleteByPrimaryKey(productColorId));
 
     // Delete all product size
-    productSizeService.deleteByProductId(productId);
+    List<Long> productSizeIdList = productSizeService.selectByPrimaryKey(productId).stream()
+            .map(ProductSizeEntity::getProductSizeId)
+            .toList();
+    productSizeIdList.forEach(productSizeId -> productSizeService.deleteByPrimaryKey(productSizeId));
+
 
     // Delete source image
     List<String> productImagesCode =

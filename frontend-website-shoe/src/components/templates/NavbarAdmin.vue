@@ -76,8 +76,7 @@
 import { onMounted } from 'vue'
 import ChatService from '@/stores/modules/ChatService'
 onMounted(async () => {
-  const res = await ChatService.getAllMessage()
-  console.log(res.data)
+  await ChatService.getAllMessage()
 })
 </script>
 <style lang="scss">
