@@ -49,6 +49,4 @@ export default class ProductService {
     delete(url) {
       return http.delete(API_PRODUCT_PREFIX + url)
     }
-  
-  
   }

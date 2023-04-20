@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template lang="">
   <input
-    class="w-full px-3 py-2 text-gray-800 rounded"
+    class="w-full text-gray-800 rounded desktop:px-3 desktop:py-2 mobile:p-1"
     :type="props.type"
     :placeholder="placeholder"
     :name="name"
