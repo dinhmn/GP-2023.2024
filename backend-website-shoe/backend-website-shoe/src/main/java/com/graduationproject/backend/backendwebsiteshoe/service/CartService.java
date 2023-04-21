@@ -1,6 +1,7 @@
 package com.graduationproject.backend.backendwebsiteshoe.service;
 
 import com.graduationproject.backend.backendwebsiteshoe.entity.CartEntity;
+import com.graduationproject.backend.backendwebsiteshoe.entity.OrderEntity;
 import com.graduationproject.backend.backendwebsiteshoe.repository.CartRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Service;
  * @author Mai Ngoc Dinh
  */
 @Service
-public class UserService {
+public class CartService {
 
   @Autowired
   CartRepository cartRepository;
