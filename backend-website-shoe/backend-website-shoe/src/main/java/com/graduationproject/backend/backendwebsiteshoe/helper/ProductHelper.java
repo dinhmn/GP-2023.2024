@@ -78,14 +78,15 @@ public class ProductHelper {
    * @param pageSize      pageSize
    * @param sortBy        sortBy
    * @param sortDirection sortDirection
-   * @param searchValue searchValue
+   * @param searchValue   searchValue
    * @return list product.
    */
-  public ProductForm getAllProduct(int pageNo, int pageSize, String sortBy, String sortDirection,String searchValue) {
+  public ProductForm getAllProduct(int pageNo, int pageSize, String sortBy, String sortDirection,
+                                   String searchValue) {
     Pageable pageable = commonService.setPageable(pageSize, pageNo, sortBy, sortDirection);
 
     // Create pageable instance
-    Page<IProduct> productList = productService.getAll(pageable,searchValue);
+    Page<IProduct> productList = productService.getAll(pageable, searchValue);
 
     // Get content for page object
     List<IProduct> listOfProductModel = productList.getContent();
@@ -195,15 +196,17 @@ public class ProductHelper {
   public Boolean delete(Long categoryId, Long productId) {
     // Delete all product color
     List<Long> productColorIdList = productColorService.selectByProductId(productId).stream()
-            .map(ProductColorEntity::getProductColorId)
-            .toList();
-    productColorIdList.forEach(productColorId -> productColorService.deleteByPrimaryKey(productColorId));
+        .map(ProductColorEntity::getProductColorId)
+        .toList();
+    productColorIdList
+        .forEach(productColorId -> productColorService.deleteByPrimaryKey(productColorId));
 
     // Delete all product size
     List<Long> productSizeIdList = productSizeService.selectByPrimaryKey(productId).stream()
-            .map(ProductSizeEntity::getProductSizeId)
-            .toList();
-    productSizeIdList.forEach(productSizeId -> productSizeService.deleteByPrimaryKey(productSizeId));
+        .map(ProductSizeEntity::getProductSizeId)
+        .toList();
+    productSizeIdList
+        .forEach(productSizeId -> productSizeService.deleteByPrimaryKey(productSizeId));
 
 
     // Delete source image

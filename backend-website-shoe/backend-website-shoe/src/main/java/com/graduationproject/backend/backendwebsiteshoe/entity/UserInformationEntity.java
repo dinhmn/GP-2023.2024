@@ -61,6 +61,9 @@ public class UserInformationEntity extends BaseEntity implements Serializable {
   @Column(name = "address", nullable = false)
   private String address;
 
+  @Column(name = "note")
+  private String note;
+
   @Column(name = "age", length = 2)
   private String age;
 

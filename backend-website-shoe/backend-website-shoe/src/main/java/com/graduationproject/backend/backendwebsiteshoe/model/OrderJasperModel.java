@@ -1,9 +1,10 @@
 package com.graduationproject.backend.backendwebsiteshoe.model;
 
+import java.math.BigDecimal;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-
-import java.util.List;
+import lombok.NoArgsConstructor;
 
 /**
  * Create template jasper report.
@@ -11,6 +12,7 @@ import java.util.List;
  * @author Mai Ngoc Dinh
  */
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 public class OrderJasperModel {
 
@@ -18,14 +20,23 @@ public class OrderJasperModel {
 
   private List<Order> orderList;
 
+  private Long orderId;
+
+  private String orderCode;
+
+  private String totalPriceOfAllProduct;
+
+  private String totalQuantityOfAllProduct;
+
   /**
    * Class customer.
    */
   @Data
+  @NoArgsConstructor
   @AllArgsConstructor
-  public class Customer {
+  public static class Customer {
 
-    private String userId;
+    private Long userId;
 
     private String customerOrderCode;
 
@@ -40,22 +51,25 @@ public class OrderJasperModel {
     private String customerEmail;
 
     private String createdDate;
+
+    private String customerNote;
   }
 
   /**
    * Class order.
    */
   @Data
+  @NoArgsConstructor
   @AllArgsConstructor
-  public class Order {
+  public static class Order {
     private Long productId;
 
     private String productName;
 
-    private Double productPrice;
+    private BigDecimal productPrice;
 
     private Integer productQuantity;
 
-    private Double productTotalPrice;
+    private BigDecimal productTotalPrice;
   }
 }

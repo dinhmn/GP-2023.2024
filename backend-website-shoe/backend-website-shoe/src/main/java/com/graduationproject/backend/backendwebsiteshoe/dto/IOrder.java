@@ -1,29 +1,38 @@
 package com.graduationproject.backend.backendwebsiteshoe.dto;
 
+import java.math.BigDecimal;
+import java.util.Date;
+
 public interface IOrder {
 
-    String getProductId();
+  Long getProductId();
 
-    String getUserId();
+  Long getUserId();
 
-    String getOrderId();
+  Long getOrderId();
 
-    String getProductName();
+  String getProductName();
 
-    String getProductPrice();
+  BigDecimal getProductPrice();
 
-    String getProductQuantity();
+  Integer getProductQuantity();
 
-    String getCartId();
+  Long getCartId();
 
-    String getCustomerAddress();
+  String getCustomerAddress();
 
-    String getCustomerFirstName();
+  String getCustomerFirstName();
 
-    String getCustomerLastName();
+  String getCustomerLastName();
 
-    String getCustomerEmail();
+  String getCustomerEmail();
 
-    String getCustomerPhone();
+  String getCustomerPhone();
+
+  Date getCreatedDate();
+
+  String getOrderCode();
+
+  String getCustomerNote();
 
 }

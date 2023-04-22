@@ -15,6 +15,8 @@ public interface Constant {
 
   String PATTERN_DATETIME = "dd-MM-yyyy";
 
+  String PATTERN_DATETIME_HOURS = "HH:mm dd-MM-yyyy";
+
   String TRUE = "1";
 
   String FALSE = "0";

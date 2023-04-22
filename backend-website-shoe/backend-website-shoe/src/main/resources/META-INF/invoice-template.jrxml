@@ -3,7 +3,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
-              name="invoice_template" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20"
+              name="invoice_template" pageWidth="595" pageHeight="600" columnWidth="555" leftMargin="20"
               rightMargin="20" topMargin="20" bottomMargin="20" resourceBundle="jasper.localization.i18n"
               uuid="cd759d20-cfa9-48d7-9532-01dc8f55f04e">
     <style name="Title" fontName="Times New Roman" fontSize="50" isBold="true"/>
@@ -41,50 +41,53 @@
         <parameter name="order" class="com.graduationproject.backend.backendwebsiteshoe.model.OrderJasperModel">
             <defaultValueExpression><![CDATA[$P{order}]]></defaultValueExpression>
         </parameter>
-        <parameter name="CurrentDate" class="java.util.Date">
-            <defaultValueExpression><![CDATA[new Date()]]></defaultValueExpression>
-        </parameter>
-<!--        <field name="customerOrderCode" class="java.lang.String"/>-->
-<!--        <field name="customerFirstName" class="java.lang.String"/>-->
-<!--        <field name="customerLastName" class="java.lang.String"/>-->
-<!--        <field name="customerAddress" class="java.lang.String"/>-->
-<!--        <field name="customerPhone" class="java.lang.String"/>-->
-<!--        <field name="customerEmail" class="java.lang.String"/>-->
-        <field name="no" class="java.lang.Integer"/>
+        <queryString>
+            <![CDATA[]]>
+        </queryString>
         <field name="productName" class="java.lang.String"/>
-        <field name="productPrice" class="java.lang.String"/>
-        <field name="productQuantity" class="java.lang.String"/>
-        <field name="productTotalPrice" class="java.lang.String"/>
-        <field name="createdDate" class="java.lang.String"/>
-
+        <field name="productQuantity" class="java.lang.Integer"/>
+        <field name="productPrice" class="java.math.BigDecimal"/>
+        <field name="productTotalPrice" class="java.math.BigDecimal"/>
     </subDataset>
     <parameter name="logo" class="java.io.InputStream"/>
     <parameter name="order" class="com.graduationproject.backend.backendwebsiteshoe.model.OrderJasperModel"/>
-    <parameter name="customerOrderCode" class="com.graduationproject.backend.backendwebsiteshoe.model.OrderJasperModel"/>
-<!--    <field name="customerFirstName" class="java.lang.String">-->
-<!--    </field>-->
-<!--    <field name="customerLastName" class="java.lang.String"/>-->
-<!--    <field name="customerAddress" class="java.lang.String"/>-->
-<!--    <field name="customerPhone" class="java.lang.String"/>-->
-<!--    <field name="customerEmail" class="java.lang.String"/>-->
     <background>
         <band splitType="Stretch"/>
     </background>
     <title>
-        <band height="84" splitType="Stretch">
+        <band height="76" splitType="Stretch">
+            <staticText>
+                <reportElement style="Title" x="140" y="0" width="218" height="40" uuid="1a652692-054a-40f3-ade5-68d8da36626d"/>
+                <textElement textAlignment="Center" verticalAlignment="Bottom">
+                    <font size="30"/>
+                </textElement>
+                <text><![CDATA[INVOICE]]></text>
+            </staticText>
+            <staticText>
+                <reportElement style="SubTitle" x="214" y="40" width="110" height="22" uuid="88d4231e-f014-4b0d-b871-1737ba63a1ae"/>
+                <textElement>
+                    <font fontName="Times New Roman"/>
+                </textElement>
+                <text><![CDATA[Sneaker]]></text>
+            </staticText>
             <image>
-                <reportElement x="0" y="0" width="160" height="50" uuid="e2b4ea04-ecb9-494d-a2af-63639b22b1cb"/>
+                <reportElement x="-1" y="-4" width="141" height="70" uuid="db68b9b5-20be-4d54-b528-da6a26389684"/>
                 <imageExpression><![CDATA[$P{logo}]]></imageExpression>
             </image>
-            <textField>
-                <reportElement key="" x="190" y="30" width="360" height="30"
-                               uuid="e086d53d-1677-4b80-b167-4855d4c118ec"/>
-                <textElement verticalAlignment="Middle">
-                    <font fontName="Arial Black" size="16" isBold="true"/>
+            <staticText>
+                <reportElement style="SubTitle" x="370" y="30" width="185" height="22" uuid="f97abe61-2678-46ee-87cd-43fc6f2add61"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="10"/>
                 </textElement>
-                <textFieldExpression>
-                    <![CDATA[$R{jasper.invoice.title.label} + ": " + $P{order}.getCustomerOrderCode()]]></textFieldExpression>
-            </textField>
+                <text><![CDATA[HOTLINE: 0982211485]]></text>
+            </staticText>
+            <staticText>
+                <reportElement style="SubTitle" x="370" y="10" width="185" height="20" uuid="058fc0ef-166c-494d-955f-a8da6fe9d37a"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="10"/>
+                </textElement>
+                <text><![CDATA[Address: HaNoi]]></text>
+            </staticText>
         </band>
     </title>
     <pageHeader>
@@ -96,59 +99,162 @@
                     <textElement verticalAlignment="Middle">
                         <font size="10" isBold="false"/>
                     </textElement>
-                    <textFieldExpression><![CDATA[new Date()]]></textFieldExpression>
+                    <textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
                 </textField>
             </frame>
         </band>
     </pageHeader>
     <columnHeader>
-        <band height="112" splitType="Stretch">
-            <frame>
-                <reportElement x="0" y="0" width="380" height="110" uuid="57cfddef-f245-4afa-8059-1ba7dda2561b"/>
-                <textField>
-                    <reportElement x="0" y="0" width="380" height="30" uuid="932e4bce-f54c-492c-ae77-a55089c9eb9f"/>
-                    <textElement verticalAlignment="Middle">
-                        <font fontName="Arial Black" size="13" isBold="true"/>
-                    </textElement>
-                    <textFieldExpression><![CDATA[$R{jasper.invoice.address.label}]]></textFieldExpression>
-                </textField>
-                <textField>
-                    <reportElement x="0" y="31" width="380" height="19" uuid="8af70123-a7c6-4ff7-91eb-6adc1fd0d3e9"/>
-                    <textElement verticalAlignment="Top">
-                        <font fontName="Arial" size="11" isBold="false"/>
-                    </textElement>
-                    <textFieldExpression>
-                        <![CDATA[$P{customerOrderCode}  + " " +  $P{customerOrderCode}]]></textFieldExpression>
-                </textField>
-                <textField>
-                    <reportElement x="0" y="51" width="380" height="19" uuid="76193d2c-2228-4944-b5d1-999cd7ef6168"/>
-                    <textElement verticalAlignment="Top">
-                        <font fontName="Arial" size="11" isBold="false"/>
-                    </textElement>
-                    <textFieldExpression><![CDATA[$P{customerOrderCode}]]></textFieldExpression>
-                </textField>
-                <textField>
-                    <reportElement x="0" y="71" width="380" height="19" uuid="76193d2c-2228-4944-b5d1-999cd7ef6168"/>
-                    <textElement verticalAlignment="Top">
-                        <font fontName="Arial" size="11" isBold="false"/>
-                    </textElement>
-                    <textFieldExpression>
-                        <![CDATA[$P{customerOrderCode}]]></textFieldExpression>
-                </textField>
-                <textField>
-                    <reportElement x="0" y="91" width="380" height="19" uuid="76193d2c-2228-4944-b5d1-999cd7ef6168"/>
-                    <textElement verticalAlignment="Top">
-                        <font fontName="Arial" size="11" isBold="false"/>
-                    </textElement>
-                    <textFieldExpression><![CDATA[$P{customerOrderCode}]]></textFieldExpression>
-                </textField>
-            </frame>
+        <band height="163">
+            <textField>
+                <reportElement x="110" y="10" width="300" height="20" uuid="8fbd9752-2c10-4a11-b207-f60a78b453e2">
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                    <property name="com.jaspersoft.studio.unit.width" value="px"/>
+                </reportElement>
+                <textElement textAlignment="Left" verticalAlignment="Middle">
+                    <font size="12"/>
+                </textElement>
+                <textFieldExpression>
+                    <![CDATA[$P{order}.getCustomer().getCustomerFirstName()  + " " +  $P{order}.getCustomer().getCustomerLastName()]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="110" y="30" width="300" height="20" uuid="e742d0c5-0790-45f8-ba64-84c19648e211">
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <textElement textAlignment="Left" verticalAlignment="Middle">
+                    <font size="12"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{order}.getCustomer().getCustomerAddress()]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement style="Title" x="-1" y="10" width="101" height="20" isRemoveLineWhenBlank="true" uuid="ef03a71b-1ce1-4227-829f-ec4c7101ed5d">
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                    <property name="com.jaspersoft.studio.unit.width" value="px"/>
+                    <property name="com.jaspersoft.studio.unit.spacingAfter" value="px"/>
+                </reportElement>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="SansSerif" size="12"/>
+                    <paragraph lineSpacing="1_1_2" lineSpacingSize="1.0" spacingAfter="0"/>
+                </textElement>
+                <text><![CDATA[Customer name:]]></text>
+            </staticText>
+            <staticText>
+                <reportElement style="Title" x="0" y="30" width="100" height="20" isRemoveLineWhenBlank="true" uuid="4c111791-a400-4289-be18-efcedc30ad1c">
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                    <property name="com.jaspersoft.studio.unit.width" value="px"/>
+                </reportElement>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="SansSerif" size="12"/>
+                    <paragraph lineSpacing="1_1_2" lineSpacingSize="1.0" spacingAfter="0"/>
+                </textElement>
+                <text><![CDATA[Address:]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="111" y="50" width="300" height="20" uuid="98b52813-3b77-48ae-becc-4cd9c019b6bb">
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <textElement textAlignment="Left" verticalAlignment="Middle">
+                    <font size="12"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{order}.getCustomer().getCustomerPhone()]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="111" y="70" width="300" height="20" uuid="c1019eb8-401f-4b79-8290-9f592a6dea0c">
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <textElement textAlignment="Left" verticalAlignment="Middle">
+                    <font size="12"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{order}.getCustomer().getCustomerEmail()]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement style="Title" x="0" y="50" width="100" height="20" isRemoveLineWhenBlank="true" uuid="f7dae900-0db2-41bb-a496-0a2ece91e411">
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                    <property name="com.jaspersoft.studio.unit.width" value="px"/>
+                </reportElement>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="SansSerif" size="12"/>
+                    <paragraph lineSpacing="1_1_2" lineSpacingSize="1.0" spacingAfter="0"/>
+                </textElement>
+                <text><![CDATA[Phone number:]]></text>
+            </staticText>
+            <staticText>
+                <reportElement style="Title" x="1" y="70" width="99" height="20" isRemoveLineWhenBlank="true" uuid="504102fa-aeea-4ba3-ae9d-bacdc1132798">
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                    <property name="com.jaspersoft.studio.unit.width" value="px"/>
+                </reportElement>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="SansSerif" size="12"/>
+                    <paragraph lineSpacing="1_1_2" lineSpacingSize="1.0" spacingAfter="0"/>
+                </textElement>
+                <text><![CDATA[Email:]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="110" y="90" width="300" height="20" uuid="9a645997-bf5d-4000-b711-c7890516e426">
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <textElement textAlignment="Left" verticalAlignment="Middle">
+                    <font size="12"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{order}.getCustomer().getCustomerOrderCode()]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="110" y="110" width="300" height="20" uuid="de16ea53-f99a-4498-8428-6a1d2224c223">
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <textElement textAlignment="Left" verticalAlignment="Middle">
+                    <font size="12"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{order}.getTotalPriceOfAllProduct()]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement style="Title" x="0" y="90" width="100" height="20" isRemoveLineWhenBlank="true" uuid="60a17643-8024-410b-ad9d-29235ac86a4c">
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                    <property name="com.jaspersoft.studio.unit.width" value="px"/>
+                </reportElement>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="SansSerif" size="12"/>
+                    <paragraph lineSpacing="1_1_2" lineSpacingSize="1.0" spacingAfter="0"/>
+                </textElement>
+                <text><![CDATA[Bill no:]]></text>
+            </staticText>
+            <staticText>
+                <reportElement style="Title" x="0" y="110" width="100" height="20" isRemoveLineWhenBlank="true" uuid="30908a51-995e-427f-ac4f-8cc971355996">
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                    <property name="com.jaspersoft.studio.unit.width" value="px"/>
+                </reportElement>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="SansSerif" size="12"/>
+                    <paragraph lineSpacing="1_1_2" lineSpacingSize="1.0" spacingAfter="0"/>
+                </textElement>
+                <text><![CDATA[Total payment:]]></text>
+            </staticText>
+            <staticText>
+                <reportElement style="Title" x="0" y="130" width="100" height="20" isRemoveLineWhenBlank="true" uuid="b063be8d-34f9-44e9-9f0b-fe2e87b61f9d">
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                    <property name="com.jaspersoft.studio.unit.width" value="px"/>
+                </reportElement>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="SansSerif" size="12"/>
+                    <paragraph lineSpacing="1_1_2" lineSpacingSize="1.0" spacingAfter="0"/>
+                </textElement>
+                <text><![CDATA[Created date invoice:]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="110" y="130" width="300" height="20" uuid="672d2b41-9330-41f9-b67c-b45726f64818">
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <textElement textAlignment="Left" verticalAlignment="Middle">
+                    <font size="12"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{order}.getCustomer().getCreatedDate()]]></textFieldExpression>
+            </textField>
         </band>
     </columnHeader>
     <detail>
         <band height="266" splitType="Stretch">
             <componentElement>
-                <reportElement x="0" y="20" width="550" height="246" uuid="2f83ba28-a8c9-4c66-bb5f-929ad20e542f">
+                <reportElement x="0" y="20" width="595" height="246" uuid="2f83ba28-a8c9-4c66-bb5f-929ad20e542f">
                     <property name="com.jaspersoft.studio.layout"
                               value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
                     <property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
@@ -161,16 +267,16 @@
                         <datasetParameter name="order">
                             <datasetParameterExpression><![CDATA[$P{order}]]></datasetParameterExpression>
                         </datasetParameter>
-<!--                        <dataSourceExpression>-->
-<!--                            <![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{order}.getEntries())]]></dataSourceExpression>-->
+                        <dataSourceExpression>
+                            <![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{order}.getOrderList())]]></dataSourceExpression>
                     </datasetRun>
-                    <jr:column width="338" uuid="d238fe2a-8965-446a-8296-6e671cf996f9">
+                    <jr:column width="300" uuid="d238fe2a-8965-446a-8296-6e671cf996f9">
                         <property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
                         <jr:tableFooter style="Table_TH" height="30" rowSpan="1">
                             <textField>
-                                <reportElement x="0" y="0" width="338" height="30"
+                                <reportElement x="0" y="0" width="300" height="30"
                                                uuid="559779d9-29a1-4e51-81ed-9cb64e068ea9"/>
-                                <textElement>
+                                <textElement textAlignment="Center" verticalAlignment="Middle">
                                     <paragraph leftIndent="5"/>
                                 </textElement>
                                 <textFieldExpression><![CDATA[$R{jasper.invoice.total.label}]]></textFieldExpression>
@@ -178,9 +284,9 @@
                         </jr:tableFooter>
                         <jr:columnHeader style="Table_CH" height="30" rowSpan="1">
                             <textField>
-                                <reportElement x="0" y="0" width="338" height="30"
+                                <reportElement x="0" y="0" width="300" height="30"
                                                uuid="c37ffe1c-cf80-49c7-8a32-5d86df171799"/>
-                                <textElement verticalAlignment="Middle">
+                                <textElement textAlignment="Center" verticalAlignment="Middle">
                                     <font fontName="Arial Rounded MT Bold" size="12" isBold="true"/>
                                     <paragraph leftIndent="5"/>
                                 </textElement>
@@ -190,23 +296,23 @@
                         </jr:columnHeader>
                         <jr:detailCell style="Table_TD" height="30">
                             <textField>
-                                <reportElement x="0" y="0" width="338" height="30"
+                                <reportElement x="0" y="0" width="300" height="30"
                                                uuid="b3c7e012-5e8d-46d4-a124-0d8c65f4c8f1"/>
-                                <textElement>
+                                <textElement textAlignment="Center" verticalAlignment="Middle">
                                     <paragraph leftIndent="5"/>
                                 </textElement>
-<!--                                <textFieldExpression><![CDATA[$F{productName}]]></textFieldExpression>-->
+                                <textFieldExpression><![CDATA[$F{productName}]]></textFieldExpression>
                             </textField>
                         </jr:detailCell>
                     </jr:column>
-                    <jr:column width="57" uuid="1731dc7b-7abf-4c0c-b397-55d1b41a107b">
+                    <jr:column width="70" uuid="1731dc7b-7abf-4c0c-b397-55d1b41a107b">
                         <property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
                         <jr:tableFooter style="Table_TH" height="30" rowSpan="1"/>
                         <jr:columnHeader style="Table_CH" height="30" rowSpan="1">
                             <textField>
-                                <reportElement x="0" y="0" width="57" height="30"
+                                <reportElement x="0" y="0" width="70" height="30"
                                                uuid="f2d1c1bd-4786-4109-8abf-56f7930c1d99"/>
-                                <textElement verticalAlignment="Middle">
+                                <textElement textAlignment="Center" verticalAlignment="Middle">
                                     <font fontName="Arial Rounded MT Bold" size="12" isBold="true"/>
                                     <paragraph leftIndent="5"/>
                                 </textElement>
@@ -216,32 +322,32 @@
                         </jr:columnHeader>
                         <jr:detailCell style="Table_TD" height="30">
                             <textField>
-                                <reportElement x="0" y="0" width="57" height="30"
+                                <reportElement x="0" y="0" width="70" height="30"
                                                uuid="2724d0d4-07a0-445a-a929-26c41671e893"/>
-                                <textElement>
+                                <textElement textAlignment="Center" verticalAlignment="Middle">
                                     <paragraph leftIndent="5"/>
                                 </textElement>
-<!--                                <textFieldExpression><![CDATA[$F{productPrice}]]></textFieldExpression>-->
+                                <textFieldExpression><![CDATA[$F{productPrice}]]></textFieldExpression>
                             </textField>
                         </jr:detailCell>
                     </jr:column>
-                    <jr:column width="57" uuid="ad06ce25-69f5-498c-abe6-82ed62bdc973">
+                    <jr:column width="70" uuid="ad06ce25-69f5-498c-abe6-82ed62bdc973">
                         <property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
                         <jr:tableFooter style="Table_TH" height="30" rowSpan="1">
                             <textField>
-                                <reportElement x="0" y="0" width="57" height="30"
+                                <reportElement x="0" y="0" width="70" height="30"
                                                uuid="eb15c525-10bb-48ae-b7d2-f676afbd05fa"/>
-                                <textElement>
+                                <textElement textAlignment="Center" verticalAlignment="Middle">
                                     <paragraph leftIndent="5"/>
                                 </textElement>
-<!--                                <textFieldExpression><![CDATA[$P{order}.getTotalQuantity()]]></textFieldExpression>-->
+                                <textFieldExpression><![CDATA[$P{order}.getTotalQuantityOfAllProduct()]]></textFieldExpression>
                             </textField>
                         </jr:tableFooter>
                         <jr:columnHeader style="Table_CH" height="30" rowSpan="1">
                             <textField>
-                                <reportElement x="0" y="0" width="57" height="30"
+                                <reportElement x="0" y="0" width="70" height="30"
                                                uuid="6400e6e0-49bd-4378-9d86-e0b49db68d01"/>
-                                <textElement verticalAlignment="Middle">
+                                <textElement textAlignment="Center" verticalAlignment="Middle">
                                     <font fontName="Arial Rounded MT Bold" size="12" isBold="true"/>
                                     <paragraph leftIndent="5"/>
                                 </textElement>
@@ -251,12 +357,12 @@
                         </jr:columnHeader>
                         <jr:detailCell style="Table_TD" height="30">
                             <textField>
-                                <reportElement x="0" y="0" width="57" height="30"
+                                <reportElement x="0" y="0" width="70" height="30"
                                                uuid="67310739-ae89-47a6-b92e-42a20f4118e9"/>
-                                <textElement>
+                                <textElement textAlignment="Center" verticalAlignment="Middle">
                                     <paragraph leftIndent="5"/>
                                 </textElement>
-<!--                                <textFieldExpression><![CDATA[$F{productQuantity}]]></textFieldExpression>-->
+                                <textFieldExpression><![CDATA[$F{productQuantity}]]></textFieldExpression>
                             </textField>
                         </jr:detailCell>
                     </jr:column>
@@ -266,17 +372,17 @@
                             <textField>
                                 <reportElement x="0" y="0" width="75" height="30"
                                                uuid="712780ee-8b7b-4b16-9b6b-519f8ff1dbdc"/>
-                                <textElement>
+                                <textElement textAlignment="Center" verticalAlignment="Middle">
                                     <paragraph leftIndent="5"/>
                                 </textElement>
-<!--                                <textFieldExpression><![CDATA[$F{productTotalPrice}]]></textFieldExpression>-->
+                                <textFieldExpression><![CDATA[$P{order}.getTotalPriceOfAllProduct()]]></textFieldExpression>
                             </textField>
                         </jr:tableFooter>
                         <jr:columnHeader style="Table_CH" height="30" rowSpan="1">
                             <textField>
                                 <reportElement x="0" y="0" width="75" height="30"
                                                uuid="e1b3e777-27e3-4645-9377-a993624c7d2c"/>
-                                <textElement verticalAlignment="Middle">
+                                <textElement textAlignment="Center" verticalAlignment="Middle">
                                     <font fontName="Arial Rounded MT Bold" size="12" isBold="true"/>
                                     <paragraph leftIndent="5"/>
                                 </textElement>
@@ -288,10 +394,10 @@
                             <textField>
                                 <reportElement x="0" y="0" width="75" height="30"
                                                uuid="1d72a8f6-fe86-4935-9f21-8b1ae442c849"/>
-                                <textElement>
+                                <textElement textAlignment="Center" verticalAlignment="Middle">
                                     <paragraph leftIndent="5"/>
                                 </textElement>
-<!--                                <textFieldExpression><![CDATA[$F{productQuantity} * $F{productPrice}]]></textFieldExpression>-->
+                                <textFieldExpression><![CDATA[$F{productTotalPrice}]]></textFieldExpression>
                             </textField>
                         </jr:detailCell>
                     </jr:column>
@@ -299,13 +405,25 @@
             </componentElement>
         </band>
     </detail>
-    <columnFooter>
-        <band height="45" splitType="Stretch"/>
-    </columnFooter>
-    <pageFooter>
-        <band height="54" splitType="Stretch"/>
-    </pageFooter>
     <summary>
-        <band height="42" splitType="Stretch"/>
+        <band height="150" splitType="Stretch">
+            <textField>
+                <reportElement positionType="Float" x="0" y="0" width="261" height="101" uuid="1a0d7088-5af7-4865-8be1-41ec5f51fb36"/>
+                <box padding="5">
+                    <topPen lineWidth="1.1" lineStyle="Dashed"/>
+                    <leftPen lineWidth="1.1" lineStyle="Dashed"/>
+                    <bottomPen lineWidth="1.1" lineStyle="Dashed"/>
+                    <rightPen lineWidth="1.1" lineStyle="Dashed"/>
+                </box>
+                <textFieldExpression><![CDATA[$P{order}.getCustomer().getCustomerNote()]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement positionType="Float" mode="Opaque" x="0" y="120" width="556" height="30" forecolor="#D0B48E" backcolor="#F2EBDF" uuid="36aa233d-4305-48e6-974a-1bbf89bb3c8f"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Serif" size="9" isItalic="true"/>
+                </textElement>
+                <text><![CDATA[THANK YOU FOR YOUR PURCHASE]]></text>
+            </staticText>
+        </band>
     </summary>
 </jasperReport>

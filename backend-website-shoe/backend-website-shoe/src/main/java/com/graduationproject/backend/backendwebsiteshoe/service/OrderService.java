@@ -4,6 +4,7 @@ import com.graduationproject.backend.backendwebsiteshoe.dto.IOrder;
 import com.graduationproject.backend.backendwebsiteshoe.entity.OrderEntity;
 import com.graduationproject.backend.backendwebsiteshoe.repository.CartRepository;
 import com.graduationproject.backend.backendwebsiteshoe.repository.OrderRepository;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -41,10 +42,11 @@ public class OrderService {
    * Get all by order.
    *
    * @param pageable pageable
+   * @param searchValue searchValue
    * @return list entity
    */
-  public Page<IOrder> getAllByOrderId(Pageable pageable) {
-    return orderRepository.findAllPage(pageable);
+  public Page<IOrder> getAllByOrderId(Pageable pageable, String searchValue) {
+    return orderRepository.findAllPage(pageable, searchValue);
   }
 
   /**
@@ -53,7 +55,7 @@ public class OrderService {
    * @param orderId orderId
    * @return list entity
    */
-  public IOrder getAllByOrderId(Long orderId) {
+  public List<IOrder> getAllByOrderId(Long orderId) {
     return orderRepository.findAllByOrderId(orderId);
   }
 

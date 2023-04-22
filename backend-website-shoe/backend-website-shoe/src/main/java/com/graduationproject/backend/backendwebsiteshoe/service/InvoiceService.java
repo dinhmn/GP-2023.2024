@@ -1,15 +1,23 @@
 package com.graduationproject.backend.backendwebsiteshoe.service;
 
-import com.graduationproject.backend.backendwebsiteshoe.utils.JasperUtils;
 import com.graduationproject.backend.backendwebsiteshoe.model.OrderJasperModel;
-import net.sf.jasperreports.engine.*;
+import com.graduationproject.backend.backendwebsiteshoe.utils.JasperUtils;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import org.springframework.stereotype.Service;
 
-import java.io.*;
-import java.util.*;
 
 /**
  * Implement service of invoice.
@@ -38,7 +46,7 @@ public class InvoiceService {
       throws IOException {
     // Create template order
     File pdfFile =
-        File.createTempFile(PREFIX_INVOICE + orderJasperModel.getCustomerOrderCode(), SUFFIX);
+        File.createTempFile(PREFIX_INVOICE + orderJasperModel.getOrderCode(), SUFFIX);
 
     // Initiate a FileOutputStream
     try (FileOutputStream output = new FileOutputStream(pdfFile)) {
@@ -70,8 +78,12 @@ public class InvoiceService {
    * @return jasper report.
    */
   private JasperReport createTemplate() throws JRException {
-    InputStream pathJRInputStream = getClass().getResourceAsStream(INVOICE_TEMPLATE_PATH);
-    JasperDesign jasperDesign = JRXmlLoader.load(pathJRInputStream);
+    JasperDesign jasperDesign = new JasperDesign();
+    try (InputStream pathJRInputStream = getClass().getResourceAsStream(INVOICE_TEMPLATE_PATH)) {
+      jasperDesign = JRXmlLoader.load(pathJRInputStream);
+    } catch (IOException exception) {
+      exception.printStackTrace();
+    }
 
     return JasperCompileManager.compileReport(jasperDesign);
   }

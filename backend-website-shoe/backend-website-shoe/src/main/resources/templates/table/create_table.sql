@@ -262,6 +262,7 @@ create table tbl_user_information (
   email VARCHAR(80) NOT NULL,
   first_name VARCHAR(40),
   last_name VARCHAR(40),
+  note VARCHAR(2000),
   phone VARCHAR(10) NOT NULL,
   user_code VARCHAR(2) NOT NULL,
   created_by INTEGER NOT NULL,
