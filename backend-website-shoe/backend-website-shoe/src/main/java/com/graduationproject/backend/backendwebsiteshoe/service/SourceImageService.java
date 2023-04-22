@@ -6,10 +6,9 @@ import com.graduationproject.backend.backendwebsiteshoe.common.Image;
 import com.graduationproject.backend.backendwebsiteshoe.entity.SourceImagesEntity;
 import com.graduationproject.backend.backendwebsiteshoe.model.ProductModel;
 import com.graduationproject.backend.backendwebsiteshoe.repository.SourceImagesRepository;
-
-import java.io.FileNotFoundException;
+import java.io.File;
 import java.io.IOException;
-import java.nio.file.*;
+import java.nio.file.FileSystemNotFoundException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -28,9 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class SourceImageService {
 
-  private static final String DIRECTORY = "C:/Users/ADMIN/Downloads/";
-
-  private static final String TARGET_SOURCE = "D:/image/api-image/";
+  private static final String TARGET_SOURCE = "D:/image/api-image";
 
   @Autowired
   CommonService commonService;
@@ -96,136 +93,6 @@ public class SourceImageService {
   public void insertOrUpdate(MultipartFile file, Long articleId, String type) throws IOException {
     // Insert file image
     this.insertFileImage(file, articleId, type);
-  }
-
-  /**
-   * Upload file article.
-   *
-   * @param file      file
-   * @param articleId articleId
-   * @throws Error with image.
-   */
-  private void insertFileImage(MultipartFile file, Long articleId, String type) throws IOException {
-    String fileName =
-        StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
-
-    try {
-      // Check file name
-      if (fileName.contains("..")) {
-        throw new IOException("Filename contains invalid path sequence" + fileName);
-      }
-
-      if (Constant.UPDATE.equals(type)) {
-        Optional<SourceImagesEntity> sourceImagesEntity =
-            sourceImagesRepository.findByArticleId(articleId);
-        SourceImagesEntity entity;
-        if (sourceImagesEntity.isPresent()) {
-          entity = this.toBuildSourceImageArticle(sourceImagesEntity.get(), file, fileName);
-        } else {
-          entity =
-              this.toBuildSourceImageArticle(file, fileName, articleId);
-        }
-
-        sourceImagesRepository.save(entity);
-      }
-
-      if (Constant.INSERT.equals(type)) {
-        // Insert data into database if type is insert.
-        SourceImagesEntity entity =
-            this.toBuildSourceImageArticle(file, fileName, articleId);
-
-        // Save data into database.
-        sourceImagesRepository.save(entity);
-        Path uploadImage = Paths.get(DIRECTORY, fileName);
-        Path targetSource = Paths.get(TARGET_SOURCE, fileName);
-
-        try {
-          Path uploaded = Files.move(uploadImage, targetSource, StandardCopyOption.REPLACE_EXISTING);
-          System.out.println(uploaded);
-        } catch (FileSystemException exception) {
-          exception.printStackTrace();
-        }
-      }
-
-    } catch (Exception e) {
-      throw new IOException("Could not save File: " + fileName);
-    }
-  }
-
-  /**
-   * Upload file.
-   *
-   * @param files        files
-   * @param productId    productId
-   * @param productModel productModel
-   * @throws Error with image.
-   */
-  private void updateFileImages(List<MultipartFile> files, Long productId,
-                                ProductModel productModel) throws IOException {
-    for (int i = 0; i < files.size(); i++) {
-      MultipartFile file = files.get(i);
-      String fileName =
-          StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
-      try {
-        // Check file name
-        if (fileName.contains("..")) {
-          throw new IOException("Filename contains invalid path sequence" + fileName);
-        }
-
-        // Update data into database if type is update
-        Long imageId = Long.parseLong(productModel.getSourceImageModelList().get(i).getImageId());
-
-        SourceImagesEntity entity;
-        Optional<SourceImagesEntity> imageInDatabase =
-            sourceImagesRepository.findById(imageId);
-        if (imageInDatabase.isPresent()) {
-          entity = this.toBuildSourceImage(file, fileName, imageInDatabase.get());
-        } else {
-          entity = this.toBuildSourceImage(file,
-              fileName,
-              (i == 0)
-                  ? Image.IMAGE_MAIN_PRODUCT.getCode()
-                  : Image.IMAGE_SECONDARY_PRODUCT.getCode(), productId);
-        }
-        // Save data into database.
-        sourceImagesRepository.save(entity);
-      } catch (Exception e) {
-        throw new IOException("Could not save File: " + fileName);
-      }
-    }
-  }
-
-  /**
-   * Insert file.
-   *
-   * @param files      files
-   * @param productId  productId
-   * @param startIndex startIndex
-   * @throws Error with image.
-   */
-  private void insertFileImage(List<MultipartFile> files, Long productId, int startIndex)
-      throws IOException {
-    for (int i = startIndex; i < files.size(); i++) {
-      MultipartFile file = files.get(i);
-      String fileName =
-          StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
-      try {
-        // Check file name
-        if (fileName.contains("..")) {
-          throw new IOException("Filename contains invalid path sequence" + fileName);
-        }
-
-        // Insert data into database if type is insert.
-        SourceImagesEntity entity =
-            this.toBuildSourceImage(file, fileName, (i == 0) ? Image.IMAGE_MAIN_PRODUCT.getCode() :
-                Image.IMAGE_SECONDARY_PRODUCT.getCode(), productId);
-
-        // Save data into database.
-        sourceImagesRepository.save(entity);
-      } catch (Exception e) {
-        throw new IOException("Could not save File: " + fileName);
-      }
-    }
   }
 
   /**
@@ -369,4 +236,151 @@ public class SourceImageService {
 
     return entity;
   }
+
+  /**
+   * Upload file article.
+   *
+   * @param file      file
+   * @param articleId articleId
+   * @throws Error with image.
+   */
+  private void insertFileImage(MultipartFile file, Long articleId, String type) throws IOException {
+    String fileName =
+        StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
+
+    try {
+      // Check file name
+      if (fileName.contains("..")) {
+        throw new IOException("Filename contains invalid path sequence" + fileName);
+      }
+
+      if (Constant.UPDATE.equals(type)) {
+        Optional<SourceImagesEntity> sourceImagesEntity =
+            sourceImagesRepository.findByArticleId(articleId);
+        SourceImagesEntity entity;
+        if (sourceImagesEntity.isPresent()) {
+          entity = this.toBuildSourceImageArticle(sourceImagesEntity.get(), file, fileName);
+        } else {
+          entity =
+              this.toBuildSourceImageArticle(file, fileName, articleId);
+        }
+
+        try {
+          String pathPng = TARGET_SOURCE + Constant.SLASH + fileName;
+          file.transferTo(new File(pathPng));
+        } catch (FileSystemNotFoundException exception) {
+          exception.printStackTrace();
+        }
+
+        sourceImagesRepository.save(entity);
+      }
+
+      if (Constant.INSERT.equals(type)) {
+        // Insert data into database if type is insert.
+        SourceImagesEntity entity =
+            this.toBuildSourceImageArticle(file, fileName, articleId);
+
+        try {
+          String pathPng = TARGET_SOURCE + Constant.SLASH + fileName;
+          file.transferTo(new File(pathPng));
+        } catch (FileSystemNotFoundException exception) {
+          exception.printStackTrace();
+        }
+        // Save data into database.
+        sourceImagesRepository.save(entity);
+      }
+
+    } catch (Exception e) {
+      throw new IOException("Could not save File: " + fileName);
+    }
+  }
+
+  /**
+   * Insert file.
+   *
+   * @param files      files
+   * @param productId  productId
+   * @param startIndex startIndex
+   * @throws Error with image.
+   */
+  private void insertFileImage(List<MultipartFile> files, Long productId, int startIndex)
+      throws IOException {
+    for (int i = startIndex; i < files.size(); i++) {
+      MultipartFile file = files.get(i);
+      String fileName =
+          StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
+      try {
+        // Check file name
+        if (fileName.contains("..")) {
+          throw new IOException("Filename contains invalid path sequence" + fileName);
+        }
+
+        // Insert data into database if type is insert.
+        SourceImagesEntity entity =
+            this.toBuildSourceImage(file, fileName, (i == 0) ? Image.IMAGE_MAIN_PRODUCT.getCode() :
+                Image.IMAGE_SECONDARY_PRODUCT.getCode(), productId);
+
+        try {
+          String pathPng = TARGET_SOURCE + Constant.SLASH + fileName;
+          file.transferTo(new File(pathPng));
+        } catch (FileSystemNotFoundException exception) {
+          exception.printStackTrace();
+        }
+        // Save data into database.
+        sourceImagesRepository.save(entity);
+      } catch (Exception e) {
+        throw new IOException("Could not save File: " + fileName);
+      }
+    }
+  }
+
+  /**
+   * Upload file.
+   *
+   * @param files        files
+   * @param productId    productId
+   * @param productModel productModel
+   * @throws Error with image.
+   */
+  private void updateFileImages(List<MultipartFile> files, Long productId,
+                                ProductModel productModel) throws IOException {
+    for (int i = 0; i < files.size(); i++) {
+      MultipartFile file = files.get(i);
+      String fileName =
+          StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
+      try {
+        // Check file name
+        if (fileName.contains("..")) {
+          throw new IOException("Filename contains invalid path sequence" + fileName);
+        }
+
+        // Update data into database if type is update
+        Long imageId = Long.parseLong(productModel.getSourceImageModelList().get(i).getImageId());
+
+        SourceImagesEntity entity;
+        Optional<SourceImagesEntity> imageInDatabase =
+            sourceImagesRepository.findById(imageId);
+        if (imageInDatabase.isPresent()) {
+          entity = this.toBuildSourceImage(file, fileName, imageInDatabase.get());
+        } else {
+          entity = this.toBuildSourceImage(file,
+              fileName,
+              (i == 0)
+                  ? Image.IMAGE_MAIN_PRODUCT.getCode()
+                  : Image.IMAGE_SECONDARY_PRODUCT.getCode(), productId);
+        }
+        // Save data into database.
+        try {
+          String pathPng = TARGET_SOURCE + Constant.SLASH + fileName;
+          file.transferTo(new File(pathPng));
+        } catch (FileSystemNotFoundException exception) {
+          exception.printStackTrace();
+        }
+        sourceImagesRepository.save(entity);
+      } catch (Exception e) {
+        throw new IOException("Could not save File: " + fileName);
+      }
+    }
+  }
+
 }

@@ -29,6 +29,8 @@ public interface Constant {
 
   String EMPTY_SPACE = "";
 
+  String SLASH = "/";
+
   Long EMPTY_NULL = null;
 
   String NULL = null;
