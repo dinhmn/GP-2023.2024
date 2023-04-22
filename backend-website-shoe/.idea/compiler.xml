@@ -12,7 +12,9 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="backend-website-shoe.backend-website-shoe.main" target="17" />
       <module name="backend-website-shoe.backend-website-shoe.main~1" target="17" />
+      <module name="backend-website-shoe.backend-website-shoe.test" target="17" />
       <module name="backend-website-shoe.backend-website-shoe.test~1" target="17" />
     </bytecodeTargetLevel>
   </component>

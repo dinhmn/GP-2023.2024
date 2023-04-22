@@ -31,8 +31,8 @@ public class MessageController {
    * @param message message
    * @return message response.
    */
-  @MessageMapping("/chat")
-  @SendTo("/topic/messages")
+  @MessageMapping("/secured/chat")
+  @SendTo("/secured/topic/messages")
   public MessageResponse send(MessageModel message) {
 
     // insert new value

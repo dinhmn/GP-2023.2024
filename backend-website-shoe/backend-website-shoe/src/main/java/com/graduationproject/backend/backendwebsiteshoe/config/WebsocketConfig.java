@@ -37,7 +37,7 @@ public class WebsocketConfig
    */
   @Override
   public void configureMessageBroker(MessageBrokerRegistry config) {
-    config.enableSimpleBroker("/topic");
-    config.setApplicationDestinationPrefixes("/app");
+    config.enableSimpleBroker("/secured/topic");
+    config.setApplicationDestinationPrefixes("/secured/app");
   }
 }

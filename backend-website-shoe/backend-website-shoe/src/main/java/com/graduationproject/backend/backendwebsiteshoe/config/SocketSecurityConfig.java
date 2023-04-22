@@ -25,7 +25,7 @@ public class SocketSecurityConfig extends AbstractSecurityWebSocketMessageBroker
   @Override
   protected void configureInbound(MessageSecurityMetadataSourceRegistry messages) {
     messages
-        .simpDestMatchers("/secured/**", "/secured/**/**").authenticated()
+        .simpDestMatchers("/secured/**", "/secured/**/**").permitAll()
         .anyMessage().authenticated();
   }
 }
