@@ -17,24 +17,24 @@ import java.util.Map;
 @Component
 public class SendMailHelper {
 
-    @Autowired
-    SendMailService sendMailService;
+  @Autowired
+  SendMailService sendMailService;
 
-    /**
-     * Send mail.
-     *
-     * @param mailRequestModel mailRequestModel
-     * @return mail response
-     */
-    public Boolean sendMail(MailRequestModel mailRequestModel) {
-        Map<String, Object> model = new HashMap<>();
-        model.put("Name", mailRequestModel.getMailName());
-        model.put("location", "Bangkok, Hanoi, Jakarta");
-        MailResponseModel response = sendMailService.sendMail(mailRequestModel, model);
+  /**
+   * Send mail.
+   *
+   * @param mailRequestModel mailRequestModel
+   * @return mail response
+   */
+  public Boolean sendMail(MailRequestModel mailRequestModel) {
+    Map<String, Object> model = new HashMap<>();
+    model.put("Name", mailRequestModel.getMailName());
+    model.put("location", "Bangkok, Hanoi, Jakarta");
+    MailResponseModel response = sendMailService.sendMail(mailRequestModel, model);
 
-        if (Boolean.FALSE.equals(response.getStatus())) {
-            return Boolean.FALSE;
-        }
-        return Boolean.TRUE;
+    if (Boolean.FALSE.equals(response.getStatus())) {
+      return Boolean.FALSE;
     }
+    return Boolean.TRUE;
+  }
 }
