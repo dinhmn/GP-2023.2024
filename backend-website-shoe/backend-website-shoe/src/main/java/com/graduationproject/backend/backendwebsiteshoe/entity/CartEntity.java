@@ -32,17 +32,12 @@ public class CartEntity extends BaseEntity implements Serializable {
   }
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "cart_id", nullable = false)
   private Long cartId;
 
   @Id
   @Column(name = "product_id", nullable = false)
   private Long productId;
-
-  @Id
-  @Column(name = "order_id", nullable = false)
-  private Long orderId;
 
   @Column(name = "product_name", nullable = false)
   private String productName;

@@ -1,4 +1,4 @@
-INSERT INTO tbl_order (order_id,created_by,created_date,updated_by,updated_date,user_id,product_id,order_code,order_status,order_total_price,user_information_id)
+INSERT INTO tbl_order (order_id,created_by,created_date,updated_by,updated_date,user_id,cart_id,order_code,order_status,order_total_price,user_information_id)
 VALUES
 (1,6,'2022-05-20 05:53:57',7,'2022-12-06 16:40:21',6,20,'869C7A85-3AC5-34CB-6B27-775193E6B99E',FALSE,7485505,9),
 (2,8,'2022-07-30 16:16:40',6,'2022-11-29 21:39:14',28,14,'9A12A29A-4DDD-3D85-3287-246F4A10593D',TRUE,9015235,3),
