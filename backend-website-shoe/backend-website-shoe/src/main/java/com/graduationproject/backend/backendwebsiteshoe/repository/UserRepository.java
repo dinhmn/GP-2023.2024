@@ -1,5 +1,6 @@
 package com.graduationproject.backend.backendwebsiteshoe.repository;
 
+import com.graduationproject.backend.backendwebsiteshoe.dto.UserDTO;
 import com.graduationproject.backend.backendwebsiteshoe.entity.UserEntity;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,7 +21,8 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
    * @param username username
    * @return user.
    */
-  @Query(value = "SELECT * FROM tbl_user usr WHERE usr.username = ?1", nativeQuery = true)
+  @Query(value = " FROM UserEntity usr "
+      + " WHERE usr.username = ?1")
   Optional<UserEntity> findByUsername(String username);
 
   /**
@@ -41,7 +43,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
    */
   @Query(value = "SELECT CASE WHEN COUNT(usr) > 0 THEN TRUE ELSE FALSE END"
       + " FROM UserEntity usr "
-      + " INNER JOIN UserInformationEntity usrIn ON usr.profileId = usrIn.userInformationId"
+      + " INNER JOIN UserInformationEntity usrIn ON usr.userId = usrIn.userId"
       + " WHERE LOWER(usrIn.email) LIKE LOWER(?1)")
   Boolean existsByEmail(String email);
 

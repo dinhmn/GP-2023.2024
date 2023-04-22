@@ -6,7 +6,10 @@ import com.graduationproject.backend.backendwebsiteshoe.common.Image;
 import com.graduationproject.backend.backendwebsiteshoe.entity.SourceImagesEntity;
 import com.graduationproject.backend.backendwebsiteshoe.model.ProductModel;
 import com.graduationproject.backend.backendwebsiteshoe.repository.SourceImagesRepository;
+
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.*;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -24,6 +27,10 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @Service
 public class SourceImageService {
+
+  private static final String DIRECTORY = "C:/Users/ADMIN/Downloads/";
+
+  private static final String TARGET_SOURCE = "D:/image/api-image/";
 
   @Autowired
   CommonService commonService;
@@ -44,7 +51,7 @@ public class SourceImageService {
                                    ProductModel productModel, String type) throws IOException {
     // Insert file image
     if (Constant.INSERT.equals(type)) {
-      this.insertFileImage(files, productModel.getProductId(), Constant.ZERO);
+      this.insertFileImage(files, productId, Constant.ZERO);
     }
 
     // Update file image
@@ -70,7 +77,7 @@ public class SourceImageService {
         this.updateFileImages(files, productId, productModel);
 
         // Insert new file image.
-        this.insertFileImage(files, productModel.getProductId(),
+        this.insertFileImage(files, productId,
             productModel.getSourceImageModelList().size());
       }
     }
@@ -101,6 +108,7 @@ public class SourceImageService {
   private void insertFileImage(MultipartFile file, Long articleId, String type) throws IOException {
     String fileName =
         StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
+
     try {
       // Check file name
       if (fileName.contains("..")) {
@@ -117,6 +125,7 @@ public class SourceImageService {
           entity =
               this.toBuildSourceImageArticle(file, fileName, articleId);
         }
+
         sourceImagesRepository.save(entity);
       }
 
@@ -127,6 +136,15 @@ public class SourceImageService {
 
         // Save data into database.
         sourceImagesRepository.save(entity);
+        Path uploadImage = Paths.get(DIRECTORY, fileName);
+        Path targetSource = Paths.get(TARGET_SOURCE, fileName);
+
+        try {
+          Path uploaded = Files.move(uploadImage, targetSource, StandardCopyOption.REPLACE_EXISTING);
+          System.out.println(uploaded);
+        } catch (FileSystemException exception) {
+          exception.printStackTrace();
+        }
       }
 
     } catch (Exception e) {
@@ -216,8 +234,21 @@ public class SourceImageService {
    * @param productId  productId
    * @param imagesCode imagesCode
    */
+  public List<SourceImagesEntity> selectByProductId(Long productId, List<String> imagesCode) {
+    return sourceImagesRepository.selectByProductId(productId, imagesCode);
+  }
+
+  /**
+   * Delete all source image of product by productId.
+   *
+   * @param productId  productId
+   * @param imagesCode imagesCode
+   */
   public void deleteByProductId(Long productId, List<String> imagesCode) {
-    sourceImagesRepository.deleteByProductId(productId, imagesCode);
+    List<Long> imageIdList = this.selectByProductId(productId, imagesCode).stream()
+            .map(SourceImagesEntity::getImageId)
+            .toList();
+    imageIdList.forEach(imageId -> sourceImagesRepository.deleteById(imageId));
   }
 
   /**

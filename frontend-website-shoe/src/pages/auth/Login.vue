@@ -79,6 +79,7 @@
 </template>
 <script setup>
 import { ref, reactive } from 'vue'
+import AuthService from '@/stores/modules/AuthService'
 import Auth from './Auth.vue'
 import Input from '@/components/common/input/Input.vue'
 import Button from '@/components/common/button/Button.vue'
@@ -90,9 +91,18 @@ const data = reactive({
   recoverPassword: '',
   status: ''
 })
+const user = reactive({
+  username: '',
+  password: ''
+})
 const recover = ref(false)
 const resetPassword = () => {
   recover.value = !recover.value
+}
+function onSubmit() {
+  user.username = data.username
+  user.password = data.password
+  AuthService.login(user)
 }
 </script>
 <style lang="scss">

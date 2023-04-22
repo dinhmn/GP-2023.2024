@@ -15,8 +15,7 @@ CREATE TABLE tbl_article (
 
 DROP TABLE if EXISTS tbl_cart CASCADE;
 create table tbl_cart (
-      cart_id BIGINT NOT NULL AUTO_INCREMENT,
-      order_id BIGINT NOT NULL,
+      cart_id BIGINT NOT NULL,
       product_id BIGINT NOT NULL,
       product_current_price DECIMAL(15, 2) NOT NULL,
       product_name VARCHAR(255) NOT NULL,
@@ -26,7 +25,7 @@ create table tbl_cart (
       status BIT,
       updated_by INTEGER NOT NULL,
       updated_date DATETIME(6) NOT NULL,
-      PRIMARY KEY (cart_id, order_id, product_id)
+      PRIMARY KEY (cart_id, product_id)
 );
 
 DROP TABLE if EXISTS tbl_category CASCADE;
@@ -106,8 +105,8 @@ create table tbl_message (
 DROP TABLE if EXISTS tbl_order CASCADE;
 create table tbl_order (
    order_id BIGINT NOT NULL AUTO_INCREMENT,
-   user_id BIGINT NOT NULL,
-   product_id BIGINT NOT NULL,
+   user_id BIGINT,
+   cart_id BIGINT,
    user_information_id BIGINT,
    order_code VARCHAR(255) NOT NULL,
    order_status BIT,
@@ -117,7 +116,7 @@ create table tbl_order (
    status BIT,
    updated_by INTEGER NOT NULL,
    updated_date DATETIME(6) NOT NULL,
-   PRIMARY KEY (order_id, user_id)
+   PRIMARY KEY (order_id)
 );
 
 DROP TABLE if EXISTS tbl_password CASCADE;
@@ -213,7 +212,7 @@ create table tbl_source_images (
    product_id BIGINT,
    user_information_id BIGINT,
    article_id BIGINT,
-   data BLOB NOT NULL,
+   data LONGBLOB NOT NULL,
    file_name VARCHAR(255) NOT NULL,
    file_type VARCHAR(255) NOT NULL,
    image_code VARCHAR(2),
@@ -242,9 +241,9 @@ DROP TABLE if EXISTS tbl_user CASCADE;
 create table tbl_user (
   user_id BIGINT NOT NULL AUTO_INCREMENT,
   role_id BIGINT NOT NULL,
-  profile_id BIGINT,
   user_password VARCHAR(255) NOT NULL,
   username VARCHAR(255) NOT NULL,
+  user_email VARCHAR(80) NOT NULL,
   created_by INTEGER NOT NULL,
   created_date DATETIME(6) NOT NULL,
   status BIT,
@@ -256,13 +255,14 @@ create table tbl_user (
 DROP TABLE if EXISTS tbl_user_information CASCADE;
 create table tbl_user_information (
   user_information_id BIGINT NOT NULL AUTO_INCREMENT,
-  source_image_id BIGINT NOT NULL,
+  source_image_id BIGINT,
   user_id BIGINT,
   address VARCHAR(255) NOT NULL,
   age VARCHAR(2),
   email VARCHAR(80) NOT NULL,
   first_name VARCHAR(40),
   last_name VARCHAR(40),
+  note VARCHAR(2000),
   phone VARCHAR(10) NOT NULL,
   user_code VARCHAR(2) NOT NULL,
   created_by INTEGER NOT NULL,
@@ -270,5 +270,5 @@ create table tbl_user_information (
   status BIT,
   updated_by INTEGER NOT NULL,
   updated_date DATETIME(6) NOT NULL,
-  PRIMARY KEY (user_information_id, source_image_id)
+  PRIMARY KEY (user_information_id)
 );

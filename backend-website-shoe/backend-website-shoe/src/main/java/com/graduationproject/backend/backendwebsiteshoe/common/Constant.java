@@ -15,6 +15,8 @@ public interface Constant {
 
   String PATTERN_DATETIME = "dd-MM-yyyy";
 
+  String PATTERN_DATETIME_HOURS = "HH:mm dd-MM-yyyy";
+
   String TRUE = "1";
 
   String FALSE = "0";
@@ -29,6 +31,12 @@ public interface Constant {
 
   Long EMPTY_NULL = null;
 
+  String NULL = null;
+
   String PATTERN_HH_MM = "HH:mm";
+
+  String PATTERN_ANT_AUTH = "/api/auth/**";
+
+  String PATTERN_ANT_USER = "/api/test/**";
 
 }

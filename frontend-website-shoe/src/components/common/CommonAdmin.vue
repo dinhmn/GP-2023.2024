@@ -5,21 +5,7 @@
       <span class="text-[#17b1ea] text-xl">{{ props.title }}</span>
     </h2>
     <div class="flex items-center justify-between p-4 bg-[#1a1e30] rounded-md">
-      <div class="flex w-[600px] gap-2 items-center">
-        <Input
-          type="text"
-          placeholder="Search..."
-          name="search"
-          id="search"
-          classChild="min-w-[200px] py-[6px] rounded-sm max-w-[400px] max-h-[40px]"
-        />
-        <Button
-          type="button"
-          text="Search"
-          id="search"
-          className="bg-[#0c3247] text-[#17b1ea] hover:bg-[#10405a] hover:text-white"
-        />
-      </div>
+      <slot name="search" />
       <div v-if="props.actionNew != 'false'">
         <router-link :to="{ name: props.actionNew }">
           <Button
@@ -47,7 +33,6 @@
 </template>
 <script setup>
 import { ref } from 'vue'
-import Input from '@/components/common/input/Input.vue'
 import Button from '@/components/common/button/Button.vue'
 const errorMessage = ref(false)
 const props = defineProps({

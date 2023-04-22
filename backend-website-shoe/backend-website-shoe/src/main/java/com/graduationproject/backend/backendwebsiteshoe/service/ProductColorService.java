@@ -96,7 +96,7 @@ public class ProductColorService {
    * @param productId productId
    * @return list of entity
    */
-  public List<ProductColorEntity> selectByProductId(String productId) {
+  public List<ProductColorEntity> selectByProductId(Long productId) {
     return productColorRepository.selectByProductId(productId);
   }
 
@@ -107,6 +107,15 @@ public class ProductColorService {
    */
   public void deleteByProductId(Long productId) {
     productColorRepository.deleteByProductId(productId);
+  }
+
+  /**
+   * Delete all entity by product id.
+   *
+   * @param productColorId productColorId
+   */
+  public void deleteByPrimaryKey(Long productColorId) {
+    productColorRepository.deleteById(productColorId);
   }
 
   /**

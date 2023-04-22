@@ -32,7 +32,7 @@
           </div>
           <form class="w-full">
             <!-- Form Payment -->
-            <div class="flex flex-col w-full gap-2">
+            <div class="flex flex-col w-full">
               <!-- Form full name. -->
               <div class="mb-4">
                 <span class="text-sm"
@@ -43,10 +43,23 @@
                   type="text"
                   name="fullName"
                   placeholder="Họ tên của bạn"
+                  @keyup="onPressText($event, 'fullName')"
+                  :classChild="
+                    v$.fullName.$error && error.fullName == true
+                      ? 'border-red-600'
+                      : 'border-transparent'
+                  "
                 />
+                <span class="h-[20px] px-1 text-xs leading-4 text-red-600">
+                  {{
+                    v$.fullName.$error && error.fullName == true
+                      ? v$.fullName.$errors[0].$message
+                      : ''
+                  }}
+                </span>
               </div>
               <!-- Form email address. -->
-              <div class="mb-4">
+              <div class="mb-4 min-h-[40px]">
                 <span class="text-sm"
                   >Email <span class="text-lg align-middle text-brown">*</span>
                 </span>
@@ -57,13 +70,12 @@
                   v-model="state.email"
                   @keyup="onPressText($event, 'email')"
                   :classChild="
-                    v$.email.$error && error.emailError == true
-                      ? 'border-[2px] border-red-600 border-solid'
-                      : 'border-transparent'
+                    v$.email.$error && error.email == true ? 'border-red-600' : 'border-transparent'
                   "
                 />
-                <!-- <span v-if="v$.email.$error" :class="v$.email.$error ? 'text-xs text-red-500' : 'hidden'"> {{ v$.email.$errors[0].$message }} </span>
-              <span v-if="v$.email.$error == false" >  </span> -->
+                <span class="h-[20px] px-1 text-xs leading-4 text-red-600">
+                  {{ v$.email.$error && error.email == true ? v$.email.$errors[0].$message : '' }}
+                </span>
               </div>
               <!-- Form phone. -->
               <div class="mb-4">
@@ -75,7 +87,14 @@
                   type="text"
                   name="phone"
                   placeholder="098xxxxxxx"
+                  @keyup="onPressText($event, 'phone')"
+                  :classChild="
+                    v$.phone.$error && error.phone == true ? 'border-red-600' : 'border-transparent'
+                  "
                 />
+                <span class="h-[20px] px-1 text-xs leading-4 text-red-600">
+                  {{ v$.phone.$error && error.phone == true ? v$.phone.$errors[0].$message : '' }}
+                </span>
               </div>
               <!-- Form note detail. -->
               <div class="mb-4">
@@ -122,9 +141,9 @@ export default {
   },
   setup() {
     const error = reactive({
-      nameError: false,
-      emailError: false,
-      messageError: false
+      fullName: false,
+      email: false,
+      phone: false
     })
     const state = reactive({
       fullName: '',
@@ -136,7 +155,7 @@ export default {
       return {
         fullName: { required, minLength: minLength(6) },
         email: { required, email },
-        phone: { required }
+        phone: { required, minLength: minLength(10) }
       }
     })
     const success = ref(false)
@@ -156,11 +175,23 @@ export default {
       }
     },
     onPressText(event, type) {
-      this.v$.$validate()
       if (type == 'email') {
-        this.error.emailError = true
+        this.v$.$validate()
+        this.error.email = true
       } else {
-        this.error.emailError = false
+        this.error.email = false
+      }
+      if (type == 'fullName') {
+        this.v$.$validate()
+        this.error.fullName = true
+      } else {
+        this.error.fullName = false
+      }
+      if (type == 'phone') {
+        this.v$.$validate()
+        this.error.phone = true
+      } else {
+        this.error.phone = false
       }
     }
   }

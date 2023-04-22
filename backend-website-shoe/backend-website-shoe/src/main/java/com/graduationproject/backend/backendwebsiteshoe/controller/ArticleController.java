@@ -94,7 +94,8 @@ public class ArticleController {
   /**
    * Register new product.
    *
-   * @param articleForm articleForm
+   * @param article article
+   * @param file file
    * @return response entity
    */
   @PostMapping(value = "/register")

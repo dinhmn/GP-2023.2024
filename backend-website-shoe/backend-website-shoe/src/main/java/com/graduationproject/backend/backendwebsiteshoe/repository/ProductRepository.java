@@ -84,12 +84,14 @@ public interface ProductRepository extends JpaRepository<ProductEntity, ProductE
       + " product.product_seo AS productSeo"
       + " FROM tbl_product product "
       + " INNER JOIN tbl_category category ON product.category_id = category.category_id"
-      + " INNER JOIN tbl_trademark trade ON trade.trademark_id =  category.trademark_id",
+      + " INNER JOIN tbl_trademark trade ON trade.trademark_id =  category.trademark_id"
+      + " WHERE product.product_name LIKE %?1% OR category_name LIKE %?1% OR product.product_price LIKE %?1%",
       nativeQuery = true, countQuery = "SELECT COUNT(*) "
       + " FROM tbl_product product "
       + " INNER JOIN tbl_category category ON product.category_id = category.category_id"
-      + " INNER JOIN tbl_trademark trade ON trade.trademark_id =  category.trademark_id")
-  Page<IProduct> findAllProduct(Pageable pageable);
+      + " INNER JOIN tbl_trademark trade ON trade.trademark_id =  category.trademark_id"
+      + " WHERE product.product_name LIKE %?1% OR category_name LIKE %?1% OR product.product_price LIKE %?1%")
+  Page<IProduct> findAllProduct(String searchValue, Pageable pageable);
 
   /**
    * Get information of product.

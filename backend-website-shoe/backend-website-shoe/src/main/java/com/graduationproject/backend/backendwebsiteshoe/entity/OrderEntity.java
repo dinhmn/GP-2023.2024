@@ -7,7 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
 import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -21,7 +20,6 @@ import org.hibernate.annotations.GenericGenerator;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
-@IdClass(OrderEntityKey.class)
 @Table(name = "tbl_order")
 public class OrderEntity extends BaseEntity implements Serializable {
 
@@ -37,11 +35,10 @@ public class OrderEntity extends BaseEntity implements Serializable {
   @Column(name = "orderId", nullable = false)
   private Long orderId;
 
-  @Id
-  @Column(name = "user_id", nullable = false)
+  @Column(name = "user_id")
   private Long userId;
 
-  @Column(name = "product_id", nullable = false)
+  @Column(name = "cart_id", nullable = false)
   private Long cartId;
 
   @Column(name = "user_information_id")

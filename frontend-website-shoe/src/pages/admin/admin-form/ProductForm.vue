@@ -4,7 +4,7 @@
       :class="modal.isDisplay == true && modal.isDisplay !== 'none' ? 'opacity-5 select-none' : ''"
     >
       <div class="text-white">
-        <router-link to="/">
+        <router-link :to="{ name: 'ProductAdmin' }">
           <Button
             type="button"
             text="< Back"
@@ -15,10 +15,15 @@
       </div>
       <strong
         class="block w-full py-2 my-3 text-xl text-center uppercase rounded-md bg-[#0c3247] text-[#17b1ea]"
-        >Add new product</strong
       >
-      <!-- {{ param == null ? 'Add new product' : 'Edit product' }} -->
-      <form class="w-full post" method="post" enctype="multipart/form-data">
+        {{ pathName !== 'ProductEditAdmin' ? 'Add new product' : 'Edit product' }}
+      </strong>
+      <form
+        class="w-full post"
+        method="post"
+        @submit.prevent="onSubmit(pathName)"
+        enctype="multipart/form-data"
+      >
         <!-- Form Payment -->
         <div class="w-full">
           <!-- Form city and country. -->
@@ -32,9 +37,14 @@
                 v-model="data.categoryId"
                 @change="switchSelectTrademark($event)"
               >
-                <option value="1" selected>1</option>
-                <option value="2">2</option>
-                <option value="9">9</option>
+                <option
+                  v-for="item in category.data"
+                  :key="item.categoryId"
+                  :value="item.categoryId"
+                  :selected="data.categoryId == item"
+                >
+                  {{ item.categoryName }}
+                </option>
               </select>
             </div>
           </div>
@@ -54,7 +64,11 @@
             <span class="text-base">Product description</span>
             <!-- <Textarea name="categoryDescription" placeholder="Mô tả sản phẩm" /> -->
             <div class="bg-white">
-              <quill-editor v-model:content="data.productDescription" theme="snow"></quill-editor>
+              <quill-editor
+                v-model:content="data.productDescription"
+                contentType="html"
+                theme="snow"
+              ></quill-editor>
             </div>
           </div>
           <!-- Form product price. -->
@@ -138,6 +152,7 @@
               name="categoryStatus"
               class="w-full p-2 mt-1 rounded-sm outline-none"
               id="status"
+              v-model="data.status"
               @change="switchSelectStatus($event)"
             >
               <option value="1" selected>Active</option>
@@ -147,13 +162,12 @@
         </div>
         <!-- Button submit order. -->
         <Button
-          @click.prevent="onSubmit"
-          type="button"
-          className="bg-brown hover:bg-brown-hover text-white w-full m-0 mt-3"
+          type="submit"
+          className="bg-brown
+        hover:bg-brown-hover text-white w-full m-0 mt-3"
           name="login"
-          text="Register"
+          :text="pathName !== 'ProductEditAdmin' ? 'Register' : 'Update'"
         />
-        <!-- :text="param == null ? 'Register' : 'Update'" -->
       </form>
     </div>
     <form
@@ -240,9 +254,13 @@
   </div>
 </template>
 <script setup>
-import { reactive, ref } from 'vue'
+import { reactive, ref, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
 import Input from '@/components/common/input/Input.vue'
 import Button from '@/components/common/button/Button.vue'
+import ProductService from '@/stores/modules/ProductService'
+import CategoryService from '@/stores/modules/CategoryService'
+import { PRODUCT_EDIT, PRODUCT_NEW, INSERT, UPDATE } from '@/constants/index'
 const productSize = reactive([
   {
     productId: 1,
@@ -293,6 +311,17 @@ const productSize = reactive([
     productQuantity: 0
   }
 ])
+const category = reactive({
+  data: []
+})
+const route = useRoute()
+const pathName = useRoute().matched[0].name
+onMounted(async () => {
+  await getAllDataCategory(category)
+  if (pathName === 'ProductEditAdmin') {
+    await getById(route.params.categoryId, route.params.productId, data)
+  }
+})
 const productColor = reactive({})
 addProductColor(productSize)
 const errorSize = ref('')
@@ -308,13 +337,12 @@ const data = reactive({
   productPrice: '',
   productPriceSale: '',
   quantity: 36,
-  status: '',
-  sourceImageModelList: [],
+  status: '1',
   productColorModelList: [],
   productSizeModelList: []
 })
+const form = reactive({ ...data })
 const files = ref([])
-console.log(data, files)
 const onPropsModalSize = (event, type) => {
   modal.value.isDisplay = true
   modal.value.isType = type
@@ -360,9 +388,20 @@ const switchSelectTrademark = (event) => {
 const onChangeFile = (event) => {
   files.value = event.target.files
 }
-const onSubmit = () => {
-  console.log(data)
-  console.log(files)
+const onSubmit = (pathName) => {
+  try {
+    if (PRODUCT_NEW === pathName) {
+      ProductService.insertOrUpdate(files.value, data, '/register', INSERT)
+    }
+
+    if (PRODUCT_EDIT === pathName) {
+      ProductService.insertOrUpdate(files.value, data, '/update', UPDATE)
+    }
+    Object.assign(form, data)
+    files.value = ''
+  } catch (e) {
+    console.log(e)
+  }
 }
 function addProductColor(productSize) {
   let array = []
@@ -372,6 +411,58 @@ function addProductColor(productSize) {
     array.push(color)
   }
   productColor.value = array
+}
+
+async function getAllDataCategory(api) {
+  try {
+    const res = await CategoryService.getAll('/init')
+
+    const result = {
+      status: res.status,
+      headers: res.headers,
+      data: res.data
+    }
+
+    api.data = result.data
+    data.categoryId = category.data[0].categoryId
+  } catch (error) {
+    api = formatResponse(error.response?.data) || error
+  }
+}
+
+async function getById(categoryId, productId, data) {
+  try {
+    const res = await ProductService.getProductById('/init', categoryId, productId)
+
+    const result = {
+      status: res.status + '-' + res.statusText,
+      headers: res.headers,
+      data: res.data
+    }
+
+    Object.assign(data, result.data)
+    data.productSizeModelList.forEach((element) => {
+      productSize
+        .filter((condition) => condition.productId === element.productSizeId)
+        .map((item) => {
+          item.productSize = element.productSize
+          item.productQuantity = element.productSizeQuantity
+        })
+    })
+    data.productColorModelList.forEach((element) => {
+      productSize
+        .filter((condition) => condition.productId === element.productSizeId)
+        .map((item) => {
+          item.productSize = element.productColor
+          item.productColor = element.productColorQuantity
+        })
+    })
+  } catch (error) {
+    formatResponse(error.response?.data) || error
+  }
+}
+function formatResponse(res) {
+  return JSON.stringify(res, null, 2)
 }
 </script>
 <style lang="css" scoped>
