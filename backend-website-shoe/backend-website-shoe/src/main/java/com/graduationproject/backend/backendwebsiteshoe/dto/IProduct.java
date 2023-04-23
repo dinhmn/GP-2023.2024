@@ -26,4 +26,14 @@ public interface IProduct {
   String getProductDescription();
 
   String getProductSeo();
+
+  String getImageId();
+
+  String getFileName();
+
+  String getFileType();
+
+  String getFileCode();
+
+  byte[] getFileSize();
 }

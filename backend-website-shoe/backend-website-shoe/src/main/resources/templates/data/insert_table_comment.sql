@@ -1,4 +1,4 @@
-INSERT INTO tbl_comment (comment_id,created_by,created_date,updated_by,updated_date,user_id,article_id,comment_code,comment_detail,product_id)
+INSERT INTO tbl_comment (comment_id,created_by,created_date,updated_by,updated_date,user_information_id,article_id,comment_code,comment_detail,product_id)
 VALUES
 (1,8,'2023-03-01 19:30:22',9,'2022-07-21 01:43:47',19,25,2,'vestibulum lorem, sit amet ultricies sem magna nec quam. Curabitur vel lectus. Cum sociis',27),
 (2,4,'2023-01-08 23:02:44',2,'2023-02-28 18:49:07',17,8,2,'primis in faucibus orci luctus et ultrices posuere cubilia Curae',28),

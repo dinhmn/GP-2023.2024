@@ -3,16 +3,20 @@ package com.graduationproject.backend.backendwebsiteshoe.helper;
 import com.graduationproject.backend.backendwebsiteshoe.common.CommonService;
 import com.graduationproject.backend.backendwebsiteshoe.common.Constant;
 import com.graduationproject.backend.backendwebsiteshoe.common.Image;
+import com.graduationproject.backend.backendwebsiteshoe.dto.FilterProduct;
+import com.graduationproject.backend.backendwebsiteshoe.dto.IComment;
 import com.graduationproject.backend.backendwebsiteshoe.dto.IOneProduct;
 import com.graduationproject.backend.backendwebsiteshoe.dto.IProduct;
 import com.graduationproject.backend.backendwebsiteshoe.entity.ProductColorEntity;
 import com.graduationproject.backend.backendwebsiteshoe.entity.ProductEntity;
 import com.graduationproject.backend.backendwebsiteshoe.entity.ProductSizeEntity;
 import com.graduationproject.backend.backendwebsiteshoe.forms.ProductForm;
+import com.graduationproject.backend.backendwebsiteshoe.model.MapProductModel;
 import com.graduationproject.backend.backendwebsiteshoe.model.ProductColorModel;
 import com.graduationproject.backend.backendwebsiteshoe.model.ProductModel;
 import com.graduationproject.backend.backendwebsiteshoe.model.ProductSizeModel;
 import com.graduationproject.backend.backendwebsiteshoe.model.SourceImageModel;
+import com.graduationproject.backend.backendwebsiteshoe.service.CommentService;
 import com.graduationproject.backend.backendwebsiteshoe.service.ProductColorService;
 import com.graduationproject.backend.backendwebsiteshoe.service.ProductService;
 import com.graduationproject.backend.backendwebsiteshoe.service.ProductSizeService;
@@ -20,6 +24,7 @@ import com.graduationproject.backend.backendwebsiteshoe.service.SourceImageServi
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -51,6 +56,9 @@ public class ProductHelper {
   @Autowired
   SourceImageService sourceImageService;
 
+  @Autowired
+  CommentService commentService;
+
   /**
    * Select all product.
    *
@@ -69,6 +77,33 @@ public class ProductHelper {
   @NonNull
   public List<IProduct> getAllProduct(String searchValue) {
     return productService.getAll(searchValue);
+  }
+
+  /**
+   * Select all product.
+   *
+   * @param filterProduct filterProduct
+   * @return list product.
+   */
+  @NonNull
+  public ProductForm getAllProduct(FilterProduct filterProduct) {
+    Pageable pageable = commonService.setPageable(filterProduct.getPageSize(),
+        filterProduct.getPageNo(), filterProduct.getSortBy(), filterProduct.getSortDirection());
+
+    // Create pageable instance
+    Page<IProduct> productList = productService.getAll(filterProduct, pageable);
+
+    // Get content for page object
+    List<IProduct> listOfProductModel = productList.getContent();
+
+    return ProductForm.builder()
+        .productModelList(listOfProductModel)
+        .pageNo(productList.getNumber())
+        .pageSize(productList.getSize())
+        .totalElements(productList.getTotalElements())
+        .totalPages(productList.getTotalPages())
+        .last(productList.isLast())
+        .build();
   }
 
   /**
@@ -110,6 +145,22 @@ public class ProductHelper {
     List<IOneProduct> productList = productService.getProductByKey(categoryId, productId);
 
     return this.toBuildProductModel(productList);
+  }
+
+  /**
+   * Select all category.
+   *
+   * @return list category.
+   */
+  public MapProductModel getInformationProductByKey(Long categoryId, Long productId) {
+    MapProductModel mapProductModel = new MapProductModel();
+    ProductModel productModel =
+        this.toBuildProductModel(productService.getProductByKey(categoryId, productId));
+    List<IComment> commentList = commentService.getAll(productId);
+    mapProductModel.setProductModel(productModel);
+    mapProductModel.setCommentList(commentList);
+
+    return mapProductModel;
   }
 
   /**
@@ -208,7 +259,6 @@ public class ProductHelper {
     productSizeIdList
         .forEach(productSizeId -> productSizeService.deleteByPrimaryKey(productSizeId));
 
-
     // Delete source image
     List<String> productImagesCode =
         List.of(Image.IMAGE_MAIN_PRODUCT.getCode(), Image.IMAGE_SECONDARY_PRODUCT.getCode(),
@@ -250,7 +300,8 @@ public class ProductHelper {
       List<ProductColorModel> productColorModelList = new ArrayList<>();
       for (IOneProduct color : productList) {
         ProductColorModel model = ProductColorModel.builder()
-            .productColorId(Long.parseLong(color.getProductColorId()))
+            .productColorId(Objects.nonNull(color.getProductColorId())
+                ? Long.parseLong(color.getProductColorId()) : Constant.ZERO)
             .productColorName(color.getProductColorName())
             .productColorQuantity(Integer.parseInt(color.getProductColorQuantity()))
             .build();
@@ -271,6 +322,7 @@ public class ProductHelper {
       // Convert product entity to model
       return ProductModel.builder()
           .categoryId(Long.parseLong(productList.get(0).getCategoryId()))
+          .categoryName(productList.get(0).getCategoryName())
           .productId(Long.parseLong(productList.get(0).getProductId()))
           .productName(productList.get(0).getProductName())
           .productDescription(productList.get(0).getProductDescription())
