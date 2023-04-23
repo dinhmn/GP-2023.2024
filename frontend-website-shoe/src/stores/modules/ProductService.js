@@ -8,7 +8,17 @@ class ProductService {
     return http.get(API_PRODUCT_PREFIX + url + "?page_no=" + pageNo);
   }
 
+  getAllSearch(url, searchValue) {
+    return http.get(API_PRODUCT_PREFIX + url + "?search_value=" + searchValue);
+  }
+
+  getAllUser(url, pageNo, pageSize, sortBy, sortDirection, searchValue) {
+    return http.get(API_PRODUCT_PREFIX + url + "?page_no=" + pageNo + "&page_size=" + pageSize
+    + "&sort_direction=" + sortDirection + "&sort_by=" + sortBy + "&search_value=" + searchValue);
+  }
+
   getProductById(url, categoryId, productId) {
+    console.log(API_PRODUCT_PREFIX + url + `/${categoryId}/${productId}`);
     return http.get(API_PRODUCT_PREFIX + url + `/${categoryId}/${productId}`);
   }
 

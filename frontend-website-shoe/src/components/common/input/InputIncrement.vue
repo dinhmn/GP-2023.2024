@@ -1,6 +1,9 @@
 <template lang="">
   <div class="flex items-center justify-center" :class="classChild">
-    <button class="flex p-2 mr-1 align-middle" @click="decrement">
+    <button
+      class="flex p-2 mr-1 align-middle bg-dark-blue hover:bg-dark-blue-hover"
+      @click="decrement"
+    >
       <vue-feather class="w-4 h-4" type="minus" />
     </button>
     <input
@@ -12,7 +15,10 @@
       :value="propsValue"
       v-on:input="updateValue($event.target.value)"
     />
-    <button class="flex p-2 ml-1 align-middle" @click="increment">
+    <button
+      class="flex p-2 ml-1 align-middle bg-dark-blue hover:bg-dark-blue-hover"
+      @click="increment"
+    >
       <vue-feather class="w-4 h-4" type="plus" />
     </button>
   </div>

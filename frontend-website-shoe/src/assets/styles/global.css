@@ -1,6 +1,8 @@
 :root {
+  --color--cyan-bluish-gray: #abb8c3;
   --background-color: #232E36;
-  --background-color-light: #cccccc;
+  --bg-light-dark: #cccccc;
+  --bg-light: #F8F8F8;
   --button-brown: #cc334d;
   --button-brown-hover: #ad2a40;
   --text-color: #fff;

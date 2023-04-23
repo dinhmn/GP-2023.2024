@@ -9,13 +9,13 @@
       :src="getImageUrl(product.src)"
       :alt="alt"
     />
-    <div class="flex flex-col gap-2 ml-2">
-      <span class="text-base">{{ productName }}</span>
+    <div class="flex flex-col gap-1 ml-2">
+      <span class="text-base text-white">{{ productName }}</span>
       <h4 class="text-base text-white">
-        Giá: <span class="text-sm line-through ">{{ formatPrice(product.price) }} đ</span>
+        Giá: <span class="text-sm line-through">{{ formatPrice(product.price) }} đ</span>
         {{ formatPrice(product.priceSale) }} đ
       </h4>
-      <h5 class="text-sm text-[#17b1ea]">Đã bán: {{ product.quantitySold }}</h5>
+      <h5 class="text-sm text-[#17b1ea] pb-3">Số lượng: {{ product.quantitySold }}</h5>
     </div>
   </div>
 </template>
