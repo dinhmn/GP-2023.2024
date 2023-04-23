@@ -47,7 +47,7 @@
         />
         <span class="text-base"> Admin </span>
         <vue-feather class="w-5 h-5 mt-1 -ml-2" type="chevron-down"></vue-feather>
-        <div class="logout-child absolute w-[150px] flex flex-col top-[55px] right-0">
+        <div class="logout-child absolute w-[150px] flex flex-col top-[55px] right-0 z-50">
           <router-link :to="{ name: 'Login', params: {} }">
             <div
               class="flex items-center justify-between px-4 py-2 rounded-tl-sm rounded-tr-sm bg-slate-700 hover:bg-slate-500"

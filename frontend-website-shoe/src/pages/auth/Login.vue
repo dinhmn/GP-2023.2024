@@ -84,6 +84,7 @@ import Auth from './Auth.vue'
 import Input from '@/components/common/input/Input.vue'
 import Button from '@/components/common/button/Button.vue'
 import Checkbox from '@/components/common/input/Checkbox.vue'
+import { useRouter } from 'vue-router'
 const data = reactive({
   username: '',
   email: '',
@@ -95,7 +96,9 @@ const user = reactive({
   username: '',
   password: ''
 })
+const dataResponse = ref()
 const recover = ref(false)
+const router = useRouter()
 const resetPassword = () => {
   recover.value = !recover.value
 }
@@ -103,6 +106,13 @@ function onSubmit() {
   user.username = data.username
   user.password = data.password
   AuthService.login(user)
+  dataResponse.value = JSON.parse(localStorage.getItem('user'))
+  console.log(dataResponse.value.roles.includes('CUSTOMER', 'USER'))
+  if (dataResponse.value.roles.includes('CUSTOMER', 'USER')) {
+    router.push({ path: '/' })
+  } else {
+    router.push({ path: '/admin' })
+  }
 }
 </script>
 <style lang="scss">

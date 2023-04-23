@@ -1,14 +1,14 @@
 <template lang="">
-  <div class="w-full bg-[#425868] flex items-center justify-center">
-    <footer class="2xl:w-[1280px] flex items-center justify-between h-[300px] text-white">
+  <div class="flex items-center justify-center w-full bg-cyan-bluish-gray">
+    <footer class="2xl:w-[1280px] flex items-center justify-between h-[300px] text-gray-800">
       <div class="flex flex-col gap-8">
         <h2 class="text-3xl font-bold">Shoes</h2>
-        <p class="w-[300px] text-gray-300 text-base italic font-thin">
+        <p class="w-[300px] text-gray-800 text-base italic font-medium">
           4140 Parker Roas, Allentown, New Mexico 31123
         </p>
         <div>
-          <h3 class="mb-2 text-lg font-bold text-brown">
-            Đăng kí để nhận ngay thông tin về sản phẩm mới.
+          <h3 class="mb-2 text-lg font-bold text-gray-800">
+            Sign up to receive the latest product announcements.
           </h3>
           <form @submit.prevent="onSubmit" class="flex items-center justify-center h-full">
             <input-common
@@ -22,7 +22,7 @@
             <button-common
               type="submit"
               text="Đăng ký"
-              className="w-full px-5 py-3 m-0 ml-4 rounded-sm bg-brown hover:bg-brown-hover"
+              className="w-full px-5 py-3 m-0 ml-4 rounded-sm bg-dark-blue hover:bg-dark-blue-hover text-white font-bold"
             />
           </form>
           <span class="h-[20px] px-1 text-xs leading-4 text-red-600">
@@ -35,7 +35,7 @@
           <h3 class="text-lg font-bold">{{ items.title }}</h3>
           <ul class="flex flex-col gap-2">
             <li
-              class="text-base italic font-thin text-gray-300"
+              class="text-base italic font-thin text-gray-800"
               v-for="(item, index) in items.items"
               :key="index"
             >

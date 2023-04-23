@@ -19,6 +19,8 @@ public class ProductModel {
 
   private Long categoryId;
 
+  private String categoryName;
+
   private Long productId;
 
   private String productName;
