@@ -1,8 +1,9 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <Auth>
+  <Auth class="relative" :checkLogin="checkLogin">
     <div
       class="wrap w-[500px] h-[60%] bg-slate-300 flex flex-col items-center justify-center gap-5"
+      :class="checkLogin ? '' : 'opacity-40'"
     >
       <div class="w-full text-left">
         <h1 class="text-3xl font-bold text-left">We will help you!</h1>
@@ -25,7 +26,7 @@
         </h5>
         <div class="w-full h-[2px] bg-gray-400 absolute top-[50%]"></div>
       </div>
-      <form @submit.prevent="onSubmit" action="" method="post" class="flex flex-col w-full gap-5">
+      <form action="" method="post" class="flex flex-col w-full gap-5">
         <Input v-model="data.username" name="username" placeholder="Username" />
         <Input
           v-if="recover === false"
@@ -60,8 +61,9 @@
           </div>
         </div>
         <Button
-          type="submit"
-          className="bg-black text-white w-full m-0"
+          type="button"
+          @click="onSubmit"
+          className="bg-[#0c3247] hover:bg-[#135070] text-white w-full m-0"
           name="login"
           :text="recover === true ? 'Reset password' : 'Log in'"
         />
@@ -75,16 +77,31 @@
         </div>
       </form>
     </div>
+    <div
+      class="absolute w-[400px] h-[200px] bg-white z-99 left-[40%] p-5 text-center rounded-md shadow-md flex flex-col items-center justify-between"
+      :class="checkLogin ? 'hidden' : ''"
+    >
+      <div><vue-feather class="w-16 h-16 text-red-600" type="x-circle"></vue-feather></div>
+      <div class="">Username or password is incorrect, please check again!</div>
+      <button
+        type="button"
+        class="px-10 text-white transition-all bg-[#0c3247] hover:bg-[#135070] hover:opacity-90"
+        @click="checkLogin = true"
+      >
+        OK
+      </button>
+    </div>
   </Auth>
 </template>
 <script setup>
 import { ref, reactive } from 'vue'
-import AuthService from '@/stores/modules/AuthService'
+// import AuthService from '@/stores/modules/AuthService'
 import Auth from './Auth.vue'
 import Input from '@/components/common/input/Input.vue'
 import Button from '@/components/common/button/Button.vue'
 import Checkbox from '@/components/common/input/Checkbox.vue'
 import { useRouter } from 'vue-router'
+import store from '@/stores/store'
 const data = reactive({
   username: '',
   email: '',
@@ -96,23 +113,34 @@ const user = reactive({
   username: '',
   password: ''
 })
-const dataResponse = ref()
+const checkLogin = ref(true)
 const recover = ref(false)
 const router = useRouter()
 const resetPassword = () => {
   recover.value = !recover.value
 }
 function onSubmit() {
+  // loading.value = true
   user.username = data.username
   user.password = data.password
-  AuthService.login(user)
-  dataResponse.value = JSON.parse(localStorage.getItem('user'))
-  console.log(dataResponse.value.roles.includes('CUSTOMER', 'USER'))
-  if (dataResponse.value.roles.includes('CUSTOMER', 'USER')) {
-    router.push({ path: '/' })
-  } else {
-    router.push({ path: '/admin' })
-  }
+  store.dispatch('auth/login', user).then(
+    (currentUser) => {
+      if (currentUser.response) {
+        checkLogin.value = false
+      } else {
+        checkLogin.value = true
+        if (currentUser.roles.includes('ADMIN')) {
+          router.push('/admin')
+        } else if (currentUser.roles.includes('CUSTOMER')) {
+          router.push('/')
+        }
+      }
+    },
+    (error) => {
+      checkLogin.value = false
+      console.log(error)
+    }
+  )
 }
 </script>
 <style lang="scss">

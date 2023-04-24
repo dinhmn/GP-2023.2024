@@ -13,11 +13,13 @@ import 'v-calendar/style.css';
 import './assets/styles/reset.css'
 import './assets/styles/tailwind.css'
 import './assets/styles/global.css'
+import store from "./stores/store";
 
 const app = createApp(App);
 registerGlobalComponents(app);
 
 app.use(router)
+app.use(store)
 app.use(setupCalendar, {})
 app.component(VueFeather.name, VueFeather);
 app.component("QuillEditor", QuillEditor);
