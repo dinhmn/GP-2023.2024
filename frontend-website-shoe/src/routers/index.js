@@ -6,7 +6,8 @@ const routes = [
     path: "/",
     name: "User",
     meta: {
-      layout: 'user'
+      layout: 'user',
+      auth: false
     },
     component: () => import("../pages/user/Home.vue"),
   },
@@ -14,7 +15,8 @@ const routes = [
     path: "/about",
     name: "AboutPage",
     meta: {
-      layout: 'user'
+      layout: 'user',
+      auth: false
     },
     component: () => import("../pages/user/About.vue"),
   },
@@ -22,7 +24,8 @@ const routes = [
     path: "/product",
     name: "Product",
     meta: {
-      layout: 'user'
+      layout: 'user',
+      auth: false
     },
     component: () => import("../pages/user/Product.vue"),
   },
@@ -30,7 +33,8 @@ const routes = [
     path: "/contact",
     name: "Contact",
     meta: {
-      layout: 'user'
+      layout: 'user',
+      auth: false
     },
     component: () => import("../pages/user/Contact.vue"),
   },
@@ -38,7 +42,8 @@ const routes = [
     path: "/cart",
     name: "Cart",
     meta: {
-      layout: 'user'
+      layout: 'user',
+      auth: false
     },
     component: () => import("../pages/user/Cart.vue"),
   },
@@ -46,7 +51,8 @@ const routes = [
     path: "/payment",
     name: "Payment",
     meta: {
-      layout: 'user'
+      layout: 'user',
+      auth: true
     },
     component: () => import("../pages/user/Payment.vue"),
   },
@@ -54,7 +60,8 @@ const routes = [
     path: "/product/:categoryId/:productId",
     name: "DetailProduct",
     meta: {
-      layout: 'user'
+      layout: 'user',
+      auth: true
     },
     component: () => import("../pages/user/DetailProduct.vue"),
   },
@@ -64,7 +71,8 @@ const routes = [
     path: "/admin",
     name: "Admin",
     meta: {
-      layout: 'admin'
+      layout: 'admin',
+      auth: true
     },
     component: () => import("../pages/admin/Dashboard.vue"),
   },
@@ -72,7 +80,8 @@ const routes = [
     path: "/admin/category",
     name: "CategoryAdmin",
     meta: {
-      layout: 'admin'
+      layout: 'admin',
+      auth: true
     },
     component: () => import("../pages/admin/admin-page/Category.vue"),
   },
@@ -80,7 +89,8 @@ const routes = [
     path: "/admin/category/register",
     name: "CategoryRegisterAdmin",
     meta: {
-      layout: 'admin'
+      layout: 'admin',
+      auth: true
     },
     component: () => import("../pages/admin/admin-form/CategoryForm.vue"),
   },
@@ -88,7 +98,8 @@ const routes = [
     path: "/admin/category/edit/:trademarkId/:categoryId",
     name: "CategoryEditAdminParam",
     meta: {
-      layout: 'admin'
+      layout: 'admin',
+      auth: true
     },
     component: () => import("../pages/admin/admin-form/CategoryForm.vue"),
   },
@@ -96,7 +107,8 @@ const routes = [
     path: "/admin/product",
     name: "ProductAdmin",
     meta: {
-      layout: 'admin'
+      layout: 'admin',
+      auth: true
     },
     component: () => import("../pages/admin/admin-page/Product.vue"),
   },
@@ -104,7 +116,8 @@ const routes = [
     path: "/admin/product/register",
     name: "ProductRegisterAdmin",
     meta: {
-      layout: 'admin'
+      layout: 'admin',
+      auth: true
     },
     component: () => import("../pages/admin/admin-form/ProductForm.vue"),
   },
@@ -112,7 +125,8 @@ const routes = [
     path: "/admin/product/edit/:categoryId/:productId",
     name: "ProductEditAdmin",
     meta: {
-      layout: 'admin'
+      layout: 'admin',
+      auth: true
     },
     component: () => import("../pages/admin/admin-form/ProductForm.vue"),
   },
@@ -120,7 +134,8 @@ const routes = [
     name: "ContactAdmin",
     path: "/admin/contact",
     meta: {
-      layout: 'admin'
+      layout: 'admin',
+      auth: true
     },
     component: () => import("../pages/admin/admin-page/Contact.vue")
   },
@@ -128,7 +143,8 @@ const routes = [
     name: "ArticleAdmin",
     path: "/admin/article",
     meta: {
-      layout: 'admin'
+      layout: 'admin',
+      auth: true
     },
     component: () => import("../pages/admin/admin-page/Article.vue")
   },
@@ -136,7 +152,8 @@ const routes = [
     name: "ArticleRegisterAdmin",
     path: "/admin/article/register",
     meta: {
-      layout: 'admin'
+      layout: 'admin',
+      auth: true
     },
     component: () => import("../pages/admin/admin-form/ArticleForm.vue")
   },
@@ -144,7 +161,8 @@ const routes = [
     name: "ArticleUpdateAdmin",
     path: "/admin/article/update/:articleId",
     meta: {
-      layout: 'admin'
+      layout: 'admin',
+      auth: true
     },
     component: () => import("../pages/admin/admin-form/ArticleForm.vue")
   },
@@ -152,7 +170,8 @@ const routes = [
     name: "CartAdmin",
     path: "/admin/cart",
     meta: {
-      layout: 'admin'
+      layout: 'admin',
+      auth: true
     },
     component: () => import("../pages/admin/admin-page/Cart.vue")
   },
@@ -160,7 +179,8 @@ const routes = [
     name: "OrderAdmin",
     path: "/admin/order",
     meta: {
-      layout: 'admin'
+      layout: 'admin',
+      auth: true
     },
     component: () => import("../pages/admin/admin-page/Order.vue")
   },
@@ -168,7 +188,8 @@ const routes = [
     name: "UserAdmin",
     path: "/admin/user",
     meta: {
-      layout: 'admin'
+      layout: 'admin',
+      auth: true
     },
     component: () => import("../pages/admin/admin-page/User.vue")
   },
@@ -176,7 +197,8 @@ const routes = [
     name: "UserUpdateAdmin",
     path: "/admin/user/detail/:id",
     meta: {
-      layout: 'admin'
+      layout: 'admin',
+      auth: true
     },
     component: () => import("../pages/admin/admin-form/UserForm.vue")
   },
@@ -184,7 +206,8 @@ const routes = [
     name: "RoleAdmin",
     path: "/admin/role",
     meta: {
-      layout: 'admin'
+      layout: 'admin',
+      auth: true
     },
     component: () => import("../pages/admin/admin-page/Role.vue")
   },
@@ -192,7 +215,8 @@ const routes = [
     name: "RoleRegisterAdmin",
     path: "/admin/role/register",
     meta: {
-      layout: 'admin'
+      layout: 'admin',
+      auth: true
     },
     component: () => import("../pages/admin/admin-form/RoleForm.vue")
   },
@@ -202,7 +226,8 @@ const routes = [
     path: "/auth/login",
     name: "Login",
     meta: {
-      layout: 'auth'
+      layout: 'auth',
+      auth: false
     },
     component: () => import("../pages/auth/Login.vue"),
   },
@@ -210,7 +235,8 @@ const routes = [
     path: "/auth/signup",
     name: "Signup",
     meta: {
-      layout: 'auth'
+      layout: 'auth',
+      auth: false
     },
     component: () => import("../pages/auth/Signup.vue"),
   },
@@ -220,7 +246,8 @@ const routes = [
     path: '/:pathMatch(.*)*',
     name: "404",
     meta: {
-      layout: '404'
+      layout: '404',
+      auth: false
     },
     component: () => import("../pages/auth/404-page.vue")
   }
@@ -230,5 +257,27 @@ const router = createRouter({
   history: createWebHistory(),
   routes
 })
+
+router.beforeEach((to, from, next) => {
+  // const publicPages = ['/auth/login', '/auth/signup', '/'];
+  // const authRequired = !publicPages.includes(to.path);
+  const loggedIn = localStorage.getItem('user');
+  const validate = JSON.parse(loggedIn);
+
+  if (to.meta.auth) {
+    if (loggedIn) {
+      if (validate.roles.includes('ADMIN')) {
+        next()
+      } else {
+        console.log("error");
+        next({name: "404"})
+      }
+    } else {
+      next("/auth/login")
+    }
+  } else {
+    next();
+  }
+});
 
 export default router;

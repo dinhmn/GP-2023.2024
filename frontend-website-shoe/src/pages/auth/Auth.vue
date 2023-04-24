@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <section class="relative flex items-center justify-center text-white font-poppins">
-    <div class="image bg-slate-800 w-[50%] h-[100vh]">
+    <div class="image bg-slate-800 w-[50%] h-[100vh]" :class="props.checkLogin ? '' : 'opacity-40'">
       <img src="../../assets/images/login.png" alt="" />
     </div>
     <div
@@ -9,7 +9,7 @@
     >
       <slot />
     </div>
-    <div
+    <!-- <div
       @click="handleChangeTheme"
       class="absolute top-0 right-0 text-center -translate-x-5 translate-y-3 bg-transparent cursor-pointer hover:bg-transparent"
     >
@@ -23,11 +23,21 @@
         type="toggle-right"
         :class="dark === true ? 'hidden' : ''"
       ></vue-feather>
-    </div>
-    <button class="absolute bottom-0 right-0 -translate-x-5 -translate-y-5">Home</button>
+    </div> -->
+    <router-link to="/">
+      <button class="absolute bottom-0 right-0 -translate-x-5 -translate-y-5">
+        Home
+      </button></router-link
+    >
   </section>
 </template>
 <script setup>
+const props = defineProps({
+  checkLogin: {
+    type: Boolean,
+    default: true
+  }
+})
 const dark = true
 const handleChangeTheme = () => (this.dark = !dark.value)
 </script>

@@ -58,18 +58,31 @@
             >
           </button>
         </router-link>
-        <router-link :to="{ name: 'Login', params: {} }"
-          ><Button text="Login" class="button font-bold w-full hover:bg-[#0c3247] text-[#17b1ea]"
-        /></router-link>
+        <div v-if="currentUser !== null" class="mr-6 login">
+          <Button
+            @click="logout"
+            text="Logout"
+            class="button font-bold w-full hover:bg-[#0c3247] text-[#17b1ea] hover:text-white"
+          />
+        </div>
+        <div v-if="currentUser === null" class="mr-6 login">
+          <router-link :to="{ name: 'Login', params: {} }"
+            ><Button
+              text="Login"
+              class="px-3 button font-bold w-full hover:bg-[#0c3247] text-[#17b1ea]"
+          /></router-link>
+        </div>
       </div>
     </nav>
   </div>
 </template>
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, computed } from 'vue'
 import Input from '../common/input/Input.vue'
 import Button from '../common/button/Button.vue'
 import ProductService from '@/stores/modules/ProductService'
+import store from '@/stores/store'
+import { useRouter } from 'vue-router'
 const routes = [
   {
     url: '/',
@@ -93,6 +106,12 @@ const api = reactive({
   size: 0,
   searchValue: ''
 })
+const currentUser = computed(() => store.state.auth.user)
+const logout = () => {
+  store.dispatch('auth/logout')
+  useRouter().push('/')
+}
+
 const item = ref(0)
 if (window.localStorage.getItem('order') !== null) {
   item.value = JSON.parse(window.localStorage.getItem('order')).length
@@ -173,5 +192,10 @@ nav {
 }
 .button {
   background-color: #0c3247;
+}
+.login {
+  a {
+    padding: 0px;
+  }
 }
 </style>
