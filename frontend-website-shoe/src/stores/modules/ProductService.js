@@ -8,8 +8,12 @@ class ProductService {
     return http.get(API_PRODUCT_PREFIX + url + "?page_no=" + pageNo);
   }
 
-  getAllSearch(url, searchValue) {
-    return http.get(API_PRODUCT_PREFIX + url + "?search_value=" + searchValue);
+  getProductByCategoryId(url, categoryId, limitItem) {
+    return http.get(API_PRODUCT_PREFIX + url + "/" + categoryId + "/" + limitItem);
+  }
+
+  getProductSaleByCategoryId(url, limitItem) {
+    return http.get(API_PRODUCT_PREFIX + url + "/" + limitItem);
   }
 
   getAllUser(url, pageNo, pageSize, sortBy, sortDirection, searchValue) {

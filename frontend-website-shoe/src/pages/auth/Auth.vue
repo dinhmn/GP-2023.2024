@@ -38,7 +38,7 @@ const props = defineProps({
     default: true
   }
 })
-const dark = true
-const handleChangeTheme = () => (this.dark = !dark.value)
+// const dark = true
+// const handleChangeTheme = () => (this.dark = !dark.value)
 </script>
 <style lang="scss"></style>

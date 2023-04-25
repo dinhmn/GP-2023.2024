@@ -23,6 +23,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -52,6 +53,8 @@ public class AuthHelper {
 
   @Autowired
   JwtUtils jwtUtils;
+
+  private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
   /**
    * Login with information from UI.
@@ -107,7 +110,8 @@ public class AuthHelper {
 
         userEntityList.add(userEntity);
         Long userId = userService.insert(userEntity).getUserId();
-        UserInformationEntity userInformationEntity = this.toBuildUserInformationEntity(signUpForm, userId);
+        UserInformationEntity userInformationEntity =
+            this.toBuildUserInformationEntity(signUpForm, userId);
         userInformationService.insert(userInformationEntity);
       }
 
@@ -121,14 +125,14 @@ public class AuthHelper {
    * To build signUpForm entity.
    *
    * @param signUpForm userDTO
-   * @param roleId roleId
+   * @param roleId     roleId
    * @return signUpForm details model
    */
   private UserEntity toBuildUserEntity(SignUpForm signUpForm, Long roleId) {
     UserEntity userEntity = new UserEntity();
     userEntity.setRoleId(roleId);
     userEntity.setUsername(signUpForm.getUsername());
-    userEntity.setUserPassword(signUpForm.getPassword());
+    userEntity.setUserPassword(passwordEncoder.encode(signUpForm.getPassword()));
     userEntity.setUserEmail(signUpForm.getEmail());
     commonService.setCommonCreatedEntity(userEntity);
     return userEntity;
@@ -138,7 +142,7 @@ public class AuthHelper {
    * To build signUpForm entity.
    *
    * @param signUpForm userDTO
-   * @param userId userId
+   * @param userId     userId
    * @return signUpForm details model
    */
   private UserInformationEntity toBuildUserInformationEntity(SignUpForm signUpForm, Long userId) {

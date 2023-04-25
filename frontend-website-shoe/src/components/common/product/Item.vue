@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template lang="">
   <div
-    class="flex flex-col w-full gap-4 py-4 px-1 rounded cursor-pointer h-[360px] item bg-slate-700 hover:bg-slate-600 transition-all"
+    class="flex flex-col w-full gap-4 py-4 px-1 rounded cursor-pointer h-[360px] item bg-slate-700 hover:bg-cyan-bluish-gray transition-all"
     :class="classChild"
   >
     <img

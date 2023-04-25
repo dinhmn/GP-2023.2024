@@ -82,7 +82,6 @@ import Input from '../common/input/Input.vue'
 import Button from '../common/button/Button.vue'
 import ProductService from '@/stores/modules/ProductService'
 import store from '@/stores/store'
-import { useRouter } from 'vue-router'
 const routes = [
   {
     url: '/',
@@ -109,7 +108,6 @@ const api = reactive({
 const currentUser = computed(() => store.state.auth.user)
 const logout = () => {
   store.dispatch('auth/logout')
-  useRouter().push('/')
 }
 
 const item = ref(0)

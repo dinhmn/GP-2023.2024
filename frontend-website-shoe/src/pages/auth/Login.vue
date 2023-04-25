@@ -120,6 +120,7 @@ const resetPassword = () => {
   recover.value = !recover.value
 }
 function onSubmit() {
+  const list = ['CUSTOMER', 'USER']
   // loading.value = true
   user.username = data.username
   user.password = data.password
@@ -131,7 +132,7 @@ function onSubmit() {
         checkLogin.value = true
         if (currentUser.roles.includes('ADMIN')) {
           router.push('/admin')
-        } else if (currentUser.roles.includes('CUSTOMER')) {
+        } else if (list.includes(currentUser.roles[0])) {
           router.push('/')
         }
       }

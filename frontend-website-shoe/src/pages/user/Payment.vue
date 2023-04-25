@@ -1,248 +1,257 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template lang="">
-  <section
-    class="mt-3 text-white m-auto 2xl:w-[1280px] xl:w-[100%] container flex items-start justify-start flex-col min-h-[100vh]"
-  >
-    <div class="flex items-start justify-between w-full gap-10 py-2 my-1 rounded-[4px]">
-      <!-- Order in Cart -->
-      <div class="cart bg-slate-600 w-[60%] p-5 rounded-lg">
-        <!-- Item in Cart -->
-        <div
-          class="flex items-center justify-between mb-5"
-          v-for="(product, index) in data.product"
-          :key="index"
-        >
-          <!-- Information of product. -->
-          <div class="flex items-start gap-5 align-middle">
-            <img
-              src="../../assets/images/default.png"
-              class="h-[100px] w-[100px] object-cover"
-              alt=""
-            />
-            <div class="flex flex-col items-start justify-start h-full gap-2">
-              <h2 class="text-xl font-bold min-w-[200px]">{{ product.productName }}</h2>
-              <div class="text-sm text-gray-200">
-                <span>Size: 36 - Màu: </span>
-                <p>{{ formatPrice(product.price * product.quantity) }} đ</p>
+  <BasePage class="flex flex-col items-center justify-center gap-5 text-white">
+    <template v-slot:body>
+      <div class="flex items-start justify-between w-full gap-10 py-2 my-1 rounded-[4px]">
+        <!-- Order in Cart -->
+        <div class="cart bg-slate-600 w-[60%] p-5 rounded-lg">
+          <!-- Item in Cart -->
+          <div
+            class="flex items-center justify-between mb-5"
+            v-for="(product, index) in productList"
+            :key="index"
+          >
+            <!-- Information of product. -->
+            <div class="flex items-start gap-5 align-middle">
+              <img
+                src="../../assets/images/default.png"
+                class="h-[100px] w-[100px] object-cover"
+                alt=""
+              />
+              <div class="flex flex-col items-start justify-start h-full gap-2">
+                <h2 class="text-xl font-bold min-w-[200px]">{{ product.productName }}</h2>
+                <div class="text-sm text-gray-200">
+                  <span>Size: {{ product.productSize }} </span>
+                  <p>
+                    {{ formatPrice(product.productPrice * product.productQuantity) }}
+                    đ
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
-          <!-- Increment, decrement, or delete product. -->
-          <div class="flex items-center justify-between">
-            <div>
-              <input-increment
-                :name="'quantity-' + product.id"
-                v-model="product.quantity"
-                :value="product.quantity"
-              />
+            <!-- Increment, decrement, or delete product. -->
+            <div class="flex items-center justify-between">
+              <div>
+                <input-increment
+                  :name="'quantity-' + product.productId"
+                  v-model="product.productQuantity"
+                  :value="product.productQuantity"
+                />
+              </div>
+              <button class="bg-red-600" @click="handleDeleteItem($event, product)">Delete</button>
             </div>
-            <button class="bg-red-600" @click="handleDeleteItem($event, product)">Delete</button>
+          </div>
+          <!-- Total money a lot of product -->
+          <div class="after-cart flex items-center font-bold justify-between mt-[30px]">
+            <span>Tạm tính ({{ productList.length }} sản phẩm):</span>
+            <span>{{ formatPrice(moneyOfOneProduct) }} đ</span>
           </div>
         </div>
-        <!-- Total money a lot of product -->
-        <div class="after-cart flex items-center font-bold justify-between mt-[30px]">
-          <span>Tạm tính ({{ data.product.length }} sản phẩm):</span>
-          <span>{{ formatPrice(moneyOfOneProduct) }} đ</span>
-        </div>
-      </div>
-      <!-- Form use to order -->
-      <div class="order w-[40%] bg-slate-600 p-5 rounded-lg">
-        <h2 class="my-2 text-xl font-bold uppercase text-brown">Thanh toán và giao hàng</h2>
-        <!-- Order -->
-        <form class="w-full">
-          <!-- Form Payment -->
-          <div class="w-fill">
-            <!-- Form full name. -->
-            <div class="mb-4">
-              <span class="text-sm"
-                >Họ và tên <span class="text-lg align-middle text-brown">*</span>
-                <span class="ml-1 text-xs leading-4 text-red-600">
-                  {{
+        <!-- Form use to order -->
+        <div class="order w-[40%] bg-slate-600 p-5 rounded-lg">
+          <h2 class="my-2 text-xl font-bold uppercase text-brown">Thanh toán và giao hàng</h2>
+          <!-- Order -->
+          <form class="w-full">
+            <!-- Form Payment -->
+            <div class="w-fill">
+              <!-- Form full name. -->
+              <div class="mb-4">
+                <span class="text-sm"
+                  >Họ và tên <span class="text-lg align-middle text-brown">*</span>
+                  <span class="ml-1 text-xs leading-4 text-red-600">
+                    {{
+                      validate.fullName.$error && error.fullName == true
+                        ? validate.fullName.$errors[0].$message
+                        : ''
+                    }}
+                  </span>
+                </span>
+                <input-component
+                  v-model="data.fullName"
+                  type="text"
+                  name="fullName"
+                  placeholder="Họ tên của bạn"
+                  @keyup="onPressText($event, 'fullName')"
+                  :classChild="
                     validate.fullName.$error && error.fullName == true
-                      ? validate.fullName.$errors[0].$message
-                      : ''
-                  }}
+                      ? 'border-red-600'
+                      : 'border-transparent'
+                  "
+                />
+              </div>
+              <!-- Form phone. -->
+              <div class="w-full mb-3">
+                <span class="text-sm"
+                  >Số điện thoại <span class="text-lg align-middle text-brown">*</span>
+                  <span class="ml-1 text-xs leading-4 text-red-600">
+                    {{
+                      validate.phone.$error && error.phone == true
+                        ? validate.phone.$errors[0].$message
+                        : ''
+                    }}
+                  </span>
                 </span>
-              </span>
-              <input-component
-                v-model="data.fullName"
-                type="text"
-                name="fullName"
-                placeholder="Họ tên của bạn"
-                @keyup="onPressText($event, 'fullName')"
-                :classChild="
-                  validate.fullName.$error && error.fullName == true
-                    ? 'border-red-600'
-                    : 'border-transparent'
-                "
-              />
-            </div>
-            <!-- Form phone. -->
-            <div class="w-full mb-3">
-              <span class="text-sm"
-                >Số điện thoại <span class="text-lg align-middle text-brown">*</span>
-                <span class="ml-1 text-xs leading-4 text-red-600">
-                  {{
+                <input-component
+                  v-model="data.phone"
+                  type="text"
+                  name="phone"
+                  placeholder="0982211xxx"
+                  @keyup="onPressText($event, 'phone')"
+                  :classChild="
                     validate.phone.$error && error.phone == true
-                      ? validate.phone.$errors[0].$message
-                      : ''
-                  }}
+                      ? 'border-red-600'
+                      : 'border-transparent'
+                  "
+                />
+              </div>
+              <!-- Form email. -->
+              <div class="mb-4">
+                <span class="text-sm"
+                  >Email: <span class="text-lg align-middle text-brown">*</span>
+                  <span class="ml-1 text-xs leading-4 text-red-600">
+                    {{
+                      validate.email.$error && error.email == true
+                        ? validate.email.$errors[0].$message
+                        : ''
+                    }}
+                  </span>
                 </span>
-              </span>
-              <input-component
-                v-model="data.phone"
-                type="text"
-                name="phone"
-                placeholder="0982211xxx"
-                @keyup="onPressText($event, 'phone')"
-                :classChild="
-                  validate.phone.$error && error.phone == true
-                    ? 'border-red-600'
-                    : 'border-transparent'
-                "
-              />
-            </div>
-            <!-- Form email. -->
-            <div class="mb-4">
-              <span class="text-sm"
-                >Email: <span class="text-lg align-middle text-brown">*</span>
-                <span class="ml-1 text-xs leading-4 text-red-600">
-                  {{
+                <input-component
+                  v-model="data.email"
+                  type="email"
+                  name="email"
+                  placeholder="abc@gmail.com"
+                  @keyup="onPressText($event, 'email')"
+                  :classChild="
                     validate.email.$error && error.email == true
-                      ? validate.email.$errors[0].$message
-                      : ''
-                  }}
-                </span>
-              </span>
-              <input-component
-                v-model="data.email"
-                type="email"
-                name="email"
-                placeholder="abc@gmail.com"
-                @keyup="onPressText($event, 'email')"
-                :classChild="
-                  validate.email.$error && error.email == true
-                    ? 'border-red-600'
-                    : 'border-transparent'
-                "
-              />
-            </div>
-            <!-- Form city and country. -->
-            <div class="flex items-center justify-between w-full gap-2">
-              <div class="w-full mb-3 mr-3">
-                <span class="text-sm"
-                  >Tỉnh/Thành phố <span class="text-lg align-middle text-brown">*</span>
-                </span>
-                <SelectComponent name="city" v-model="data.city">
-                  <template v-slot:option>
-                    <option v-for="item in count" :selected="item === 1" :key="item" :value="item">
-                      Option {{ item }}
-                    </option>
-                  </template>
-                </SelectComponent>
+                      ? 'border-red-600'
+                      : 'border-transparent'
+                  "
+                />
               </div>
-              <div class="w-full mb-3 ml-3">
+              <!-- Form city and country. -->
+              <!-- <div class="flex items-center justify-between w-full gap-2">
+                <div class="w-full mb-3 mr-3">
+                  <span class="text-sm"
+                    >Tỉnh/Thành phố <span class="text-lg align-middle text-brown">*</span>
+                  </span>
+                  <SelectComponent name="city" v-model="data.city">
+                    <template v-slot:option>
+                      <option
+                        v-for="item in count"
+                        :selected="item === 1"
+                        :key="item"
+                        :value="item"
+                      >
+                        Option {{ item }}
+                      </option>
+                    </template>
+                  </SelectComponent>
+                </div>
+                <div class="w-full mb-3 ml-3">
+                  <span class="text-sm"
+                    >Quận/Huyện <span class="text-lg align-middle text-brown">*</span>
+                  </span>
+                  <select-component name="country" v-model="data.country">
+                    <template v-slot:option>
+                      <option v-for="item in count" :key="item" :value="item">
+                        Option {{ item }}
+                      </option>
+                    </template>
+                  </select-component>
+                </div>
+              </div> -->
+              <!-- Form address. -->
+              <div class="mb-3">
                 <span class="text-sm"
-                  >Quận/Huyện <span class="text-lg align-middle text-brown">*</span>
+                  >Địa chỉ <span class="text-lg align-middle text-brown">*</span>
+                  <span class="ml-1 text-xs leading-4 text-red-600">
+                    {{
+                      validate.address.$error && error.address == true
+                        ? validate.address.$errors[0].$message
+                        : ''
+                    }}
+                  </span>
                 </span>
-                <select-component name="country" v-model="data.country">
-                  <template v-slot:option>
-                    <option v-for="item in count" :key="item" :value="item">
-                      Option {{ item }}
-                    </option>
-                  </template>
-                </select-component>
-              </div>
-            </div>
-            <!-- Form address. -->
-            <div class="mb-3">
-              <span class="text-sm"
-                >Địa chỉ <span class="text-lg align-middle text-brown">*</span>
-                <span class="ml-1 text-xs leading-4 text-red-600">
-                  {{
+                <input-component
+                  v-model="data.address"
+                  type="text"
+                  name="address"
+                  placeholder="Ví dụ: Số 20, Ngõ 90"
+                  @keyup="onPressText($event, 'address')"
+                  :classChild="
                     validate.address.$error && error.address == true
-                      ? validate.address.$errors[0].$message
-                      : ''
-                  }}
-                </span>
-              </span>
-              <input-component
-                v-model="data.address"
-                type="text"
-                name="address"
-                placeholder="Ví dụ: Số 20, Ngõ 90"
-                @keyup="onPressText($event, 'address')"
-                :classChild="
-                  validate.address.$error && error.address == true
-                    ? 'border-red-600'
-                    : 'border-transparent'
-                "
+                      ? 'border-red-600'
+                      : 'border-transparent'
+                  "
+                />
+              </div>
+              <!-- Form note detail. -->
+              <div class="mb-3">
+                <span class="text-sm">Ghi chú đơn hàng(nếu có) </span>
+                <textarea-component
+                  v-model="data.note"
+                  placeholder="Ghi chú về đơn hàng, ví dụ: thời gian hay địa chỉ chi tiết hơn."
+                  name="note"
+                />
+              </div>
+            </div>
+            <!-- Total Payment -->
+            <div class="flex flex-col gap-2 total">
+              <div class="flex items-center justify-between">
+                <span>Tạm tính:</span>
+                <span class="text-sm">{{ formatPrice(moneyOfOneProduct) }} đ</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span>Giao hàng:</span>
+                <span class="text-sm">Giao hàng miễn phí</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span>Tổng:</span>
+                <span class="text-sm">{{ formatPrice(moneyOfOneProduct) }} đ</span>
+              </div>
+            </div>
+            <!-- Payments. -->
+            <div>
+              <radio-component
+                modelValue="cod"
+                v-model="data.method"
+                id="receivePayment"
+                text="Nhận hàng thanh toán (COD)"
+              />
+              <radio-component
+                modelValue="bank"
+                v-model="data.method"
+                id="bankTransfer"
+                text="Chuyển khoản ngân hàng"
               />
             </div>
-            <!-- Form note detail. -->
-            <div class="mb-3">
-              <span class="text-sm">Ghi chú đơn hàng(nếu có) </span>
-              <textarea-component
-                v-model="data.note"
-                placeholder="Ghi chú về đơn hàng, ví dụ: thời gian hay địa chỉ chi tiết hơn."
-                name="note"
-              />
-            </div>
-          </div>
-          <!-- Total Payment -->
-          <div class="flex flex-col gap-2 total">
-            <div class="flex items-center justify-between">
-              <span>Tạm tính::</span>
-              <span class="text-sm">{{ formatPrice(moneyOfOneProduct) }} đ</span>
-            </div>
-            <div class="flex items-center justify-between">
-              <span>Giao hàng:</span>
-              <span class="text-sm">Giao hàng miễn phí</span>
-            </div>
-            <div class="flex items-center justify-between">
-              <span>Tổng:</span>
-              <span class="text-sm">{{ formatPrice(moneyOfOneProduct) }} đ</span>
-            </div>
-          </div>
-          <!-- Payments. -->
-          <div>
-            <radio-component
-              modelValue="cod"
-              v-model="data.method"
-              id="receivePayment"
-              text="Nhận hàng thanh toán (COD)"
+            <!-- Button submit order. -->
+            <button-component
+              @click.prevent="onSubmit"
+              type="button"
+              className="bg-brown text-white w-full m-0"
+              name="login"
+              text="Đặt hàng"
             />
-            <radio-component
-              modelValue="bank"
-              v-model="data.method"
-              id="bankTransfer"
-              text="Chuyển khoản ngân hàng"
-            />
-          </div>
-          <!-- Button submit order. -->
-          <button-component
-            @click.prevent="onSubmit"
-            type="button"
-            className="bg-brown text-white w-full m-0"
-            name="login"
-            text="Đặt hàng"
-          />
-        </form>
-        <!-- Form Payment -->
+          </form>
+          <!-- Form Payment -->
+        </div>
       </div>
-    </div>
-  </section>
+    </template>
+  </BasePage>
 </template>
 <script>
 import { ref, reactive, computed } from 'vue'
 import useValidate from '@vuelidate/core'
-import { required, minLength, email } from '@vuelidate/validators'
+import { required, minLength, email, maxLength } from '@vuelidate/validators'
+import BasePage from '../auth/BasePage.vue'
 import Input from '@/components/common/input/Input.vue'
 import Button from '@/components/common/button/Button.vue'
 import Radio from '@/components/common/input/Radio.vue'
 import Textarea from '@/components/common/input/Textarea.vue'
-import Select from '@/components/common/input/Select.vue'
 import InputIncrement from '@/components/common/input/InputIncrement.vue'
+import OrderService from '@/stores/modules/OrderService'
 export default {
   name: 'PaymentPage',
   components: {
@@ -250,30 +259,31 @@ export default {
     ButtonComponent: Button,
     RadioComponent: Radio,
     TextareaComponent: Textarea,
-    SelectComponent: Select,
-    InputIncrement: InputIncrement
+    InputIncrement: InputIncrement,
+    BasePage
   },
   setup(props) {
-    const product = reactive([
-      {
-        id: 1,
-        productName: 'Giày Nike',
-        quantity: 1,
-        price: 750000
-      },
-      {
-        id: 2,
-        productName: 'Giày Nike',
-        quantity: 2,
-        price: 900000
-      },
-      {
-        id: 3,
-        productName: 'Giày Adidas',
-        quantity: 3,
-        price: 800000
+    const cart = JSON.parse(localStorage.getItem('order'))
+    const productList = reactive([])
+    cart.forEach((item) => {
+      let product = {
+        productId: '',
+        productName: '',
+        productQuantity: '',
+        productPrice: 0,
+        productTotalPrice: ''
       }
-    ])
+      product.productId = item.productModel.productId
+      product.productName = item.productModel.productName
+      product.productQuantity = item.productQuantity
+      product.productPrice =
+        item.productModel.productPriceSale !== null
+          ? item.productModel.productPriceSale
+          : item.productModel.productPrice
+      product.productSize = item.productSize
+      productList.push(product)
+    })
+    console.log(productList)
     const data = reactive({
       email: '',
       fullName: '',
@@ -282,7 +292,7 @@ export default {
       country: '',
       address: '',
       note: '',
-      product: product,
+      product: productList,
       method: ''
     })
     const count = 5
@@ -290,7 +300,7 @@ export default {
       return {
         email: { required, email },
         fullName: { required },
-        phone: { required, minLength: minLength(10) },
+        phone: { required, minLength: minLength(10), maxLength: maxLength(10) },
         address: { required }
       }
     })
@@ -303,16 +313,32 @@ export default {
     const validate = useValidate(rules, data)
     const success = ref(false)
 
-    return { props, product, data, count, validate, success, error }
+    return { props, productList, data, count, validate, success, error, cart }
   },
   methods: {
     onSubmit() {
-      console.log(this.data)
       this.validate.$validate()
       if (!this.validate.$error) {
+        // let currentUser = localStorage.getItem('user')
+        // console.log(currentUser ? currentUser.id : '')
         // if ANY fail validation
+        let orderJasperModel = {
+          customer: {
+            userId: '',
+            customerFirstName: '',
+            customerLastName: this.data.fullName,
+            customerAddress: this.data.address,
+            customerPhone: this.data.phone,
+            customerEmail: this.data.email,
+            customerNote: this.data.note
+          },
+          orderList: this.productList,
+          totalPriceOfAllProduct: '',
+          totalQuantityOfAllProduct: ''
+        }
+        console.log(orderJasperModel)
         this.success = true
-        console.log(this.state)
+        OrderService.insert('/', orderJasperModel)
       } else {
         alert('Form failed validation')
       }
@@ -354,7 +380,7 @@ export default {
   computed: {
     moneyOfOneProduct() {
       let sum = 0
-      this.data.product.map((x) => (sum += x.price * x.quantity))
+      this.data.product.map((x) => (sum += x.productPrice * x.productQuantity))
       return sum
     }
   }
