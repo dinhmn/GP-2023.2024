@@ -32,18 +32,29 @@
         </div>
         <div class="flex flex-col items-start w-full h-full col-span-3 gap-5">
           <h2 class="w-full p-[16px] rounded text-base font-bold text-left bg-[#ff4a684d]">
-            Giày Gucci Men’s Screener GG Sneaker Like Auth
+            {{ product.productModel.productName }}
           </h2>
           <div class="flex items-start justify-between w-full text-sm">
             <div>
-              <p class="text-lg">Mã sản phẩm : <span class="text-sm"> 001</span></p>
-              <p class="mt-2 text-lg">Tình trạng: <span class="text-sm"> Còn hàng</span></p>
+              <p class="text-lg">
+                Product number : <span class="text-sm"> {{ product.productModel.productId }}</span>
+              </p>
+              <p class="mt-2 text-lg">
+                Status:
+                <span class="text-sm">{{
+                  product.productModel.quantity > 0 ? 'Stocking' : 'Out of stock'
+                }}</span>
+              </p>
             </div>
-            <p class="text-lg">Đã bán: <span class="text-sm"> 12</span></p>
+            <p class="text-lg">
+              Quantity: <span class="text-sm">{{ product.productModel.quantity }}</span>
+            </p>
           </div>
           <div class="text-base">
-            <span>Giá:</span> <span class="ml-3 mr-2 text-sm line-through text-brown">1200000đ</span
-            ><span class="text-2xl">1000000đ</span>
+            <span>Price:</span>
+            <span class="ml-3 mr-2 text-sm line-through text-brown"
+              >{{ formatPrice(product.productModel.productPrice) }}đ</span
+            ><span class="text-2xl">{{ formatPrice(product.productModel.productPriceSale) }}đ</span>
           </div>
           <div class="w-full mb-3 mr-3">
             <span class="text-lg"
@@ -76,16 +87,16 @@
             <Button
               @click.prevent="onSubmit($event, 'add')"
               type="button"
-              className="bg-brown text-white w-full m-0"
+              className="bg-dark-blue hover:bg-dark-blue-hover text-cyanBlue w-full m-0"
               name="addCart"
-              text="Thêm vào giỏ hàng"
+              text="Add to cart"
             />
             <Button
               @click.prevent="onSubmit($event, 'buy')"
               type="button"
-              className="bg-brown text-white w-full m-0"
+              className="bg-dark-blue hover:bg-dark-blue-hover text-cyanBlue w-full m-0"
               name="buyNow"
-              text="Mua ngay"
+              text="Shop Now"
             />
           </div>
         </div>
@@ -103,46 +114,46 @@
                 </td>
               </tr>
               <tr>
-                <td class="opacity-80 bg-gray bg-slate-500">Quà tặng:</td>
+                <td class="opacity-80 bg-gray bg-slate-500">Gift:</td>
                 <td class="opacity-80 bg-slate-700">Full box + tax + bill, Tặng tất</td>
               </tr>
               <tr>
-                <td class="opacity-80 bg-gray bg-slate-500">Thương hiệu:</td>
-                <td class="opacity-80 bg-slate-700">Gucci</td>
-              </tr>
-              <tr>
-                <td class="rounded-bl-lg opacity-80 bg-gray bg-slate-500">Loại hàng:</td>
-                <td class="rounded-br-lg opacity-80 bg-slate-700">Like auth, Pk Gold</td>
+                <td class="opacity-80 bg-gray bg-slate-500">Trademark:</td>
+                <td class="opacity-80 bg-slate-700">{{ product.productModel.categoryName }}</td>
               </tr>
             </table>
           </CommonItem>
           <CommonItem title="Mô tả sản phẩm" class="mt-5 h-[350px] w-full">
             <div class="p-3 text-sm">
-              Giày Gucci Men’s Screener GG Sneaker Like Auth với thiết kế đẹp, tinh tế & màu sắc vô
-              cùng dễ phối đồ. Vậy nên đôi giày này trở nên phổ biến, mang tính biểu tượng và được
-              rất nhiều giới trẻ yêu thích. Và nếu bạn cũng là một người đam mê dòng sneaker dễ
-              mang, dễ phố đồ thì không nên bỏ qua mẫu giày siêu phẩm này đâu nhé! Dưới đây là một
-              số hình ảnh của đôi Giày Gucci Men’s Screener GG Sneaker Like Auth tại TyHi Sneaker
-              (hàng chuẩn Auth bản xịn nhất thị trường). – Cam kết bản Fake tốt nhất từ nhà máy tốt
-              nhất Trung Quốc. NOTE: Đây là hàng VIP từ nhà máy Trung Quốc (giống 99,99% Auth, chất
-              da thật như Auth) – các shop đang bán 3-4 triệu (bạn có thể check) – Tyhi Sneaker ôm
-              được lô do Hải Quan thu nên Sale giá rẻ nhất. Size số có hạn nhé. Giày Gucci Men’s
-              Screener GG Sneaker Like Auth với thiết kế đẹp, tinh tế & màu sắc vô cùng dễ phối đồ.
-              Vậy nên đôi giày này trở nên phổ biến, mang tính biểu tượng và được rất nhiều giới trẻ
-              yêu thích. Và nếu bạn cũng là một người đam mê dòng sneaker dễ mang, dễ phố đồ thì
-              không nên bỏ qua mẫu giày siêu phẩm này đâu nhé! Dưới đây là một số hình ảnh của đôi
-              Giày Gucci Men’s Screener GG Sneaker Like Auth tại TyHi Sneaker (hàng chuẩn Auth bản
-              xịn nhất thị trường). – Cam kết bản Fake tốt nhất từ nhà máy tốt nhất Trung Quốc.
-              NOTE: Đây là hàng VIP từ nhà máy Trung Quốc (giống 99,99% Auth, chất da thật như Auth)
-              – các shop đang bán 3-4 triệu (bạn có thể check) – Tyhi Sneaker ôm được lô do Hải Quan
-              thu nên Sale giá rẻ nhất. Size số có hạn nhé.
-            </div>
-            <div class="flex items-center justify-center w-full">
-              <Button className="bg-brown w-[200px] text-white m-0" name="next" text="Xem tiếp" />
+              {{ product.productModel.productDescription }}
             </div>
           </CommonItem>
           <CommonItem title="Đánh giá" class="w-full mt-5">
-            <div class="p-3 text-sm">Chưa có đánh giá nào.</div>
+            <div class="p-3 text-sm" v-if="product.comment.length <= 0">Chưa có đánh giá nào.</div>
+            <div class="p-3 text-sm" v-if="product.comment.length > 0">
+              <ul class="cursor-none">
+                <li
+                  v-for="comment in product.comment"
+                  :key="comment.commentId"
+                  class="flex items-start justify-start gap-3"
+                >
+                  <div>
+                    <img
+                      src="../../assets/images/default.png"
+                      class="w-[60px] h-[60px] object-cover"
+                      alt=""
+                    />
+                  </div>
+                  <div class="flex flex-col items-start justify-start w-full">
+                    <span class="-mt-1 text-cyanBlue">{{
+                      comment.lastName + ' ' + (comment.firstName === null ? '' : comment.firstName)
+                    }}</span>
+                    <span class="text-sm">{{ comment.commentDetail }}</span>
+                    <span class="w-full text-sm text-right">Like</span>
+                  </div>
+                </li>
+              </ul>
+            </div>
           </CommonItem>
           <CommonItem :title="'Đánh giá sản phẩm: ' + productName" class="w-full mt-5">
             <form
@@ -152,37 +163,38 @@
               class="flex flex-col w-full mt-5"
             >
               <div class="mb-3">
-                <span class="text-sm">Nhận xét của bạn về sản phẩm(nếu có) </span>
-                <Textarea placeholder="" name="detail" />
+                <span class="text-sm">Your comment(If any) </span>
+                <Textarea placeholder="" v-model="comment.commentDetail" name="detail" />
               </div>
-              <div class="flex items-center justify-between w-full gap-20">
+              <div class="flex items-center justify-between w-full gap-3">
                 <div class="w-full mb-3">
                   <span class="text-sm"
-                    >Tên <span class="text-lg align-middle text-brown">*</span>
+                    >Name <span class="text-lg align-middle text-brown">*</span>
                   </span>
-                  <Input type="text" name="fullName" placeholder="" />
+                  <Input type="text" v-model="comment.commentName" name="fullName" placeholder="" />
                 </div>
                 <div class="w-full mb-3">
                   <span class="text-sm"
                     >Email <span class="text-lg align-middle text-brown">*</span>
                   </span>
-                  <Input type="email" name="email" placeholder="" />
+                  <Input type="email" v-model="comment.commentEmail" name="email" placeholder="" />
                 </div>
               </div>
               <div class="flex items-center justify-end">
                 <Button
-                  type="submit"
-                  className="bg-brown text-white w-[200px] m-0"
+                  type="button"
+                  @click.prevent="submitComment"
+                  className="bg-dark-blue hover:bg-dark-blue-hover text-cyanBlue w-[200px] m-0"
                   name="comment"
-                  text="Bình luận"
+                  text="Comment"
                 />
               </div>
             </form>
           </CommonItem>
         </div>
         <div class="col-span-1">
-          <h2 class="w-full mt-2 p-[12px] rounded text-base font-bold text-center bg-[#ff4a684d]">
-            Thông tin hữu ích
+          <h2 class="w-full mt-2 p-[12px] rounded text-base font-bold text-center bg-dark-blue">
+            Useful information
           </h2>
           <div class="flex flex-col gap-4 cursor-pointer">
             <ArticleSmall title="Phối đồ với " />
@@ -193,7 +205,7 @@
   </BasePage>
 </template>
 <script setup>
-import { reactive, ref } from 'vue'
+import { reactive, ref, onMounted } from 'vue'
 import BasePage from '../auth/BasePage.vue'
 import InputIncrement from '@/components/common/input/InputIncrement.vue'
 import Button from '@/components/common/button/Button.vue'
@@ -204,18 +216,46 @@ import ArticleSmall from '@/components/common/ArticleSmall.vue'
 import Select from '@/components/common/input/Select.vue'
 import { useRoute } from 'vue-router'
 import render from '@/stores/modules/re-render'
+import axios from 'axios'
+const route = useRoute()
+// const cart = reactive({
+//   productName: '',
+//   productSize: '36',
+//   productQuantity: '',
+//   productPrice: '',
+//   productColor: ''
+// })
 const product = reactive({
-  productId: useRoute().params.id,
-  productName: 'Giày Gucci Men’s Screener GG Sneaker Like Auth',
-  productQuantity: 0,
-  productColor: '',
-  productSize: 0,
-  productPrice: 1000000
+  comment: [],
+  productModel: {}
 })
+const comment = reactive({
+  productId: route.params.productId,
+  commentDetail: '',
+  commentName: '',
+  commentEmail: ''
+})
+
 const order = ref([])
 const quantity = ref(0)
 const count = 8
 const productName = 'Giày Gucci Men’s Screener GG Sneaker Like Auth'
+onMounted(async () => {
+  await fetchData(route.params.categoryId, route.params.productId, product)
+})
+
+async function fetchData(categoryId, productId, product) {
+  axios
+    .get(`http://localhost:8088/api/products/detail/${categoryId}/${productId}`)
+    .then((response) => {
+      product.comment = response.data.commentList
+      product.productModel = response.data.productModel
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+}
+
 const onSubmit = (event, type) => {
   if (type == 'add') {
     if (window.localStorage.getItem('order') !== null) {
@@ -226,6 +266,30 @@ const onSubmit = (event, type) => {
     console.log(order)
   }
   render()
+}
+const submitComment = () => {
+  let formData = new FormData()
+  formData.append('commentModel', JSON.stringify(comment))
+  axios
+    .post('http://localhost:8088/api/comments/insert', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+    .then((response) => {
+      console.log(response)
+      comment.commentDetail = ''
+      comment.commentName = ''
+      comment.commentEmail = ''
+      fetchData(route.params.categoryId, route.params.productId, product)
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+}
+function formatPrice(value) {
+  let val = (value / 1).toFixed(0).replace('.', ',')
+  return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
 }
 </script>
 <style lang="scss" scoped>

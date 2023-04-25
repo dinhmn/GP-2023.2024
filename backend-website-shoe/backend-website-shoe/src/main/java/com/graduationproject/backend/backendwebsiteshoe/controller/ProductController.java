@@ -1,11 +1,14 @@
 package com.graduationproject.backend.backendwebsiteshoe.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.graduationproject.backend.backendwebsiteshoe.common.Constant;
+import com.graduationproject.backend.backendwebsiteshoe.dto.FilterProduct;
 import com.graduationproject.backend.backendwebsiteshoe.dto.IProduct;
 import com.graduationproject.backend.backendwebsiteshoe.entity.ProductEntity;
 import com.graduationproject.backend.backendwebsiteshoe.forms.ProductForm;
 import com.graduationproject.backend.backendwebsiteshoe.helper.ProductHelper;
+import com.graduationproject.backend.backendwebsiteshoe.model.MapProductModel;
 import com.graduationproject.backend.backendwebsiteshoe.model.ProductModel;
 import java.io.IOException;
 import java.util.HashMap;
@@ -36,7 +39,7 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @CrossOrigin("*")
 @RestController
-@RequestMapping(value = "api/products/")
+@RequestMapping(value = "api/products")
 public class ProductController {
 
   @Autowired
@@ -68,19 +71,47 @@ public class ProductController {
       @RequestParam(value = "sort_direction", defaultValue = Constant.DEFAULT_SORT_DIRECTION)
           String sortDirection,
       @RequestParam(value = "sort_by", defaultValue = "product_id") String sortBy,
-      @RequestParam(value = "search_value", defaultValue = Constant.EMPTY_SPACE) String searchValue) {
+      @RequestParam(value = "search_value", defaultValue = Constant.EMPTY_SPACE)
+          String searchValue) {
     return productHelper.getAllProduct(pageNo, pageSize, sortBy, sortDirection, searchValue);
   }
 
   /**
    * Get all product.
    *
-   * @param searchValue searchValue
+   * @param categoryId categoryId
+   * @param limitItem  limitItem
    * @return list object.
    */
-  @GetMapping(value = "/search")
-  public List<IProduct> search(@RequestParam(value = "search_value") String searchValue) {
-    return productHelper.getAllProduct(searchValue);
+  @GetMapping(value = "/init-home/{categoryId}/{limitItem}")
+  public List<IProduct> selectProductByCategory(@PathVariable Long categoryId,
+                                                @PathVariable Integer limitItem) {
+    return productHelper.getAllProductByCategoryId(categoryId, limitItem);
+  }
+
+  /**
+   * Get all product.
+   *
+   * @param limitItem  limitItem
+   * @return list object.
+   */
+  @GetMapping(value = "/init-sale/{limitItem}")
+  public List<IProduct> selectProductSaleByCategory(@PathVariable Integer limitItem) {
+    return productHelper.getAllProductSaleByCategoryId(limitItem);
+  }
+
+  /**
+   * Get all product.
+   *
+   * @param filterProduct filterProduct
+   * @return list object.
+   */
+  @PostMapping(value = "/search-filter")
+  public ProductForm filter(@RequestPart("filterProduct") String filterProduct)
+      throws JsonProcessingException {
+    ObjectMapper mapper = new ObjectMapper();
+    FilterProduct productModel = mapper.readValue(filterProduct, FilterProduct.class);
+    return productHelper.getAllProduct(productModel);
   }
 
   /**
@@ -93,7 +124,21 @@ public class ProductController {
   @GetMapping(value = "/init/{categoryId}/{productId}")
   public ProductModel selectById(@PathVariable String productId,
                                  @PathVariable String categoryId) {
-    return productHelper.getById(Long.parseLong(categoryId),Long.parseLong(productId));
+    return productHelper.getById(Long.parseLong(categoryId), Long.parseLong(productId));
+  }
+
+  /**
+   * Get all product.
+   *
+   * @param productId  productId
+   * @param categoryId categoryId
+   * @return list object.
+   */
+  @GetMapping(value = "/detail/{categoryId}/{productId}")
+  public MapProductModel selectByIdInformation(@PathVariable String productId,
+                                               @PathVariable String categoryId) {
+    return productHelper
+        .getInformationProductByKey(Long.parseLong(categoryId), Long.parseLong(productId));
   }
 
   /**

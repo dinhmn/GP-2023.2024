@@ -15,6 +15,7 @@ export const API_PRODUCT_PREFIX = "/api/products";
 export const API_CATEGORY_PREFIX = "/api/categories";
 export const API_CONTACT_PREFIX = "/api/contact";
 export const API_SUBSCRIBE_PREFIX = "/api/subscribe";
+export const API_ORDER_PREFIX = "/api/order";
 
 // api chat realtime
 export const API_CHAT_PREFIX = "/api/messages";

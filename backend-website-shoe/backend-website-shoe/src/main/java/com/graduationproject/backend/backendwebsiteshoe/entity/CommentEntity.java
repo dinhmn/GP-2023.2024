@@ -19,7 +19,6 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
-@IdClass(CommentEntityKey.class)
 @Table(name = "tbl_comment")
 public class CommentEntity extends BaseEntity implements Serializable {
 
@@ -35,9 +34,8 @@ public class CommentEntity extends BaseEntity implements Serializable {
   @Column(name = "comment_id", nullable = false)
   private Long commentId;
 
-  @Id
-  @Column(name = "user_id", nullable = false)
-  private Long userId;
+  @Column(name = "user_information_id", nullable = false)
+  private Long userInformationId;
 
   @Column(name = "product_id", nullable = false)
   private Long productId;

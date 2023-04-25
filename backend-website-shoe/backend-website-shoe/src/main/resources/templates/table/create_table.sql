@@ -46,7 +46,7 @@ CREATE TABLE tbl_category (
 DROP TABLE if EXISTS tbl_comment CASCADE;
 create table tbl_comment (
      comment_id BIGINT NOT NULL AUTO_INCREMENT,
-     user_id BIGINT NOT NULL,
+     user_information_id BIGINT NOT NULL,
      product_id BIGINT NOT NULL,
      article_id BIGINT,
      comment_code VARCHAR(2) NOT NULL,
@@ -56,7 +56,7 @@ create table tbl_comment (
      status BIT,
      updated_by INTEGER NOT NULL,
      updated_date DATETIME(6) NOT NULL,
-     PRIMARY KEY (comment_id, user_id)
+     PRIMARY KEY (comment_id)
 );
 
 DROP TABLE if EXISTS tbl_contact CASCADE;

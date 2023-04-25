@@ -4,7 +4,7 @@ values (1, 2, 61, '2023-02-24 08:12:11', true, 59, '2023-01-08 15:57:38',
         '$2a$10$TQwKVRH05PCXNdVZqByT/OU.QWsdOa1aFMYOvauZRrcvH2Zr9PK1y', 'ngocdinh2k1','at.velit@gmail.com');
 insert into tbl_user (user_id, role_id, created_by, created_date, status, updated_by, updated_date, user_password,
                       username, user_email)
-values (2, 1, 6, '2022-11-25 00:16:58', true, 53, '2022-09-17 10:24:48', '2ktILe6', 'tbellwood1','at.velit@gmail.com');
+values (2, 4, 6, '2022-11-25 00:16:58', true, 53, '2022-09-17 10:24:48', '$2a$10$TQwKVRH05PCXNdVZqByT/OU.QWsdOa1aFMYOvauZRrcvH2Zr9PK1y', 'admin','at.velit@gmail.com');
 insert into tbl_user (user_id, role_id, created_by, created_date, status, updated_by, updated_date, user_password,
                       username, user_email)
 values (3, 3, 10, '2022-12-18 04:27:06', true, 44, '2023-03-09 17:56:01', 'EFWc1s', 'lsnell2','at.velit@gmail.com');

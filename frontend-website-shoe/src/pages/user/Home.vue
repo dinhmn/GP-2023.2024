@@ -1,107 +1,135 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template lang="">
-  <section
+  <BasePage
     class="m-auto 2xl:w-[1280px] xl:w-[100%] container flex items-start justify-start flex-col min-h-[100vh]"
   >
-    <div class="flex items-center justify-center w-full my-4">
-      <img
-        src="../../assets/images/banner.png"
-        alt="Banner"
-        class="object-cover w-full h-[500px]"
-      />
-    </div>
-    <div class="flex items-center justify-around w-full py-2 my-1 rounded-[4px] bg-slate-600">
-      <div
-        class="flex flex-col items-center justify-center transition-all scale-75 cursor-pointer hover:text-brown hover:scale-90"
-        v-for="(item, index) in trademark"
-        :key="index"
-      >
-        <img :src="this.getImageUrl(item.img)" :alt="item.title" />
-        <p class="mt-2 text-xl">Giày {{ item.title }}</p>
+    <template v-slot:body>
+      <div class="flex items-center justify-center w-full my-4">
+        <img
+          src="../../assets/images/banner.png"
+          alt="Banner"
+          class="object-cover w-full h-[500px]"
+        />
       </div>
-    </div>
-    <box>
-      <template v-slot:title>
-        <div class="w-full px-4 py-2 rounded bg-brown">
-          <h3 class="text-2xl font-bold leading-9 tracking-widest uppercase">Giá sốc hôm nay</h3>
-        </div>
-      </template>
-      <template v-slot:detail>
-        <div class="grid grid-cols-5 gap-5 py-4 mx-3">
-          <Item
-            :price="item * 10 + 1100000"
-            :priceSale="item * 9 + 1100000"
-            :quantitySold="40 + item * 2"
-            productName="Giày Nike"
-            src="item.png"
-            alt="Giày"
-            v-for="item in count"
-            :key="item"
-          />
-        </div>
-      </template>
-    </box>
-    <div class="my-4 rounded-[4px] w-full bg-slate-600 shadow-custom">
-      <div class="flex flex-col items-start justify-between" v-for="item in count" :key="item">
-        <div class="flex items-center justify-between w-full px-4 py-2 rounded">
-          <h3 class="text-2xl font-bold leading-9 tracking-widest uppercase text-brown">
-            Giày NIKE
-          </h3>
-          <h3 class="flex text-lg font-bold align-middle cursor-pointer hover:text-brown">
-            <span class="mr-2">Xem tất cả</span>
-            <vue-feather class="w-6 h-6 translate-y-1" type="chevrons-right"></vue-feather>
-          </h3>
-        </div>
-        <ul class="flex items-center gap-4 ml-4 uppercase">
-          <li class="selected">Jordan 1</li>
-          <li>Air Force 1</li>
-          <li>Jordan 4</li>
-          <li>Sb dunk</li>
-        </ul>
-        <div class="grid grid-cols-5 gap-5 py-4 mx-3">
-          <Item
-            :price="item * 16456 + 80000"
-            :priceSale="item * 92340 + 70000"
-            :quantitySold="40 + item * 3"
-            productName="Giày Nike"
-            src="item.png"
-            alt="Giày"
-            v-for="item in count"
-            :key="item"
-          />
+      <div class="flex items-center justify-around w-full py-2 my-1 rounded-[4px] bg-slate-600">
+        <div
+          class="flex flex-col items-center justify-center transition-all scale-75 cursor-pointer hover:text-brown hover:scale-90"
+          v-for="(item, index) in trademark"
+          :key="index"
+        >
+          <img :src="getImageUrl(item.img)" :alt="item.title" />
+          <p class="mt-2 text-xl">Giày {{ item.title }}</p>
         </div>
       </div>
-    </div>
-    <box>
-      <template v-slot:title>
-        <div class="flex items-center justify-between w-full px-4 py-2 rounded">
-          <h3 class="text-2xl font-bold leading-9 tracking-widest uppercase text-brown">
-            Tư vấn chọn mua
-          </h3>
-          <h3 class="flex text-lg font-bold align-middle cursor-pointer hover:text-brown">
-            <span class="mr-2">Xem thêm</span>
-            <vue-feather class="w-6 h-6 translate-y-1" type="chevrons-right"></vue-feather>
-          </h3>
+      <BoxCommon>
+        <template v-slot:title>
+          <div class="w-full px-4 py-2 rounded bg-brown">
+            <h3 class="text-2xl font-bold leading-9 tracking-widest uppercase">New Sale</h3>
+          </div>
+        </template>
+        <template v-slot:detail>
+          <div class="grid grid-cols-5 gap-5 py-4 mx-3">
+            <div v-for="product in dataSale[0]" :key="product.productId">
+              <router-link
+                :to="{
+                  name: 'DetailProduct',
+                  params: { categoryId: product.categoryId, productId: product.productId }
+                }"
+              >
+                <Item
+                  :price="product.productPrice"
+                  :priceSale="product.productPriceSale"
+                  :quantitySold="Number(product.productQuantity)"
+                  :productName="product.productName"
+                  :src="product.fileName === null ? 'item.png' : product.fileName"
+                  :alt="product.productName"
+                />
+              </router-link>
+            </div>
+          </div>
+        </template>
+      </BoxCommon>
+      <div class="my-4 rounded-[4px] w-full bg-slate-600 shadow-custom">
+        <div
+          class="flex flex-col items-start justify-between"
+          v-for="(item, index) in dataList"
+          :key="index"
+        >
+          <div class="flex items-center justify-between w-full px-4 py-2 rounded">
+            <h3 class="text-2xl font-bold leading-9 tracking-widest uppercase text-brown">
+              Giày
+              {{ item[0].categoryName }}
+            </h3>
+            <h3 class="flex text-lg font-bold align-middle cursor-pointer hover:text-brown">
+              <router-link :to="{ name: 'Product', params: '' }"
+                ><span class="mr-2">Xem tất cả</span>
+              </router-link>
+              <vue-feather class="w-6 h-6 translate-y-1" type="chevrons-right"></vue-feather>
+            </h3>
+          </div>
+          <ul class="flex items-center gap-4 ml-4 uppercase">
+            <li class="selected">Jordan 1</li>
+            <li>Air Force 1</li>
+            <li>Jordan 4</li>
+            <li>Sb dunk</li>
+          </ul>
+          <div class="grid grid-cols-5 gap-5 py-4 mx-3">
+            <div v-for="product in item" :key="product.productId">
+              <router-link
+                :to="{
+                  name: 'DetailProduct',
+                  params: { categoryId: product.categoryId, productId: product.productId }
+                }"
+              >
+                <Item
+                  :price="product.productPrice"
+                  :priceSale="product.productPriceSale"
+                  :quantitySold="Number(product.productQuantity)"
+                  :productName="product.productName"
+                  :src="product.fileName === null ? 'item.png' : product.fileName"
+                  :alt="product.productName"
+                />
+              </router-link>
+            </div>
+          </div>
         </div>
-      </template>
-      <template v-slot:detail>
-        <div class="grid w-full grid-cols-4 gap-6 py-4 pr-5 mx-3">
-          <article-item
-            title="Đánh giá giày Jordan 1 Zoom Air PSG Paris Saint"
-            src="item.png"
-            alt="Giày"
-            classTitle="text-center"
-            v-for="item in count - 1"
-            :key="item"
-          />
-        </div>
-      </template>
-    </box>
-  </section>
+      </div>
+      <BoxCommon>
+        <template v-slot:title>
+          <div class="flex items-center justify-between w-full px-4 py-2 rounded">
+            <h3 class="text-2xl font-bold leading-9 tracking-widest uppercase text-brown">
+              Tư vấn chọn mua
+            </h3>
+            <h3 class="flex text-lg font-bold align-middle cursor-pointer hover:text-brown">
+              <span class="mr-2">Xem thêm</span>
+              <vue-feather class="w-6 h-6 translate-y-1" type="chevrons-right"></vue-feather>
+            </h3>
+          </div>
+        </template>
+        <template v-slot:detail>
+          <div class="grid w-full grid-cols-4 gap-6 py-4 pr-5 mx-3">
+            <div v-for="item in article[0]" :key="item.articleId">
+              <Article
+                :title="item.articleName"
+                :src="item.fileName === null ? 'item.png' : item.fileName"
+                :alt="item.articleName"
+                classTitle="text-center"
+              />
+            </div>
+          </div>
+        </template>
+      </BoxCommon>
+    </template>
+  </BasePage>
 </template>
-<script>
+<script setup>
+import { reactive, ref, onMounted } from 'vue'
 import Item from '@/components/common/product/Item.vue'
 import BoxCommon from '@/components/common/BoxCommon.vue'
 import Article from '@/components/common/product/Article.vue'
+import BasePage from '../auth/BasePage.vue'
+import ProductService from '@/stores/modules/ProductService'
+import axios from 'axios'
 const trademark = [
   {
     img: 'sale-item.png',
@@ -132,21 +160,72 @@ const trademark = [
     title: 'LV'
   }
 ]
-export default {
-  name: 'HomePage',
-  components: {
-    Item: Item,
-    Box: BoxCommon,
-    ArticleItem: Article
-  },
-  setup(props, context) {
-    const count = 5
-    const countMinus = 4
-    const getImageUrl = (name) => {
-      return new URL(`../../assets/images/trademark/${name}`, import.meta.url).href
+const dataNike = reactive()
+const dataAdidas = reactive()
+const dataNB = reactive()
+const dataMLB = reactive()
+const dataConvert = reactive()
+const dataSale = ref([])
+const dataList = reactive([])
+const article = reactive([])
+onMounted(async () => {
+  await getAllData(dataNike, 1, 5)
+  await getAllData(dataAdidas, 2, 5)
+  await getAllData(dataNB, 3, 5)
+  await getAllData(dataMLB, 4, 5)
+  await getAllData(dataConvert, 5, 5)
+  await getAllDataSale(5)
+  await getAllDataArticle()
+  console.log(dataList)
+})
+
+async function getAllData(data, categoryId, limitItem) {
+  try {
+    const res = await ProductService.getProductByCategoryId('/init-home', categoryId, limitItem)
+
+    const result = {
+      status: res.status + '-' + res.statusText,
+      headers: res.headers,
+      data: res.data
     }
-    return { props, context, getImageUrl, trademark, count, countMinus }
+    data = result.data
+    dataList.push(data)
+  } catch (error) {
+    console.log(error)
   }
+}
+
+async function getAllDataSale(limitItem) {
+  try {
+    const res = await ProductService.getProductSaleByCategoryId('/init-sale', limitItem)
+
+    const result = {
+      status: res.status + '-' + res.statusText,
+      headers: res.headers,
+      data: res.data
+    }
+    dataSale.value.push(result.data)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+async function getAllDataArticle() {
+  try {
+    axios
+      .get('http://localhost:8088/api/article/init/pageable?page_no=0&page_size=4')
+      .then((response) => {
+        article.push(response.data.articleDTOList)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  } catch (error) {
+    console.log(error)
+  }
+}
+const getImageUrl = (name) => {
+  return new URL(`../../assets/images/trademark/${name}`, import.meta.url).href
 }
 </script>
 <style lang="scss">

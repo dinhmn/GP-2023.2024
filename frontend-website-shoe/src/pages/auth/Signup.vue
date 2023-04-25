@@ -1,8 +1,9 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <Auth>
+  <Auth class="relative" :checkLogin="!success">
     <div
       class="wrap w-[500px] h-[60%] bg-slate-300 flex flex-col items-center justify-center gap-5"
+      :class="!success ? '' : 'opacity-40'"
     >
       <div class="w-full text-left">
         <h1 class="text-3xl font-bold text-left">Create new account.</h1>
@@ -11,14 +12,6 @@
       <div class="relative w-full pt-5 text-center">
         <div class="w-full h-[2px] bg-gray-400 absolute top-[50%]"></div>
       </div>
-      <div
-        v-if="register == true"
-        class="block h-6 text-left"
-        :class="success == true ? 'text-green-600' : 'text-red-600'"
-      >
-        {{ success == true ? 'Register successfully.' : 'Register error.' }}
-      </div>
-      <div v-if="register == false"></div>
       <form @submit.prevent="onSubmit" method="post" class="flex flex-col w-full">
         <div class="flex items-center justify-between gap-2">
           <div class="flex flex-col w-full">
@@ -146,6 +139,34 @@
         </div>
       </form>
     </div>
+    <div
+      class="absolute w-[400px] h-[200px] bg-white z-99 left-[40%] p-5 text-center rounded-md shadow-md flex flex-col items-center justify-between"
+      :class="!success ? 'hidden' : ''"
+    >
+      <div><vue-feather class="w-16 h-16 text-green-600" type="check-circle"></vue-feather></div>
+      <div class="">Register account successfully!</div>
+      <button
+        type="button"
+        class="px-10 text-white transition-all bg-[#0c3247] hover:bg-[#135070] hover:opacity-90"
+        @click="success = false"
+      >
+        OK
+      </button>
+    </div>
+    <!-- <div
+      class="absolute w-[400px] h-[200px] bg-white z-99 left-[40%] p-5 text-center rounded-md shadow-md flex flex-col items-center justify-between"
+      :class="!success || !register ? 'hidden' : ''"
+    >
+      <div><vue-feather class="w-16 h-16 text-red-600" type="x-circle"></vue-feather></div>
+      <div class="">Register account error!</div>
+      <button
+        type="button"
+        class="px-10 text-white transition-all bg-[#0c3247] hover:bg-[#135070] hover:opacity-90"
+        @click="register = true"
+      >
+        OK
+      </button>
+    </div> -->
   </Auth>
 </template>
 <script>
@@ -156,6 +177,7 @@ import Button from '@/components/common/button/Button.vue'
 import AuthService from '@/stores/modules/AuthService'
 import useValidate from '@vuelidate/core'
 import { required, email, minLength, sameAs } from '@vuelidate/validators'
+import store from '@/stores/store'
 export default {
   name: 'SignupPage',
   components: {
@@ -191,22 +213,28 @@ export default {
       username: false
     })
     const success = ref(false)
-    const register = ref(false)
     const v$ = useValidate(rules, data)
-    return { props, data, success, errors, v$, register, AuthService }
+    return { props, data, success, errors, v$, AuthService, register: false }
   },
   methods: {
     onSubmit() {
       this.v$.$validate()
       if (!this.v$.$error) {
         // if ANY fail validation
-        this.success = true
-        this.AuthService.register(this.data)
+        store.dispatch('auth/register', this.data).then(
+          () => {
+            this.success = true
+            this.register = true
+          },
+          (error) => {
+            this.register = false
+            this.success = false
+            console.log(error)
+          }
+        )
       } else {
         this.success = false
-        alert('Form failed validation')
       }
-      this.register = true
     },
     onPressKey(event, type) {
       if (type === 'email') {

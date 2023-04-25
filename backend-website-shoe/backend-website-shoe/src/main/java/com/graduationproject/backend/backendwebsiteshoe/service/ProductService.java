@@ -1,6 +1,7 @@
 package com.graduationproject.backend.backendwebsiteshoe.service;
 
 import com.graduationproject.backend.backendwebsiteshoe.common.CommonService;
+import com.graduationproject.backend.backendwebsiteshoe.dto.FilterProduct;
 import com.graduationproject.backend.backendwebsiteshoe.dto.IOneProduct;
 import com.graduationproject.backend.backendwebsiteshoe.dto.IProduct;
 import com.graduationproject.backend.backendwebsiteshoe.entity.ProductEntity;
@@ -43,22 +44,47 @@ public class ProductService {
   /**
    * Get all product.
    *
-   * @param searchValue value
-   * @return list of entity product.
-   */
-  public List<IProduct> getAll(String searchValue) {
-    return productRepository.findAllProduct(searchValue);
-  }
-
-  /**
-   * Get all product.
-   *
-   * @param pageable pageable
+   * @param pageable    pageable
    * @param searchValue searchValue
    * @return list of entity product.
    */
   public Page<IProduct> getAll(Pageable pageable, String searchValue) {
     return productRepository.findAllProduct(searchValue, pageable);
+  }
+
+  /**
+   * Get all product.
+   *
+   * @param filterProduct filterProduct
+   * @param pageable      pageable
+   * @return list of entity product.
+   */
+  public Page<IProduct> getAll(FilterProduct filterProduct, Pageable pageable) {
+    return productRepository
+        .findAllProduct(filterProduct.getSearchValue(), filterProduct.getCategoryId(),
+            filterProduct.getPriceMin(), filterProduct.getPriceMax(), filterProduct.getSizeList(),
+            filterProduct.getColorList(), pageable);
+  }
+
+  /**
+   * Get all product.
+   *
+   * @param categoryId categoryId
+   * @param limitItem limitItem
+   * @return list of entity product.
+   */
+  public List<IProduct> getAll(Long categoryId, Integer limitItem) {
+    return productRepository.findAllProduct(categoryId, limitItem);
+  }
+
+  /**
+   * Get all product.
+   *
+   * @param limitItem limitItem
+   * @return list of entity product.
+   */
+  public List<IProduct> getAllProductSale(Integer limitItem) {
+    return productRepository.findAllProductSale(limitItem);
   }
 
   /**
