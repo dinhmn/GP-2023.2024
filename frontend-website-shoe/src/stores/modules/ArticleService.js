@@ -7,6 +7,10 @@ class ArticleService {
     return http.get(API_ARTICLE_PREFIX + url + "?page_no=" + pageNo);
   }
 
+  getAllArticle(url, pageNo, pageSize) {
+    return http.get(API_ARTICLE_PREFIX + url + "?page_no=" + pageNo + "&page_size=" + pageSize);
+  }
+
   getById(url, articleId) {
     return http.get(API_ARTICLE_PREFIX + url + '/' + articleId);
   }

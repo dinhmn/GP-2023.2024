@@ -336,7 +336,6 @@ const filter = async () => {
     .map((color) => color.color)
   filterSearch.categoryId = active.value
   filterSearch.searchValue = state.search
-  console.log(filterSearch)
   let formData = new FormData()
   formData.append('filterProduct', JSON.stringify(filterSearch))
   axios

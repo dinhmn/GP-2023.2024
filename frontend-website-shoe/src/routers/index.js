@@ -52,7 +52,7 @@ const routes = [
     name: "Payment",
     meta: {
       layout: 'user',
-      auth: true
+      auth: false
     },
     component: () => import("../pages/user/Payment.vue"),
   },
@@ -61,7 +61,7 @@ const routes = [
     name: "DetailProduct",
     meta: {
       layout: 'user',
-      auth: true
+      auth: false
     },
     component: () => import("../pages/user/DetailProduct.vue"),
   },
