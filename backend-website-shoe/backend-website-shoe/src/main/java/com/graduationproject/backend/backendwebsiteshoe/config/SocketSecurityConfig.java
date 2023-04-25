@@ -1,6 +1,7 @@
 package com.graduationproject.backend.backendwebsiteshoe.config;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.messaging.simp.SimpMessageType;
 import org.springframework.security.config.annotation.web.messaging.MessageSecurityMetadataSourceRegistry;
 import org.springframework.security.config.annotation.web.socket.AbstractSecurityWebSocketMessageBrokerConfigurer;
 
@@ -25,7 +26,7 @@ public class SocketSecurityConfig extends AbstractSecurityWebSocketMessageBroker
   @Override
   protected void configureInbound(MessageSecurityMetadataSourceRegistry messages) {
     messages
-        .simpDestMatchers("/secured/**", "/secured/**/**").permitAll()
+        .simpTypeMatchers(SimpMessageType.CONNECT, SimpMessageType.DISCONNECT, SimpMessageType.OTHER).permitAll()
         .anyMessage().authenticated();
   }
 }

@@ -173,23 +173,24 @@ const send = () => {
     if (login.username == null) {
       message.sendMessage.messageTo = 'Admin'
     }
-    socket.stompClient.send('/secured/app/chat', JSON.stringify(sendMessage), {})
+    socket.stompClient.send('/app/chat', JSON.stringify(sendMessage), {})
   }
   message.sendMessage.messageText = ''
 }
 
 const connect = async () => {
+  // let currentUser = localStorage.getItem('user')
   message.messageRequest.messageFrom = '1'
   message.messageRequest.messageTo = 'Admin'
   await fetchAllMessage(message.messageRequest.messageFrom, message.messageRequest.messageTo)
-  socket.socket = new SockJS('http://localhost:8088/secured/chat')
+  socket.socket = new SockJS('http://localhost:8088/chat')
   socket.stompClient = Stomp.over(socket.socket)
   socket.stompClient.connect(
-    {},
+    { username: 'ngocdinh2k1', password: '12345678' },
     (frame) => {
       socket.connected = true
       console.log(frame)
-      socket.stompClient.subscribe('/secured/topic/messages', (tick) => {
+      socket.stompClient.subscribe('/topic/messages', (tick) => {
         message.receivedMessages.push(JSON.parse(tick.body))
       })
       console.log(message.receivedMessages)

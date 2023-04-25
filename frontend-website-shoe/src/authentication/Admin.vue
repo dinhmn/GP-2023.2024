@@ -125,6 +125,7 @@
         ></Input>
         <button
           @click.prevent="send"
+          @keyup.enter="send"
           id="send"
           class="text-white font-bold w-[80px] text-sm m-0 py-3 rounded-none"
         >
@@ -135,14 +136,12 @@
   </div>
 </template>
 <script setup>
-import { useCookies } from 'vue3-cookies'
 import { reactive, onMounted } from 'vue'
 import Input from '../components/common/input/Input.vue'
 import NavbarAdmin from '@/components/templates/NavbarAdmin.vue'
 import SidebarAdmin from '@/components/templates/SidebarAdmin.vue'
 import SockJS from 'sockjs-client'
 import Stomp from 'webstomp-client'
-import { globalCookiesConfig } from 'vue3-cookies'
 import ChatService from '@/stores/modules/ChatService'
 
 const login = reactive({
@@ -160,18 +159,8 @@ const socket = reactive({
   stompClient: '',
   connected: false
 })
-const { cookies } = useCookies()
-globalCookiesConfig({
-  expireTimes: '30d',
-  path: '/',
-  domain: '',
-  secure: true,
-  sameSite: 'None'
-})
-// cookies.set('user_cookie', globalCookiesConfig)
 onMounted(async () => {
   await connect()
-  cookies.config('7d', '', '', true)
 })
 
 const send = () => {
@@ -181,7 +170,7 @@ const send = () => {
     if (login.username == null) {
       message.sendMessage.messageTo = '1'
     }
-    socket.stompClient.send('/secured/app/chat', JSON.stringify(sendMessage), {})
+    socket.stompClient.send('/app/chat', JSON.stringify(sendMessage), {})
   }
   message.sendMessage.messageText = ''
 }
@@ -190,14 +179,15 @@ const connect = async () => {
   message.messageRequest.messageFrom = 'Admin'
   message.messageRequest.messageTo = '1'
   await fetchAllMessage(message.messageRequest.messageFrom, message.messageRequest.messageTo)
-  socket.socket = new SockJS('http://localhost:8088/secured/chat')
+  socket.socket = new SockJS('http://localhost:8088/chat')
   socket.stompClient = Stomp.over(socket.socket)
   socket.stompClient.connect(
-    {},
+    { username: 'ngocdinh2k1', password: '12345678' },
     (frame) => {
       socket.connected = true
       console.log(frame)
-      socket.stompClient.subscribe('/secured/topic/messages', (tick) => {
+      socket.stompClient.subscribe('/topic/messages', (tick) => {
+        console.log(tick)
         message.receivedMessages.push(JSON.parse(tick.body))
       })
       console.log(message.receivedMessages)
