@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.apache.logging.log4j.util.Strings;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -80,12 +79,25 @@ public class ProductController {
   /**
    * Get all product.
    *
-   * @param searchValue searchValue
+   * @param categoryId categoryId
+   * @param limitItem  limitItem
    * @return list object.
    */
-  @GetMapping(value = "/search")
-  public List<IProduct> search(@RequestParam(value = "search_value") String searchValue) {
-    return productHelper.getAllProduct(Strings.isBlank(searchValue) ? null : searchValue);
+  @GetMapping(value = "/init-home/{categoryId}/{limitItem}")
+  public List<IProduct> selectProductByCategory(@PathVariable Long categoryId,
+                                                @PathVariable Integer limitItem) {
+    return productHelper.getAllProductByCategoryId(categoryId, limitItem);
+  }
+
+  /**
+   * Get all product.
+   *
+   * @param limitItem  limitItem
+   * @return list object.
+   */
+  @GetMapping(value = "/init-sale/{limitItem}")
+  public List<IProduct> selectProductSaleByCategory(@PathVariable Integer limitItem) {
+    return productHelper.getAllProductSaleByCategoryId(limitItem);
   }
 
   /**

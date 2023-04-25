@@ -44,16 +44,6 @@ public class ProductService {
   /**
    * Get all product.
    *
-   * @param searchValue value
-   * @return list of entity product.
-   */
-  public List<IProduct> getAll(String searchValue) {
-    return productRepository.findAllProduct(searchValue);
-  }
-
-  /**
-   * Get all product.
-   *
    * @param pageable    pageable
    * @param searchValue searchValue
    * @return list of entity product.
@@ -74,6 +64,27 @@ public class ProductService {
         .findAllProduct(filterProduct.getSearchValue(), filterProduct.getCategoryId(),
             filterProduct.getPriceMin(), filterProduct.getPriceMax(), filterProduct.getSizeList(),
             filterProduct.getColorList(), pageable);
+  }
+
+  /**
+   * Get all product.
+   *
+   * @param categoryId categoryId
+   * @param limitItem limitItem
+   * @return list of entity product.
+   */
+  public List<IProduct> getAll(Long categoryId, Integer limitItem) {
+    return productRepository.findAllProduct(categoryId, limitItem);
+  }
+
+  /**
+   * Get all product.
+   *
+   * @param limitItem limitItem
+   * @return list of entity product.
+   */
+  public List<IProduct> getAllProductSale(Integer limitItem) {
+    return productRepository.findAllProductSale(limitItem);
   }
 
   /**

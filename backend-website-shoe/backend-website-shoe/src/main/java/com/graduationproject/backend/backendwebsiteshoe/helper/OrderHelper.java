@@ -62,8 +62,8 @@ public class OrderHelper {
         .toList();
     UserInformationEntity userInformationEntity =
         this.toBuildUserInformationEntity(orderJasperModel.getCustomer(), userId == null
-            ? User.CUSTOMER.getValue()
-            : User.USER.getValue(), userId);
+            ? User.CUSTOMER.getCode()
+            : User.USER.getCode(), userId);
     for (CartEntity cart : cartEntityList) {
       totalPrice = totalPrice.add(cart.getProductCurrentPrice().multiply(
           BigDecimal.valueOf(cart.getProductQuantity())));

@@ -24,8 +24,10 @@ import com.graduationproject.backend.backendwebsiteshoe.service.SourceImageServi
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.TreeMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -72,11 +74,24 @@ public class ProductHelper {
   /**
    * Select all product.
    *
+   * @param categoryId categoryId
+   * @param limitItem limitItem
    * @return list product.
    */
   @NonNull
-  public List<IProduct> getAllProduct(String searchValue) {
-    return productService.getAll(searchValue);
+  public List<IProduct> getAllProductByCategoryId(Long categoryId, Integer limitItem) {
+    return productService.getAll(categoryId, limitItem);
+  }
+
+  /**
+   * Select all product.
+   *
+   * @param limitItem limitItem
+   * @return list product.
+   */
+  @NonNull
+  public List<IProduct> getAllProductSaleByCategoryId(Integer limitItem) {
+    return productService.getAllProductSale(limitItem);
   }
 
   /**
