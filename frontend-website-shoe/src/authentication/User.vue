@@ -163,6 +163,7 @@ globalCookiesConfig({
   secure: true,
   sameSite: 'None'
 })
+
 onMounted(async () => {
   // await connect()
 })
@@ -179,14 +180,14 @@ const send = () => {
 }
 
 const connect = async () => {
-  // let currentUser = localStorage.getItem('user')
+  let currentUser = JSON.parse(localStorage.getItem('user'))
   message.messageRequest.messageFrom = '1'
   message.messageRequest.messageTo = 'Admin'
   await fetchAllMessage(message.messageRequest.messageFrom, message.messageRequest.messageTo)
   socket.socket = new SockJS('http://localhost:8088/chat')
   socket.stompClient = Stomp.over(socket.socket)
   socket.stompClient.connect(
-    { username: 'ngocdinh2k1', password: '12345678' },
+    { username: currentUser.username, password: '12345678' },
     (frame) => {
       socket.connected = true
       console.log(frame)

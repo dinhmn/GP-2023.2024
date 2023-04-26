@@ -1,7 +1,19 @@
 import http from "./http-common";
-import { API_ORDER_PREFIX } from "../api";
+import { API_ORDER_PREFIX, API_EXPORT_PDF_PREFIX } from "../api";
 
 class OrderService {
+
+  getAllOrder(url, page) {
+    return http.get(API_ORDER_PREFIX + url + "?page_no=" + page.pageNo
+    + "&page_size=" + page.pageSize + "&sort_direction=" + page.sortDirection
+    + "&sort_by=" + page.sortBy + "&search_value=" + page.value);
+  }
+
+  exportPdf(url, orderId) {
+    return http.post(API_EXPORT_PDF_PREFIX + url + "?code=" + orderId, {headers: {
+      "Content-type": "application/json"
+    }});
+  }
 
   insert(url, orderJasperModel) {
     // let formData = new FormData();
