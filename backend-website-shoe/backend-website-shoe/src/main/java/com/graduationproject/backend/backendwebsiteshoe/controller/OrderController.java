@@ -36,7 +36,7 @@ public class OrderController {
   /**
    * Insert order into database.
    *
-   * @param order order
+   * @param orderJasperModel orderJasperModel
    * @return message response.
    */
   @PostMapping("/")
@@ -63,10 +63,10 @@ public class OrderController {
       @RequestParam(value = "page_size", defaultValue = Constant.DEFAULT_PAGE_SIZE) int pageSize,
       @RequestParam(value = "sort_direction", defaultValue = Constant.DEFAULT_SORT_DIRECTION)
           String sortDirection,
-      @RequestParam(value = "sort_by", defaultValue = "product_id") String sortBy,
+      @RequestParam(value = "sort_by", defaultValue = "order_id") String sortBy,
       @RequestParam(value = "search_value", defaultValue = Constant.EMPTY_SPACE)
           String searchValue) {
-    return orderHelper.getAllByOrderId(pageNo, pageSize, sortDirection, sortBy, searchValue);
+    return orderHelper.getAllByOrderId(pageNo, pageSize, sortBy, sortDirection, searchValue);
   }
 
   /**

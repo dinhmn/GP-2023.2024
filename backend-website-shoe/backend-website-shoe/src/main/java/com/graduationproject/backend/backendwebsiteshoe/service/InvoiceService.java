@@ -1,5 +1,6 @@
 package com.graduationproject.backend.backendwebsiteshoe.service;
 
+import com.graduationproject.backend.backendwebsiteshoe.common.Constant;
 import com.graduationproject.backend.backendwebsiteshoe.model.OrderJasperModel;
 import com.graduationproject.backend.backendwebsiteshoe.utils.JasperUtils;
 import java.io.File;
@@ -27,6 +28,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class InvoiceService {
 
+  private static final String TARGET_SOURCE = "D:/image/export-pdf";
+
   private static final String PREFIX_INVOICE = "order_";
 
   private static final String SUFFIX = ".pdf";
@@ -46,7 +49,7 @@ public class InvoiceService {
       throws IOException {
     // Create template order
     File pdfFile =
-        File.createTempFile(PREFIX_INVOICE + orderJasperModel.getOrderCode(), SUFFIX);
+        File.createTempFile(TARGET_SOURCE + Constant.SLASH + PREFIX_INVOICE + orderJasperModel.getOrderCode(), SUFFIX);
 
     // Initiate a FileOutputStream
     try (FileOutputStream output = new FileOutputStream(pdfFile)) {

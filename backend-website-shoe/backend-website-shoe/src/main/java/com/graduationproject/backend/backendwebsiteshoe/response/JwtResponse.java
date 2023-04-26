@@ -20,17 +20,19 @@ public class JwtResponse {
   private String type = "Bearer";
   private Long id;
   private String username;
+  private String password;
   private String email;
   private List<String> roles;
 
   /**
    * Create constructor.
    */
-  public JwtResponse(String accessToken, Long id, String username, String email,
+  public JwtResponse(String accessToken, Long id, String username, String password, String email,
                      List<String> roles) {
     this.token = accessToken;
     this.id = id;
     this.username = username;
+    this.password = password;
     this.email = email;
     this.roles = roles;
   }

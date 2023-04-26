@@ -48,7 +48,7 @@ public class SendMailService {
           new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
               StandardCharsets.UTF_8.name());
       // add attachment
-      helper.addAttachment("logo.png", new ClassPathResource("logo.png"));
+      helper.addAttachment("logo.pdf", new ClassPathResource("./templates/uploads/logo.pdf"));
 
       Template template = config.getTemplate("email-template.ftl");
       String html = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);

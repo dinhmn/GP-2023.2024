@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -35,7 +34,7 @@ public class WebSocketAuthenticatorService {
    */
   public UsernamePasswordAuthenticationToken getAuthenticatedOrFail(String username,
                                                                     String password)
-      throws AuthenticationException {
+      throws Exception {
 
     // Check the username and password are not empty
     if (username == null || username.trim().isEmpty()) {

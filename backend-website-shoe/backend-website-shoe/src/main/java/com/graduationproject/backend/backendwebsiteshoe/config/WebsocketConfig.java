@@ -30,7 +30,6 @@ public class WebsocketConfig
    */
   @Override
   public void registerStompEndpoints(StompEndpointRegistry registry) {
-//    registry.addEndpoint("/chat");
     registry.addEndpoint("/chat")
         .setAllowedOriginPatterns("http://localhost:5173/")
         .withSockJS();

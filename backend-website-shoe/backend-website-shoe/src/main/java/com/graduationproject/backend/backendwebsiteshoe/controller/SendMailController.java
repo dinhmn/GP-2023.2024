@@ -30,7 +30,7 @@ public class SendMailController {
    * @param requestModel requestModel
    * @return response entity
    */
-  @PostMapping(value = "/")
+  @PostMapping(value = "/post")
   public ResponseEntity<?> registerProduct(@RequestBody MailRequestModel requestModel) {
     Boolean statusSend = sendMailHelper.sendMail(requestModel);
 
