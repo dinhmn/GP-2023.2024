@@ -29,5 +29,9 @@ class OrderService {
     });
   }
 
+  update(url, orderId, orderStatus) {
+    return http.put(API_ORDER_PREFIX + url + "/" + orderId + "/" + orderStatus);
+  }
+
 }
 export default new OrderService();

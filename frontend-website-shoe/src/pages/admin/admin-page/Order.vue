@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template lang="">
-  <CommonAdmin title="Order" page="5" actionNew="false">
+  <CommonAdmin title="Order" actionNew="false">
     <template v-slot:search>
       <form class="flex w-[600px] gap-2 items-center justify-center">
         <Input
@@ -24,7 +24,7 @@
           type="button"
           text="Search"
           id="search"
-          @click="search"
+          @click="onSearch"
           className="bg-[#0c3247] text-[#17b1ea] hover:bg-[#10405a] hover:text-white"
         />
       </form>
@@ -58,7 +58,7 @@
           <td>{{ item.customerAddress }}</td>
           <td>{{ item.orderCode }}</td>
           <td>{{ item.createdDate }}</td>
-          <td>{{ item.status === 1 ? 'Complete' : 'Wait' }}</td>
+          <td>{{ item.status === 'true' ? 'Complete' : 'Wait' }}</td>
           <td class="flex items-center justify-around gap-2">
             <router-link to="/">
               <button
@@ -71,8 +71,9 @@
             </router-link>
 
             <button
-              class="block min-w-[60px] px-2 m-0 text-sm text-center bg-red-700 hover:bg-red-600 mr-3"
+              class="block min-w-[60px] px-2 m-0 text-sm text-center bg-blue-700 hover:bg-blue-600 mr-3"
               name="delete"
+              @click.prevent="onConfirm($event, item.orderId)"
             >
               Confirm
             </button>
@@ -99,10 +100,12 @@
 <script setup>
 import { onMounted, reactive, ref } from 'vue'
 import CommonAdmin from '@/components/common/CommonAdmin.vue'
+import Button from '@/components/common/button/Button.vue'
+import Input from '@/components/common/input/Input.vue'
 import axios from 'axios'
 import OrderService from '@/stores/modules/OrderService'
 const searchData = reactive({
-  searchData: '',
+  searchValue: '',
   sortBy: 'order_id'
 })
 const api = reactive({
@@ -111,15 +114,37 @@ const api = reactive({
   pageNo: 0,
   pageSize: 0,
   totalElements: 0,
-  totalPages: ''
+  totalPages: 0
 })
 const active = ref(1)
 onMounted(async () => {
-  await getAllData(api)
+  let page = {
+    pageNo: 0,
+    pageSize: 10,
+    sortDirection: 'ASC',
+    sortBy: 'order_id',
+    value: ''
+  }
+  await getAllData(api, page)
 })
 
-async function getAllData(api) {
+async function getAllData(api, page) {
   try {
+    const res = await OrderService.getAllOrder('/get-all', page)
+    const result = {
+      status: res.status + '-' + res.statusText,
+      headers: res.headers,
+      data: res.data
+    }
+    fetchData(result.data, api)
+  } catch (error) {
+    api = formatResponse(error.response?.data) || error
+  }
+}
+
+async function onConfirm(event, orderId) {
+  try {
+    OrderService.update('/update', orderId, '1')
     let page = {
       pageNo: 0,
       pageSize: 10,
@@ -127,17 +152,9 @@ async function getAllData(api) {
       sortBy: 'order_id',
       value: ''
     }
-    const res = await OrderService.getAllOrder('/get-all', page)
-
-    const result = {
-      status: res.status + '-' + res.statusText,
-      headers: res.headers,
-      data: res.data
-    }
-    console.log(result)
-    fetchData(result.data, api)
+    await getAllData(api, page)
   } catch (error) {
-    api = formatResponse(error.response?.data) || error
+    console.log(error)
   }
 }
 
@@ -150,33 +167,50 @@ async function onSetPage(pageNo) {
       sortBy: 'order_id',
       value: ''
     }
-    await OrderService.getAllOrder('/get-all', page)
+    await getAllData(api, page)
     active.value = pageNo
   } catch (err) {
     console.log(err)
   }
 }
 
-// function onPreviousPage() {
-//   try {
-//     if (active.value <= api.totalPages && active.value > 1) {
-//       active.value -= 1
-//     }
-//     getAllData(api, active.value - 1)
-//   } catch (err) {
-//     result.deleteResult = formatResponse(err.response?.data) || err
-//   }
-// }
+async function onPreviousPage() {
+  try {
+    if (active.value <= api.totalPages && active.value > 1) {
+      active.value -= 1
+    }
+    let page = {
+      pageNo: active.value - 1,
+      pageSize: 10,
+      sortDirection: 'ASC',
+      sortBy: 'order_id',
+      value: ''
+    }
+    console.log(page)
+    await getAllData(api, page)
+    console.log(api)
+  } catch (err) {
+    console.log(err)
+  }
+}
 
-// function onNextPage() {
-//   try {
-//     if (active.value < api.totalPages) {
-//       active.value += 1
-//     }
-//     getAllData(api, active.value - 1)
-//   } catch (err) {
-//     result.deleteResult = formatResponse(err.response?.data) || err
-//   }
+async function onNextPage() {
+  try {
+    if (active.value < api.totalPages) {
+      active.value += 1
+    }
+    let page = {
+      pageNo: active.value + 1,
+      pageSize: 10,
+      sortDirection: 'ASC',
+      sortBy: 'order_id',
+      value: ''
+    }
+    await getAllData(api, page)
+  } catch (err) {
+    console.log(err)
+  }
+}
 
 function fetchData(result, api) {
   api.data = result.orderList
@@ -199,18 +233,19 @@ const onView = async (event, orderId) => {
     console.log(error)
   }
 }
-const sendMail = () => {
-  let requestModel = {
-    mailName: 'dinhmn',
-    mailTo: 'ngocdinh2k1@gmail.com',
-    mailFrom: 'ngocdinh11052001@gmail.com',
-    mailSubject: 'chao ban'
-  }
-  axios
-    .post('http://localhost:8088/api/send-mail/post', requestModel)
-    .then((response) => console.log(response))
-    .catch((error) => console.log(error))
-}
+function onSearch() {}
+// const sendMail = () => {
+//   let requestModel = {
+//     mailName: 'dinhmn',
+//     mailTo: 'ngocdinh2k1@gmail.com',
+//     mailFrom: 'ngocdinh11052001@gmail.com',
+//     mailSubject: 'chao ban'
+//   }
+//   axios
+//     .post('http://localhost:8088/api/send-mail/post', requestModel)
+//     .then((response) => console.log(response))
+//     .catch((error) => console.log(error))
+// }
 </script>
 <style lang="css">
 ul li {

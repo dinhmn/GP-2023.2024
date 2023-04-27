@@ -159,9 +159,7 @@ const socket = reactive({
   stompClient: '',
   connected: false
 })
-onMounted(async () => {
-  await connect()
-})
+onMounted(async () => {})
 
 const send = () => {
   console.log(message.receivedMessages)
