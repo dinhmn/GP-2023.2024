@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template lang="">
-  <CommonAdmin title="Product" page="5" actionNew="ProductRegisterAdmin">
+  <CommonAdmin title="Product" actionNew="ProductRegisterAdmin">
     <template v-slot:search>
       <form class="flex w-[600px] gap-2 items-center justify-center">
         <Input
@@ -192,7 +192,7 @@ function onNextPage() {
     if (active.value < api.totalPages) {
       active.value += 1
     }
-    getAllData(api, active.value - 1)
+    getAllData(api, active.value + 1)
   } catch (err) {
     result.deleteResult = formatResponse(err.response?.data) || err
   }

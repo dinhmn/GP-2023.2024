@@ -1,5 +1,6 @@
 package com.graduationproject.backend.backendwebsiteshoe.service;
 
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
@@ -25,6 +26,7 @@ public class AuthChannelInterceptor implements ChannelInterceptor {
   private static final String PASSWORD_HEADER = "password";
 
   // Processes a message before sending it
+  @SneakyThrows
   @Override
   public Message<?> preSend(Message<?> message, MessageChannel channel) {
 

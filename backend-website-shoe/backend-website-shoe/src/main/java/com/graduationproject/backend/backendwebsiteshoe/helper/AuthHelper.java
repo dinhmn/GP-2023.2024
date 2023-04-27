@@ -81,6 +81,7 @@ public class AuthHelper {
     return new JwtResponse(jwt,
         userDetails.getUserId(),
         userDetails.getUsername(),
+        userDetails.getPassword(),
         userDetails.getEmail(),
         roles);
   }

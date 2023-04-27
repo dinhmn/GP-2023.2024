@@ -35,4 +35,5 @@ public interface IOrder {
 
   String getCustomerNote();
 
+  String getStatus();
 }

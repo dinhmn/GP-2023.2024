@@ -89,7 +89,7 @@
           <div v-if="response.messageFrom != 'Admin'" class="flex items-center justify-start gap-3">
             <img
               src="../assets/images/default.png"
-              class="w-[40px] h-[40px] object-cover rounded-full"
+              class="w-[40px] h-[40px] mt-1 object-cover rounded-full"
               alt=""
             />
             <span
@@ -159,9 +159,7 @@ const socket = reactive({
   stompClient: '',
   connected: false
 })
-onMounted(async () => {
-  await connect()
-})
+onMounted(async () => {})
 
 const send = () => {
   console.log(message.receivedMessages)
