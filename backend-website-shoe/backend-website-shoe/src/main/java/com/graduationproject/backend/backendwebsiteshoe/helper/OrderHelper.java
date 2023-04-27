@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
@@ -120,6 +121,22 @@ public class OrderHelper {
   public OrderJasperModel getAllByOrderId(Long orderId) {
     List<IOrder> order = orderService.getAllByOrderId(orderId);
     return this.toBuildOrderJasperModel(order);
+  }
+
+  /**
+   * Get all by order id.
+   *
+   * @param orderId orderId
+   * @param orderStatus orderStatus
+   * @return list entity
+   */
+  public OrderEntity update(Long orderId, String orderStatus) {
+    Optional<OrderEntity> orderEntity = orderService.getByOrderId(orderId);
+    if (orderEntity.isEmpty()) {
+      return null;
+    }
+    orderEntity.get().setStatus(orderStatus.equals(Constant.TRUE) ? Boolean.TRUE : Boolean.FALSE);
+    return orderService.update(orderEntity.get());
   }
 
   /**

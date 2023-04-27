@@ -64,7 +64,7 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
           + " invoice.user_information_id LEFT JOIN tbl_user usr ON usr.user_id = invoice.user_id"
           + " WHERE userInfo.first_name LIKE %?1% OR userInfo.last_name LIKE %?1% "
           + " OR userInfo.email LIKE %?1%", nativeQuery = true,
-      countQuery = " SELECT COUNT(invoice.order_id) FROM tbl_order invoice"
+      countQuery = " SELECT COUNT(DISTINCT(invoice.order_id)) FROM tbl_order invoice"
           + " INNER JOIN tbl_cart cart ON cart.cart_id = invoice.cart_id"
           + " INNER JOIN tbl_product product ON cart.product_id = product.product_id"
           + " INNER JOIN tbl_product_color color ON color.product_id = product.product_id"

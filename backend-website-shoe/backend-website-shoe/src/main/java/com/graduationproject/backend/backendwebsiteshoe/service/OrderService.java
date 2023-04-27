@@ -5,6 +5,7 @@ import com.graduationproject.backend.backendwebsiteshoe.entity.OrderEntity;
 import com.graduationproject.backend.backendwebsiteshoe.repository.CartRepository;
 import com.graduationproject.backend.backendwebsiteshoe.repository.OrderRepository;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -59,4 +60,23 @@ public class OrderService {
     return orderRepository.findAllByOrderId(orderId);
   }
 
+  /**
+   * Find by id.
+   *
+   * @param orderId orderId
+   * @return entity
+   */
+  public Optional<OrderEntity> getByOrderId(Long orderId) {
+    return orderRepository.findById(orderId);
+  }
+
+  /**
+   * Update by order entity.
+   *
+   * @param orderEntity orderId
+   * @return entity
+   */
+  public OrderEntity update(OrderEntity orderEntity) {
+    return orderRepository.save(orderEntity);
+  }
 }
