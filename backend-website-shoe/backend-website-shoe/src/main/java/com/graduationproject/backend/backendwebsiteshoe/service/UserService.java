@@ -6,9 +6,11 @@ import com.graduationproject.backend.backendwebsiteshoe.model.UserDetailsModel;
 import com.graduationproject.backend.backendwebsiteshoe.repository.RoleRepository;
 import com.graduationproject.backend.backendwebsiteshoe.repository.UserRepository;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -59,6 +61,41 @@ public class UserService implements UserDetailsService {
    */
   public List<RoleDTO> getRoleOfUserLogin(Long userId) {
     return roleRepository.findAllByUserId(userId);
+  }
+
+  /**
+   * Get all user name.
+   *
+   * @return find all user.
+   */
+  public List<UserEntity> getAll() {
+    return userRepository.findAll();
+  }
+
+  /**
+   * Delete user.
+   *
+   * @return find all user.
+   */
+  public Boolean deleteUserById(Long userId) {
+    try {
+      userRepository.deleteById(userId);
+      return Boolean.TRUE;
+    } catch (DataAccessException dataAccessException) {
+      dataAccessException.printStackTrace();
+      return Boolean.FALSE;
+    }
+  }
+
+  /**
+   * Delete user.
+   *
+   * @return find all user.
+   */
+  public UserEntity changeRoleName(Long userId, Long roleId) {
+    Optional<UserEntity> userEntity = userRepository.findById(userId);
+    userEntity.get().setRoleId(roleId);
+    return userEntity.get();
   }
 
   /**
