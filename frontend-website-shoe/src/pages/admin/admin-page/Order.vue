@@ -43,6 +43,7 @@
       </thead>
     </template>
     <template v-slot:tbody>
+      <!-- <form action="post" name="confirm-api"> -->
       <tbody>
         <tr v-for="(item, index) in api.data" :key="item.orderId">
           <td>{{ index + 1 }}</td>
@@ -73,13 +74,14 @@
             <button
               class="block min-w-[60px] px-2 m-0 text-sm text-center bg-blue-700 hover:bg-blue-600 mr-3"
               name="delete"
-              @click.prevent="onConfirm($event, item.orderId)"
+              @click="onConfirm($event, item.orderId)"
             >
               Confirm
             </button>
           </td>
         </tr>
       </tbody>
+      <!-- </form> -->
     </template>
     <template v-slot:page>
       <ul class="flex items-center justify-end gap-1">
@@ -142,8 +144,9 @@ async function getAllData(api, page) {
   }
 }
 
-async function onConfirm(event, orderId) {
+function onConfirm(event, orderId) {
   try {
+    console.log(event.target.value)
     OrderService.update('/update', orderId, '1')
     let page = {
       pageNo: 0,
@@ -152,7 +155,21 @@ async function onConfirm(event, orderId) {
       sortBy: 'order_id',
       value: ''
     }
-    await getAllData(api, page)
+    axios
+      .get(
+        'http://localhost:8088/api/order/get-all' +
+          '?page_no=' +
+          page.pageNo +
+          '&page_size=' +
+          page.pageSize +
+          '&sort_direction=' +
+          page.sortDirection +
+          '&sort_by=' +
+          page.sortBy +
+          '&search_value=' +
+          page.value
+      )
+      .then((result) => (api.data = result.data.orderList))
   } catch (error) {
     console.log(error)
   }
