@@ -27,6 +27,7 @@
     "vue-chartjs": "^5.2.0",
     "vue-feather": "^2.0.0",
     "vue-map-ui": "^0.0.12",
+    "vue-pdf-app": "^2.1.0",
     "vue-router": "^4.1.6",
     "vue-simple-range-slider": "^1.0.0",
     "vue3-cookies": "^1.0.6",

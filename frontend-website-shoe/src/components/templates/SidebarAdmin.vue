@@ -10,9 +10,6 @@
       <router-link :to="{ name: 'CategoryAdmin' }">
         <span>Category</span>
       </router-link>
-      <router-link :to="{ name: 'CartAdmin' }">
-        <span>Cart</span>
-      </router-link>
       <router-link :to="{ name: 'ContactAdmin' }">
         <span>Contact</span>
       </router-link>

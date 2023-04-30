@@ -17,7 +17,7 @@
           id="categoryId"
           v-model="searchData.sortBy"
         >
-          <option value="product_name">ProductName</option>
+          <option value="user_id">UserId</option>
           <option value="category_name">CategoryName</option>
           <option value="product_price">Price</option>
         </select>

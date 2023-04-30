@@ -185,6 +185,15 @@ const routes = [
     component: () => import("../pages/admin/admin-page/Order.vue")
   },
   {
+    name: "OrderDetail",
+    path: "/admin/order/detail/:orderId",
+    meta: {
+      layout: 'admin',
+      auth: true
+    },
+    component: () => import("../pages/admin/admin-form/Pdf.vue")
+  },
+  {
     name: "UserAdmin",
     path: "/admin/user",
     meta: {

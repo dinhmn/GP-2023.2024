@@ -59,9 +59,22 @@
           <td>{{ item.customerAddress }}</td>
           <td>{{ item.orderCode }}</td>
           <td>{{ item.createdDate }}</td>
-          <td>{{ item.status === 'true' ? 'Complete' : 'Wait' }}</td>
+          <td>
+            <select
+              name="role"
+              class="w-[100px] px-3 py-1 text-gray-800 rounded outline-none cursor-pointer"
+              :value="item.status"
+              :disabled="item.status === '1'"
+              :class="item.status === '1' ? 'select-none pointer-events-none bg-gray-500' : ''"
+              @change="onConfirm($event, item.orderId)"
+            >
+              <option value="0">Wait</option>
+              <option value="1">Confirm</option>
+              <option value="2">Cancel</option>
+            </select>
+          </td>
           <td class="flex items-center justify-around gap-2">
-            <router-link to="/">
+            <router-link :to="{ name: 'OrderDetail', params: { orderId: item.orderId } }">
               <button
                 className="min-w-[60px] px-2 text-sm bg-green-700 hover:bg-green-600 block text-center m-0 hover:text-white"
                 name="edit"
@@ -72,11 +85,12 @@
             </router-link>
 
             <button
-              class="block min-w-[60px] px-2 m-0 text-sm text-center bg-blue-700 hover:bg-blue-600 mr-3"
+              class="block min-w-[100px] px-2 m-0 text-sm text-center bg-blue-700 hover:bg-blue-600 mr-3"
               name="delete"
-              @click="onConfirm($event, item.orderId)"
+              :class="item.status === '1' ? 'select-none pointer-events-none bg-gray-500' : ''"
+              @click="sendMail($event, item)"
             >
-              Confirm
+              Send Mail
             </button>
           </td>
         </tr>
@@ -104,8 +118,9 @@ import { onMounted, reactive, ref } from 'vue'
 import CommonAdmin from '@/components/common/CommonAdmin.vue'
 import Button from '@/components/common/button/Button.vue'
 import Input from '@/components/common/input/Input.vue'
-import axios from 'axios'
 import OrderService from '@/stores/modules/OrderService'
+import { useRouter } from 'vue-router'
+import axios from 'axios'
 const searchData = reactive({
   searchValue: '',
   sortBy: 'order_id'
@@ -119,6 +134,7 @@ const api = reactive({
   totalPages: 0
 })
 const active = ref(1)
+const route = useRouter()
 onMounted(async () => {
   let page = {
     pageNo: 0,
@@ -128,6 +144,7 @@ onMounted(async () => {
     value: ''
   }
   await getAllData(api, page)
+  console.log(api.data)
 })
 
 async function getAllData(api, page) {
@@ -147,31 +164,9 @@ async function getAllData(api, page) {
 function onConfirm(event, orderId) {
   try {
     console.log(event.target.value)
-    OrderService.update('/update', orderId, '1')
-    let page = {
-      pageNo: 0,
-      pageSize: 10,
-      sortDirection: 'ASC',
-      sortBy: 'order_id',
-      value: ''
-    }
-    axios
-      .get(
-        'http://localhost:8088/api/order/get-all' +
-          '?page_no=' +
-          page.pageNo +
-          '&page_size=' +
-          page.pageSize +
-          '&sort_direction=' +
-          page.sortDirection +
-          '&sort_by=' +
-          page.sortBy +
-          '&search_value=' +
-          page.value
-      )
-      .then((result) => (api.data = result.data.orderList))
+    OrderService.update('/update', orderId, event.target.value)
   } catch (error) {
-    console.log(error)
+    route.push({ name: '404' })
   }
 }
 
@@ -217,7 +212,7 @@ async function onNextPage() {
       active.value += 1
     }
     let page = {
-      pageNo: active.value + 1,
+      pageNo: active.value - 1,
       pageSize: 10,
       sortDirection: 'ASC',
       sortBy: 'order_id',
@@ -243,26 +238,28 @@ function formatResponse(res) {
 }
 const onView = async (event, orderId) => {
   try {
-    console.log(event)
     const pdf = await OrderService.exportPdf('/export-pdf', orderId)
     console.log(pdf)
   } catch (error) {
-    console.log(error)
+    route.push({ name: '404' })
   }
 }
 function onSearch() {}
-// const sendMail = () => {
-//   let requestModel = {
-//     mailName: 'dinhmn',
-//     mailTo: 'ngocdinh2k1@gmail.com',
-//     mailFrom: 'ngocdinh11052001@gmail.com',
-//     mailSubject: 'chao ban'
-//   }
-//   axios
-//     .post('http://localhost:8088/api/send-mail/post', requestModel)
-//     .then((response) => console.log(response))
-//     .catch((error) => console.log(error))
-// }
+const sendMail = (event, item) => {
+  let requestModel = {
+    mailName: 'Thank you has set the row.',
+    // mailTo: item.customerEmail,
+    mailTo: 'ngocdinh11052001@gmail.com',
+    mailFrom: 'ngocdinh2k1@gmail.com',
+    mailSubject: `Hello ${
+      item.customerLastName !== null ? item.customerLastName : item.customerFirstName
+    }, Confirm your order`
+  }
+  axios
+    .post('http://localhost:8088/api/send-mail/post/' + item.orderId, requestModel)
+    .then((response) => console.log(response))
+    .catch((error) => console.log(error))
+}
 </script>
 <style lang="css">
 ul li {
