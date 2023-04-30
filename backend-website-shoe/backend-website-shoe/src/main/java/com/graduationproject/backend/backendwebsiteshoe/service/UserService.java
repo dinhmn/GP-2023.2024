@@ -1,6 +1,8 @@
 package com.graduationproject.backend.backendwebsiteshoe.service;
 
 import com.graduationproject.backend.backendwebsiteshoe.dto.RoleDTO;
+import com.graduationproject.backend.backendwebsiteshoe.dto.UserRoleDTO;
+import com.graduationproject.backend.backendwebsiteshoe.entity.RoleEntity;
 import com.graduationproject.backend.backendwebsiteshoe.entity.UserEntity;
 import com.graduationproject.backend.backendwebsiteshoe.model.UserDetailsModel;
 import com.graduationproject.backend.backendwebsiteshoe.repository.RoleRepository;
@@ -11,6 +13,8 @@ import java.util.stream.Collectors;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -64,12 +68,21 @@ public class UserService implements UserDetailsService {
   }
 
   /**
+   * Get all role name.
+   *
+   * @return user details model
+   */
+  public List<RoleEntity> getAllRole() {
+    return roleRepository.findAll();
+  }
+
+  /**
    * Get all user name.
    *
    * @return find all user.
    */
-  public List<UserEntity> getAll() {
-    return userRepository.findAll();
+  public Page<UserRoleDTO> getAll(Pageable pageable) {
+    return userRepository.getAll(pageable);
   }
 
   /**
@@ -95,7 +108,7 @@ public class UserService implements UserDetailsService {
   public UserEntity changeRoleName(Long userId, Long roleId) {
     Optional<UserEntity> userEntity = userRepository.findById(userId);
     userEntity.get().setRoleId(roleId);
-    return userEntity.get();
+    return userRepository.save(userEntity.get());
   }
 
   /**

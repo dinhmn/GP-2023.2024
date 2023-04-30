@@ -1,8 +1,10 @@
 package com.graduationproject.backend.backendwebsiteshoe.repository;
 
-import com.graduationproject.backend.backendwebsiteshoe.dto.UserDTO;
+import com.graduationproject.backend.backendwebsiteshoe.dto.UserRoleDTO;
 import com.graduationproject.backend.backendwebsiteshoe.entity.UserEntity;
 import java.util.Optional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -24,6 +26,26 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
   @Query(value = " FROM UserEntity usr "
       + " WHERE usr.username = ?1")
   Optional<UserEntity> findByUsername(String username);
+
+
+  /**
+   * Get one user.
+   *
+   * @param pageable pageable
+   * @return user.
+   */
+  @Query(value = "SELECT DISTINCT(usr.user_id) AS userId, role.role_id AS roleId,"
+      + " role.role_name AS roleName, usr.username AS username, usr.user_email AS userEmail,"
+      + " usfn.last_name AS lastName, usfn.first_name AS firstName,"
+      + " usr.created_date AS createdDate, usr.status AS status"
+      + " FROM tbl_user usr "
+      + " INNER JOIN tbl_role role ON usr.role_id = role.role_id"
+      + " INNER JOIN tbl_user_information usfn ON usr.user_id = usfn.user_id", nativeQuery = true,
+      countQuery = "SELECT COUNT(*)"
+      + " FROM tbl_user usr"
+      + " INNER JOIN tbl_role role ON usr.role_id = role.role_id"
+      + " INNER JOIN tbl_user_information usfn ON usr.user_id = usfn.user_id")
+  Page<UserRoleDTO> getAll(Pageable pageable);
 
   /**
    * Get TRUE or FALSE.

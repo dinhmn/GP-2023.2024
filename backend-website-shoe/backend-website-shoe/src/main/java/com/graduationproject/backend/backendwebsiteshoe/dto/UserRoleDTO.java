@@ -1,26 +1,33 @@
 package com.graduationproject.backend.backendwebsiteshoe.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import java.util.Date;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * Data transfer object userDTO.
  *
  * @author Mai Ngoc Dinh
  */
-@AllArgsConstructor
-@Builder
-@Data
-@NoArgsConstructor
-public class UserDTO {
+public interface UserRoleDTO {
 
-  private Long userId;
+  Long getUserId();
 
-  private String username;
+  Long getRoleId();
 
-  private String password;
+  String getRoleName();
 
-  private String email;
+  String getUsername();
+
+  String getUserPassword();
+
+  String getUserEmail();
+
+  String getFirstName();
+
+  String getLastName();
+
+  @DateTimeFormat(fallbackPatterns = "yyyy/MM/dd HH:mm:ss")
+  Date getCreatedDate();
+
+  Boolean getStatus();
 }
