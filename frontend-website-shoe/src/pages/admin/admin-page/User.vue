@@ -1,6 +1,35 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template lang="">
-  <CommonAdmin title="User" page="5" actionNew="false">
+  <CommonAdmin title="User" actionNew="false">
+    <template v-slot:search>
+      <form class="flex w-[600px] gap-2 items-center justify-center">
+        <Input
+          type="text"
+          placeholder="Search..."
+          name="search"
+          id="search"
+          classChild="min-w-[200px] py-[6px] rounded-sm max-w-[400px] max-h-[40px]"
+          v-model="searchData.searchValue"
+        />
+        <select
+          name="categoryId"
+          class="w-full p-2 text-black rounded-sm outline-none"
+          id="categoryId"
+          v-model="searchData.sortBy"
+        >
+          <option value="product_name">ProductName</option>
+          <option value="category_name">CategoryName</option>
+          <option value="product_price">Price</option>
+        </select>
+        <Button
+          type="button"
+          text="Search"
+          id="search"
+          @click="search"
+          className="bg-[#0c3247] text-[#17b1ea] hover:bg-[#10405a] hover:text-white"
+        />
+      </form>
+    </template>
     <template v-slot:thead>
       <thead class="w-full bg-[#0c3247] text-[#17b1ea]">
         <tr class="rounded-tl-md">
@@ -9,7 +38,7 @@
           <th>Full name</th>
           <th>Email</th>
           <th>Created date</th>
-          <th>Update date</th>
+          <th>Role</th>
           <th>Status</th>
           <th class="w-[150px]">Action</th>
         </tr>
@@ -17,64 +46,143 @@
     </template>
     <template v-slot:tbody>
       <tbody>
-        <tr>
-          <td>1</td>
-          <td>1</td>
-          <td>1</td>
-          <td>1</td>
-          <td>1</td>
-          <td>1</td>
-          <td>1</td>
-          <td class="flex items-center justify-around gap-2">
-            <router-link :to="{ name: 'UserUpdateAdmin', params: { id: 1 } }">
-              <button
-                className="min-w-[60px] px-2 text-sm bg-green-700 hover:bg-green-600 block text-center m-0 hover:text-white"
-                name="edit"
-              >
-                Edit
-              </button>
-            </router-link>
-
-            <button
-              class="block min-w-[60px] px-2 m-0 text-sm text-center bg-red-700 hover:bg-red-600 mr-3"
-              name="delete"
+        <tr v-for="(item, index) in api.data" :key="item.userId">
+          <td>{{ index }}</td>
+          <td>{{ item.username }}</td>
+          <td>{{ item.lastName + ' ' + item.firstName }}</td>
+          <td>{{ item.userEmail }}</td>
+          <td>{{ item.createdDate }}</td>
+          <td>
+            <select
+              name="role"
+              class="w-[100px] px-3 py-1 text-gray-800 rounded outline-none cursor-pointer"
+              :value="item.roleId"
+              @change="onChangeRole($event, item.userId)"
             >
-              Delete
-            </button>
+              <option v-for="role in api.roleList" :key="role.roleId" :value="role.roleId">
+                {{ role.roleName }}
+              </option>
+            </select>
           </td>
-        </tr>
-        <tr>
-          <td>1</td>
-          <td>1</td>
-          <td>1</td>
-          <td>1</td>
-          <td>1</td>
-          <td>1</td>
-          <td>1</td>
+          <td>{{ item.status === true ? 'Active' : 'Inactive' }}</td>
           <td class="flex items-center justify-around gap-2">
-            <router-link :to="{ name: 'UserUpdateAdmin', params: { id: 2 } }">
-              <button
-                className="min-w-[60px] px-2 text-sm bg-green-700 hover:bg-green-600 block text-center m-0 hover:text-white"
-                name="edit"
-              >
-                Edit
-              </button>
-            </router-link>
-
-            <button
-              class="block min-w-[60px] px-2 m-0 text-sm text-center bg-red-700 hover:bg-red-600 mr-3"
-              name="delete"
-            >
-              Delete
-            </button>
+            {{ item.roleId }}
           </td>
         </tr>
       </tbody>
     </template>
+    <template v-slot:page>
+      <ul class="flex items-center justify-end gap-1">
+        <li class="active hover:opacity-80" @click="onPreviousPage">Prev</li>
+        <li
+          @click="onSetPage(item)"
+          v-for="item in api.totalPages"
+          :key="item"
+          :class="active == item ? 'active' : ''"
+        >
+          {{ item }}
+        </li>
+        <li class="active hover:opacity-80" @click="onNextPage">Next</li>
+      </ul>
+    </template>
   </CommonAdmin>
 </template>
 <script setup>
+import { onMounted, reactive, ref } from 'vue'
+// import moment from 'moment'
+import Input from '@/components/common/input/Input.vue'
+import Button from '@/components/common/button/Button.vue'
+
 import CommonAdmin from '@/components/common/CommonAdmin.vue'
+import UserService from '@/stores/modules/UserService'
+import { useRoute } from 'vue-router'
+const api = reactive({
+  data: [],
+  roleList: [],
+  last: '',
+  pageNo: 0,
+  pageSize: 0,
+  totalElements: 0,
+  totalPages: ''
+})
+const searchData = reactive({
+  pageNo: '',
+  pageSize: '',
+  sortDirection: 'ASC',
+  sortBy: 'product_name',
+  searchValue: ''
+})
+const route = useRoute()
+const active = ref(1)
+onMounted(async () => {
+  await getAllData(api, 0)
+})
+
+async function getAllData(api, pageNo) {
+  try {
+    const res = await UserService.getAll('/get-all', pageNo)
+
+    const result = {
+      status: res.status + '-' + res.statusText,
+      headers: res.headers,
+      data: res.data
+    }
+
+    fetchData(result.data, api)
+    console.log(api)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+function fetchData(result, api) {
+  api.data = result.userEntityList
+  api.roleList = result.roleEntityList
+  api.last = result.last
+  api.pageNo = result.pageNo
+  api.pageSize = result.pageSize
+  api.totalElements = result.totalElements
+  api.totalPages = result.totalPages
+}
+
+function onChangeRole(event, userId) {
+  try {
+    UserService.update('/update-role', userId, event.target.value)
+  } catch (error) {
+    route.push({ name: '404' })
+  }
+}
+
+async function onSetPage(pageNo) {
+  try {
+    await getAllData(api, pageNo - 1)
+    active.value = pageNo
+  } catch (err) {
+    route.push({ name: '404' })
+  }
+}
+
+function onPreviousPage() {
+  try {
+    if (active.value <= api.totalPages && active.value > 1) {
+      active.value -= 1
+    }
+    getAllData(api, active.value - 1)
+  } catch (err) {
+    route.push({ name: '404' })
+  }
+}
+
+function onNextPage() {
+  try {
+    if (active.value < api.totalPages) {
+      active.value += 1
+    }
+    getAllData(api, active.value - 1)
+  } catch (err) {
+    route.push({ name: '404' })
+  }
+}
 </script>
 <style lang="css">
 ul li {

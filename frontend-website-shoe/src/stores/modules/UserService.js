@@ -1,23 +1,15 @@
 import http from "./http-common";
-import authHeader from "./auth-header";
+import { API_USER_PREFIX } from "../api";
 
-const API_URL = "http://localhost:8088/api/test/"
 
 class UserService {
-  getPublicContent() {
-    return http.get(API_URL + 'all');
+
+  getAll(url, pageNo) {
+    return http.get(API_USER_PREFIX + url + "?page_no=" + pageNo);
   }
 
-  getUserBoard() {
-    return http.get(API_URL + 'user', { headers: authHeader() });
-  }
-
-  getModeratorBoard() {
-    return http.get(API_URL + 'mod', { headers: authHeader() });
-  }
-
-  getAdminBoard() {
-    return http.get(API_URL + 'admin', { headers: authHeader() });
+  update(url, userId, roleId) {
+    return http.put(API_USER_PREFIX + url + "/" + userId + "/" + roleId);
   }
 }
 

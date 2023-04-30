@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template lang="">
   <NavbarAdmin />
-  <div class="h-full] grid grid-cols-7 bg-[#1a1e30] relative">
+  <div class="h-auto grid grid-cols-7 bg-[#1a1e30] relative">
     <SidebarAdmin class="col-span-1" />
     <div class="col-span-6 m-3 p-5 rounded-md bg-[#171B2D] shadow-md">
       <router-view />

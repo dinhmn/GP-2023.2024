@@ -192,7 +192,7 @@ function onNextPage() {
     if (active.value < api.totalPages) {
       active.value += 1
     }
-    getAllData(api, active.value + 1)
+    getAllData(api, active.value - 1)
   } catch (err) {
     result.deleteResult = formatResponse(err.response?.data) || err
   }
