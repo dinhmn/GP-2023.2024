@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,9 +31,10 @@ public class SendMailController {
    * @param requestModel requestModel
    * @return response entity
    */
-  @PostMapping(value = "/post")
-  public ResponseEntity<?> registerProduct(@RequestBody MailRequestModel requestModel) {
-    Boolean statusSend = sendMailHelper.sendMail(requestModel);
+  @PostMapping(value = "/post/{orderId}")
+  public ResponseEntity<?> registerProduct(@RequestBody MailRequestModel requestModel,
+                                           @PathVariable Long orderId) {
+    Boolean statusSend = sendMailHelper.sendMail(requestModel, orderId);
 
     if (Boolean.FALSE.equals(statusSend)) {
       return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);

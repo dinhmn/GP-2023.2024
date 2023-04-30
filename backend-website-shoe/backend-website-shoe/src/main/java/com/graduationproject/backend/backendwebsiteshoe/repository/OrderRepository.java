@@ -55,7 +55,7 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
           + " product.quantity AS productQuantity, cart.cart_id AS cartId, invoice.order_code AS orderCode,"
           + " userInfo.first_name AS customerFirstName, userInfo.last_name AS customerLastName, "
           + " userInfo.email AS customerEmail, userInfo.phone AS customerPhone, invoice.created_date AS createdDate,"
-          + " invoice.status AS status"
+          + " invoice.order_status AS status"
           + " FROM tbl_order invoice INNER JOIN tbl_cart cart ON cart.cart_id = invoice.cart_id"
           + " INNER JOIN tbl_product product ON cart.product_id = product.product_id"
           + " INNER JOIN tbl_product_color color ON color.product_id = product.product_id"

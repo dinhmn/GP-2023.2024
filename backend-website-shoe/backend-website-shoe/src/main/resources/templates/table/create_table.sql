@@ -109,7 +109,7 @@ create table tbl_order (
    cart_id BIGINT,
    user_information_id BIGINT,
    order_code VARCHAR(255) NOT NULL,
-   order_status BIT,
+   order_status VARCHAR(1),
    order_total_price DECIMAL(15,2) NOT NULL,
    created_by INTEGER NOT NULL,
    created_date DATETIME(6) NOT NULL,

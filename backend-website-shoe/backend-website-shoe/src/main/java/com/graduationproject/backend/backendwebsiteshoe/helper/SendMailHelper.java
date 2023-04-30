@@ -26,11 +26,11 @@ public class SendMailHelper {
    * @param mailRequestModel mailRequestModel
    * @return mail response
    */
-  public Boolean sendMail(MailRequestModel mailRequestModel) {
+  public Boolean sendMail(MailRequestModel mailRequestModel, Long orderId) {
     Map<String, Object> model = new HashMap<>();
     model.put("Name", mailRequestModel.getMailName());
-    model.put("location", "Bangkok, Hanoi, Jakarta");
-    MailResponseModel response = sendMailService.sendMail(mailRequestModel, model);
+    model.put("location", "HaNoi - 2023");
+    MailResponseModel response = sendMailService.sendMail(mailRequestModel, model, orderId);
 
     if (Boolean.FALSE.equals(response.getStatus())) {
       return Boolean.FALSE;

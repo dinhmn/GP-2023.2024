@@ -10,11 +10,11 @@ import lombok.Data;
 @Data
 public class MailRequestModel {
 
-    private String mailName;
+  private String mailName;
 
-    private String mailTo;
+  private String mailTo;
 
-    private String mailFrom;
+  private String mailFrom;
 
-    private String mailSubject;
+  private String mailSubject;
 }

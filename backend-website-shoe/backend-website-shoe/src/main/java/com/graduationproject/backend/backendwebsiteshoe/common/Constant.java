@@ -41,4 +41,6 @@ public interface Constant {
 
   String PATTERN_ANT_USER = "/api/test/**";
 
+  String UNDERSCORE = "_";
+
 }

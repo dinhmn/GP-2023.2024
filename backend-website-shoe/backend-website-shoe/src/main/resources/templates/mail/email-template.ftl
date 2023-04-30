@@ -1,34 +1,29 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Java Techie Mail</title>
+    <title>Confirm your order</title>
 </head>
 
 <body>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
     <tr>
         <td align="center" valign="top" bgcolor="#838383"
-            style="background-color: #838383;"><br> <br>
+            style="background-color: #0c3247;"><br> <br>
             <table width="600" border="0" cellspacing="0" cellpadding="0">
                 <tr>
-                    <td align="center" valign="top" bgcolor="#d3be6c"
-                        style="background-color: #d3be6c; font-family: Arial, Helvetica, sans-serif; font-size: 13px; color: #000000; padding: 0px 15px 10px 15px;">
+                    <td align="center" valign="top" bgcolor="#0c3247"
+                        style="background-color: #10405a; font-family: Arial, Helvetica, sans-serif; font-size: 13px; color:white; padding: 0px 15px 10px 15px;">
 
-                        <div style="font-size: 48px; color:blue;">
-                            <b>Java Techie</b>
+                        <div style="font-size: 48px; color:#17b1ea;">
+                            <b>Your order has been confirmed.</b>
                         </div>
 
-                        <div style="font-size: 24px; color: #555100;">
-                            <br> Sending Email using Spring Boot with <b>FreeMarker
-                                template !!! <br>
+                        <div style="font-size: 24px; color:white;">
+                            <br> Please reconfirm your order with the file attached below.<br>
                         </div>
                         <div>
-                            <br> Java Techie is a channel where we create and publish
-                            videos on<br> 'how to' about latest technology trends like<br>
-                            spring ,spring boot ,hibernate , web services and micro service
-                            <br> ""This channel is created to share the knowledge and
-                            to gain the knowledge"<br>
-                            <br>"Sharing the knowledge is biggest learning" <br> <br>
+                            <br> We thank you very much for trusting our support and order.
+                            Your order will be delivered to you soon.<br>
                             <br> <br> <b>${Name}</b><br>${location}<br>
                             <br>
                         </div>

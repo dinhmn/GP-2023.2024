@@ -135,7 +135,7 @@ public class OrderHelper {
     if (orderEntity.isEmpty()) {
       return null;
     }
-    orderEntity.get().setStatus(orderStatus.equals(Constant.TRUE) ? Boolean.TRUE : Boolean.FALSE);
+    orderEntity.get().setOrderStatus(orderStatus);
     return orderService.update(orderEntity.get());
   }
 
@@ -172,7 +172,7 @@ public class OrderHelper {
                                          Long userInformationId) {
     OrderEntity orderEntity = new OrderEntity();
     orderEntity.setOrderCode(String.valueOf((new Date()).getTime()));
-    orderEntity.setOrderStatus(Boolean.FALSE);
+    orderEntity.setOrderStatus(String.valueOf(Constant.ZERO));
     orderEntity.setCartId(cartId);
     orderEntity.setOrderTotalPrice(orderTotalPrice);
     orderEntity.setUserId(userId);

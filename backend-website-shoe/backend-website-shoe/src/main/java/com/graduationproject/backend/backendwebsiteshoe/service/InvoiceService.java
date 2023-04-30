@@ -28,7 +28,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class InvoiceService {
 
-  private static final String TARGET_SOURCE = "D:/image/export-pdf";
+  private static final String TARGET_SOURCE = "D:\\image\\export-pdf";
 
   private static final String PREFIX_INVOICE = "order_";
 
@@ -49,10 +49,14 @@ public class InvoiceService {
       throws IOException {
     // Create template order
     File pdfFile =
-        File.createTempFile(TARGET_SOURCE + Constant.SLASH + PREFIX_INVOICE + orderJasperModel.getOrderCode(), SUFFIX);
-
+        File.createTempFile(PREFIX_INVOICE + orderJasperModel.getOrderCode(), SUFFIX);
+    String origPath = pdfFile.getCanonicalPath();
+    String parentPath = pdfFile.getParent();
+    String fileName = pdfFile.getName();
+    String replacePath = origPath.replace(parentPath, TARGET_SOURCE);
+    String pathFinish = replacePath.replace(fileName, "order_" + orderJasperModel.getOrderCode() + SUFFIX);
     // Initiate a FileOutputStream
-    try (FileOutputStream output = new FileOutputStream(pdfFile)) {
+    try (FileOutputStream output = new FileOutputStream(pathFinish)) {
 
       // Load the invoice jrxml template
       JasperReport report = this.createTemplate();

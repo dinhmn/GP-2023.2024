@@ -51,6 +51,6 @@ public class OrderEntity extends BaseEntity implements Serializable {
   @Column(name = "order_total_price", nullable = false)
   private BigDecimal orderTotalPrice;
 
-  @Column(name = "order_status")
-  private Boolean orderStatus = Boolean.FALSE;
+  @Column(name = "order_status", length = 1)
+  private String orderStatus;
 }
