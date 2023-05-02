@@ -2,7 +2,7 @@
 <template lang="">
   <div class="w-full bg-[#abb8c3] flex items-center justify-center fixed -mt-20 z-20">
     <nav class="2xl:w-[1280px] flex items-center justify-between h-[70px] text-cyan-900">
-      <div class="cursor-pointer logo hover:cursor-pointer">LOGO.</div>
+      <div class="flex cursor-pointer logo hover:cursor-pointer">DES STORE.</div>
       <div class="flex items-center justify-center gap-3">
         <router-link :to="route.url" v-for="(route, index) in routes" :key="index"
           ><span class="font-bold">{{ route.urlName }}</span></router-link
@@ -49,12 +49,14 @@
           <button
             class="w-full relative bg-transparent hover:border-[rgba(87, 61, 61, 0.6)] border-2 rounded-lg card py-[8px] px-[8px] -mr-1 flex items-center justify-center"
           >
-            <span class="relative mr-1">0đ</span>
+            <span class="relative mr-1" id="total-price-cart"
+              >{{ formatPrice(total.totalPrice) }}đ</span
+            >
             <vue-feather class="w-5 h-5" type="shopping-bag"></vue-feather>
             <span
               class="py-1 px-2 rounded-[100%] absolute -top-2 -right-3 z-[999] bg-slate-700 text-cyanBlue"
               id="cart"
-              >{{ item }}</span
+              >{{ total.item }}</span
             >
           </button>
         </router-link>
@@ -77,7 +79,7 @@
   </div>
 </template>
 <script setup>
-import { ref, reactive, computed } from 'vue'
+import { reactive, computed } from 'vue'
 import Input from '../common/input/Input.vue'
 import Button from '../common/button/Button.vue'
 import ProductService from '@/stores/modules/ProductService'
@@ -110,11 +112,26 @@ const logout = () => {
   store.dispatch('auth/logout')
 }
 
-const item = ref(0)
+const total = reactive({
+  item: 0,
+  totalPrice: 0
+})
 if (window.localStorage.getItem('order') !== null) {
-  item.value = JSON.parse(window.localStorage.getItem('order')).length
+  total.totalPrice = 0
+  let object = JSON.parse(window.localStorage.getItem('order'))
+  total.item = object.length
+  if (object !== null) {
+    object.forEach((element) => {
+      let price =
+        element.productModel.productPriceSale === null
+          ? element.productModel.productPrice
+          : element.productModel.productPriceSale
+      total.totalPrice += total.totalPrice + price * element.productQuantity
+    })
+  }
 } else {
-  item.value = 0
+  total.item = 0
+  total.totalPrice = 0
 }
 async function onSearchValue(event) {
   setTimeout(async () => {
@@ -139,6 +156,10 @@ async function getAllData(api, value) {
 }
 function redirectPage() {
   api.searchValue = ''
+}
+function formatPrice(value) {
+  let val = (value / 1).toFixed(0).replace('.', ',')
+  return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
 }
 </script>
 <style lang="scss" scoped>

@@ -5,17 +5,17 @@
       <div
         class="flex items-center justify-between w-full px-3 py-3 mb-2 text-white rounded bg-slate-700"
       >
-        <div class="flex items-center justify-between gap-3 text-xl font-bold">
-          <h3>Home</h3>
+        <div class="flex items-center justify-between gap-2 text-xl font-bold">
+          <h3>Trang chủ</h3>
           <vue-feather type="chevron-right"></vue-feather>
-          <h3 class="text-[#17b1ea]">Product</h3>
+          <h3 class="text-[#17b1ea]">Sản phẩm</h3>
         </div>
         <div class="flex items-center justify-center">
           <Input
             type="text"
             classChild="min-w-[300px] px-2 rounded-sm"
             name="search"
-            placeholder="Search by..."
+            placeholder="Tìm kiếm..."
             v-model="state.search"
           />
           <button
@@ -27,9 +27,9 @@
         </div>
       </div>
       <div class="grid w-full grid-cols-4 gap-2">
-        <div class="col-span-1 form-search h-[100%] flex flex-col gap-4 rounded-md py-2">
+        <div class="col-span-1 form-search h-[100%] flex flex-col gap-4 rounded-md py-2 -mt-2">
           <h3 class="text-[#17b1ea] font-bold text-xl block text-center py-2 bg-slate-700 rounded">
-            Category
+            Danh mục sản phẩm
           </h3>
           <div>
             <ul class="flex flex-col gap-2 py-2 text-sm bg-slate-700">
@@ -45,9 +45,9 @@
             </ul>
           </div>
           <form action="" class="flex flex-col gap-1 bg-slate-700 text-[#17b1ea] rounded">
-            <h1 class="px-2 py-2 text-lg font-bold text-center">Search by</h1>
+            <h1 class="px-2 py-2 text-lg font-bold text-center">Tìm kiếm theo</h1>
             <div class="p-2">
-              <h3>Price</h3>
+              <h3>Giá</h3>
               <div>
                 <VueSimpleRangeSlider
                   class="w-[300px] mt-3"
@@ -62,7 +62,7 @@
               </div>
             </div>
             <div class="w-full p-2">
-              <h3>Size</h3>
+              <h3>Kích cỡ</h3>
               <ul class="grid w-full grid-cols-5 gap-3 mt-3">
                 <li
                   class="border-[#0c3247] border-solid border-[2px] px-2 col-span-1 text-center"
@@ -76,7 +76,7 @@
               </ul>
             </div>
             <div class="w-full p-2">
-              <h3>Color</h3>
+              <h3>Màu sắc</h3>
               <ul class="grid w-full grid-cols-5 gap-3 mt-3">
                 <li
                   class="border-transparent border-solid border-[2px] px-2 col-span-1 text-center"
@@ -215,8 +215,6 @@ const onSelected = (event, value, type) => {
       }
     })
   }
-  console.log(sizes.filter((size) => size.selected === true))
-  console.log(colors.filter((size) => size.selected === true))
 }
 const active = ref(1)
 const state = reactive({
@@ -226,9 +224,6 @@ const state = reactive({
   sizes: [],
   colors: []
 })
-const onSelectedCategory = (event, categoryId) => {
-  active.value = categoryId
-}
 const api = reactive({
   data: [],
   last: '',
@@ -240,6 +235,22 @@ const api = reactive({
   categoryList: {},
   totalSize: 0
 })
+const onSelectedCategory = async (event, categoryId) => {
+  active.value = categoryId
+  try {
+    const res = await ProductService.getAll('/init-category/' + categoryId, 0)
+
+    const result = {
+      status: res.status + '-' + res.statusText,
+      headers: res.headers,
+      data: res.data
+    }
+
+    fetchData(result.data, api)
+  } catch (error) {
+    console.log(error)
+  }
+}
 onMounted(async () => {
   await getAllData(api, 0)
   await getAllCategory(api)
@@ -271,10 +282,6 @@ function fetchData(result, api) {
 function formatResponse(res) {
   return JSON.stringify(res, null, 2)
 }
-// function formatPrice(value) {
-//   let val = (value / 1).toFixed(0).replace('.', ',')
-//   return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
-// }
 async function loadMore() {
   try {
     api.size =

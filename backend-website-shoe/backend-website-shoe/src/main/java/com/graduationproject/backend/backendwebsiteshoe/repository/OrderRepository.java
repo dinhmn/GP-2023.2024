@@ -42,6 +42,30 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
   List<IOrder> findAllByOrderId(Long orderId);
 
   /**
+   * Get order by order id.
+   *
+   * @param userId userId
+   * @return invoice.
+   */
+  @Query(value =
+      "SELECT product.productId AS productId, usr.userId AS userId, invoice.orderId AS orderId, "
+          + " product.productName AS productName, userInfo.address AS customerAddress, "
+          + " COALESCE(product.productPriceSale, product.productPrice) AS productPrice, "
+          + " product.quantity AS productQuantity, cart.cartId AS cartId, userInfo.firstName AS "
+          + " customerFirstName, userInfo.lastName AS customerLastName, userInfo.email AS "
+          + " customerEmail, userInfo.phone AS customerPhone, invoice.createdDate AS createdDate,"
+          + " invoice.orderCode AS orderCode, userInfo.note AS customerNote, invoice.createdDate AS createdDate,"
+          + " invoice.status AS status"
+          + " FROM OrderEntity invoice INNER JOIN CartEntity cart ON cart.cartId = invoice.cartId"
+          + " INNER JOIN ProductEntity product ON cart.productId = product.productId"
+          + " INNER JOIN ProductColorEntity color ON color.productId = product.productId"
+          + " INNER JOIN ProductSizeEntity si ON si.productId = product.productId"
+          + " LEFT JOIN UserInformationEntity userInfo ON userInfo.userInformationId = "
+          + " invoice.userInformationId LEFT JOIN UserEntity usr ON usr.userId = invoice.userId"
+          + " WHERE invoice.userId = ?1")
+  List<IOrder> findAllByUserId(Long userId);
+
+  /**
    * Get all invoice.
    *
    * @param pageable    pageable

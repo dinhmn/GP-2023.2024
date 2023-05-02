@@ -39,13 +39,13 @@ const routes = [
     component: () => import("../pages/user/Contact.vue"),
   },
   {
-    path: "/cart",
-    name: "Cart",
+    path: "/article/:articleId",
+    name: "Article",
     meta: {
       layout: 'user',
       auth: false
     },
-    component: () => import("../pages/user/Cart.vue"),
+    component: () => import("../pages/user/Article.vue"),
   },
   {
     path: "/payment",

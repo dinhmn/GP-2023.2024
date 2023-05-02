@@ -79,6 +79,27 @@ public class ProductController {
   /**
    * Get all product.
    *
+   * @param pageNo        pageNo
+   * @param pageSize      pageSize
+   * @param sortBy        sortBy
+   * @param sortDirection sortDirection
+   * @return list object.
+   */
+  @GetMapping(value = "/init-category/{categoryId}")
+  public ProductForm selectAllProductByCategoryId(
+      @PathVariable Long categoryId,
+      @RequestParam(value = "page_no", defaultValue = Constant.DEFAULT_PAGE_NUMBER) int pageNo,
+      @RequestParam(value = "page_size", defaultValue = Constant.DEFAULT_PAGE_SIZE) int pageSize,
+      @RequestParam(value = "sort_direction", defaultValue = Constant.DEFAULT_SORT_DIRECTION)
+          String sortDirection,
+      @RequestParam(value = "sort_by", defaultValue = "product_id") String sortBy) {
+    return productHelper
+        .getAllProductByCategoryId(pageNo, pageSize, sortBy, sortDirection, categoryId);
+  }
+
+  /**
+   * Get all product.
+   *
    * @param categoryId categoryId
    * @param limitItem  limitItem
    * @return list object.
@@ -92,7 +113,7 @@ public class ProductController {
   /**
    * Get all product.
    *
-   * @param limitItem  limitItem
+   * @param limitItem limitItem
    * @return list object.
    */
   @GetMapping(value = "/init-sale/{limitItem}")

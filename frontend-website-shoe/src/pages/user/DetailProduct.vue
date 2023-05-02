@@ -6,27 +6,27 @@
       >
         <span class="pointer">Trang chủ</span>
         <span><vue-feather class="w-5 h-5 translate-y-1" type="chevron-right"></vue-feather></span>
-        <span class="pointer active">Tên sản phẩm </span>
+        <span class="pointer text-cyanBlue">{{ product.productModel.productName }} </span>
       </div>
       <div
         class="grid grid-cols-5 w-full gap-10 px-6 py-5 my-1 text-lg font-bold text-white rounded-[4px] bg-slate-600"
       >
         <div class="flex flex-col items-center justify-start col-span-2">
           <div class="image item-select">
-            <img src="../../assets/images/default.png" alt="" />
+            <img
+              :active-image-id="activeImage.imageId"
+              :src="getImageUrl(activeImage.fileName)"
+              :alt="activeImage.fileName"
+            />
           </div>
           <div class="flex items-center justify-around gap-2 mt-3">
-            <div class="image">
-              <img src="../../assets/images/default.png" alt="" />
-            </div>
-            <div class="image">
-              <img src="../../assets/images/default.png" alt="" />
-            </div>
-            <div class="image">
-              <img src="../../assets/images/default.png" alt="" />
-            </div>
-            <div class="image">
-              <img src="../../assets/images/default.png" alt="" />
+            <div
+              v-for="item in product.productModel.sourceImageModelList"
+              :key="item.imageId"
+              class="image"
+              @click="onActiveImage(event, item)"
+            >
+              <img :src="getImageUrl(item.fileName)" :alt="item.fileName" />
             </div>
           </div>
         </div>
@@ -60,19 +60,22 @@
             <span class="text-lg"
               >Size <span class="text-lg align-middle text-brown">*</span>
             </span>
-            <Select name="productSize" v-model="product.productSize" :modelValue="Number(38)">
-              <template v-slot:option>
-                <option
-                  class="text-black"
-                  v-for="item in count"
-                  :selected="item === 1"
-                  :key="item"
-                  :value="35 + item"
-                >
-                  {{ item + 35 }}
-                </option>
-              </template>
-            </Select>
+            <select
+              name="productSize"
+              v-model="product.productSize"
+              class="w-full p-2 mt-1 text-black rounded-sm outline-none"
+              :value="Number(36)"
+            >
+              <option
+                class="text-black"
+                v-for="item in count"
+                :selected="item === 1"
+                :key="item"
+                :value="35 + item"
+              >
+                {{ item + 35 }}
+              </option>
+            </select>
           </div>
           <div class="flex h-[33px]">
             <span class="text-lg w-[150px]">Số lượng: </span>
@@ -83,22 +86,22 @@
               :value="quantity"
             />
           </div>
-          <div class="flex w-full gap-10">
+          <form class="flex w-full gap-10">
             <Button
               @click.prevent="onSubmit($event, 'add')"
-              type="button"
+              type="submit"
               className="bg-dark-blue hover:bg-dark-blue-hover text-cyanBlue w-full m-0"
               name="addCart"
-              text="Add to cart"
+              text="Thêm vào giỏ hàng"
             />
             <Button
-              @click.prevent="onSubmit($event, 'buy')"
-              type="button"
+              @submit="onSubmit($event, 'buy')"
+              type="submit"
               className="bg-dark-blue hover:bg-dark-blue-hover text-cyanBlue w-full m-0"
               name="buyNow"
-              text="Shop Now"
+              text="Mua ngay"
             />
-          </div>
+          </form>
         </div>
       </div>
       <div
@@ -156,12 +159,7 @@
             </div>
           </CommonItem>
           <CommonItem :title="'Đánh giá sản phẩm: ' + productName" class="w-full mt-5">
-            <form
-              @submit.prevent="onSubmit($event, 'comment')"
-              action=""
-              method="post"
-              class="flex flex-col w-full mt-5"
-            >
+            <form action="" method="post" class="flex flex-col w-full mt-5">
               <div class="mb-3">
                 <span class="text-sm">Your comment(If any) </span>
                 <Textarea placeholder="" v-model="comment.commentDetail" name="detail" />
@@ -213,27 +211,25 @@ import CommonItem from '@/components/common/CommonItem.vue'
 import Input from '@/components/common/input/Input.vue'
 import Textarea from '@/components/common/input/Textarea.vue'
 import ArticleSmall from '@/components/common/ArticleSmall.vue'
-import Select from '@/components/common/input/Select.vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import render from '@/stores/modules/re-render'
 import axios from 'axios'
 const route = useRoute()
-// const cart = reactive({
-//   productName: '',
-//   productSize: '36',
-//   productQuantity: '',
-//   productPrice: '',
-//   productColor: ''
-// })
+const router = useRouter()
 const product = reactive({
   comment: [],
-  productModel: {}
+  productModel: {},
+  productSize: 36
 })
 const comment = reactive({
   productId: route.params.productId,
   commentDetail: '',
   commentName: '',
   commentEmail: ''
+})
+const activeImage = reactive({
+  fileName: '',
+  imageId: ''
 })
 
 const order = ref([])
@@ -250,6 +246,8 @@ async function fetchData(categoryId, productId, product) {
     .then((response) => {
       product.comment = response.data.commentList
       product.productModel = response.data.productModel
+      activeImage.fileName = product.productModel.sourceImageModelList[0].fileName
+      activeImage.imageId = product.productModel.sourceImageModelList[0].imageId
     })
     .catch((error) => {
       console.log(error)
@@ -263,9 +261,19 @@ const onSubmit = (event, type) => {
     }
     order.value.push(product)
     localStorage.setItem('order', JSON.stringify(order.value))
-    console.log(order)
+    render()
+  } else {
+    if (product.productQuantity === null) {
+      product.productQuantity = 1
+    }
+    if (product.productSize === null) {
+      product.productSize = 36
+    }
+    order.value.push(product)
+    localStorage.setItem('order', JSON.stringify(order.value))
+    router.push({ name: 'Payment' })
+    render()
   }
-  render()
 }
 const submitComment = () => {
   let formData = new FormData()
@@ -290,6 +298,13 @@ const submitComment = () => {
 function formatPrice(value) {
   let val = (value / 1).toFixed(0).replace('.', ',')
   return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+}
+const getImageUrl = (name) => {
+  return new URL(`../../../../../image/api-image/${name}`, import.meta.url).href
+}
+const onActiveImage = (event, item) => {
+  activeImage.fileName = item.fileName
+  activeImage.imageId = item.imageId
 }
 </script>
 <style lang="scss" scoped>

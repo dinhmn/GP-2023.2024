@@ -25,6 +25,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 /**
  * Implement helper of order helper.
@@ -126,6 +127,17 @@ public class OrderHelper {
   /**
    * Get all by order id.
    *
+   * @param userId userId
+   * @return list entity
+   */
+  public OrderJasperModel getAllByUserId(Long userId) {
+    List<IOrder> order = orderService.getAllByUserId(userId);
+    return this.toBuildOrderJasperModel(order);
+  }
+
+  /**
+   * Get all by order id.
+   *
    * @param orderId orderId
    * @param orderStatus orderStatus
    * @return list entity
@@ -213,7 +225,7 @@ public class OrderHelper {
 
     OrderJasperModel.Customer customer = new OrderJasperModel.Customer();
     customer.setCreatedDate(
-        Objects.isNull(orderList.get(0).getCreatedDate())
+        CollectionUtils.isEmpty(orderList) && Objects.isNull(orderList.get(0).getCreatedDate())
             ? " "
             : DatetimeConvertFormat
             .convertDateToStringWithFormat(Constant.PATTERN_DATETIME_HOURS, orderList.get(0).getCreatedDate()));
@@ -245,6 +257,7 @@ public class OrderHelper {
     orderJasperModel.setOrderCode(orderList.get(0).getOrderCode());
     orderJasperModel.setCustomer(customer);
     orderJasperModel.setOrderList(invoiceList);
+    orderJasperModel.setOrderStatus(orderList.get(0).getStatus());
     orderJasperModel.setTotalPriceOfAllProduct(
         totalPriceOfAllProduct.setScale(FIXED, RoundingMode.UP).doubleValue() + " đ");
     orderJasperModel.setTotalQuantityOfAllProduct(totalQuantityOfAllProduct.toString());

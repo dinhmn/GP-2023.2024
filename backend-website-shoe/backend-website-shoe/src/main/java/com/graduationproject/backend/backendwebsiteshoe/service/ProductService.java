@@ -55,6 +55,17 @@ public class ProductService {
   /**
    * Get all product.
    *
+   * @param pageable    pageable
+   * @param categoryId categoryId
+   * @return list of entity product.
+   */
+  public Page<IProduct> getAllByCategoryId(Pageable pageable, Long categoryId) {
+    return productRepository.findAllProduct(categoryId, pageable);
+  }
+
+  /**
+   * Get all product.
+   *
    * @param filterProduct filterProduct
    * @param pageable      pageable
    * @return list of entity product.

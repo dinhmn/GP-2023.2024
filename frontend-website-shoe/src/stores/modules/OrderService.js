@@ -33,5 +33,9 @@ class OrderService {
     return http.put(API_ORDER_PREFIX + url + "/" + orderId + "/" + orderStatus);
   }
 
+  getOrderByUserId(userId) {
+    return http.get(API_ORDER_PREFIX + "/get-order/" + userId);
+  }
+
 }
 export default new OrderService();

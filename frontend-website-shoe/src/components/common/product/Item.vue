@@ -51,10 +51,9 @@ const product = defineProps({
   }
 })
 const getImageUrl = (root) => {
-  return new URL(`../../../assets/images/${root}`, import.meta.url).href
+  return new URL(`../../../../../image/api-image/${root}`, import.meta.url).href
 }
 const formatPrice = (value) => {
-  // let val = (value / 1).toFixed(2).replace('.', ',')
   let val = (value / 1).toFixed(0).replace('.', ',')
   return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
 }

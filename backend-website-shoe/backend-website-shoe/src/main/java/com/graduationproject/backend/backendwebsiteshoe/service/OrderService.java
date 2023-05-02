@@ -61,6 +61,16 @@ public class OrderService {
   }
 
   /**
+   * Get all by order id.
+   *
+   * @param userId userId
+   * @return list entity
+   */
+  public List<IOrder> getAllByUserId(Long userId) {
+    return orderRepository.findAllByUserId(userId);
+  }
+
+  /**
    * Find by id.
    *
    * @param orderId orderId

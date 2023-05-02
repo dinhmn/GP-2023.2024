@@ -86,6 +86,37 @@ public class ProductHelper {
   /**
    * Select all product.
    *
+   * @param pageNo        pageNo
+   * @param pageSize      pageSize
+   * @param sortBy        sortBy
+   * @param sortDirection sortDirection
+   * @param categoryId categoryId
+   * @return list product.
+   */
+  @NonNull
+  public ProductForm getAllProductByCategoryId(int pageNo, int pageSize, String sortBy, String sortDirection,
+                                               Long categoryId) {
+    Pageable pageable = commonService.setPageable(pageSize, pageNo, sortBy, sortDirection);
+
+    // Create pageable instance
+    Page<IProduct> productList = productService.getAllByCategoryId(pageable, categoryId);
+
+    // Get content for page object
+    List<IProduct> listOfProductModel = productList.getContent();
+
+    return ProductForm.builder()
+        .productModelList(listOfProductModel)
+        .pageNo(productList.getNumber())
+        .pageSize(productList.getSize())
+        .totalElements(productList.getTotalElements())
+        .totalPages(productList.getTotalPages())
+        .last(productList.isLast())
+        .build();
+  }
+
+  /**
+   * Select all product.
+   *
    * @param limitItem limitItem
    * @return list product.
    */
