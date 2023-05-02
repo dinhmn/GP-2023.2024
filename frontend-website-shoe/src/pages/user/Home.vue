@@ -61,18 +61,12 @@
               {{ item[0].categoryName }}
             </h3>
             <h3 class="flex text-lg font-bold align-middle cursor-pointer hover:text-brown">
-              <router-link :to="{ name: 'Product', params: '' }"
+              <router-link :to="{ name: 'Product' }"
                 ><span class="mr-2">Xem tất cả</span>
               </router-link>
               <vue-feather class="w-6 h-6 translate-y-1" type="chevrons-right"></vue-feather>
             </h3>
           </div>
-          <ul class="flex items-center gap-4 ml-4 uppercase">
-            <li class="selected">Jordan 1</li>
-            <li>Air Force 1</li>
-            <li>Jordan 4</li>
-            <li>Sb dunk</li>
-          </ul>
           <div class="grid grid-cols-5 gap-5 py-4 mx-3">
             <div v-for="product in item" :key="product.productId">
               <router-link
@@ -109,12 +103,14 @@
         <template v-slot:detail>
           <div class="grid w-full grid-cols-4 gap-6 py-4 pr-5 mx-3">
             <div v-for="item in article[0]" :key="item.articleId">
-              <Article
-                :title="item.articleName"
-                :src="item.fileName === null ? 'item.png' : item.fileName"
-                :alt="item.articleName"
-                classTitle="text-center"
-              />
+              <router-link :to="{ name: 'Article', params: { articleId: item.articleId } }">
+                <Article
+                  :title="item.articleName"
+                  :src="item.fileName === null ? 'item.png' : item.fileName"
+                  :alt="item.articleName"
+                  classTitle="text-center"
+                />
+              </router-link>
             </div>
           </div>
         </template>
@@ -174,7 +170,7 @@ onMounted(async () => {
   await getAllData(dataNB, 3, 5)
   await getAllData(dataMLB, 4, 5)
   await getAllData(dataConvert, 5, 5)
-  await getAllDataSale(5)
+  await getAllDataSale(10)
   await getAllDataArticle()
   console.log(dataList)
 })
@@ -216,6 +212,7 @@ async function getAllDataArticle() {
       .get('http://localhost:8088/api/article/init/pageable?page_no=0&page_size=4')
       .then((response) => {
         article.push(response.data.articleDTOList)
+        console.log(article)
       })
       .catch((error) => {
         console.log(error)

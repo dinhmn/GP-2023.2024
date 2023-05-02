@@ -29,7 +29,7 @@ const article = defineProps({
   }
 })
 const getImageUrl = (root) => {
-  return new URL(`../../../assets/images/${root}`, import.meta.url).href
+  return new URL(`../../../../../image/api-image/${root}`, import.meta.url).href
 }
 </script>
 <style lang="" scoped></style>

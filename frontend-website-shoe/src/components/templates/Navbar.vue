@@ -2,7 +2,7 @@
 <template lang="">
   <div class="w-full bg-[#abb8c3] flex items-center justify-center fixed -mt-20 z-20">
     <nav class="2xl:w-[1280px] flex items-center justify-between h-[70px] text-cyan-900">
-      <div class="cursor-pointer logo hover:cursor-pointer">LOGO.</div>
+      <div class="flex cursor-pointer logo hover:cursor-pointer">DES STORE.</div>
       <div class="flex items-center justify-center gap-3">
         <router-link :to="route.url" v-for="(route, index) in routes" :key="index"
           ><span class="font-bold">{{ route.urlName }}</span></router-link
@@ -49,7 +49,9 @@
           <button
             class="w-full relative bg-transparent hover:border-[rgba(87, 61, 61, 0.6)] border-2 rounded-lg card py-[8px] px-[8px] -mr-1 flex items-center justify-center"
           >
-            <span class="relative mr-1">{{ formatPrice(total.totalPrice) }}đ</span>
+            <span class="relative mr-1" id="total-price-cart"
+              >{{ formatPrice(total.totalPrice) }}đ</span
+            >
             <vue-feather class="w-5 h-5" type="shopping-bag"></vue-feather>
             <span
               class="py-1 px-2 rounded-[100%] absolute -top-2 -right-3 z-[999] bg-slate-700 text-cyanBlue"

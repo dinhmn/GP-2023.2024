@@ -352,8 +352,10 @@ export default {
     if (user !== null) {
       let dataOrder = OrderService.getOrderByUserId(user.id)
 
-      dataOrder.then((response) => oldOrder.value.push(response.data))
-      console.log(oldOrder)
+      dataOrder.then((response) => {
+        oldOrder.value.push(response.data)
+        console.log(response.data)
+      })
     }
     return { props, productList, data, count, validate, success, error, cart, oldOrder }
   },
@@ -361,6 +363,7 @@ export default {
     onSubmit() {
       this.validate.$validate()
       if (!this.validate.$error) {
+        let user = localStorage.getItem('user')
         let orderJasperModel = {
           customer: {
             userId: '',
@@ -374,6 +377,9 @@ export default {
           orderList: this.productList,
           totalPriceOfAllProduct: '',
           totalQuantityOfAllProduct: ''
+        }
+        if (user !== null) {
+          orderJasperModel.customer.userId = JSON.parse(user).id
         }
         this.success = true
         OrderService.insert('/', orderJasperModel)

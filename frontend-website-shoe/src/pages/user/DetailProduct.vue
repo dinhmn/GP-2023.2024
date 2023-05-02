@@ -6,7 +6,7 @@
       >
         <span class="pointer">Trang chủ</span>
         <span><vue-feather class="w-5 h-5 translate-y-1" type="chevron-right"></vue-feather></span>
-        <span class="pointer active">Tên sản phẩm </span>
+        <span class="pointer text-cyanBlue">{{ product.productModel.productName }} </span>
       </div>
       <div
         class="grid grid-cols-5 w-full gap-10 px-6 py-5 my-1 text-lg font-bold text-white rounded-[4px] bg-slate-600"
@@ -60,19 +60,22 @@
             <span class="text-lg"
               >Size <span class="text-lg align-middle text-brown">*</span>
             </span>
-            <Select name="productSize" v-model="product.productSize" :value="Number(36)">
-              <template v-slot:option>
-                <option
-                  class="text-black"
-                  v-for="item in count"
-                  :selected="item === 1"
-                  :key="item"
-                  :value="35 + item"
-                >
-                  {{ item + 35 }}
-                </option>
-              </template>
-            </Select>
+            <select
+              name="productSize"
+              v-model="product.productSize"
+              class="w-full p-2 mt-1 text-black rounded-sm outline-none"
+              :value="Number(36)"
+            >
+              <option
+                class="text-black"
+                v-for="item in count"
+                :selected="item === 1"
+                :key="item"
+                :value="35 + item"
+              >
+                {{ item + 35 }}
+              </option>
+            </select>
           </div>
           <div class="flex h-[33px]">
             <span class="text-lg w-[150px]">Số lượng: </span>
@@ -85,7 +88,7 @@
           </div>
           <form class="flex w-full gap-10">
             <Button
-              @submit="onSubmit($event, 'add')"
+              @click.prevent="onSubmit($event, 'add')"
               type="submit"
               className="bg-dark-blue hover:bg-dark-blue-hover text-cyanBlue w-full m-0"
               name="addCart"
@@ -208,7 +211,6 @@ import CommonItem from '@/components/common/CommonItem.vue'
 import Input from '@/components/common/input/Input.vue'
 import Textarea from '@/components/common/input/Textarea.vue'
 import ArticleSmall from '@/components/common/ArticleSmall.vue'
-import Select from '@/components/common/input/Select.vue'
 import { useRoute, useRouter } from 'vue-router'
 import render from '@/stores/modules/re-render'
 import axios from 'axios'
@@ -216,7 +218,8 @@ const route = useRoute()
 const router = useRouter()
 const product = reactive({
   comment: [],
-  productModel: {}
+  productModel: {},
+  productSize: 36
 })
 const comment = reactive({
   productId: route.params.productId,
@@ -258,6 +261,7 @@ const onSubmit = (event, type) => {
     }
     order.value.push(product)
     localStorage.setItem('order', JSON.stringify(order.value))
+    render()
   } else {
     if (product.productQuantity === null) {
       product.productQuantity = 1
@@ -268,8 +272,8 @@ const onSubmit = (event, type) => {
     order.value.push(product)
     localStorage.setItem('order', JSON.stringify(order.value))
     router.push({ name: 'Payment' })
+    render()
   }
-  render()
 }
 const submitComment = () => {
   let formData = new FormData()
