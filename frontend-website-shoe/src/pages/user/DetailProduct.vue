@@ -13,20 +13,20 @@
       >
         <div class="flex flex-col items-center justify-start col-span-2">
           <div class="image item-select">
-            <img src="../../assets/images/default.png" alt="" />
+            <img
+              :active-image-id="activeImage.imageId"
+              :src="getImageUrl(activeImage.fileName)"
+              :alt="activeImage.fileName"
+            />
           </div>
           <div class="flex items-center justify-around gap-2 mt-3">
-            <div class="image">
-              <img src="../../assets/images/default.png" alt="" />
-            </div>
-            <div class="image">
-              <img src="../../assets/images/default.png" alt="" />
-            </div>
-            <div class="image">
-              <img src="../../assets/images/default.png" alt="" />
-            </div>
-            <div class="image">
-              <img src="../../assets/images/default.png" alt="" />
+            <div
+              v-for="item in product.productModel.sourceImageModelList"
+              :key="item.imageId"
+              class="image"
+              @click="onActiveImage(event, item)"
+            >
+              <img :src="getImageUrl(item.fileName)" :alt="item.fileName" />
             </div>
           </div>
         </div>
@@ -60,7 +60,7 @@
             <span class="text-lg"
               >Size <span class="text-lg align-middle text-brown">*</span>
             </span>
-            <Select name="productSize" v-model="product.productSize" :modelValue="Number(38)">
+            <Select name="productSize" v-model="product.productSize" :value="Number(36)">
               <template v-slot:option>
                 <option
                   class="text-black"
@@ -83,22 +83,22 @@
               :value="quantity"
             />
           </div>
-          <div class="flex w-full gap-10">
+          <form class="flex w-full gap-10">
             <Button
-              @click.prevent="onSubmit($event, 'add')"
-              type="button"
+              @submit="onSubmit($event, 'add')"
+              type="submit"
               className="bg-dark-blue hover:bg-dark-blue-hover text-cyanBlue w-full m-0"
               name="addCart"
-              text="Add to cart"
+              text="Thêm vào giỏ hàng"
             />
             <Button
-              @click.prevent="onSubmit($event, 'buy')"
-              type="button"
+              @submit="onSubmit($event, 'buy')"
+              type="submit"
               className="bg-dark-blue hover:bg-dark-blue-hover text-cyanBlue w-full m-0"
               name="buyNow"
-              text="Shop Now"
+              text="Mua ngay"
             />
-          </div>
+          </form>
         </div>
       </div>
       <div
@@ -156,12 +156,7 @@
             </div>
           </CommonItem>
           <CommonItem :title="'Đánh giá sản phẩm: ' + productName" class="w-full mt-5">
-            <form
-              @submit.prevent="onSubmit($event, 'comment')"
-              action=""
-              method="post"
-              class="flex flex-col w-full mt-5"
-            >
+            <form action="" method="post" class="flex flex-col w-full mt-5">
               <div class="mb-3">
                 <span class="text-sm">Your comment(If any) </span>
                 <Textarea placeholder="" v-model="comment.commentDetail" name="detail" />
@@ -214,17 +209,11 @@ import Input from '@/components/common/input/Input.vue'
 import Textarea from '@/components/common/input/Textarea.vue'
 import ArticleSmall from '@/components/common/ArticleSmall.vue'
 import Select from '@/components/common/input/Select.vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import render from '@/stores/modules/re-render'
 import axios from 'axios'
 const route = useRoute()
-// const cart = reactive({
-//   productName: '',
-//   productSize: '36',
-//   productQuantity: '',
-//   productPrice: '',
-//   productColor: ''
-// })
+const router = useRouter()
 const product = reactive({
   comment: [],
   productModel: {}
@@ -234,6 +223,10 @@ const comment = reactive({
   commentDetail: '',
   commentName: '',
   commentEmail: ''
+})
+const activeImage = reactive({
+  fileName: '',
+  imageId: ''
 })
 
 const order = ref([])
@@ -250,6 +243,8 @@ async function fetchData(categoryId, productId, product) {
     .then((response) => {
       product.comment = response.data.commentList
       product.productModel = response.data.productModel
+      activeImage.fileName = product.productModel.sourceImageModelList[0].fileName
+      activeImage.imageId = product.productModel.sourceImageModelList[0].imageId
     })
     .catch((error) => {
       console.log(error)
@@ -263,7 +258,16 @@ const onSubmit = (event, type) => {
     }
     order.value.push(product)
     localStorage.setItem('order', JSON.stringify(order.value))
-    console.log(order)
+  } else {
+    if (product.productQuantity === null) {
+      product.productQuantity = 1
+    }
+    if (product.productSize === null) {
+      product.productSize = 36
+    }
+    order.value.push(product)
+    localStorage.setItem('order', JSON.stringify(order.value))
+    router.push({ name: 'Payment' })
   }
   render()
 }
@@ -290,6 +294,13 @@ const submitComment = () => {
 function formatPrice(value) {
   let val = (value / 1).toFixed(0).replace('.', ',')
   return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+}
+const getImageUrl = (name) => {
+  return new URL(`../../../../../image/api-image/${name}`, import.meta.url).href
+}
+const onActiveImage = (event, item) => {
+  activeImage.fileName = item.fileName
+  activeImage.imageId = item.imageId
 }
 </script>
 <style lang="scss" scoped>

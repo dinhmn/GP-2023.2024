@@ -1,8 +1,20 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template lang="">
-  <BasePage class="flex flex-col items-center justify-center gap-5 text-white">
+  <BasePage
+    class="flex flex-col items-center gap-5 text-white"
+    :class="cart !== null ? 'justify-center' : 'justify-start'"
+  >
     <template v-slot:body>
-      <div class="flex items-start justify-between w-full gap-10 py-2 my-1 rounded-[4px]">
+      <div
+        v-if="cart === null"
+        class="flex items-start justify-between w-full p-5 rounded-lg cart bg-slate-600"
+      >
+        <h1 class="block text-center">Chưa có sản phẩm nào trong giỏ hàng.</h1>
+      </div>
+      <div
+        v-if="cart !== null"
+        class="flex items-start justify-between w-full gap-10 py-2 my-1 rounded-[4px]"
+      >
         <!-- Order in Cart -->
         <div class="cart bg-slate-600 w-[60%] p-5 rounded-lg">
           <!-- Item in Cart -->
@@ -51,7 +63,7 @@
         <div class="order w-[40%] bg-slate-600 p-5 rounded-lg">
           <h2 class="my-2 text-xl font-bold uppercase text-brown">Thanh toán và giao hàng</h2>
           <!-- Order -->
-          <form class="w-full">
+          <form @submit="onSubmit" class="w-full">
             <!-- Form Payment -->
             <div class="w-fill">
               <!-- Form full name. -->
@@ -228,14 +240,36 @@
             </div>
             <!-- Button submit order. -->
             <button-component
-              @click.prevent="onSubmit"
-              type="button"
+              type="submit"
               className="bg-brown text-white w-full m-0"
               name="login"
               text="Đặt hàng"
             />
           </form>
           <!-- Form Payment -->
+        </div>
+      </div>
+      <div class="block w-full">
+        <div class="w-full mt-2 border-[1px] border-solid border-t-gray-500"></div>
+        <div class="mt-1 text-lg font-bold">Đơn hàng gần đây</div>
+        <div
+          v-for="item in oldOrder"
+          :key="item.orderId"
+          class="flex items-start p-2 justify-between mt-1 border-[2px] border-solid border-gray-500"
+        >
+          <div>
+            <p>Số lượng: {{ item.totalQuantityOfAllProduct }}</p>
+            <p>Thành tiền: {{ item.totalPriceOfAllProduct }}</p>
+            <p></p>
+          </div>
+          <div>
+            <p>Mã đơn: {{ item.orderCode }}</p>
+            <p>
+              Trạng thái:
+              {{ item.orderStatus === 1 ? 'Confirm' : item.orderStatus === 2 ? 'Cancel' : 'Wait' }}
+            </p>
+            <p>Thời gian đặt: {{ item.customer.createdDate }}</p>
+          </div>
         </div>
       </div>
     </template>
@@ -264,26 +298,28 @@ export default {
   },
   setup(props) {
     const cart = JSON.parse(localStorage.getItem('order'))
+    const user = JSON.parse(localStorage.getItem('user'))
     const productList = reactive([])
-    cart.forEach((item) => {
-      let product = {
-        productId: '',
-        productName: '',
-        productQuantity: '',
-        productPrice: 0,
-        productTotalPrice: ''
-      }
-      product.productId = item.productModel.productId
-      product.productName = item.productModel.productName
-      product.productQuantity = item.productQuantity
-      product.productPrice =
-        item.productModel.productPriceSale !== null
-          ? item.productModel.productPriceSale
-          : item.productModel.productPrice
-      product.productSize = item.productSize
-      productList.push(product)
-    })
-    console.log(productList)
+    if (cart !== null) {
+      cart.forEach((item) => {
+        let product = {
+          productId: '',
+          productName: '',
+          productQuantity: '',
+          productPrice: 0,
+          productTotalPrice: ''
+        }
+        product.productId = item.productModel.productId
+        product.productName = item.productModel.productName
+        product.productQuantity = item.productQuantity
+        product.productPrice =
+          item.productModel.productPriceSale !== null
+            ? item.productModel.productPriceSale
+            : item.productModel.productPrice
+        product.productSize = item.productSize
+        productList.push(product)
+      })
+    }
     const data = reactive({
       email: '',
       fullName: '',
@@ -312,16 +348,19 @@ export default {
     })
     const validate = useValidate(rules, data)
     const success = ref(false)
+    const oldOrder = ref([])
+    if (user !== null) {
+      let dataOrder = OrderService.getOrderByUserId(user.id)
 
-    return { props, productList, data, count, validate, success, error, cart }
+      dataOrder.then((response) => oldOrder.value.push(response.data))
+      console.log(oldOrder)
+    }
+    return { props, productList, data, count, validate, success, error, cart, oldOrder }
   },
   methods: {
     onSubmit() {
       this.validate.$validate()
       if (!this.validate.$error) {
-        // let currentUser = localStorage.getItem('user')
-        // console.log(currentUser ? currentUser.id : '')
-        // if ANY fail validation
         let orderJasperModel = {
           customer: {
             userId: '',
@@ -336,9 +375,9 @@ export default {
           totalPriceOfAllProduct: '',
           totalQuantityOfAllProduct: ''
         }
-        console.log(orderJasperModel)
         this.success = true
         OrderService.insert('/', orderJasperModel)
+        localStorage.removeItem('order')
       } else {
         alert('Form failed validation')
       }

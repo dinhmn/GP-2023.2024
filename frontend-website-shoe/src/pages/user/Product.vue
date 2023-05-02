@@ -215,8 +215,6 @@ const onSelected = (event, value, type) => {
       }
     })
   }
-  console.log(sizes.filter((size) => size.selected === true))
-  console.log(colors.filter((size) => size.selected === true))
 }
 const active = ref(1)
 const state = reactive({
@@ -271,10 +269,6 @@ function fetchData(result, api) {
 function formatResponse(res) {
   return JSON.stringify(res, null, 2)
 }
-// function formatPrice(value) {
-//   let val = (value / 1).toFixed(0).replace('.', ',')
-//   return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
-// }
 async function loadMore() {
   try {
     api.size =
@@ -356,6 +350,9 @@ const filter = async () => {
     .catch((error) => {
       console.log(error)
     })
+}
+const getImageUrl = (name) => {
+  return new URL(`D:/image/api-image/${name}`, import.meta.url).href
 }
 </script>
 <style lang="css">

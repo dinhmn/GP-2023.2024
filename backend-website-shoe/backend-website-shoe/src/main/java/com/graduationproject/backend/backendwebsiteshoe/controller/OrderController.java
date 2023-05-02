@@ -73,9 +73,20 @@ public class OrderController {
    * @param orderId orderId
    * @return order response.
    */
-  @GetMapping("/get")
+  @GetMapping("/get/{orderId}")
   public OrderJasperModel getOrderBy(@PathVariable Long orderId) {
     return orderHelper.getAllByOrderId(orderId);
+  }
+
+  /**
+   * Get order by orderId.
+   *
+   * @param userId userId
+   * @return order response.
+   */
+  @GetMapping("/get-order/{userId}")
+  public OrderJasperModel getOrderByUserId(@PathVariable Long userId) {
+    return orderHelper.getAllByUserId(userId);
   }
 
   /**

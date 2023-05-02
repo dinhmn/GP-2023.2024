@@ -28,6 +28,8 @@ public class OrderJasperModel {
 
   private String totalQuantityOfAllProduct;
 
+  private String orderStatus;
+
   /**
    * Class customer.
    */
