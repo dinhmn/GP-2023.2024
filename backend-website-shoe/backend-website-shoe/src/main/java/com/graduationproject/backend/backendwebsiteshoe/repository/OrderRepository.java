@@ -60,9 +60,9 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
           + " INNER JOIN ProductEntity product ON cart.productId = product.productId"
           + " INNER JOIN ProductColorEntity color ON color.productId = product.productId"
           + " INNER JOIN ProductSizeEntity si ON si.productId = product.productId"
-          + " INNER JOIN UserInformationEntity userInfo ON userInfo.userInformationId = "
+          + " LEFT JOIN UserInformationEntity userInfo ON userInfo.userInformationId = "
           + " invoice.userInformationId LEFT JOIN UserEntity usr ON usr.userId = invoice.userId"
-          + " WHERE usr.userId = ?1")
+          + " WHERE invoice.userId = ?1")
   List<IOrder> findAllByUserId(Long userId);
 
   /**

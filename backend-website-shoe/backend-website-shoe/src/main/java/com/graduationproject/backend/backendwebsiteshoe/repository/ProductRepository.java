@@ -154,6 +154,41 @@ public interface ProductRepository extends JpaRepository<ProductEntity, ProductE
       + " image.image_code AS fileCode"
       + " FROM tbl_product product "
       + " INNER JOIN tbl_category category ON product.category_id = category.category_id"
+      + " INNER JOIN tbl_trademark trade ON trade.trademark_id =  category.trademark_id"
+      + " LEFT JOIN tbl_source_images image ON product.product_id = image.product_id"
+      + " WHERE product.category_id = ?1",
+      nativeQuery = true, countQuery = "SELECT COUNT(*) "
+      + " FROM tbl_product product "
+      + " INNER JOIN tbl_category category ON product.category_id = category.category_id"
+      + " INNER JOIN tbl_trademark trade ON trade.trademark_id =  category.trademark_id"
+      + " LEFT JOIN tbl_source_images image ON product.product_id = image.product_id"
+      +
+      " WHERE product.category_id = ?1")
+  Page<IProduct> findAllProduct(Long categoryId, Pageable pageable);
+
+  /**
+   * Get all product.
+   *
+   * @param pageable pageable
+   * @return list of product.
+   */
+  @Query(value = "SELECT trade.trademark_name as trademarkName, "
+      + " category.category_id AS categoryId, "
+      + " category.category_name AS categoryName, "
+      + " product.product_id AS productId, "
+      + " product.product_name AS productName, "
+      + " product.product_price AS productPrice, "
+      + " product.product_price_sale AS productPriceSale, "
+      + " product.quantity AS productQuantity, "
+      + " product.product_description AS productDescription, "
+      + " product.product_seo AS productSeo,"
+      + " image.image_id AS imageId, "
+      + " image.file_name AS fileName, "
+      + " image.file_type AS fileType, "
+      + " image.data AS fileSize, "
+      + " image.image_code AS fileCode"
+      + " FROM tbl_product product "
+      + " INNER JOIN tbl_category category ON product.category_id = category.category_id"
       +
       " AND ((?2 IS NOT NULL AND category.category_id = ?2) OR (?2 IS NULL AND category.category_id IS NOT NULL))"
       + " INNER JOIN tbl_trademark trade ON trade.trademark_id =  category.trademark_id"
