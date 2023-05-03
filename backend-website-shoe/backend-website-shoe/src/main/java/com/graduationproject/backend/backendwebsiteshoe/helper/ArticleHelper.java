@@ -38,19 +38,20 @@ public class ArticleHelper {
   /**
    * Select all article.
    *
-   * @param pageNo pageNo
-   * @param pageSize pageSize
-   * @param sortBy sortBy
+   * @param pageNo        pageNo
+   * @param pageSize      pageSize
+   * @param sortBy        sortBy
    * @param sortDirection sortDirection
+   * @param searchValue   searchValue
    * @return list article.
    */
   @NonNull
   public ArticleFormPage getAllArticle(int pageNo, int pageSize, String sortBy,
-                                       String sortDirection) {
+                                       String sortDirection, String searchValue) {
     Pageable pageable = commonService.setPageable(pageSize, pageNo, sortBy, sortDirection);
 
     // Create pageable instance
-    Page<ArticleEntity> article = articleService.getAll(pageable);
+    Page<ArticleEntity> article = articleService.getAll(searchValue, pageable);
 
     // Get content for page object
     List<ArticleEntity> articleList = article.getContent();
@@ -68,15 +69,15 @@ public class ArticleHelper {
   /**
    * Select all article.
    *
-   * @param pageNo pageNo
-   * @param pageSize pageSize
-   * @param sortBy sortBy
+   * @param pageNo        pageNo
+   * @param pageSize      pageSize
+   * @param sortBy        sortBy
    * @param sortDirection sortDirection
    * @return list article.
    */
   @NonNull
   public ArticleFormPage getAllArticleUser(int pageNo, int pageSize, String sortBy,
-                                             String sortDirection) {
+                                           String sortDirection) {
 
     Pageable pageable = commonService.setPageable(pageSize, pageNo, sortBy, sortDirection);
 

@@ -26,10 +26,11 @@ public class ArticleService {
    * Get all category.
    *
    * @param pageable pageable
+   * @param searchValue searchValue
    * @return list of entity category.
    */
-  public Page<ArticleEntity> getAll(Pageable pageable) {
-    return articleRepository.findAll(pageable);
+  public Page<ArticleEntity> getAll(String searchValue, Pageable pageable) {
+    return articleRepository.findAll(searchValue, pageable);
   }
 
   /**

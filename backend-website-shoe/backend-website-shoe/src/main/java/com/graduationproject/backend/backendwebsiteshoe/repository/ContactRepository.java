@@ -35,9 +35,9 @@ public interface ContactRepository extends JpaRepository<ContactEntity, Long> {
       + " contact.contact_email AS contactEmail, "
       + " contact.contact_message AS contactMessage,"
       + " product.product_id AS productId, "
-      + " product.product_name AS productName"
-      + " contact.create_date AS createDate, "
-      + " contact.update_date AS updateDate, contact.status AS status"
+      + " product.product_name AS productName,"
+      + " contact.created_date AS createDate, "
+      + " contact.updated_date AS updateDate, contact.status AS status"
       + " FROM tbl_contact contact"
       + " LEFT JOIN tbl_product product ON product.product_id = contact.product_id"
       + " WHERE contact.contact_email LIKE %?1% OR contact.contact_name LIKE %?1% ",

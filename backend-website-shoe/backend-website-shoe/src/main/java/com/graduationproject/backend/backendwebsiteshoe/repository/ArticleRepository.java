@@ -18,6 +18,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ArticleRepository extends JpaRepository<ArticleEntity, Long> {
 
+  @Query(value = "SELECT * FROM tbl_article art WHERE art.article_name LIKE %?1%", nativeQuery = true,
+  countQuery = "SELECT COUNT(*) FROM tbl_article art WHERE art.article_name LIKE %?1%")
+  Page<ArticleEntity> findAll(String searchValue, Pageable pageable);
+
   /**
    * Get one article.
    *

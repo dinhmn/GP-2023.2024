@@ -49,6 +49,7 @@ public class ArticleController {
    * @param pageSize      pageSize
    * @param sortBy        sortBy
    * @param sortDirection sortDirection
+   * @param searchValue   searchValue
    * @return list object.
    */
   @GetMapping(value = "/init")
@@ -57,8 +58,10 @@ public class ArticleController {
       @RequestParam(value = "page_size", defaultValue = Constant.DEFAULT_PAGE_SIZE) int pageSize,
       @RequestParam(value = "sort_direction", defaultValue = Constant.DEFAULT_SORT_DIRECTION)
           String sortDirection,
-      @RequestParam(value = "sort_by", defaultValue = "article_id") String sortBy) {
-    return articleHelper.getAllArticle(pageNo, pageSize, sortBy, sortDirection);
+      @RequestParam(value = "sort_by", defaultValue = "article_id") String sortBy,
+      @RequestParam(value = "search_value", defaultValue = Constant.EMPTY_SPACE)
+          String searchValue) {
+    return articleHelper.getAllArticle(pageNo, pageSize, sortBy, sortDirection, searchValue);
   }
 
   /**
@@ -95,7 +98,7 @@ public class ArticleController {
    * Register new product.
    *
    * @param article article
-   * @param file file
+   * @param file    file
    * @return response entity
    */
   @PostMapping(value = "/register")
