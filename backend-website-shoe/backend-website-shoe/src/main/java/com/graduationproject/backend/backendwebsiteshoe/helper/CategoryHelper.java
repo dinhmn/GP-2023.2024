@@ -47,14 +47,14 @@ public class CategoryHelper {
    * @return category response
    */
   public CategoryForm getAllCategoryPageable(int page, int size, String sortBy,
-                                             String sortDir) {
+                                             String sortDir, String searchValue) {
     Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name())
         ? Sort.by("category_id").ascending().and(Sort.by(sortBy).ascending())
         : Sort.by("category_id").descending().and(Sort.by(sortBy).descending());
 
     // Create pageable instance
     Pageable pageable = PageRequest.of(page, size, sort);
-    Page<ICategory> categoryModelListPage = categoryService.getAllByTrademark(sortBy, pageable);
+    Page<ICategory> categoryModelListPage = categoryService.getAllByTrademark(sortBy, searchValue, pageable);
 
     // Get content for page object
     List<CategoryModel> listOfCategoryModel = categoryModelListPage.getContent().stream()

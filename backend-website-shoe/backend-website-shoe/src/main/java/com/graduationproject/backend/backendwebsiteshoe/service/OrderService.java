@@ -1,5 +1,6 @@
 package com.graduationproject.backend.backendwebsiteshoe.service;
 
+import com.graduationproject.backend.backendwebsiteshoe.dto.ICart;
 import com.graduationproject.backend.backendwebsiteshoe.dto.IOrder;
 import com.graduationproject.backend.backendwebsiteshoe.entity.OrderEntity;
 import com.graduationproject.backend.backendwebsiteshoe.repository.CartRepository;
@@ -78,6 +79,24 @@ public class OrderService {
    */
   public Optional<OrderEntity> getByOrderId(Long orderId) {
     return orderRepository.findById(orderId);
+  }
+
+  /**
+   * Find all.
+   *
+   * @return entity list
+   */
+  public List<ICart> getAll() {
+    return orderRepository.findAllTotal();
+  }
+
+  /**
+   * Find all.
+   *
+   * @return entity list
+   */
+  public List<ICart> getAllDistinct() {
+    return orderRepository.findAllTotalDistinct();
   }
 
   /**

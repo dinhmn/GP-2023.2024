@@ -9,7 +9,7 @@
             <vue-feather class="w-5 h-5 mt-1" type="shopping-bag"></vue-feather>
           </span>
         </p>
-        <h5 class="text-xl">54</h5>
+        <h5 class="text-xl">{{ data.length }}</h5>
       </div>
       <div class="col-span-1 p-4 bg-blue-500 rounded-lg">
         <p class="flex items-center justify-between">
@@ -18,7 +18,7 @@
             <vue-feather class="w-5 h-5 mt-1" type="gift"></vue-feather>
           </span>
         </p>
-        <h5 class="text-xl">54</h5>
+        <h5 class="text-xl">{{ totalQuantity }}</h5>
       </div>
       <div class="col-span-1 p-4 bg-green-500 rounded-lg">
         <p class="flex items-center justify-between">
@@ -27,7 +27,7 @@
             <vue-feather class="w-5 h-5 mt-1" type="pocket"></vue-feather>
           </span>
         </p>
-        <h5 class="text-xl">54</h5>
+        <h5 class="text-xl">{{ totalComplete }}</h5>
       </div>
       <div class="col-span-1 p-4 bg-red-500 rounded-lg">
         <p class="flex items-center justify-between">
@@ -36,7 +36,7 @@
             <vue-feather class="w-5 h-5 mt-1" type="award"></vue-feather>
           </span>
         </p>
-        <h5 class="text-xl">54</h5>
+        <h5 class="text-xl">{{ formatPrice(totalPrice) + 'đ' }}</h5>
       </div>
     </div>
     <div class="grid grid-cols-3 gap-2 mt-5">
@@ -72,47 +72,32 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>1</td>
-            <td>1</td>
-            <td>1</td>
-            <td>1</td>
-            <td>1</td>
+          <tr v-for="(item, index) in dataDetail.orderList" :key="item.orderId">
+            <td>{{ index + 1 }}</td>
+            <td>
+              {{
+                (item.customerLastName !== null ? item.customerLastName : '') +
+                ' ' +
+                (item.customerFirstName !== null ? item.customerFirstName : '')
+              }}
+            </td>
+            <td>{{ item.productQuantity }}</td>
+            <td>{{ new Date(item.createdDate).toLocaleString() }}</td>
+            <td>{{ formatPrice(item.productPrice * item.productQuantity) + ' đ' }}</td>
             <td>
               <strong
+                v-if="Number(item.status) === 0"
+                class="px-[20px] py-[4px] text-xs text-yellow-700 bg-yellow-400 rounded-full"
+                >Wait</strong
+              >
+              <strong
+                v-if="Number(item.status) === 1"
                 class="px-[20px] py-[4px] text-xs min-w-[100px] text-green-700 bg-green-400 rounded-full"
                 >Done</strong
               >
-            </td>
-            <td class="flex items-center w-[150px] justify-around text-xs cursor-pointer">
-              <button class="bg-blue-500">View</button>
-              <button class="bg-green-500">Print</button>
-            </td>
-          </tr>
-          <tr>
-            <td>1</td>
-            <td>1</td>
-            <td>1</td>
-            <td>1</td>
-            <td>1</td>
-            <td>
-              <strong class="px-[20px] py-[4px] text-xs text-yellow-700 bg-yellow-400 rounded-full"
-                >Wait</strong
-              >
-            </td>
-            <td class="flex items-center w-[150px] justify-around text-xs cursor-pointer">
-              <button class="bg-blue-500">View</button>
-              <button class="bg-green-500">Print</button>
-            </td>
-          </tr>
-          <tr>
-            <td>1</td>
-            <td>1</td>
-            <td>1</td>
-            <td>1</td>
-            <td>1</td>
-            <td>
-              <strong class="px-[20px] py-[4px] text-xs text-red-700 bg-red-400 rounded-full"
+              <strong
+                v-if="Number(item.status) === 2"
+                class="px-[20px] py-[4px] text-xs text-red-700 bg-red-400 rounded-full"
                 >Cancel</strong
               >
             </td>
@@ -128,6 +113,7 @@
 </template>
 <script lang="">
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { Bar, Pie } from 'vue-chartjs'
 import {
   Chart as ChartJS,
@@ -139,7 +125,6 @@ import {
   LinearScale,
   ArcElement
 } from 'chart.js'
-
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, ArcElement)
 const date = ref(new Date())
 const attributes = ref([
@@ -149,10 +134,52 @@ const attributes = ref([
   }
 ])
 const status = ['done', 'pending', 'wait']
+import OrderService from '../../stores/modules/OrderService.js'
+const data = ref({})
+const totalQuantity = ref(0)
+const totalPrice = ref(0)
+const totalComplete = ref(0)
+const dataDetail = ref({})
+const router = useRouter()
 export default {
   name: 'BarChart',
   components: { Bar, Pie },
-  data() {
+  setup() {
+    try {
+      OrderService.get('/get-order-all').then((response) => {
+        data.value = response.data
+        for (let index = 0; index < response.data.length; index++) {
+          const element = response.data[index]
+          totalQuantity.value += Number(element.totalQuantity)
+          totalPrice.value += Number(element.totalOrderPrice)
+          if (element.orderStatus === '1') {
+            totalComplete.value += 1
+          }
+        }
+      })
+    } catch (error) {
+      router.push({ name: '404' })
+    }
+
+    try {
+      let page = {
+        pageNo: 0,
+        pageSize: 5,
+        sortBy: 'created_date',
+        sortDirection: 'ASC',
+        value: ''
+      }
+      OrderService.getAllOrder('/get-all', page).then((response) => {
+        dataDetail.value = response.data
+      })
+    } catch (error) {
+      router.push({ name: '404' })
+    }
+
+    function formatPrice(value) {
+      let val = (value / 1).toFixed(0).replace('.', ',')
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+    }
     return {
       chartData: {
         labels: [
@@ -171,7 +198,7 @@ export default {
         ],
         datasets: [
           {
-            label: 'Monthly revenue',
+            label: 'Yearly revenue',
             data: [40, 20, 12, 80, 22, 56, 90, 120, 200, 156, 98, 150],
             backgroundColor: '#17b1ea',
             width: '300px',
@@ -197,7 +224,13 @@ export default {
       },
       date,
       attributes,
-      status
+      status,
+      data,
+      totalPrice,
+      totalQuantity,
+      formatPrice,
+      totalComplete,
+      dataDetail
     }
   }
 }

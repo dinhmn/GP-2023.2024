@@ -2,6 +2,10 @@ import http from "./http-common";
 import { API_ORDER_PREFIX, API_EXPORT_PDF_PREFIX } from "../api";
 
 class OrderService {
+  
+  get(url) {
+    return http.get(API_ORDER_PREFIX + url)
+  }
 
   getAllOrder(url, page) {
     return http.get(API_ORDER_PREFIX + url + "?page_no=" + page.pageNo

@@ -31,4 +31,13 @@ public class CartService {
   public List<CartEntity> insert(List<CartEntity> cartEntityList) {
     return cartRepository.saveAll(cartEntityList);
   }
+
+  /**
+   * Get all.
+   *
+   * @return entity
+   */
+  public List<CartEntity> getAll() {
+    return cartRepository.findAll();
+  }
 }
