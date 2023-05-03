@@ -1,5 +1,6 @@
 package com.graduationproject.backend.backendwebsiteshoe.repository;
 
+import com.graduationproject.backend.backendwebsiteshoe.dto.ICart;
 import com.graduationproject.backend.backendwebsiteshoe.dto.IOrder;
 import com.graduationproject.backend.backendwebsiteshoe.entity.OrderEntity;
 import java.util.List;
@@ -98,4 +99,18 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
           + " WHERE userInfo.first_name LIKE %?1% OR userInfo.last_name LIKE %?1% "
           + " OR userInfo.email LIKE %?1%")
   Page<IOrder> findAllPage(Pageable pageable, String searchValue);
+
+  @Query(value = "SELECT invoice.order_id AS orderId, invoice.cart_id AS cartId,"
+      + " SUM(cart.product_quantity) AS totalQuantity, invoice.order_status AS orderStatus, "
+      + " SUM(invoice.order_total_price) AS totalOrderPrice FROM tbl_order invoice"
+      + " INNER JOIN tbl_cart cart ON cart.cart_id = invoice.cart_id"
+      + " GROUP BY invoice.order_id, invoice.cart_id, invoice.order_status", nativeQuery = true)
+  List<ICart> findAllTotal();
+
+  @Query(value = "SELECT DISTINCT(invoice.order_id) AS orderId, invoice.cart_id AS cartId,"
+      + " SUM(cart.product_quantity) AS totalQuantity, invoice.order_status AS orderStatus, "
+      + " SUM(invoice.order_total_price) AS totalOrderPrice FROM tbl_order invoice"
+      + " INNER JOIN tbl_cart cart ON cart.cart_id = invoice.cart_id"
+      + " GROUP BY invoice.order_id, invoice.cart_id, invoice.order_status", nativeQuery = true)
+  List<ICart> findAllTotalDistinct();
 }

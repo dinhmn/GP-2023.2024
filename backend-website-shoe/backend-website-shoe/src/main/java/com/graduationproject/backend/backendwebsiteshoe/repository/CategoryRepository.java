@@ -70,13 +70,17 @@ public interface CategoryRepository extends JpaRepository<CategoryEntity, Catego
       + " category.created_date AS createdDate,"
       + " category.updated_date AS updatedDate, category.status AS categoryStatus"
       + " FROM tbl_category category"
-      + " INNER JOIN tbl_trademark trademark ON category.trademark_id = trademark.trademark_id",
+      + " INNER JOIN tbl_trademark trademark ON category.trademark_id = trademark.trademark_id"
+      + " WHERE category.category_name LIKE %?2%"
+      + " ORDER BY ?1",
       nativeQuery = true,
       countQuery = " SELECT count(*)"
           + " FROM tbl_category category"
           + " INNER JOIN tbl_trademark trademark ON category.trademark_id = trademark.trademark_id"
+          + " WHERE category.category_name LIKE %?2%"
+          + " ORDER BY ?1"
   )
-  Page<ICategory> findAllCategory(String searchValue, Pageable pageable);
+  Page<ICategory> findAllCategory(String sortBy, String searchValue, Pageable pageable);
 
   /**
    * Get all category.

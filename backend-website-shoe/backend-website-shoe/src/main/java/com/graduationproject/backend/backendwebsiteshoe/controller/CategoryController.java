@@ -48,10 +48,10 @@ public class CategoryController {
   /**
    * Get all category.
    *
-   * @param pageNo page_no
-   * @param pageSize page_size
+   * @param pageNo        page_no
+   * @param pageSize      page_size
    * @param sortDirection sort_direction
-   * @param sortBy sort_by
+   * @param sortBy        sort_by
    * @return list object.
    */
   @GetMapping(value = "/init/pageable")
@@ -60,8 +60,11 @@ public class CategoryController {
       @RequestParam(value = "page_size", defaultValue = Constant.DEFAULT_PAGE_SIZE) int pageSize,
       @RequestParam(value = "sort_direction", defaultValue = Constant.DEFAULT_SORT_DIRECTION)
           String sortDirection,
-      @RequestParam(value = "sort_by", defaultValue = "category_id") String sortBy) {
-    return categoryHelper.getAllCategoryPageable(pageNo, pageSize, sortBy, sortDirection);
+      @RequestParam(value = "sort_by", defaultValue = "category_id") String sortBy,
+      @RequestParam(value = "search_value", defaultValue = Constant.EMPTY_SPACE)
+          String searchValue) {
+    return categoryHelper
+        .getAllCategoryPageable(pageNo, pageSize, sortBy, sortDirection, searchValue);
   }
 
   /**

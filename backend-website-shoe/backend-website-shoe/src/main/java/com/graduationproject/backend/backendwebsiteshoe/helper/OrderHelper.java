@@ -4,12 +4,14 @@ import com.graduationproject.backend.backendwebsiteshoe.common.CommonService;
 import com.graduationproject.backend.backendwebsiteshoe.common.Constant;
 import com.graduationproject.backend.backendwebsiteshoe.common.DatetimeConvertFormat;
 import com.graduationproject.backend.backendwebsiteshoe.common.User;
+import com.graduationproject.backend.backendwebsiteshoe.dto.ICart;
 import com.graduationproject.backend.backendwebsiteshoe.dto.IOrder;
 import com.graduationproject.backend.backendwebsiteshoe.entity.CartEntity;
 import com.graduationproject.backend.backendwebsiteshoe.entity.OrderEntity;
 import com.graduationproject.backend.backendwebsiteshoe.entity.UserInformationEntity;
 import com.graduationproject.backend.backendwebsiteshoe.forms.OrderForm;
 import com.graduationproject.backend.backendwebsiteshoe.model.OrderJasperModel;
+import com.graduationproject.backend.backendwebsiteshoe.repository.CartRepository;
 import com.graduationproject.backend.backendwebsiteshoe.service.CartService;
 import com.graduationproject.backend.backendwebsiteshoe.service.OrderService;
 import com.graduationproject.backend.backendwebsiteshoe.service.UserInformationService;
@@ -149,6 +151,24 @@ public class OrderHelper {
     }
     orderEntity.get().setOrderStatus(orderStatus);
     return orderService.update(orderEntity.get());
+  }
+
+  /**
+   * Find all.
+   *
+   * @return entity list
+   */
+  public List<ICart> getAll() {
+    return orderService.getAll();
+  }
+
+  /**
+   * Find all.
+   *
+   * @return entity list
+   */
+  public List<ICart> getAllDistinct() {
+    return orderService.getAllDistinct();
   }
 
   /**

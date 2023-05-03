@@ -55,10 +55,13 @@ public class CategoryService {
   /**
    * Get all category.
    *
+   * @param sortBy sortBy
+   * @param searchValue searchValue
+   * @param pageable pageable
    * @return list of entity category.
    */
-  public Page<ICategory> getAllByTrademark(String searchValue, Pageable pageable) {
-    return categoryRepository.findAllCategory(searchValue, pageable);
+  public Page<ICategory> getAllByTrademark(String sortBy, String searchValue, Pageable pageable) {
+    return categoryRepository.findAllCategory(sortBy, searchValue, pageable);
   }
 
   /**
