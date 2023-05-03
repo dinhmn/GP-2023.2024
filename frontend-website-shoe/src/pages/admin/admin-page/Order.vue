@@ -58,7 +58,7 @@
           </td>
           <td>{{ item.customerAddress }}</td>
           <td>{{ item.orderCode }}</td>
-          <td>{{ item.createdDate }}</td>
+          <td>{{ new Date(item.createdDate).toLocaleString() }}</td>
           <td>
             <select
               name="role"

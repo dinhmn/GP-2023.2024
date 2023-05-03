@@ -100,6 +100,7 @@ import axios from 'axios'
 import Button from '@/components/common/button/Button.vue'
 import Input from '@/components/common/input/Input.vue'
 import { API_CATEGORY_GET, API_CATEGORY_DETELE } from '@/stores/api'
+
 let api = reactive({
   category: []
 })
