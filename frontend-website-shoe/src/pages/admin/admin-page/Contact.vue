@@ -1,6 +1,25 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template lang="">
-  <CommonAdmin title="Contact" page="5" actionNew="false">
+  <CommonAdmin title="Contact" actionNew="false">
+    <template v-slot:search>
+      <form class="flex w-[600px] gap-2 items-center justify-center -ml-7">
+        <Input
+          type="text"
+          placeholder="Search..."
+          name="search"
+          id="search"
+          classChild="min-w-[200px] py-[6px] rounded-sm max-w-[400px] max-h-[40px]"
+          v-model="searchData.searchValue"
+        />
+        <Button
+          type="button"
+          text="Search"
+          id="search"
+          @click="onSearch"
+          className="bg-[#0c3247] text-[#17b1ea] hover:bg-[#10405a] hover:text-white"
+        />
+      </form>
+    </template>
     <template v-slot:thead>
       <thead class="w-full bg-[#0c3247] text-[#17b1ea]">
         <tr class="rounded-tl-md">
@@ -21,15 +40,15 @@
           <td>{{ item.contactName }}</td>
           <td>{{ item.contactMessage }}</td>
           <td>{{ item.contactEmail }}</td>
-          <td>{{ item.createdDate }}</td>
+          <td>{{ new Date(item.createdDate).toLocaleDateString() }}</td>
           <td>
             <strong
-              v-if="item.status == false"
+              v-if="item.status === '0'"
               class="px-[20px] py-[4px] text-xs text-yellow-700 bg-yellow-400 rounded-full"
               >Wait</strong
             >
             <strong
-              v-if="item.status == true"
+              v-if="item.status === '1'"
               class="px-[20px] py-[4px] text-xs min-w-[100px] text-green-700 bg-green-400 rounded-full"
               >Confirm</strong
             >
@@ -65,6 +84,8 @@
 <script setup>
 import { onMounted, reactive, ref } from 'vue'
 import CommonAdmin from '@/components/common/CommonAdmin.vue'
+import Input from '@/components/common/input/Input.vue'
+import Button from '@/components/common/button/Button.vue'
 import ContactService from '@/stores/modules/ContactService'
 const api = reactive({
   data: [],
@@ -82,6 +103,13 @@ const active = ref(1)
 onMounted(async () => {
   await getAllData(api, 0)
 })
+const searchData = reactive({
+  pageNo: 0,
+  pageSize: 10,
+  sortDirection: 'ASC',
+  sortBy: 'contact_id',
+  searchValue: ''
+})
 async function getAllData(api, pageNo) {
   try {
     const res = await ContactService.getAll('/init', pageNo)
@@ -93,10 +121,8 @@ async function getAllData(api, pageNo) {
     }
 
     fetchData(result.data, api)
-    console.log(api)
   } catch (error) {
     api = formatResponse(error.response?.data) || error
-    console.log(api)
   }
 }
 
@@ -128,6 +154,23 @@ function onNextPage() {
     getAllData(api, active.value - 1)
   } catch (err) {
     result.deleteResult = formatResponse(err.response?.data) || err
+  }
+}
+
+async function onSearch() {
+  try {
+    const res = await ContactService.getAllPage('/init/pageable', searchData)
+
+    const result = {
+      status: res.status + '-' + res.statusText,
+      headers: res.headers,
+      data: res.data
+    }
+
+    fetchData(result.data, api)
+    api.data = result.data.contactList
+  } catch (error) {
+    console.log(error)
   }
 }
 

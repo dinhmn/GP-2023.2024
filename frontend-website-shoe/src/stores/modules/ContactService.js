@@ -7,8 +7,10 @@ class ContactService {
     return http.get(API_CONTACT_PREFIX + url + "?page_no=" + pageNo);
   }
 
-  getAllPage(url, pageNo, searchValue) {
-    return http.get(API_CONTACT_PREFIX + url + '/' + "?search_value=" + searchValue + "&page_no=" + pageNo);
+  getAllPage(url, page) {
+    return http.get(API_CONTACT_PREFIX + url + "?page_no=" + page.pageNo
+    + "&page_size=" + page.pageSize + "&sort_direction=" + page.sortDirection
+    + "&sort_by=" + page.sortBy + "&search_value=" + page.searchValue);
   }
 
   insertOrUpdate(url, contactModel) {

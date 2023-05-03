@@ -1,26 +1,11 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template lang="">
-  <div class="w-full text-white">
+  <div class="w-full h-[100vh] text-white">
     <h2 class="w-full my-2 mb-4 font-bold">
       <span class="text-xl">Dashboard</span> <strong> > </strong>
       <span class="text-[#17b1ea] text-xl">Category</span>
     </h2>
     <div class="flex items-center justify-between p-4 bg-[#1a1e30] rounded-md">
-      <div class="flex w-[600px] gap-2 items-center">
-        <Input
-          type="text"
-          placeholder="Search..."
-          name="search"
-          id="search"
-          classChild="min-w-[200px] py-[6px] rounded-sm max-w-[400px] max-h-[40px]"
-        />
-        <Button
-          type="button"
-          text="Search"
-          id="search"
-          className="bg-[#0c3247] text-[#17b1ea] hover:bg-[#10405a] hover:text-white"
-        />
-      </div>
       <div>
         <router-link :to="{ name: 'CategoryRegisterAdmin', params: {} }">
           <Button
@@ -55,7 +40,7 @@
             <td>{{ item.categoryName }}</td>
             <td>{{ item.createdDate }}</td>
             <td>{{ item.updatedDate }}</td>
-            <td>{{ item.categoryStatus }}</td>
+            <td>{{ item.categoryStatus === 'true' ? 'Active' : 'Inactive' }}</td>
             <td class="flex items-center justify-around gap-2">
               <router-link
                 :to="{
@@ -83,24 +68,13 @@
         </tbody>
       </table>
     </div>
-    <div v-if="errorMessage == false" class="w-full mt-3 text-right">
-      <ul class="flex items-center justify-end gap-1">
-        <li>Prev</li>
-        <li class="active">1</li>
-        <li>2</li>
-        <li>3</li>
-        <li>Next</li>
-      </ul>
-    </div>
   </div>
 </template>
 <script setup>
 import { onMounted, reactive, ref } from 'vue'
 import axios from 'axios'
 import Button from '@/components/common/button/Button.vue'
-import Input from '@/components/common/input/Input.vue'
 import { API_CATEGORY_GET, API_CATEGORY_DETELE } from '@/stores/api'
-
 let api = reactive({
   category: []
 })

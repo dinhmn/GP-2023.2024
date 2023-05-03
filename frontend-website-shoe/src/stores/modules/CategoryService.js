@@ -8,9 +8,10 @@ class CategoryService {
       return http.get(API_CATEGORY_PREFIX + url);
     }
   
-    getAllPageable(url, pageNo, pageSize, sortBy, sortDirection, searchValue) {
-      return http.get(API_CATEGORY_PREFIX + url + "?page_no=" + pageNo + "&page_size=" + pageSize
-      + "&sort_direction=" + sortDirection + "&sort_by=" + sortBy + "&search_value=" + searchValue)
+    getAllPageable(url, page) {
+      console.log(page);
+      return http.get(API_CATEGORY_PREFIX + url + "?page_no=" + page.pageNo + "&page_size=" + page.pageSize
+      + "&sort_direction=" + page.sortDirection + "&sort_by=" + page.sortBy + "&search_value=" + page.searchValue)
     }
 }
   export default new CategoryService();

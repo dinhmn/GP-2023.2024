@@ -1,6 +1,25 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template lang="">
-  <CommonAdmin title="Article" :page="api.totalPages" actionNew="ArticleRegisterAdmin">
+  <CommonAdmin title="Article" actionNew="ArticleRegisterAdmin">
+    <template v-slot:search>
+      <form class="flex w-[600px] gap-2 items-center justify-center -ml-7">
+        <Input
+          type="text"
+          placeholder="Search..."
+          name="search"
+          id="search"
+          classChild="min-w-[200px] py-[6px] rounded-sm max-w-[400px] max-h-[40px]"
+          v-model="searchData.searchValue"
+        />
+        <Button
+          type="button"
+          text="Search"
+          id="search"
+          @click="onSearch"
+          className="bg-[#0c3247] text-[#17b1ea] hover:bg-[#10405a] hover:text-white"
+        />
+      </form>
+    </template>
     <template v-slot:thead>
       <thead class="w-full bg-[#0c3247] text-[#17b1ea]">
         <tr class="rounded-tl-md">
@@ -20,8 +39,8 @@
           <td>{{ index }}</td>
           <td>{{ item.articleName }}</td>
           <td>{{ item.articleDescription }}</td>
-          <td>{{ item.createdDate }}</td>
-          <td>{{ item.updatedDate }}</td>
+          <td>{{ new Date(item.createdDate).toLocaleDateString() }}</td>
+          <td>{{ new Date(item.updatedDate).toLocaleDateString() }}</td>
           <td>{{ item.articleStatus }}</td>
           <td class="flex items-center justify-around gap-2">
             <router-link
@@ -64,6 +83,8 @@
 </template>
 <script setup>
 import { onMounted, reactive, ref } from 'vue'
+import Input from '@/components/common/input/Input.vue'
+import Button from '@/components/common/button/Button.vue'
 import CommonAdmin from '@/components/common/CommonAdmin.vue'
 import ArticleService from '@/stores/modules/ArticleService'
 const api = reactive({
@@ -79,7 +100,13 @@ const result = reactive({
   deleteResult: null
 })
 const active = ref(1)
-
+const searchData = reactive({
+  pageNo: 0,
+  pageSize: 10,
+  sortDirection: 'ASC',
+  sortBy: 'article_id',
+  searchValue: ''
+})
 onMounted(async () => {
   await getAllData(api, 0)
 })
@@ -95,10 +122,8 @@ async function getAllData(api, pageNo) {
     }
 
     fetchData(result.data, api)
-    console.log(api)
   } catch (error) {
     api = formatResponse(error.response?.data) || error
-    console.log(api)
   }
 }
 
@@ -145,6 +170,23 @@ function onNextPage() {
       active.value += 1
     }
     getAllData(api, active.value - 1)
+  } catch (err) {
+    result.deleteResult = formatResponse(err.response?.data) || err
+  }
+}
+
+async function onSearch() {
+  try {
+    const res = await ArticleService.getAllInit('/init', searchData)
+
+    const result = {
+      status: res.status + '-' + res.statusText,
+      headers: res.headers,
+      data: res.data
+    }
+
+    fetchData(result.data, api)
+    api.data = result.data.articleEntityList
   } catch (err) {
     result.deleteResult = formatResponse(err.response?.data) || err
   }

@@ -3,6 +3,11 @@ import { API_ARTICLE_PREFIX } from "../api";
 import {INSERT, UPDATE} from "../../constants/index"
 class ArticleService {
 
+  getAllInit(url, page) {
+    return http.get(API_ARTICLE_PREFIX + url + "?page_no=" + page.pageNo + "&page_size=" + page.pageSize
+    + "&sort_direction=" + page.sortDirection + "&sort_by=" + page.sortBy + "&search_value=" + page.searchValue);
+  }
+
   getAll(url, pageNo) {
     return http.get(API_ARTICLE_PREFIX + url + "?page_no=" + pageNo);
   }
