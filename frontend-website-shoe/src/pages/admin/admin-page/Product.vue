@@ -1,11 +1,11 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template lang="">
-  <CommonAdmin title="Product" actionNew="ProductRegisterAdmin">
+  <CommonAdmin title="Sản phẩm" actionNew="ProductRegisterAdmin">
     <template v-slot:search>
       <form class="flex w-[600px] gap-2 items-center justify-center">
         <Input
           type="text"
-          placeholder="Search..."
+          placeholder="Tìm kiếm..."
           name="search"
           id="search"
           classChild="min-w-[200px] py-[6px] rounded-sm max-w-[400px] max-h-[40px]"
@@ -17,29 +17,28 @@
           id="categoryId"
           v-model="searchData.sortBy"
         >
-          <option value="product_name">ProductName</option>
-          <option value="category_name">CategoryName</option>
-          <option value="product_price">Price</option>
+          <option value="product_name">Tên sản phẩm</option>
+          <option value="category_name">Tên hãng sản xuất</option>
+          <option value="product_price">Giá</option>
         </select>
         <Button
           type="button"
-          text="Search"
+          text="Tìm kiếm"
           id="search"
           @click="search"
-          className="bg-[#0c3247] text-[#17b1ea] hover:bg-[#10405a] hover:text-white"
+          className="bg-[#0c3247] w-[300px] text-[#17b1ea] hover:bg-[#10405a] hover:text-white"
         />
       </form>
     </template>
     <template v-slot:thead>
       <thead class="w-full bg-[#0c3247] text-[#17b1ea]">
         <tr class="rounded-tl-md">
-          <th>No.</th>
-          <th>Category Name</th>
-          <th>Product Name</th>
-          <th>Product Price</th>
-          <th>Quantity</th>
-          <th>Status</th>
-          <th class="w-[150px]">Action</th>
+          <th>STT.</th>
+          <th>Hãng sản xuất</th>
+          <th>Tên sản phẩm</th>
+          <th>Giá niêm yết</th>
+          <th>Số lượng</th>
+          <th class="w-[150px]">Hành động</th>
         </tr>
       </thead>
     </template>
@@ -48,7 +47,6 @@
         <tr v-for="(item, index) in api.data" :key="index">
           <td>{{ index + 1 }}</td>
           <td>{{ item.categoryName }}</td>
-          <td>{{ item.productName }}</td>
           <td>{{ item.productName }}</td>
           <td>
             {{
@@ -86,7 +84,7 @@
     </template>
     <template v-slot:page>
       <ul class="flex items-center justify-end gap-1">
-        <li @click="onPreviousPage">Prev</li>
+        <li class="active hover:opacity-80" @click="onPreviousPage">Sau</li>
         <li
           @click="onSetPage(item)"
           v-for="item in api.totalPages"
@@ -95,7 +93,7 @@
         >
           {{ item }}
         </li>
-        <li @click="onNextPage">Next</li>
+        <li class="active hover:opacity-80" @click="onNextPage">Tiếp</li>
       </ul>
     </template>
   </CommonAdmin>
@@ -142,6 +140,7 @@ async function getAllData(api, pageNo) {
     }
 
     fetchData(result.data, api)
+    console.log(api)
     searchData.pageNo = api.pageNo
     searchData.pageSize = api.pageSize
   } catch (error) {

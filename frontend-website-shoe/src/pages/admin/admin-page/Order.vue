@@ -1,11 +1,11 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template lang="">
-  <CommonAdmin title="Order" actionNew="false">
+  <CommonAdmin title="Đơn hàng" actionNew="false">
     <template v-slot:search>
       <form class="flex w-[600px] gap-2 items-center justify-center">
         <Input
           type="text"
-          placeholder="Search..."
+          placeholder="Tìm kiếm..."
           name="search"
           id="search"
           classChild="min-w-[200px] py-[6px] rounded-sm max-w-[400px] max-h-[40px]"
@@ -17,33 +17,32 @@
           id="categoryId"
           v-model="searchData.sortBy"
         >
-          <option value="order_id">Order</option>
-          <option value="created_date">Date</option>
+          <option value="order_id">Hóa đơn</option>
+          <option value="created_date">Ngày tạo</option>
         </select>
         <Button
           type="button"
-          text="Search"
+          text="Tìm kiếm"
           id="search"
           @click="onSearch"
-          className="bg-[#0c3247] text-[#17b1ea] hover:bg-[#10405a] hover:text-white"
+          className="bg-[#0c3247] text-[#17b1ea] hover:bg-[#10405a] hover:text-white w-[300px]"
         />
       </form>
     </template>
     <template v-slot:thead>
       <thead class="w-full bg-[#0c3247] text-[#17b1ea]">
         <tr class="rounded-tl-md">
-          <th>No.</th>
-          <th>Full name</th>
-          <th>Full name</th>
-          <th>Order code</th>
-          <th>Created date</th>
-          <th>Status</th>
-          <th class="w-[150px]">Action</th>
+          <th>STT.</th>
+          <th>Họ và tên</th>
+          <th>Địa chỉ</th>
+          <th>Mã hóa đơn</th>
+          <th>Ngày tạo hóa đơn</th>
+          <th>Trạng thái</th>
+          <th class="w-[150px]">Hành động</th>
         </tr>
       </thead>
     </template>
     <template v-slot:tbody>
-      <!-- <form action="post" name="confirm-api"> -->
       <tbody>
         <tr v-for="(item, index) in api.data" :key="item.orderId">
           <td>{{ index + 1 }}</td>
@@ -58,19 +57,19 @@
           </td>
           <td>{{ item.customerAddress }}</td>
           <td>{{ item.orderCode }}</td>
-          <td>{{ new Date(item.createdDate).toLocaleString() }}</td>
+          <td>{{ new Date(item.createdDate).toLocaleString().replaceAll('/', '-') }}</td>
           <td>
             <select
               name="role"
-              class="w-[100px] px-3 py-1 text-gray-800 rounded outline-none cursor-pointer"
+              class="w-[120px] px-3 py-1 text-gray-800 rounded outline-none cursor-pointer"
               :value="item.status"
               :disabled="item.status === '1'"
               :class="item.status === '1' ? 'select-none pointer-events-none bg-gray-500' : ''"
               @change="onConfirm($event, item.orderId)"
             >
-              <option value="0">Wait</option>
-              <option value="1">Confirm</option>
-              <option value="2">Cancel</option>
+              <option value="0">Chờ</option>
+              <option value="1">Xác nhận</option>
+              <option value="2">Hủy</option>
             </select>
           </td>
           <td class="flex items-center justify-around gap-2">
@@ -80,7 +79,7 @@
                 name="edit"
                 @click="onView($event, item.orderId)"
               >
-                View
+                Xem
               </button>
             </router-link>
 
@@ -90,7 +89,7 @@
               :class="item.status === '1' ? 'select-none pointer-events-none bg-gray-500' : ''"
               @click="sendMail($event, item)"
             >
-              Send Mail
+              Gửi mail
             </button>
           </td>
         </tr>
@@ -99,7 +98,7 @@
     </template>
     <template v-slot:page>
       <ul class="flex items-center justify-end gap-1">
-        <li @click="onPreviousPage">Prev</li>
+        <li class="active hover:opacity-80" @click="onPreviousPage">Sau</li>
         <li
           @click="onSetPage(item)"
           v-for="item in api.totalPages"
@@ -108,7 +107,7 @@
         >
           {{ item }}
         </li>
-        <li @click="onNextPage">Next</li>
+        <li class="active hover:opacity-80" @click="onNextPage">Tiếp</li>
       </ul>
     </template>
   </CommonAdmin>

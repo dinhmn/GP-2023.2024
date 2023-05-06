@@ -3,14 +3,14 @@
   <div class="w-full h-[100vh] text-white">
     <h2 class="w-full my-2 mb-4 font-bold">
       <span class="text-xl">Dashboard</span> <strong> > </strong>
-      <span class="text-[#17b1ea] text-xl">Category</span>
+      <span class="text-[#17b1ea] text-xl">Hãng sản xuất</span>
     </h2>
     <div class="flex items-center justify-between p-4 bg-[#1a1e30] rounded-md">
       <div>
         <router-link :to="{ name: 'CategoryRegisterAdmin', params: {} }">
           <Button
             type="button"
-            text="New Category"
+            text="Thêm hãng mới"
             id="addCategory"
             className="bg-[#0c3247] text-[#17b1ea] hover:bg-[#10405a] hover:text-white"
           />
@@ -24,13 +24,13 @@
       <table v-if="errorMessage == false" class="w-full">
         <thead class="w-full bg-[#0c3247] text-[#17b1ea]">
           <tr class="rounded-tl-md">
-            <th>No.</th>
-            <th>ID</th>
-            <th>Category Name</th>
-            <th>Created Date</th>
-            <th>Updated Date</th>
-            <th>Status</th>
-            <th>Action</th>
+            <th>STT.</th>
+            <th>Mã sản xuất</th>
+            <th>Tên hãng sản xuất</th>
+            <th>Ngày tạo</th>
+            <th>Ngày cập nhật</th>
+            <th>Trạng thái</th>
+            <th>Hành động</th>
           </tr>
         </thead>
         <tbody>
@@ -52,7 +52,7 @@
                   className="min-w-[60px] px-2 text-sm bg-green-700 hover:bg-green-600 block text-center m-0 hover:text-white"
                   name="edit"
                 >
-                  Edit
+                  Sửa
                 </button>
               </router-link>
 
@@ -61,7 +61,7 @@
                 name="delete"
                 @click.prevent="onDelete($event, item.trademarkId, item.categoryId)"
               >
-                Delete
+                Xóa
               </button>
             </td>
           </tr>

@@ -3,18 +3,18 @@
   <div class="w-full bg-[#abb8c3] flex items-center justify-center fixed -mt-20 z-20">
     <nav class="2xl:w-[1280px] flex items-center justify-between h-[70px] text-cyan-900">
       <div class="flex cursor-pointer logo hover:cursor-pointer">DES STORE.</div>
-      <div class="flex items-center justify-center gap-3">
+      <div class="flex items-center justify-center gap-1">
         <router-link :to="route.url" v-for="(route, index) in routes" :key="index"
-          ><span class="font-bold">{{ route.urlName }}</span></router-link
+          ><span class="font-bold w-[100px]">{{ route.urlName }}</span></router-link
         >
       </div>
-      <div class="relative flex items-center justify-center gap-2 -mr-3">
+      <div class="relative flex items-center justify-center gap-3">
         <div class="flex items-center justify-center">
           <Input
             type="text"
             classChild="min-w-[300px] px-2 py-2 rounded-sm"
             name="search"
-            placeholder="Search"
+            placeholder="Tìm kiếm..."
             v-model="api.searchValue"
             @keyup="onSearchValue($event)"
           />
@@ -47,7 +47,7 @@
         </ul>
         <router-link to="/payment">
           <button
-            class="w-full relative bg-transparent hover:border-[rgba(87, 61, 61, 0.6)] border-2 rounded-lg card py-[8px] px-[8px] -mr-1 flex items-center justify-center"
+            class="w-[110px] -ml-4 relative bg-transparent hover:border-[rgba(87, 61, 61, 0.6)] border-2 rounded-lg card py-[8px] flex items-center justify-center"
           >
             <span class="relative mr-1" id="total-price-cart"
               >{{ formatPrice(total.totalPrice) }}đ</span
@@ -60,18 +60,18 @@
             >
           </button>
         </router-link>
-        <div v-if="currentUser !== null" class="mr-6 login">
+        <div v-if="currentUser !== null" class="mr-4 login">
           <Button
             @click="logout"
-            text="Logout"
-            class="button font-bold w-full hover:bg-[#0c3247] text-[#17b1ea] hover:text-white"
+            text="Đăng xuất"
+            class="button px-1 font-bold w-full hover:bg-[#0c3247] text-[#17b1ea] hover:text-white"
           />
         </div>
         <div v-if="currentUser === null" class="mr-6 login">
           <router-link :to="{ name: 'Login', params: {} }"
             ><Button
-              text="Login"
-              class="px-3 button font-bold w-full hover:bg-[#0c3247] text-[#17b1ea]"
+              text="Đăng nhập"
+              class="px-1 button font-bold w-full hover:bg-[#0c3247] text-[#17b1ea]"
           /></router-link>
         </div>
       </div>
@@ -87,19 +87,19 @@ import store from '@/stores/store'
 const routes = [
   {
     url: '/',
-    urlName: 'Home'
+    urlName: 'Trang chủ'
   },
   {
     url: '/about',
-    urlName: 'About'
+    urlName: 'Giới thiệu'
   },
   {
     url: '/product',
-    urlName: 'Product'
+    urlName: 'Sản phẩm'
   },
   {
     url: '/contact',
-    urlName: 'Contact'
+    urlName: 'Liên hệ'
   }
 ]
 const api = reactive({
@@ -170,9 +170,11 @@ nav {
   }
   div {
     a {
-      padding: 8px 20px;
+      padding: 8px 10px;
+      width: 100px;
       transition: all 0.2s;
       border-radius: 3px;
+      text-align: center;
       &:hover {
         color: #17b1ea;
       }

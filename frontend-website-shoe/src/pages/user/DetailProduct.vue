@@ -2,14 +2,14 @@
   <BasePage>
     <template v-slot:body>
       <div
-        class="flex items-center justify-start w-full px-6 py-2 my-1 text-lg font-bold text-white rounded-[4px] bg-slate-600"
+        class="flex items-center justify-start w-full px-6 py-2 text-lg font-bold text-gray-800 rounded-[4px] bg-[#F8F8F8]"
       >
-        <span class="pointer">Trang chủ</span>
+        <span class="text-xl">Trang chủ</span>
         <span><vue-feather class="w-5 h-5 translate-y-1" type="chevron-right"></vue-feather></span>
-        <span class="pointer text-cyanBlue">{{ product.productModel.productName }} </span>
+        <span>Sản phẩm</span>
       </div>
       <div
-        class="grid grid-cols-5 w-full gap-10 px-6 py-5 my-1 text-lg font-bold text-white rounded-[4px] bg-slate-600"
+        class="grid grid-cols-5 w-full gap-10 px-6 py-5 my-1 text-lg font-bold text-gray-800 rounded-[4px] bg-[#F8F8F8]"
       >
         <div class="flex flex-col items-center justify-start col-span-2">
           <div class="image item-select">
@@ -31,43 +31,53 @@
           </div>
         </div>
         <div class="flex flex-col items-start w-full h-full col-span-3 gap-5">
-          <h2 class="w-full p-[16px] rounded text-base font-bold text-left bg-[#ff4a684d]">
+          <h2 class="w-full text-2xl font-bold text-left rounded">
             {{ product.productModel.productName }}
           </h2>
+          <div class="flex items-center justify-between w-full text-base font-normal">
+            <div>
+              <span class="text-2xl text-brown"
+                >{{ formatPrice(product.productModel.productPriceSale) }}đ</span
+              >
+              <span class="ml-3 mr-2 text-sm font-semibold text-gray-500 line-through"
+                >{{ formatPrice(product.productModel.productPrice) }}đ</span
+              >
+              <span class="p-1 text-sm text-white rounded-sm bg-brown">{{
+                (product.productModel.productPrice / product.productModel.productPriceSale).toFixed(
+                  0
+                ) + '%'
+              }}</span>
+            </div>
+            <div class="text-sm">
+              <span>{{ product.comment.length }} đánh giá</span>
+            </div>
+          </div>
           <div class="flex items-start justify-between w-full text-sm">
             <div>
-              <p class="text-lg">
-                Product number : <span class="text-sm"> {{ product.productModel.productId }}</span>
-              </p>
               <p class="mt-2 text-lg">
-                Status:
+                Trạng thái:
                 <span class="text-sm">{{
-                  product.productModel.quantity > 0 ? 'Stocking' : 'Out of stock'
+                  product.productModel.quantity > 0 ? 'Còn hàng' : 'Hết hàng'
                 }}</span>
               </p>
             </div>
             <p class="text-lg">
-              Quantity: <span class="text-sm">{{ product.productModel.quantity }}</span>
+              Số lượng: <span class="text-sm">{{ product.productModel.quantity }}</span>
             </p>
           </div>
-          <div class="text-base">
-            <span>Price:</span>
-            <span class="ml-3 mr-2 text-sm line-through text-brown"
-              >{{ formatPrice(product.productModel.productPrice) }}đ</span
-            ><span class="text-2xl">{{ formatPrice(product.productModel.productPriceSale) }}đ</span>
-          </div>
+
           <div class="w-full mb-3 mr-3">
             <span class="text-lg"
-              >Size <span class="text-lg align-middle text-brown">*</span>
+              >Kích cỡ <span class="text-lg align-middle text-brown">*</span>
             </span>
             <select
               name="productSize"
               v-model="product.productSize"
-              class="w-full p-2 mt-1 text-black rounded-sm outline-none"
+              class="w-full p-2 mt-1 text-gray-800 rounded-sm outline-none border-cyan-900 border-[1px] border-solid"
               :value="Number(36)"
             >
               <option
-                class="text-black"
+                class="text-gray-800"
                 v-for="item in count"
                 :selected="item === 1"
                 :key="item"
@@ -80,7 +90,7 @@
           <div class="flex h-[33px]">
             <span class="text-lg w-[150px]">Số lượng: </span>
             <InputIncrement
-              classChild="text-sm p-0 w-full"
+              classChild="text-sm p-0 w-full text-white "
               name="quantity"
               v-model="product.productQuantity"
               :value="quantity"
@@ -90,14 +100,14 @@
             <Button
               @click.prevent="onSubmit($event, 'add')"
               type="submit"
-              className="bg-dark-blue hover:bg-dark-blue-hover text-cyanBlue w-full m-0"
+              className="bg-dark-blue hover:bg-dark-blue-hover text-white hover:text-cyanBlue w-full m-0"
               name="addCart"
               text="Thêm vào giỏ hàng"
             />
             <Button
               @submit="onSubmit($event, 'buy')"
               type="submit"
-              className="bg-dark-blue hover:bg-dark-blue-hover text-cyanBlue w-full m-0"
+              className="bg-dark-blue hover:bg-dark-blue-hover text-white hover:text-cyanBlue w-full m-0"
               name="buyNow"
               text="Mua ngay"
             />
@@ -105,96 +115,133 @@
         </div>
       </div>
       <div
-        class="grid grid-cols-5 mb-3 w-full gap-10 px-6 py-5 my-1 font-bold text-white rounded-[4px] bg-slate-600"
+        class="grid grid-cols-5 mb-3 w-full gap-10 px-6 py-5 my-1 font-bold text-gray-800 rounded-[4px] bg-[#F8F8F8]"
       >
         <div class="col-span-4">
-          <CommonItem title="Thông số kĩ thuật">
-            <table class="w-full gap-5 mt-3">
+          <div class="grid grid-cols-3 gap-1 text-white">
+            <span
+              @click="onUserSelect($event, 'spec')"
+              class="w-full col-span-1 py-2 text-center transition-all cursor-pointer bg-dark-blue hover:bg-dark-blue-hover hover:text-cyanBlue"
+              :class="userSelect.spec === true ? 'bg-dark-blue-hover text-cyanBlue' : ''"
+              >Thông số kỹ thuật</span
+            >
+            <span
+              @click="onUserSelect($event, 'desc')"
+              class="w-full col-span-1 py-2 text-center transition-all cursor-pointer bg-dark-blue hover:bg-dark-blue-hover hover:text-cyanBlue"
+              :class="userSelect.desc === true ? 'bg-dark-blue-hover text-cyanBlue' : ''"
+              >Mô tả sản phẩm</span
+            >
+            <span
+              @click="onUserSelect($event, 'review')"
+              class="w-full col-span-1 py-2 text-center transition-all cursor-pointer bg-dark-blue hover:bg-dark-blue-hover hover:text-cyanBlue"
+              :class="userSelect.review === true ? 'bg-dark-blue-hover text-cyanBlue' : ''"
+              >Đánh giá</span
+            >
+          </div>
+          <CommonItem v-if="userSelect.spec === true">
+            <table class="w-full gap-5 mt-3 font-semibold text-white">
               <tr>
-                <td class="rounded-tl-lg opacity-80 bg-gray bg-slate-500">Size:</td>
-                <td class="rounded-tr-lg opacity-80 bg-slate-700">
-                  36, 37, 38, 39, 40, 41, 42, 43
-                </td>
+                <td class="opacity-80 bg-gray bg-slate-400">Kích cỡ:</td>
+                <td class="opacity-80 bg-slate-500">36, 37, 38, 39, 40, 41, 42, 43</td>
               </tr>
               <tr>
-                <td class="opacity-80 bg-gray bg-slate-500">Gift:</td>
-                <td class="opacity-80 bg-slate-700">Full box + tax + bill, Tặng tất</td>
+                <td class="opacity-80 bg-gray bg-slate-400">Quà tặng kèm:</td>
+                <td class="opacity-80 bg-slate-500">Full box + tax + bill, Tặng tất</td>
               </tr>
               <tr>
-                <td class="opacity-80 bg-gray bg-slate-500">Trademark:</td>
-                <td class="opacity-80 bg-slate-700">{{ product.productModel.categoryName }}</td>
+                <td class="opacity-80 bg-gray bg-slate-400">Hãng sản xuất:</td>
+                <td class="opacity-80 bg-slate-500">{{ product.productModel.categoryName }}</td>
               </tr>
             </table>
           </CommonItem>
-          <CommonItem title="Mô tả sản phẩm" class="mt-5 h-[350px] w-full">
+          <CommonItem v-if="userSelect.desc === true" class="mt-5 h-[350px] w-full">
             <div class="p-3 text-sm">
               {{ product.productModel.productDescription }}
             </div>
           </CommonItem>
-          <CommonItem title="Đánh giá" class="w-full mt-5">
-            <div class="p-3 text-sm" v-if="product.comment.length <= 0">Chưa có đánh giá nào.</div>
-            <div class="p-3 text-sm" v-if="product.comment.length > 0">
-              <ul class="cursor-none">
-                <li
-                  v-for="comment in product.comment"
-                  :key="comment.commentId"
-                  class="flex items-start justify-start gap-3"
-                >
-                  <div>
-                    <img
-                      src="../../assets/images/default.png"
-                      class="w-[60px] h-[60px] object-cover"
-                      alt=""
+          <div v-if="userSelect.review === true">
+            <CommonItem class="w-full mt-5">
+              <div class="p-3 text-sm" v-if="product.comment.length <= 0">
+                Chưa có đánh giá nào.
+              </div>
+              <div class="p-3 text-sm" v-if="product.comment.length > 0">
+                <ul>
+                  <li
+                    v-for="comment in product.comment"
+                    :key="comment.commentId"
+                    class="flex items-start justify-start gap-3"
+                  >
+                    <div>
+                      <img
+                        src="../../assets/images/default.png"
+                        class="w-[60px] h-[60px] object-cover"
+                        alt=""
+                      />
+                    </div>
+                    <div class="flex flex-col items-start justify-start w-full">
+                      <span class="-mt-1 text-cyanBlue">{{
+                        comment.lastName +
+                        ' ' +
+                        (comment.firstName === null ? '' : comment.firstName)
+                      }}</span>
+                      <span class="text-sm">{{ comment.commentDetail }}</span>
+                      <span class="w-full text-sm text-right cursor-pointer">Like</span>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </CommonItem>
+            <CommonItem class="w-full mt-5">
+              <form action="" method="post" class="flex flex-col w-full mt-5">
+                <div class="mb-3">
+                  <span class="text-sm">Ý kiến của bạn về sản phẩm</span>
+                  <Textarea
+                    class="border-solid border-[1px] border-gray-300"
+                    placeholder=""
+                    v-model="comment.commentDetail"
+                    name="detail"
+                  />
+                </div>
+                <div class="flex items-center justify-between w-full gap-3">
+                  <div class="w-full mb-3">
+                    <span class="text-sm"
+                      >Họ tên của bạn <span class="text-lg align-middle text-brown">*</span>
+                    </span>
+                    <Input
+                      type="text"
+                      v-model="comment.commentName"
+                      name="fullName"
+                      placeholder=""
                     />
                   </div>
-                  <div class="flex flex-col items-start justify-start w-full">
-                    <span class="-mt-1 text-cyanBlue">{{
-                      comment.lastName + ' ' + (comment.firstName === null ? '' : comment.firstName)
-                    }}</span>
-                    <span class="text-sm">{{ comment.commentDetail }}</span>
-                    <span class="w-full text-sm text-right">Like</span>
+                  <div class="w-full mb-3">
+                    <span class="text-sm"
+                      >Email <span class="text-lg align-middle text-brown">*</span>
+                    </span>
+                    <Input
+                      type="email"
+                      v-model="comment.commentEmail"
+                      name="email"
+                      placeholder=""
+                    />
                   </div>
-                </li>
-              </ul>
-            </div>
-          </CommonItem>
-          <CommonItem :title="'Đánh giá sản phẩm: ' + productName" class="w-full mt-5">
-            <form action="" method="post" class="flex flex-col w-full mt-5">
-              <div class="mb-3">
-                <span class="text-sm">Your comment(If any) </span>
-                <Textarea placeholder="" v-model="comment.commentDetail" name="detail" />
-              </div>
-              <div class="flex items-center justify-between w-full gap-3">
-                <div class="w-full mb-3">
-                  <span class="text-sm"
-                    >Name <span class="text-lg align-middle text-brown">*</span>
-                  </span>
-                  <Input type="text" v-model="comment.commentName" name="fullName" placeholder="" />
                 </div>
-                <div class="w-full mb-3">
-                  <span class="text-sm"
-                    >Email <span class="text-lg align-middle text-brown">*</span>
-                  </span>
-                  <Input type="email" v-model="comment.commentEmail" name="email" placeholder="" />
+                <div class="flex items-center justify-end">
+                  <Button
+                    type="button"
+                    @click.prevent="submitComment"
+                    className="bg-dark-blue hover:bg-dark-blue-hover text-white hover:text-cyanBlue w-[200px] m-0"
+                    name="comment"
+                    text="Bình luận"
+                  />
                 </div>
-              </div>
-              <div class="flex items-center justify-end">
-                <Button
-                  type="button"
-                  @click.prevent="submitComment"
-                  className="bg-dark-blue hover:bg-dark-blue-hover text-cyanBlue w-[200px] m-0"
-                  name="comment"
-                  text="Comment"
-                />
-              </div>
-            </form>
-          </CommonItem>
+              </form>
+            </CommonItem>
+          </div>
         </div>
         <div class="col-span-1">
-          <h2 class="w-full mt-2 p-[12px] rounded text-base font-bold text-center bg-dark-blue">
-            Useful information
-          </h2>
-          <div class="flex flex-col gap-4 cursor-pointer">
+          <h2 class="w-full p-[8px] text-center bg-dark-blue text-white">Cách phối đồ</h2>
+          <div class="flex flex-col gap-4 p-1 bg-white cursor-pointer">
             <ArticleSmall title="Phối đồ với " />
           </div>
         </div>
@@ -235,7 +282,11 @@ const activeImage = reactive({
 const order = ref([])
 const quantity = ref(0)
 const count = 8
-const productName = 'Giày Gucci Men’s Screener GG Sneaker Like Auth'
+const userSelect = reactive({
+  spec: true,
+  desc: false,
+  review: false
+})
 onMounted(async () => {
   await fetchData(route.params.categoryId, route.params.productId, product)
 })
@@ -306,6 +357,23 @@ const onActiveImage = (event, item) => {
   activeImage.fileName = item.fileName
   activeImage.imageId = item.imageId
 }
+function onUserSelect(event, userSelectStatus) {
+  if (userSelectStatus === 'spec') {
+    userSelect.spec = true
+    userSelect.desc = false
+    userSelect.review = false
+  }
+  if (userSelectStatus === 'desc') {
+    userSelect.spec = false
+    userSelect.desc = true
+    userSelect.review = false
+  }
+  if (userSelectStatus === 'review') {
+    userSelect.spec = false
+    userSelect.desc = false
+    userSelect.review = true
+  }
+}
 </script>
 <style lang="scss" scoped>
 .active {
@@ -329,6 +397,11 @@ table {
         width: 200px;
       }
     }
+  }
+}
+ul {
+  li {
+    cursor: auto;
   }
 }
 </style>

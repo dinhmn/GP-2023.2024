@@ -1,7 +1,7 @@
 <template lang="">
   <BasePage class="flex flex-col items-center justify-center gap-5 text-white">
     <template v-slot:body>
-      <div class="grid w-full grid-cols-2 gap-5 px-10 py-10 bg-gray-700 rounded-lg">
+      <div class="grid w-full grid-cols-2 gap-5 px-10 py-10 bg-[#F8F8F8] text-cyan-800 rounded-lg">
         <div class="col-span-1">
           <VMap>
             <VMapOsmTileLayer />
