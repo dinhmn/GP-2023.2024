@@ -1,11 +1,11 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template lang="">
-  <CommonAdmin title="User" actionNew="false" class="h-[100vh]">
+  <CommonAdmin title="Tài khoản" actionNew="false" class="h-[100vh]">
     <template v-slot:search>
       <form class="flex w-[600px] gap-2 items-center justify-center">
         <Input
           type="text"
-          placeholder="Search..."
+          placeholder="Tìm kiếm..."
           name="search"
           id="search"
           classChild="min-w-[200px] py-[6px] rounded-sm max-w-[400px] max-h-[40px]"
@@ -17,30 +17,30 @@
           id="categoryId"
           v-model="searchData.sortBy"
         >
-          <option value="user_id">UserId</option>
-          <option value="category_name">CategoryName</option>
-          <option value="product_price">Price</option>
+          <option value="username">Username</option>
+          <option value="last_name">Tên</option>
+          <option value="created_date">Ngày tạo</option>
         </select>
         <Button
           type="button"
-          text="Search"
+          text="Tìm kiếm"
           id="search"
           @click="search"
-          className="bg-[#0c3247] text-[#17b1ea] hover:bg-[#10405a] hover:text-white"
+          className="bg-[#0c3247] w-[300px] text-[#17b1ea] hover:bg-[#10405a] hover:text-white"
         />
       </form>
     </template>
     <template v-slot:thead>
       <thead class="w-full bg-[#0c3247] text-[#17b1ea]">
         <tr class="rounded-tl-md">
-          <th>No.</th>
-          <th>User name</th>
-          <th>Full name</th>
+          <th>STT.</th>
+          <th>Tên người dùng</th>
+          <th>Họ và tên</th>
           <th>Email</th>
-          <th>Created date</th>
-          <th>Role</th>
-          <th>Status</th>
-          <th class="w-[150px]">Action</th>
+          <th>Ngày tạo</th>
+          <th>Quyền</th>
+          <th>Trạng thái</th>
+          <!-- <th class="w-[150px]">Hành động</th> -->
         </tr>
       </thead>
     </template>
@@ -51,7 +51,7 @@
           <td>{{ item.username }}</td>
           <td>{{ item.lastName + ' ' + item.firstName }}</td>
           <td>{{ item.userEmail }}</td>
-          <td>{{ item.createdDate }}</td>
+          <td>{{ new Date(item.createdDate).toLocaleDateString().replaceAll('/', '-') }}</td>
           <td>
             <select
               name="role"
@@ -64,16 +64,16 @@
               </option>
             </select>
           </td>
-          <td>{{ item.status === true ? 'Active' : 'Inactive' }}</td>
-          <td class="flex items-center justify-around gap-2">
+          <td>{{ item.status === true ? 'Hoạt động' : 'Không hoạt động' }}</td>
+          <!-- <td class="flex items-center justify-around gap-2">
             {{ item.roleId }}
-          </td>
+          </td> -->
         </tr>
       </tbody>
     </template>
     <template v-slot:page>
       <ul class="flex items-center justify-end gap-1">
-        <li class="active hover:opacity-80" @click="onPreviousPage">Prev</li>
+        <li class="active hover:opacity-80" @click="onPreviousPage">Sau</li>
         <li
           @click="onSetPage(item)"
           v-for="item in api.totalPages"
@@ -82,7 +82,7 @@
         >
           {{ item }}
         </li>
-        <li class="active hover:opacity-80" @click="onNextPage">Next</li>
+        <li class="active hover:opacity-80" @click="onNextPage">Tiếp</li>
       </ul>
     </template>
   </CommonAdmin>
@@ -109,7 +109,7 @@ const searchData = reactive({
   pageNo: '',
   pageSize: '',
   sortDirection: 'ASC',
-  sortBy: 'product_name',
+  sortBy: 'username',
   searchValue: ''
 })
 const route = useRoute()

@@ -11,7 +11,9 @@
           class="object-cover w-full h-[500px]"
         />
       </div>
-      <div class="flex items-center justify-around w-full py-2 my-1 rounded-[4px] bg-slate-600">
+      <div
+        class="flex items-center justify-around w-full py-2 my-1 rounded-[4px] bg-[#F8F8F8] text-cyan-800"
+      >
         <div
           class="flex flex-col items-center justify-center transition-all scale-75 cursor-pointer hover:text-brown hover:scale-90"
           v-for="(item, index) in trademark"
@@ -23,8 +25,12 @@
       </div>
       <BoxCommon>
         <template v-slot:title>
-          <div class="w-full px-4 py-2 rounded bg-brown">
-            <h3 class="text-2xl font-bold leading-9 tracking-widest uppercase">New Sale</h3>
+          <div class="w-full px-4 py-2 text-cyan-800">
+            <h3
+              class="text-2xl font-bold leading-9 tracking-tight uppercase border-b-cyan-800 border-b-[2px] border-solid"
+            >
+              Sản phẩm được giảm giá
+            </h3>
           </div>
         </template>
         <template v-slot:detail>
@@ -49,18 +55,22 @@
           </div>
         </template>
       </BoxCommon>
-      <div class="my-4 rounded-[4px] w-full bg-slate-600 shadow-custom">
+      <div class="my-4 rounded-[4px] w-full bg-[#F8F8F8] shadow-custom">
         <div
           class="flex flex-col items-start justify-between"
           v-for="(item, index) in dataList"
           :key="index"
         >
-          <div class="flex items-center justify-between w-full px-4 py-2 rounded">
-            <h3 class="text-2xl font-bold leading-9 tracking-widest uppercase text-brown">
+          <div class="flex items-center justify-between w-full px-4 py-2">
+            <h3
+              class="text-2xl font-bold leading-9 tracking-widest uppercase text-cyan-800 border-b-cyan-800 border-b-[2px] border-solid"
+            >
               Giày
               {{ item[0].categoryName }}
             </h3>
-            <h3 class="flex text-lg font-bold align-middle cursor-pointer hover:text-brown">
+            <h3
+              class="flex text-lg font-bold align-middle transition-all cursor-pointer text-cyan-800 hover:text-cyanBlue"
+            >
               <router-link :to="{ name: 'Product' }"
                 ><span class="mr-2">Xem tất cả</span>
               </router-link>
@@ -91,7 +101,9 @@
       <BoxCommon>
         <template v-slot:title>
           <div class="flex items-center justify-between w-full px-4 py-2 rounded">
-            <h3 class="text-2xl font-bold leading-9 tracking-widest uppercase text-brown">
+            <h3
+              class="text-2xl font-bold leading-9 tracking-widest uppercase text-cyan-800 border-b-cyan-800 border-b-[2px] border-solid"
+            >
               Tư vấn chọn mua
             </h3>
             <h3 class="flex text-lg font-bold align-middle cursor-pointer hover:text-brown">

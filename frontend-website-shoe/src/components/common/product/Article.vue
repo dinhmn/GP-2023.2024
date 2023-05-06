@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template lang="">
   <div
-    class="flex flex-col w-full gap-4 p-4 transition-all rounded-lg cursor-pointer hover:text-brown bg-slate-700"
+    class="flex flex-col w-full gap-4 p-4 transition-all rounded-lg hover:bg-gray-200 cursor-pointer text-cyan-800 bg-[#F4F4F4]"
   >
     <img class="object-cover w-full h-[200px]" :src="getImageUrl(article.src)" :alt="article.alt" />
     <div class="flex flex-col items-center justify-center gap-2 ml-2">

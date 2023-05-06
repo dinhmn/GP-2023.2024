@@ -4,7 +4,7 @@
     <div class="grid grid-cols-4 gap-5 text-white h-[100px]">
       <div class="col-span-1 p-4 bg-purple-500 rounded-lg">
         <p class="flex items-center justify-between">
-          <strong class="text-lg">Order</strong>
+          <strong class="text-lg">Đơn hàng</strong>
           <span class="p-1 px-2 text-black bg-white rounded-full">
             <vue-feather class="w-5 h-5 mt-1" type="shopping-bag"></vue-feather>
           </span>
@@ -13,7 +13,7 @@
       </div>
       <div class="col-span-1 p-4 bg-blue-500 rounded-lg">
         <p class="flex items-center justify-between">
-          <strong class="text-lg">Total Quantity Sold</strong>
+          <strong class="text-lg">Số lượng bán</strong>
           <span class="p-1 px-2 text-black bg-white rounded-full">
             <vue-feather class="w-5 h-5 mt-1" type="gift"></vue-feather>
           </span>
@@ -22,7 +22,7 @@
       </div>
       <div class="col-span-1 p-4 bg-green-500 rounded-lg">
         <p class="flex items-center justify-between">
-          <strong class="text-lg">Complete</strong>
+          <strong class="text-lg">Đơn hoàn thành</strong>
           <span class="p-1 px-2 text-black bg-white rounded-full">
             <vue-feather class="w-5 h-5 mt-1" type="pocket"></vue-feather>
           </span>
@@ -31,7 +31,7 @@
       </div>
       <div class="col-span-1 p-4 bg-red-500 rounded-lg">
         <p class="flex items-center justify-between">
-          <strong class="text-lg">Total Price</strong>
+          <strong class="text-lg">Tổng tiền thu được</strong>
           <span class="p-1 px-2 text-black bg-white rounded-full">
             <vue-feather class="w-5 h-5 mt-1" type="award"></vue-feather>
           </span>
@@ -62,13 +62,13 @@
       <table class="w-full text-white">
         <thead class="w-full bg-[#0c3247] text-[#17b1ea]">
           <tr class="rounded-tl-md">
-            <th>Order No.</th>
-            <th>Full name</th>
-            <th>Quantity Sold</th>
-            <th>Order date</th>
-            <th>Total Price</th>
-            <th>Status</th>
-            <th class="w-[150px]">Action</th>
+            <th>STT.</th>
+            <th>Họ và tên</th>
+            <th>Số lượng mua</th>
+            <th>Ngày đặt hàng</th>
+            <th>Tổng tiền</th>
+            <th>Trạng thái</th>
+            <th class="w-[150px]">Hoạt động</th>
           </tr>
         </thead>
         <tbody>
@@ -82,28 +82,28 @@
               }}
             </td>
             <td>{{ item.productQuantity }}</td>
-            <td>{{ new Date(item.createdDate).toLocaleString() }}</td>
+            <td>{{ new Date(item.createdDate).toLocaleString().replaceAll('/', '-') }}</td>
             <td>{{ formatPrice(item.productPrice * item.productQuantity) + ' đ' }}</td>
             <td>
               <strong
                 v-if="Number(item.status) === 0"
                 class="px-[20px] py-[4px] text-xs text-yellow-700 bg-yellow-400 rounded-full"
-                >Wait</strong
+                >Chờ duyệt</strong
               >
               <strong
                 v-if="Number(item.status) === 1"
                 class="px-[20px] py-[4px] text-xs min-w-[100px] text-green-700 bg-green-400 rounded-full"
-                >Done</strong
+                >Hoàn thành</strong
               >
               <strong
                 v-if="Number(item.status) === 2"
                 class="px-[20px] py-[4px] text-xs text-red-700 bg-red-400 rounded-full"
-                >Cancel</strong
+                >Hủy</strong
               >
             </td>
             <td class="flex items-center w-[150px] justify-around text-xs cursor-pointer">
-              <button class="bg-blue-500">View</button>
-              <button class="bg-green-500">Print</button>
+              <button class="bg-blue-500">Xem</button>
+              <button class="bg-green-500">In</button>
             </td>
           </tr>
         </tbody>

@@ -1,5 +1,5 @@
 <template lang="">
-  <div class="w-full text-white">
+  <div class="w-full text-white h-[100vh]">
     <h2 class="w-full my-2 mb-4 font-bold">
       <span class="text-xl">Dashboard</span> <strong> > </strong>
       <span class="text-[#17b1ea] text-xl">{{ props.title }}</span>
@@ -10,7 +10,7 @@
         <router-link :to="{ name: props.actionNew }">
           <Button
             type="button"
-            :text="'New ' + props.title"
+            :text="'Thêm ' + props.title"
             id="addCategory"
             className="bg-[#0c3247] text-[#17b1ea] hover:bg-[#10405a] hover:text-white"
           />

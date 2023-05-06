@@ -7,7 +7,7 @@
       <vue-feather class="w-4 h-4" type="minus" />
     </button>
     <input
-      class="min-w-[40px] pointer-events-none select-none text-center h-full w-[30px] text-gray-800 rounded"
+      class="min-w-[40px] pointer-events-none select-none bg-dark-blue text-white text-center h-full w-[30px] text-gray-800 rounded"
       disabled
       type="text"
       :name="name"

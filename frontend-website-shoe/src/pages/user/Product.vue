@@ -3,12 +3,12 @@
   <BasePage>
     <template v-slot:body>
       <div
-        class="flex items-center justify-between w-full px-3 py-3 mb-2 text-white rounded bg-slate-700"
+        class="flex items-center text-cyan-800 justify-between w-full px-3 py-3 mb-2 rounded bg-[#F8F8F8]"
       >
         <div class="flex items-center justify-between gap-2 text-xl font-bold">
           <h3>Trang chủ</h3>
           <vue-feather type="chevron-right"></vue-feather>
-          <h3 class="text-[#17b1ea]">Sản phẩm</h3>
+          <h3>Sản phẩm</h3>
         </div>
         <div class="flex items-center justify-center">
           <Input
@@ -19,7 +19,7 @@
             v-model="state.search"
           />
           <button
-            class="right-0 px-6 py-4 bg-[#0c3247] hover:bg-[#135070] rounded-tr-[3px] rounded-br-[3px] m-0 text-xs rounded-none"
+            class="right-0 px-6 py-[13px] text-white font-bold bg-[#0c3247] hover:bg-[#135070] rounded-tr-[3px] rounded-br-[3px] m-0 text-xs rounded-none"
             @click="filter()"
           >
             Tìm
@@ -28,23 +28,23 @@
       </div>
       <div class="grid w-full grid-cols-4 gap-2">
         <div class="col-span-1 form-search h-[100%] flex flex-col gap-4 rounded-md py-2 -mt-2">
-          <h3 class="text-[#17b1ea] font-bold text-xl block text-center py-2 bg-slate-700 rounded">
+          <h3 class="block py-2 text-xl font-bold text-center rounded text-cyan-800 bg-[#F8F8F8]">
             Danh mục sản phẩm
           </h3>
           <div>
-            <ul class="flex flex-col gap-2 py-2 text-sm bg-slate-700">
+            <ul class="flex flex-col gap-2 text-sm bg-[#F8F8F8] -mt-2">
               <li
                 v-for="item in api.categoryList"
                 :key="item"
                 @click="onSelectedCategory($event, item.categoryId)"
-                class="py-3 px-4 text-base text-white hover:text-[#17b1ea] border-transparent border-l-[4px] border-solid"
+                class="py-3 px-4 text-base text-cyan-800 hover:text-[#17b1ea] border-transparent border-l-[4px] border-solid"
                 :class="active == item.categoryId ? 'active' : ''"
               >
                 {{ item.categoryName }}
               </li>
             </ul>
           </div>
-          <form action="" class="flex flex-col gap-1 bg-slate-700 text-[#17b1ea] rounded">
+          <form action="" class="flex flex-col gap-1 text-cyan-800 bg-[#F8F8F8] rounded-sm">
             <h1 class="px-2 py-2 text-lg font-bold text-center">Tìm kiếm theo</h1>
             <div class="p-2">
               <h3>Giá</h3>
@@ -66,7 +66,7 @@
               <ul class="grid w-full grid-cols-5 gap-3 mt-3">
                 <li
                   class="border-[#0c3247] border-solid border-[2px] px-2 col-span-1 text-center"
-                  :class="size.selected ? 'bg-[#0c3247]' : ''"
+                  :class="size.selected ? 'bg-[#0c3247] text-white' : ''"
                   @click="onSelected($event, size, 'size')"
                   v-for="(size, index) in sizes"
                   :key="index"
@@ -90,8 +90,11 @@
                 </li>
               </ul>
             </div>
-            <button @click.prevent="filter" class="right-0 bg-[#0c3247] hover:bg-[#135070] m-0">
-              Filter
+            <button
+              @click.prevent="filter"
+              class="right-0 bg-[#0c3247] text-white hover:bg-[#135070] m-0"
+            >
+              Lọc
             </button>
           </form>
         </div>
@@ -121,8 +124,8 @@
             </div>
           </div>
           <div class="w-full my-3 text-center">
-            <button class="bg-[#0c3247] hover:bg-[#135070] text-[#17b1ea]" @click="loadMore">
-              {{ api.size === api.totalElements ? 'Collapse' : 'Load more' }}
+            <button class="bg-[#0c3247] hover:bg-[#135070] text-white" @click="loadMore">
+              {{ api.size === api.totalElements ? 'Rút gọn' : 'Xem thêm' }}
             </button>
           </div>
         </div>

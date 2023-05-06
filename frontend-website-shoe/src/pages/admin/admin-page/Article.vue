@@ -1,11 +1,11 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template lang="">
-  <CommonAdmin title="Article" actionNew="ArticleRegisterAdmin">
+  <CommonAdmin title="Tin tức" actionNew="ArticleRegisterAdmin">
     <template v-slot:search>
       <form class="flex w-[600px] gap-2 items-center justify-center -ml-7">
         <Input
           type="text"
-          placeholder="Search..."
+          placeholder="Tìm kiếm..."
           name="search"
           id="search"
           classChild="min-w-[200px] py-[6px] rounded-sm max-w-[400px] max-h-[40px]"
@@ -13,7 +13,7 @@
         />
         <Button
           type="button"
-          text="Search"
+          text="Tìm kiếm"
           id="search"
           @click="onSearch"
           className="bg-[#0c3247] text-[#17b1ea] hover:bg-[#10405a] hover:text-white"
@@ -23,13 +23,13 @@
     <template v-slot:thead>
       <thead class="w-full bg-[#0c3247] text-[#17b1ea]">
         <tr class="rounded-tl-md">
-          <th>No.</th>
-          <th>Article name</th>
-          <th>Article description</th>
-          <th>Created date</th>
-          <th>Updated date</th>
-          <th>Status</th>
-          <th class="w-[150px]">Action</th>
+          <th>STT.</th>
+          <th class="w-[150px]">Tên bài viết</th>
+          <th>Chi tiết bài viết</th>
+          <th class="w-[150px]">Ngày tạo</th>
+          <th class="w-[150px]">Ngày cập nhật</th>
+          <th class="w-[150px]">Trạng thái</th>
+          <th class="w-[150px]">Hành động</th>
         </tr>
       </thead>
     </template>
@@ -39,9 +39,9 @@
           <td>{{ index }}</td>
           <td>{{ item.articleName }}</td>
           <td>{{ item.articleDescription }}</td>
-          <td>{{ new Date(item.createdDate).toLocaleDateString() }}</td>
-          <td>{{ new Date(item.updatedDate).toLocaleDateString() }}</td>
-          <td>{{ item.articleStatus }}</td>
+          <td>{{ new Date(item.createdDate).toLocaleDateString().replaceAll('/', '-') }}</td>
+          <td>{{ new Date(item.updatedDate).toLocaleDateString().replaceAll('/', '-') }}</td>
+          <td>{{ item.articleStatus === 'true' ? 'Hoạt động' : 'Không hoạt động' }}</td>
           <td class="flex items-center justify-around gap-2">
             <router-link
               :to="{ name: 'ArticleUpdateAdmin', params: { articleId: item.articleId } }"
@@ -50,7 +50,7 @@
                 className="min-w-[60px] px-2 text-sm bg-green-700 hover:bg-green-600 block text-center m-0 hover:text-white"
                 name="edit"
               >
-                Edit
+                Sửa
               </button>
             </router-link>
 
@@ -59,7 +59,7 @@
               name="delete"
               @click="onDelete($event, item.articleId)"
             >
-              Delete
+              Xóa
             </button>
           </td>
         </tr>
@@ -67,7 +67,7 @@
     </template>
     <template v-slot:page>
       <ul class="flex items-center justify-end gap-1">
-        <li @click="onPreviousPage">Prev</li>
+        <li class="active hover:opacity-80" @click="onPreviousPage">Sau</li>
         <li
           @click="onSetPage(item)"
           v-for="item in api.totalPages"
@@ -76,7 +76,7 @@
         >
           {{ item }}
         </li>
-        <li @click="onNextPage">Next</li>
+        <li class="active hover:opacity-80" @click="onNextPage">Tiếp</li>
       </ul>
     </template>
   </CommonAdmin>

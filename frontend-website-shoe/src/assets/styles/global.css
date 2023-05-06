@@ -11,7 +11,8 @@
   
 }
 body {
-  background-color: var(--background-color);
+  background-color: white;
+
 }
 button {
   padding: 8px 20px;

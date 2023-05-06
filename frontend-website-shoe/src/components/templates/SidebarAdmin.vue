@@ -5,25 +5,25 @@
         <span>Dashboard</span>
       </router-link>
       <router-link :to="{ name: 'ArticleAdmin' }">
-        <span>Article</span>
+        <span>Tin tức</span>
       </router-link>
       <router-link :to="{ name: 'CategoryAdmin' }">
-        <span>Category</span>
+        <span>Hãng sản xuất</span>
       </router-link>
       <router-link :to="{ name: 'ContactAdmin' }">
-        <span>Contact</span>
+        <span>Liên hệ</span>
       </router-link>
       <router-link :to="{ name: 'OrderAdmin' }">
-        <span>Order</span>
+        <span>Đơn đặt hàng</span>
       </router-link>
       <router-link :to="{ name: 'ProductAdmin' }">
-        <span>Product</span>
+        <span>Sản phẩm</span>
       </router-link>
       <router-link :to="{ name: 'UserAdmin' }">
-        <span>User</span>
+        <span>Tài khoản</span>
       </router-link>
       <router-link :to="{ name: 'RoleAdmin' }">
-        <span>Role</span>
+        <span>Quyền</span>
       </router-link>
     </div>
   </div>
