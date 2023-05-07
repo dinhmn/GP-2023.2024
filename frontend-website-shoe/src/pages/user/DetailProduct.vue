@@ -17,6 +17,7 @@
               :active-image-id="activeImage.imageId"
               :src="getImageUrl(activeImage.fileName)"
               :alt="activeImage.fileName"
+              class="w-[500px] h-[400px] object-cover"
             />
           </div>
           <div class="flex items-center justify-around gap-2 mt-3">
@@ -26,7 +27,11 @@
               class="image"
               @click="onActiveImage(event, item)"
             >
-              <img :src="getImageUrl(item.fileName)" :alt="item.fileName" />
+              <img
+                class="w-[100px] h-[100px] object-cover"
+                :src="getImageUrl(item.fileName)"
+                :alt="item.fileName"
+              />
             </div>
           </div>
         </div>
@@ -105,7 +110,7 @@
               text="Thêm vào giỏ hàng"
             />
             <Button
-              @submit="onSubmit($event, 'buy')"
+              @click="onSubmit($event, 'buy')"
               type="submit"
               className="bg-dark-blue hover:bg-dark-blue-hover text-white hover:text-cyanBlue w-full m-0"
               name="buyNow"
@@ -154,10 +159,8 @@
               </tr>
             </table>
           </CommonItem>
-          <CommonItem v-if="userSelect.desc === true" class="mt-5 h-[350px] w-full">
-            <div class="p-3 text-sm">
-              {{ product.productModel.productDescription }}
-            </div>
+          <CommonItem v-if="userSelect.desc === true" class="w-full mt-5">
+            <div class="p-3 text-sm" v-html="product.productModel.productDescription"></div>
           </CommonItem>
           <div v-if="userSelect.review === true">
             <CommonItem class="w-full mt-5">
@@ -266,7 +269,8 @@ const router = useRouter()
 const product = reactive({
   comment: [],
   productModel: {},
-  productSize: 36
+  productSize: 36,
+  productQuantity: 1
 })
 const comment = reactive({
   productId: route.params.productId,
@@ -304,13 +308,31 @@ async function fetchData(categoryId, productId, product) {
       console.log(error)
     })
 }
+const productModel = reactive({
+  productId: '',
+  categoryId: '',
+  productQuantity: 1,
+  productSize: '',
+  productName: '',
+  productPrice: '',
+  productPriceSale: ''
+})
 
 const onSubmit = (event, type) => {
   if (type == 'add') {
-    if (window.localStorage.getItem('order') !== null) {
-      order.value = JSON.parse(window.localStorage.getItem('order'))
+    if (localStorage.getItem('order') !== null) {
+      order.value = JSON.parse(localStorage.getItem('order'))
     }
-    order.value.push(product)
+    console.log(product)
+    productModel.categoryId = product.productModel.categoryId
+    productModel.productId = product.productModel.productId
+    productModel.productQuantity = product.productQuantity
+    productModel.productSize = product.productSize
+    productModel.productName = product.productModel.productName
+    productModel.productPrice = product.productModel.productPrice
+    productModel.productPriceSale = product.productModel.productPriceSale
+    order.value.push(productModel)
+    console.log(JSON.stringify(order.value))
     localStorage.setItem('order', JSON.stringify(order.value))
     render()
   } else {

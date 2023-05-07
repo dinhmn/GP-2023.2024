@@ -47,13 +47,7 @@
         <tr v-for="(item, index) in api.data" :key="item.orderId">
           <td>{{ index + 1 }}</td>
           <td>
-            {{
-              item.customerLastName !== null
-                ? item.customerLastName
-                : '' + ' ' + item.customerFirstName !== null
-                ? item.customerFirstName
-                : ''
-            }}
+            {{ item.fullName }}
           </td>
           <td>{{ item.customerAddress }}</td>
           <td>{{ item.orderCode }}</td>
@@ -62,9 +56,9 @@
             <select
               name="role"
               class="w-[120px] px-3 py-1 text-gray-800 rounded outline-none cursor-pointer"
-              :value="item.status"
-              :disabled="item.status === '1'"
-              :class="item.status === '1' ? 'select-none pointer-events-none bg-gray-500' : ''"
+              :value="item.orderStatus"
+              :disabled="item.orderStatus === '1'"
+              :class="item.orderStatus === '1' ? 'select-none pointer-events-none bg-gray-500' : ''"
               @change="onConfirm($event, item.orderId)"
             >
               <option value="0">Chờ</option>

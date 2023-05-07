@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template lang="">
-  <div class="w-full bg-[#abb8c3] flex items-center justify-center fixed -mt-20 z-20">
+  <div class="w-full bg-[#abb8c3] flex items-center justify-center fixed -mt-20 z-99">
     <nav class="2xl:w-[1280px] flex items-center justify-between h-[70px] text-cyan-900">
       <div class="flex cursor-pointer logo hover:cursor-pointer">DES STORE.</div>
       <div class="flex items-center justify-center gap-1">
@@ -123,10 +123,8 @@ if (window.localStorage.getItem('order') !== null) {
   if (object !== null) {
     object.forEach((element) => {
       let price =
-        element.productModel.productPriceSale === null
-          ? element.productModel.productPrice
-          : element.productModel.productPriceSale
-      total.totalPrice += total.totalPrice + price * element.productQuantity
+        element.productPriceSale === null ? element.productPrice : element.productPriceSale
+      total.totalPrice += total.totalPrice + Number(price) * Number(element.productQuantity)
     })
   }
 } else {

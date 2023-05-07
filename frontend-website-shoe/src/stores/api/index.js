@@ -18,6 +18,7 @@ export const API_SUBSCRIBE_PREFIX = "/api/subscribe";
 export const API_ORDER_PREFIX = "/api/order";
 export const API_EXPORT_PDF_PREFIX = "/api/export";
 export const API_USER_PREFIX = "/api/user"
+export const API_TRADEMARK_GET = "http://localhost:8088/api/trademarks/init";
 
 // api chat realtime
 export const API_CHAT_PREFIX = "/api/messages";

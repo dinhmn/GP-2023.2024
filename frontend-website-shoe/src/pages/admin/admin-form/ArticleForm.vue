@@ -1,11 +1,11 @@
 <template lang="">
-  <div class="relative h-[100vh]">
+  <div class="relative h-full">
     <div>
       <div class="text-white">
         <router-link :to="{ name: 'ArticleAdmin' }">
           <Button
             type="button"
-            text="< Back"
+            text="< Trở lại"
             id="addCategory"
             className="bg-green-700 hover:bg-green-600 -ml-[2px] text-white font-bold"
           />
@@ -13,7 +13,7 @@
       </div>
       <strong
         class="block w-full py-2 my-3 text-xl text-center uppercase rounded-md bg-[#0c3247] text-[#17b1ea]"
-        >{{ pathName == 'ArticleRegisterAdmin' ? 'Add new article' : 'Edit article' }}</strong
+        >{{ pathName == 'ArticleRegisterAdmin' ? 'Thêm bài viết mới' : 'Sửa bài viết' }}</strong
       >
       <!-- {{ param == null ? 'Add new product' : 'Edit product' }} -->
       <form
@@ -27,18 +27,18 @@
         <div class="w-full">
           <!-- Form full name. -->
           <div class="mb-4">
-            <span class="text-base">Article name</span>
+            <span class="text-base">Tên bài viết</span>
             <Input
               type="text"
               name="categoryName"
               v-model="state.articleName"
-              placeholder="Name..."
+              placeholder="Tên bài viết..."
               classChild="mt-2"
             />
           </div>
           <!-- Form article description. -->
           <div class="mb-3">
-            <span class="text-base">Article description</span>
+            <span class="text-base">Mô tả chi tiết bài viết</span>
             <div class="bg-white">
               <quill-editor
                 v-model:content="state.articleDescription"
@@ -49,7 +49,7 @@
           </div>
           <!-- Form upload image. -->
           <div class="mb-3">
-            <span class="text-base">Upload file</span>
+            <span class="text-base">Ảnh hiển thị</span>
             <div class="">
               <label for="file" class="grid grid-cols-8 mt-2">
                 <input
@@ -59,11 +59,11 @@
                   for="file"
                   disabled
                   :value="fileName"
-                  placeholder="Choose file..."
+                  placeholder="Chọn ảnh..."
                 />
                 <span
                   class="text-[#17b1ea] block text-center rounded-tl-none rounded-bl-none col-span-1 rounded cursor-pointer bg-[#0c3247] py-2 px-3"
-                  >Upload file</span
+                  >Chọn ảnh</span
                 >
               </label>
               <input @change="onChangeFile($event)" type="file" id="file" class="hidden w-full" />
@@ -73,15 +73,15 @@
         <!-- Form address. -->
         <div class="flex items-center justify-between w-full gap-2">
           <div class="w-full mb-3">
-            <span class="text-base">Status</span>
+            <span class="text-base">Trạng thái</span>
             <select
               name="categoryStatus"
               class="w-full p-2 mt-1 rounded-sm outline-none"
               id="status"
               @change="switchSelectStatus(event)"
             >
-              <option value="1" selected>Active</option>
-              <option value="0">In-Active</option>
+              <option value="1" selected>Hoạt động</option>
+              <option value="0">Không hoạt động</option>
             </select>
           </div>
         </div>
@@ -90,7 +90,7 @@
           type="submit"
           className="bg-brown hover:bg-brown-hover text-white w-full m-0 mt-3"
           name="login"
-          :text="pathName == 'ArticleRegisterAdmin' ? 'Register' : 'Update'"
+          :text="pathName == 'ArticleRegisterAdmin' ? 'Thêm' : 'Cập nhật'"
         />
       </form>
     </div>
@@ -100,7 +100,7 @@
 import { reactive, ref, onMounted } from 'vue'
 import Input from '@/components/common/input/Input.vue'
 import Button from '@/components/common/button/Button.vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import ArticleService from '@/stores/modules/ArticleService'
 import { INSERT, UPDATE, ARTICLE_NEW, ARTICLE_EDIT } from '../../../constants/index'
 const state = reactive({
@@ -118,6 +118,7 @@ const onChangeFile = (event) => {
   fileName.value = event.target.files[0].name
 }
 const pathName = useRoute().matched[0].name
+const router = useRouter()
 onMounted(() => {
   if (pathName === 'ArticleUpdateAdmin') {
     getById(useRoute().params.articleId)
@@ -136,8 +137,8 @@ async function onSubmitForm(pathName) {
     if (ARTICLE_EDIT === pathName) {
       ArticleService.insertOrUpdate(file.value, state, '/update', UPDATE)
     }
-    console.log(form)
-    Object.assign(form, state)
+    router.push({ name: 'ArticleAdmin' })
+    Object.assign(state, form)
   } catch (e) {
     console.log(e)
   }

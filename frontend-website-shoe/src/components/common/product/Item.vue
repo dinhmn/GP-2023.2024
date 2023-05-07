@@ -4,11 +4,12 @@
     class="flex flex-col w-full gap-4 py-4 px-1 rounded cursor-pointer h-[360px] item bg-[#F4F4F4] text-cyan-800 hover:bg-gray-200 transition-all"
     :class="classChild"
   >
-    <img
+    <!-- <img
       class="object-cover w-full h-full max-h-[230px]"
       :src="getImageUrl(product.src)"
       :alt="alt"
-    />
+    /> -->
+    <slot name="imageChild" />
     <div class="flex flex-col gap-1 ml-2">
       <span class="text-base text-cyan-800">{{ productName }}</span>
       <h4 class="text-base text-cyan-800">
@@ -48,11 +49,13 @@ const product = defineProps({
   classChild: {
     type: String,
     default: ''
+  },
+  srcImage: {
+    type: String,
+    default: 'default.png'
   }
 })
-const getImageUrl = (root) => {
-  return new URL(`../../../../../image/api-image/${root}`, import.meta.url).href
-}
+
 const formatPrice = (value) => {
   let val = (value / 1).toFixed(0).replace('.', ',')
   return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')

@@ -3,7 +3,7 @@
   <div
     class="flex flex-col w-full gap-4 p-4 transition-all rounded-lg hover:bg-gray-200 cursor-pointer text-cyan-800 bg-[#F4F4F4]"
   >
-    <img class="object-cover w-full h-[200px]" :src="getImageUrl(article.src)" :alt="article.alt" />
+    <slot name="articleChild" />
     <div class="flex flex-col items-center justify-center gap-2 ml-2">
       <span class="block text-base text-center" :class="classTitle">{{ article.title }}</span>
     </div>
@@ -28,8 +28,5 @@ const article = defineProps({
     default: ''
   }
 })
-const getImageUrl = (root) => {
-  return new URL(`../../../../../image/api-image/${root}`, import.meta.url).href
-}
 </script>
 <style lang="" scoped></style>

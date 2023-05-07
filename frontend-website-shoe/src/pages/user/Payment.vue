@@ -249,7 +249,7 @@
           <!-- Form Payment -->
         </div>
       </div>
-      <div class="block w-full">
+      <div class="block w-full text-cyan-800">
         <div class="w-full mt-2 border-[1px] border-solid border-t-gray-500"></div>
         <div class="mt-1 text-lg font-bold">Đơn hàng gần đây</div>
         <div
@@ -309,13 +309,11 @@ export default {
           productPrice: 0,
           productTotalPrice: ''
         }
-        product.productId = item.productModel.productId
-        product.productName = item.productModel.productName
+        product.productId = item.productId
+        product.productName = item.productName
         product.productQuantity = item.productQuantity
         product.productPrice =
-          item.productModel.productPriceSale !== null
-            ? item.productModel.productPriceSale
-            : item.productModel.productPrice
+          item.productPriceSale !== null ? item.productPriceSale : item.productPrice
         product.productSize = item.productSize
         productList.push(product)
       })

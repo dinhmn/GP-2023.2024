@@ -119,7 +119,15 @@
                   :src="item.fileName !== null ? item.fileName : 'default.png'"
                   :alt="item.productName"
                   :key="item.productId"
-                />
+                >
+                  <template v-slot:imageChild>
+                    <img
+                      class="object-cover w-full h-full max-h-[230px]"
+                      :src="getImageUrl(item.fileName)"
+                      :alt="item.productName"
+                    />
+                  </template>
+                </Item>
               </router-link>
             </div>
           </div>
@@ -366,6 +374,9 @@ const filter = async () => {
     .catch((error) => {
       console.log(error)
     })
+}
+const getImageUrl = (root) => {
+  return new URL(`../../../../../image/api-image/${root}`, import.meta.url).href
 }
 </script>
 <style lang="css">

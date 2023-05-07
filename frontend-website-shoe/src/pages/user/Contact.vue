@@ -15,7 +15,7 @@
           </div>
           <div class="flex items-center justify-between gap-3 mb-3">
             <img
-              src="../../assets/images/default.png"
+              src="../../assets/images/logo.png"
               alt="Ảnh đại diện"
               class="w-[50px] h-[50px] object-cover rounded-full mr-2 ml-5"
             />
@@ -25,8 +25,8 @@
             >
               {{
                 success
-                  ? 'Hi, I’m Amanda. Chúng tôi sẽ liên hệ trong thời gian sớm nhất'
-                  : 'Hi, I’m Amanda. Need help? Use the form below or email me at hello@california_golfclub.org.'
+                  ? 'Chào bạn, mình là Định. Chúng tôi sẽ liên hệ trong thời gian sớm nhất'
+                  : 'Chào bạn, mình là Định. Bạn cần sự giúp đỡ? Hãy thêm ý kiến dưới đây và gửi cho tôi tại địa chỉ email ngocdinh2k1@gmail.com'
               }}
             </p>
           </div>
@@ -200,10 +200,8 @@ export default {
 <style lang="css" scoped>
 button {
   background-color: #0c3247;
-  color: #17b1ea;
 }
 button:hover {
   background-color: #124a68;
-  color: #17b1ea;
 }
 </style>

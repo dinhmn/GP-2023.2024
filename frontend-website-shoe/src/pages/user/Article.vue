@@ -3,16 +3,22 @@
   <BasePage class="text-white">
     <template v-slot:body>
       <div
-        class="flex items-center justify-between w-full px-3 py-3 mb-2 text-white rounded-[2px] bg-slate-700"
+        class="flex items-center justify-between w-full px-3 py-3 mb-2 text-cyan-800 rounded-[2px] bg-[#F8F8F8]"
       >
         <div class="flex items-center justify-between gap-2 text-xl font-bold">
           <h3>Trang chủ</h3>
           <vue-feather type="chevron-right"></vue-feather>
-          <h3 class="text-[#17b1ea]">{{ data.articleName }}</h3>
+          <h3>Tin tức</h3>
         </div>
       </div>
-      <div class="grid w-full grid-cols-4 gap-2 p-2 rounded-[2px] bg-slate-700">
-        {{ data.articleDescription }}
+      <div>
+        <div class="w-full p-3 text-center bg-[#F4F4F4]">
+          <h3 class="text-[#17b1ea] w-full font-bold text-2xl">{{ data.articleName }}</h3>
+        </div>
+        <div
+          class="w-full gap-2 p-4 rounded-[2px] bg-[#F8F8F8] text-cyan-800"
+          v-html="data.articleDescription"
+        ></div>
       </div>
     </template>
   </BasePage>
@@ -24,10 +30,10 @@ import BasePage from '../auth/BasePage.vue'
 import ArticleService from '@/stores/modules/ArticleService'
 const route = useRoute()
 const router = useRouter()
+console.log(route.params.articleName)
 const data = ref({})
 onMounted(async () => {
   await fetchData(data)
-  console.log(data)
 })
 const fetchData = async (data) => {
   try {

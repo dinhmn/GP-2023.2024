@@ -1,10 +1,10 @@
 <template lang="">
-  <div>
+  <div class="min-h-screen">
     <div class="text-white">
       <router-link :to="{ name: 'CategoryAdmin' }">
         <Button
           type="button"
-          text="< Back"
+          text="< Trở lại"
           id="addCategory"
           className="bg-green-700 hover:bg-green-600 -ml-[2px] text-white font-bold"
         />
@@ -12,7 +12,7 @@
     </div>
     <strong
       class="block w-full py-2 my-3 text-xl text-center uppercase rounded-md bg-[#0c3247] text-[#17b1ea]"
-      >{{ param == null ? 'Add new category' : 'Edit category' }}</strong
+      >{{ param !== null ? 'Thêm hãng mới' : 'Sửa hãng sản xuất' }}</strong
     >
     <form class="w-full post" method="post">
       <!-- Form Payment -->
@@ -20,7 +20,7 @@
         <!-- Form city and country. -->
         <div class="flex items-center justify-between w-full gap-2">
           <div class="w-full mb-3">
-            <span class="text-base">Trademark name</span>
+            <span class="text-base">Tên nhà cung cấp</span>
             <select
               name="trademarkId"
               class="w-full p-2 mt-1 rounded-sm outline-none"
@@ -28,37 +28,44 @@
               v-model="category.trademarkId"
               @change="switchSelectTrademark($event)"
             >
-              <option value="1" selected>1</option>
-              <option value="2">2</option>
-              <option value="9">9</option>
+              <option
+                :value="item.trademarkId"
+                v-for="item in trademarkList"
+                :key="item.trademarkId"
+              >
+                {{ item.trademarkName }}
+              </option>
             </select>
           </div>
         </div>
         <!-- Form full name. -->
         <div class="mb-4">
-          <span class="text-base">Category name</span>
+          <span class="text-base">Tên hãng sản xuất</span>
           <Input
             type="text"
             v-model="category.categoryName"
             name="categoryName"
-            placeholder="Họ tên của bạn"
+            placeholder="Tên hãng sản xuất"
             classChild="mt-2"
           />
         </div>
         <!-- Form note detail. -->
         <div class="mb-3">
-          <span class="text-base">Category description</span>
-          <Textarea
-            name="categoryDescription"
-            v-model="category.categoryDescription"
-            placeholder="Mô tả sản phẩm"
-          />
+          <span class="text-base">Mô tả hãng sản xuất</span>
+          <div class="mt-2 bg-white">
+            <quill-editor
+              name="categoryDescription"
+              v-model:content="category.categoryDescription"
+              contentType="html"
+              theme="snow"
+            ></quill-editor>
+          </div>
         </div>
       </div>
       <!-- Form address. -->
       <div class="flex items-center justify-between w-full gap-2">
         <div class="w-full mb-3">
-          <span class="text-base">Status</span>
+          <span class="text-base">Trạng thái</span>
           <select
             name="categoryStatus"
             v-model="category.categoryStatus"
@@ -66,8 +73,8 @@
             id="status"
             @change="switchSelectStatus($event)"
           >
-            <option value="1" selected>Active</option>
-            <option value="0">In-Active</option>
+            <option value="1">Hoạt động</option>
+            <option value="0">Không hoạt động</option>
           </select>
         </div>
       </div>
@@ -77,26 +84,35 @@
         type="button"
         className="bg-brown hover:bg-brown-hover text-white w-full m-0 mt-3"
         name="login"
-        :text="param == null ? 'Register' : 'Update'"
+        :text="param !== null ? 'Thêm mới' : 'Cập nhật'"
       />
     </form>
   </div>
 </template>
 <script setup>
-import { reactive } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import Input from '@/components/common/input/Input.vue'
 import Button from '@/components/common/button/Button.vue'
-import Textarea from '@/components/common/input/Textarea.vue'
 import { CATEGORY_EDIT } from '@/constants/index'
 import axios from 'axios'
-import { API_CATEGORY_POST, API_CATEGORY_BY_KEY, API_CATEGORY_UPDATE } from '@/stores/api'
+import {
+  API_CATEGORY_POST,
+  API_CATEGORY_BY_KEY,
+  API_CATEGORY_UPDATE,
+  API_TRADEMARK_GET
+} from '@/stores/api'
 const route = useRoute()
 const category = reactive({
-  trademarkId: '',
+  trademarkId: 1,
   categoryName: '',
   categoryDescription: '',
-  categoryStatus: ''
+  categoryStatus: '1'
+})
+const trademarkList = ref({})
+onMounted(() => {
+  apiGetTrademark(trademarkList)
+  console.log(trademarkList)
 })
 
 const switchSelectTrademark = (event) => {
@@ -121,6 +137,17 @@ let onSubmit = () => {
     category.categoryDescription = ''
     category.categoryStatus = ''
   }
+}
+
+function apiGetTrademark(trademarkList) {
+  axios
+    .get(API_TRADEMARK_GET)
+    .then((response) => {
+      trademarkList.value = response.data
+    })
+    .catch((error) => {
+      console.log('Error: ' + error)
+    })
 }
 
 function apiPost(category) {
