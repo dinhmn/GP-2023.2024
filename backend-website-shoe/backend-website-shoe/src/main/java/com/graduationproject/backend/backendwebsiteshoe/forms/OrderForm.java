@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class OrderForm {
 
-  private List<IOrder> orderList;
+  private List<OrderFormSupport> orderList;
 
   private int pageNo;
 

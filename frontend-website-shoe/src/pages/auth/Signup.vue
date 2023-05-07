@@ -6,8 +6,8 @@
       :class="!success ? '' : 'opacity-40'"
     >
       <div class="w-full text-left">
-        <h1 class="text-3xl font-bold text-left">Create new account.</h1>
-        <h3 class="">Welcome back! Please enter your details.</h3>
+        <h1 class="text-3xl font-bold text-left">Tạo tài khoản mới.</h1>
+        <h3 class="">Chào mừng trở lại! Làm ơn điền đầy đủ thông tin dưới đây.</h3>
       </div>
       <div class="relative w-full pt-5 text-center">
         <div class="w-full h-[2px] bg-gray-400 absolute top-[50%]"></div>
@@ -19,7 +19,7 @@
               v-model="data.firstName"
               @keyup="onPressKey($event, 'firstName')"
               name="firstName"
-              placeholder="First Name"
+              placeholder="Họ"
               :class="
                 v$.firstName.$error && errors.firstName == true ? 'border-red-600' : 'border-white'
               "
@@ -37,7 +37,7 @@
               v-model="data.lastName"
               @keyup="onPressKey($event, 'lastName')"
               name="lastName"
-              placeholder="Last Name"
+              placeholder="Tên"
               :class="
                 v$.lastName.$error && errors.lastName == true
                   ? 'border-red-600'
@@ -58,7 +58,7 @@
             @keyup="onPressKey($event, 'username')"
             v-model="data.username"
             name="username"
-            placeholder="Username"
+            placeholder="Tài khoản"
             :class="
               v$.username.$error && errors.username == true
                 ? 'border-red-600'
@@ -89,7 +89,7 @@
             v-model="data.password"
             type="password"
             name="password"
-            placeholder="Password"
+            placeholder="Mật khẩu"
             @keyup="onPressKey($event, 'password')"
             :class="v$.password.$error ? 'border-red-600' : 'border-white'"
           />
@@ -104,7 +104,7 @@
             v-model="data.confirm"
             type="password"
             name="confirm"
-            placeholder="Confirm Password"
+            placeholder="Nhập lại mật khẩu"
             @keyup="onPressKey($event, 'confirm')"
             :class="v$.confirm.$error ? 'border-red-600' : 'border-white'"
           />
@@ -116,25 +116,28 @@
           type="submit"
           className="bg-black text-white w-full m-0"
           name="signup"
-          text="Create Account"
+          text="Tạo tài khoản"
         />
         <div class="relative w-full py-5 text-center">
           <h5
-            class="absolute px-2 bg-slate-300 right-[50%] translate-x-[15px] translate-y-[-10px] z-10"
+            class="absolute px-2 bg-slate-300 right-[50%] translate-x-[20px] translate-y-[-10px] z-10"
           >
-            or
+            hoặc
           </h5>
           <div class="w-full h-[2px] bg-gray-400 absolute top-[50%]"></div>
         </div>
         <button-component
           className="w-full bg-transparent border-2 border-x-cyan-50 block text-center m-0 hover:text-white"
           name="loginWithGoogle"
-          text="Login in with Google"
+          text="Đăng ký với google
+          "
         />
         <div class="block w-full text-left">
           <h5 class="text-xs italic">
-            Already have a account?
-            <span class="underline"><router-link to="/auth/login">Log In</router-link></span>
+            Bạn đã có tài khoản?
+            <span class="underline"
+              ><router-link to="/auth/login">Đăng nhập ngay</router-link></span
+            >
           </h5>
         </div>
       </form>

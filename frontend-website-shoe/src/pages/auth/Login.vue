@@ -6,34 +6,34 @@
       :class="checkLogin ? '' : 'opacity-40'"
     >
       <div class="w-full text-left">
-        <h1 class="text-3xl font-bold text-left">We will help you!</h1>
+        <h1 class="text-3xl font-bold text-left">Chào mừng bạn đã đến với Des Shoes!</h1>
         <h3 class="">
-          {{ recover === true ? 'Please enter your recent old password!' : 'Login now' }}!
+          {{ recover === true ? 'Làm ơn nhập mật khẩu gần đây!' : 'Đăng nhập ngay' }}!
         </h3>
       </div>
       <Button
         v-if="recover !== true"
         className="w-full bg-transparent border-2 border-x-cyan-50 block text-center m-0 hover:text-white"
         name="loginWithGoogle"
-        text="Login in with Google"
+        text="Đăng nhập với Google"
       />
       <div class="relative w-full py-5 text-center">
         <h5
           v-if="recover !== true"
-          class="absolute px-2 bg-slate-300 right-[50%] translate-x-[15px] translate-y-[-10px] z-10"
+          class="absolute px-2 bg-slate-300 right-[50%] translate-x-[20px] translate-y-[-10px] z-10"
         >
-          or
+          hoặc
         </h5>
         <div class="w-full h-[2px] bg-gray-400 absolute top-[50%]"></div>
       </div>
       <form action="" method="post" class="flex flex-col w-full gap-5">
-        <Input v-model="data.username" name="username" placeholder="Username" />
+        <Input v-model="data.username" name="username" placeholder="Tên tài khoản" />
         <Input
           v-if="recover === false"
           v-model="data.password"
           type="password"
           name="password"
-          placeholder="Password"
+          placeholder="Mật khẩu"
         />
         <Input
           v-if="recover === true"
@@ -52,11 +52,11 @@
         <div class="flex items-center justify-between">
           <div v-if="recover !== true" class="checkbox">
             <Checkbox id="remember" />
-            <label for="remember" class="text-sm">Remember for 30 days</label>
+            <label for="remember" class="text-sm">Nhớ mật khẩu 30 ngày</label>
           </div>
           <div :class="recover === true ? 'inline-block w-full text-right' : ''">
             <span @click="resetPassword" class="text-sm underline cursor-pointer">{{
-              recover === true ? 'Log in now !' : 'Forgot Password'
+              recover === true ? 'Đăng nhập ngay !' : 'Quên mật khẩu'
             }}</span>
           </div>
         </div>
@@ -65,14 +65,12 @@
           @click="onSubmit"
           className="bg-[#0c3247] hover:bg-[#135070] text-white w-full m-0"
           name="login"
-          :text="recover === true ? 'Reset password' : 'Log in'"
+          :text="recover === true ? 'Lấy lại mật khẩu' : 'Đăng nhập'"
         />
         <div class="block w-full text-center">
           <h5 class="text-xs italic">
-            Don't have an account?
-            <span class="underline"
-              ><router-link to="/auth/signup">Sign up for free</router-link></span
-            >
+            Bạn chưa có tài khoản?
+            <span class="underline"><router-link to="/auth/signup">Đăng ký ngay</router-link></span>
           </h5>
         </div>
       </form>
@@ -82,7 +80,7 @@
       :class="checkLogin ? 'hidden' : ''"
     >
       <div><vue-feather class="w-16 h-16 text-red-600" type="x-circle"></vue-feather></div>
-      <div class="">Username or password is incorrect, please check again!</div>
+      <div class="">Tài khoản hoặc mật khẩu là không chính xác, vui lòng kiểm tra lại!</div>
       <button
         type="button"
         class="px-10 text-white transition-all bg-[#0c3247] hover:bg-[#135070] hover:opacity-90"

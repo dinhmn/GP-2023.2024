@@ -43,7 +43,7 @@ public class ProductEntity extends BaseEntity implements Serializable {
   @Column(name = "product_name", nullable = false)
   private String productName;
 
-  @Column(name = "product_description", length = 2000)
+  @Column(name = "product_description")
   private String productDescription;
 
   @Column(name = "product_price", length = 20, nullable = false)

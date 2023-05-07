@@ -140,7 +140,6 @@ async function getAllData(api, pageNo) {
     }
 
     fetchData(result.data, api)
-    console.log(api)
     searchData.pageNo = api.pageNo
     searchData.pageSize = api.pageSize
   } catch (error) {

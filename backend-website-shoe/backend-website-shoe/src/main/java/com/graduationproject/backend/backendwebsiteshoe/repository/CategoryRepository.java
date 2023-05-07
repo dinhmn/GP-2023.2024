@@ -1,5 +1,6 @@
 package com.graduationproject.backend.backendwebsiteshoe.repository;
 
+import com.graduationproject.backend.backendwebsiteshoe.dto.ChartJS;
 import com.graduationproject.backend.backendwebsiteshoe.dto.ICategory;
 import com.graduationproject.backend.backendwebsiteshoe.dto.IProduct;
 import com.graduationproject.backend.backendwebsiteshoe.entity.CategoryEntity;
@@ -98,5 +99,12 @@ public interface CategoryRepository extends JpaRepository<CategoryEntity, Catego
       + " INNER JOIN tbl_trademark trademark ON category.trademark_id = trademark.trademark_id",
       nativeQuery = true)
   List<ICategory> findAllCategory();
+
+  @Query(value = "SELECT category.category_id AS title, " +
+      "COUNT(tp.product_id) AS countItem"
+      + " FROM tbl_category category"
+      + " INNER JOIN tbl_product tp on category.category_id = tp.category_id"
+      + " INNER JOIN tbl_cart tc on tp.product_id = tc.product_id", nativeQuery = true)
+  List<ChartJS> findAllChart();
 
 }

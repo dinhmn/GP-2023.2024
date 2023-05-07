@@ -59,10 +59,16 @@ public interface ProductRepository extends JpaRepository<ProductEntity, ProductE
           + " product.product_price_sale AS productPriceSale, "
           + " product.quantity AS productQuantity, "
           + " product.product_description AS productDescription, "
+          + " image.image_id AS imageId, "
+          + " image.file_name AS fileName, "
+          + " image.file_type AS fileType, "
+          + " image.data AS fileSize, "
+          + " image.image_code AS fileCode,"
           + " product.product_seo AS productSeo"
           + " FROM tbl_trademark trade "
           + " INNER JOIN tbl_category category ON trade.trademark_id =  category.trademark_id"
           + " INNER JOIN tbl_product product ON product.category_id = category.category_id"
+          + " LEFT JOIN tbl_source_images image ON product.product_id = image.product_id AND image.image_code = 31"
           + " WHERE category.category_id = ?1"
           + " ORDER BY product.product_id"
           + " LIMIT ?2",
@@ -86,12 +92,18 @@ public interface ProductRepository extends JpaRepository<ProductEntity, ProductE
           + " product.quantity AS productQuantity, "
           + " product.product_description AS productDescription, "
           + " product.product_seo AS productSeo,"
+          + " image.image_id AS imageId, "
+          + " image.file_name AS fileName, "
+          + " image.file_type AS fileType, "
+          + " image.data AS fileSize, "
+          + " image.image_code AS fileCode,"
           + " (product.product_price_sale - product.product_price) AS sale"
           + " FROM tbl_trademark trade "
           + " INNER JOIN tbl_category category ON trade.trademark_id =  category.trademark_id"
           + " INNER JOIN tbl_product product ON product.category_id = category.category_id"
-          + " ORDER BY sale, product.product_id"
-          + " LIMIT ?1",
+          + " LEFT JOIN tbl_source_images image ON product.product_id = image.product_id AND image.image_code = 31"
+          + " WHERE product.product_price_sale IS NOT NULL"
+          + " ORDER BY sale, product.product_id LIMIT ?1",
       nativeQuery = true)
   List<IProduct> findAllProductSale(Integer limitItem);
 
@@ -101,10 +113,10 @@ public interface ProductRepository extends JpaRepository<ProductEntity, ProductE
    * @param pageable pageable
    * @return list of product.
    */
-  @Query(value = "SELECT trade.trademark_name as trademarkName, "
+  @Query(value = "SELECT DISTINCT(product.product_id) AS productId,"
       + " category.category_id AS categoryId, "
       + " category.category_name AS categoryName, "
-      + " product.product_id AS productId, "
+      + " trade.trademark_name as trademarkName, "
       + " product.product_name AS productName, "
       + " product.product_price AS productPrice, "
       + " product.product_price_sale AS productPriceSale, "
@@ -119,16 +131,14 @@ public interface ProductRepository extends JpaRepository<ProductEntity, ProductE
       + " FROM tbl_product product "
       + " INNER JOIN tbl_category category ON product.category_id = category.category_id"
       + " INNER JOIN tbl_trademark trade ON trade.trademark_id =  category.trademark_id"
-      + " LEFT JOIN tbl_source_images image ON product.product_id = image.product_id"
-      +
-      " WHERE product.product_name LIKE %?1% OR category_name LIKE %?1% OR product.product_price LIKE %?1%",
+      + " LEFT JOIN tbl_source_images image ON product.product_id = image.product_id AND image.image_code = 31"
+      + " WHERE product.product_name LIKE %?1% OR category_name LIKE %?1% OR product.product_price LIKE %?1%",
       nativeQuery = true, countQuery = "SELECT COUNT(*) "
       + " FROM tbl_product product "
       + " INNER JOIN tbl_category category ON product.category_id = category.category_id"
       + " INNER JOIN tbl_trademark trade ON trade.trademark_id =  category.trademark_id"
-      + " LEFT JOIN tbl_source_images image ON product.product_id = image.product_id"
-      +
-      " WHERE product.product_name LIKE %?1% OR category_name LIKE %?1% OR product.product_price LIKE %?1%")
+      + " LEFT JOIN tbl_source_images image ON product.product_id = image.product_id AND image.image_code = 31"
+      + " WHERE product.product_name LIKE %?1% OR category_name LIKE %?1% OR product.product_price LIKE %?1%")
   Page<IProduct> findAllProduct(String searchValue, Pageable pageable);
 
   /**
@@ -155,13 +165,13 @@ public interface ProductRepository extends JpaRepository<ProductEntity, ProductE
       + " FROM tbl_product product "
       + " INNER JOIN tbl_category category ON product.category_id = category.category_id"
       + " INNER JOIN tbl_trademark trade ON trade.trademark_id =  category.trademark_id"
-      + " LEFT JOIN tbl_source_images image ON product.product_id = image.product_id"
+      + " LEFT JOIN tbl_source_images image ON product.product_id = image.product_id AND image.image_code = 31"
       + " WHERE product.category_id = ?1",
       nativeQuery = true, countQuery = "SELECT COUNT(*) "
       + " FROM tbl_product product "
       + " INNER JOIN tbl_category category ON product.category_id = category.category_id"
       + " INNER JOIN tbl_trademark trade ON trade.trademark_id =  category.trademark_id"
-      + " LEFT JOIN tbl_source_images image ON product.product_id = image.product_id"
+      + " LEFT JOIN tbl_source_images image ON product.product_id = image.product_id  AND image.image_code = 31"
       +
       " WHERE product.category_id = ?1")
   Page<IProduct> findAllProduct(Long categoryId, Pageable pageable);
@@ -257,4 +267,15 @@ public interface ProductRepository extends JpaRepository<ProductEntity, ProductE
       + " LEFT JOIN tbl_source_images image ON product.product_id = image.product_id"
       + " WHERE product.product_id = ?1 AND product.category_id = ?2", nativeQuery = true)
   List<IOneProduct> findProductByKey(Long productId, Long categoryId);
+
+
+  /**
+   * Get information of product.
+   *
+   * @return product.
+   */
+  @Query(value = "SELECT "
+      + " MAX(product.product_id) AS productId "
+      + " FROM tbl_product product", nativeQuery = true)
+  Long getProductIdLast();
 }

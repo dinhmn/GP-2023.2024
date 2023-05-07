@@ -160,6 +160,15 @@ public class ProductService {
   }
 
   /**
+   * Get product last.
+   *
+   * @return  productId productId
+   */
+  public Long getProductLast() {
+    return productRepository.getProductIdLast();
+  }
+
+  /**
    * To build product.
    *
    * @param databaseEntity databaseEntity
@@ -190,7 +199,6 @@ public class ProductService {
    */
   private ProductEntity toBuildProductUseInsert(ProductModel productModel) {
     ProductEntity productEntity = new ProductEntity();
-    productEntity.setProductId(productModel.getProductId());
     productEntity.setCategoryId(productModel.getCategoryId());
     productEntity.setProductDescription(productModel.getProductDescription());
     productEntity.setProductName(productModel.getProductName());

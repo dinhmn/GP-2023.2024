@@ -49,7 +49,15 @@
                   :productName="product.productName"
                   :src="product.fileName === null ? 'item.png' : product.fileName"
                   :alt="product.productName"
-                />
+                >
+                  <template v-slot:imageChild>
+                    <img
+                      class="object-cover w-full h-full max-h-[230px]"
+                      :src="getImageUrl(product.fileName)"
+                      :alt="product.productName"
+                    />
+                  </template>
+                </Item>
               </router-link>
             </div>
           </div>
@@ -90,9 +98,18 @@
                   :priceSale="product.productPriceSale"
                   :quantitySold="Number(product.productQuantity)"
                   :productName="product.productName"
-                  :src="product.fileName === null ? 'item.png' : product.fileName"
+                  :src="product.fileName"
                   :alt="product.productName"
-                />
+                  :srcImage="product.fileName"
+                >
+                  <template v-slot:imageChild>
+                    <img
+                      class="object-cover w-full h-full max-h-[230px]"
+                      :src="getImageUrl(product.fileName)"
+                      :alt="product.productName"
+                    />
+                  </template>
+                </Item>
               </router-link>
             </div>
           </div>
@@ -115,13 +132,26 @@
         <template v-slot:detail>
           <div class="grid w-full grid-cols-4 gap-6 py-4 pr-5 mx-3">
             <div v-for="item in article[0]" :key="item.articleId">
-              <router-link :to="{ name: 'Article', params: { articleId: item.articleId } }">
+              <router-link
+                :to="{
+                  name: 'Article',
+                  params: { articleId: item.articleId }
+                }"
+              >
                 <Article
                   :title="item.articleName"
                   :src="item.fileName === null ? 'item.png' : item.fileName"
                   :alt="item.articleName"
                   classTitle="text-center"
-                />
+                >
+                  <template v-slot:articleChild>
+                    <img
+                      class="object-cover w-full h-[200px]"
+                      :src="getImageUrl(item.fileName === null ? 'item.png' : item.fileName)"
+                      :alt="item.articleName"
+                    />
+                  </template>
+                </Article>
               </router-link>
             </div>
           </div>
@@ -184,7 +214,6 @@ onMounted(async () => {
   await getAllData(dataConvert, 5, 5)
   await getAllDataSale(10)
   await getAllDataArticle()
-  console.log(dataList)
 })
 
 async function getAllData(data, categoryId, limitItem) {
@@ -213,6 +242,7 @@ async function getAllDataSale(limitItem) {
       data: res.data
     }
     dataSale.value.push(result.data)
+    console.log(dataSale)
   } catch (error) {
     console.log(error)
   }
@@ -224,7 +254,6 @@ async function getAllDataArticle() {
       .get('http://localhost:8088/api/article/init/pageable?page_no=0&page_size=4')
       .then((response) => {
         article.push(response.data.articleDTOList)
-        console.log(article)
       })
       .catch((error) => {
         console.log(error)
@@ -233,8 +262,8 @@ async function getAllDataArticle() {
     console.log(error)
   }
 }
-const getImageUrl = (name) => {
-  return new URL(`../../assets/images/trademark/${name}`, import.meta.url).href
+const getImageUrl = (root) => {
+  return new URL(`../../../../../image/api-image/${root}`, import.meta.url).href
 }
 </script>
 <style lang="scss">

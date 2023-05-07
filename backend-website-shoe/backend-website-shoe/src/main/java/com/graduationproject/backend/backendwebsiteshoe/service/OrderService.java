@@ -108,4 +108,13 @@ public class OrderService {
   public OrderEntity update(OrderEntity orderEntity) {
     return orderRepository.save(orderEntity);
   }
+
+  /**
+   * Get order id.
+   *
+   * @return entity
+   */
+  public Long getNewOrderId() {
+    return orderRepository.getNewOrderId();
+  }
 }

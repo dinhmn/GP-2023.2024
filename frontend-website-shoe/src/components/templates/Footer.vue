@@ -2,13 +2,11 @@
   <div class="flex items-center justify-center w-full bg-cyan-bluish-gray">
     <footer class="2xl:w-[1280px] flex items-center justify-between h-[300px] text-gray-800">
       <div class="flex flex-col gap-8">
-        <h2 class="text-3xl font-bold">Shoes</h2>
-        <p class="w-[300px] text-gray-800 text-base italic font-medium">
-          4140 Parker Roas, Allentown, New Mexico 31123
-        </p>
+        <h2 class="text-3xl font-bold">Des Shoes</h2>
+        <p class="w-[300px] text-gray-800 text-base italic font-medium">Bắc Từ Liêm, Hà Nội</p>
         <div>
           <h3 class="mb-2 text-lg font-bold text-gray-800">
-            Sign up to receive the latest product announcements.
+            Đăng ký ngay để nhận thông tin mới nhất về sản phẩm
           </h3>
           <form @submit.prevent="onSubmit" class="flex items-center justify-center h-full">
             <input-common
@@ -55,16 +53,16 @@ import useValidate from '@vuelidate/core'
 import { required, email } from '@vuelidate/validators'
 const footList = [
   {
-    title: 'About',
-    items: ['Company', 'Career', 'Payment']
+    title: 'Giới thiệu',
+    items: ['Cửa hàng', 'Nhân viên', 'Hình thức thanh toán']
   },
   {
-    title: 'Categories',
+    title: 'Hãng bán chạy',
     items: ['Nike', 'NB', 'Adidas', 'Jordan']
   },
   {
-    title: 'Important Links',
-    items: ['Shop Page', 'FAQ', 'Blog']
+    title: 'Trang quan trọng',
+    items: ['Trang chủ', 'FAQ', 'Tin tức']
   }
 ]
 export default {

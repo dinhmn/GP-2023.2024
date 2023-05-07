@@ -75,7 +75,7 @@ public class ProductHelper {
    * Select all product.
    *
    * @param categoryId categoryId
-   * @param limitItem limitItem
+   * @param limitItem  limitItem
    * @return list product.
    */
   @NonNull
@@ -90,11 +90,12 @@ public class ProductHelper {
    * @param pageSize      pageSize
    * @param sortBy        sortBy
    * @param sortDirection sortDirection
-   * @param categoryId categoryId
+   * @param categoryId    categoryId
    * @return list product.
    */
   @NonNull
-  public ProductForm getAllProductByCategoryId(int pageNo, int pageSize, String sortBy, String sortDirection,
+  public ProductForm getAllProductByCategoryId(int pageNo, int pageSize, String sortBy,
+                                               String sortDirection,
                                                Long categoryId) {
     Pageable pageable = commonService.setPageable(pageSize, pageNo, sortBy, sortDirection);
 
@@ -220,15 +221,16 @@ public class ProductHelper {
     // insert data of table product into database
     ProductEntity productEntity = productService.insert(productModel);
 
+    Long productId = productService.getProductLast();
     // insert data of table product size into database
     List<ProductSizeModel> productSizeModelList = productModel.getProductSizeModelList();
-    productSizeService.insertAll(productSizeModelList, productEntity.getProductId());
+    productSizeService.insertAll(productSizeModelList, productId);
 
     List<ProductColorModel> productColorModelList = productModel.getProductColorModelList();
-    productColorService.insertAll(productColorModelList, productEntity.getProductId());
+    productColorService.insertAll(productColorModelList, productId);
 
     // Insert image into database
-    sourceImageService.insertOrUpdateImages(productEntity.getProductId(), files, new ProductModel(),
+    sourceImageService.insertOrUpdateImages(productId, files, new ProductModel(),
         Constant.INSERT);
 
     return productEntity;
@@ -349,7 +351,8 @@ public class ProductHelper {
             .productColorId(Objects.nonNull(color.getProductColorId())
                 ? Long.parseLong(color.getProductColorId()) : Constant.ZERO)
             .productColorName(color.getProductColorName())
-            .productColorQuantity(Integer.parseInt(color.getProductColorQuantity()))
+            .productColorQuantity(Objects.nonNull(color.getProductColorQuantity()) ?
+                Integer.parseInt(color.getProductColorQuantity()) : 0)
             .build();
         productColorModelList.add(model);
       }
@@ -358,9 +361,10 @@ public class ProductHelper {
       List<ProductSizeModel> productSizeModelList = new ArrayList<>();
       for (IOneProduct size : productList) {
         ProductSizeModel model = ProductSizeModel.builder()
-            .productSizeId(Long.parseLong(size.getProductColorId()))
-            .productSizeName(size.getProductColorName())
-            .productSizeQuantity(Integer.parseInt(size.getProductColorQuantity()))
+            .productSizeId(Objects.nonNull(size.getProductSizeId())
+                ? Long.parseLong(size.getProductSizeId()) : Constant.ZERO)
+            .productSizeName(size.getProductSizeName())
+            .productSizeQuantity(Objects.nonNull(size.getProductSizeQuantity()) ? Integer.parseInt(size.getProductSizeQuantity()) : 0)
             .build();
         productSizeModelList.add(model);
       }

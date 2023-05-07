@@ -23,9 +23,8 @@
     <template v-slot:thead>
       <thead class="w-full bg-[#0c3247] text-[#17b1ea]">
         <tr class="rounded-tl-md">
-          <th>STT.</th>
-          <th class="w-[150px]">Tên bài viết</th>
-          <th>Chi tiết bài viết</th>
+          <th class="w-[100px]">STT.</th>
+          <th>Tên bài viết</th>
           <th class="w-[150px]">Ngày tạo</th>
           <th class="w-[150px]">Ngày cập nhật</th>
           <th class="w-[150px]">Trạng thái</th>
@@ -38,7 +37,6 @@
         <tr v-for="(item, index) in api.data" :key="item.articleId">
           <td>{{ index }}</td>
           <td>{{ item.articleName }}</td>
-          <td>{{ item.articleDescription }}</td>
           <td>{{ new Date(item.createdDate).toLocaleDateString().replaceAll('/', '-') }}</td>
           <td>{{ new Date(item.updatedDate).toLocaleDateString().replaceAll('/', '-') }}</td>
           <td>{{ item.articleStatus === 'true' ? 'Hoạt động' : 'Không hoạt động' }}</td>

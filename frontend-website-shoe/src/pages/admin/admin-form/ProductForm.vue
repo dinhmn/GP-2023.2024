@@ -16,7 +16,7 @@
       <strong
         class="block w-full py-2 my-3 text-xl text-center uppercase rounded-md bg-[#0c3247] text-[#17b1ea]"
       >
-        {{ pathName !== 'ProductEditAdmin' ? 'Add new product' : 'Edit product' }}
+        {{ pathName !== 'ProductEditAdmin' ? 'Thêm sản phẩm' : 'Sửa sản phẩm' }}
       </strong>
       <form
         class="w-full post"
@@ -29,7 +29,7 @@
           <!-- Form city and country. -->
           <div class="flex items-center justify-between w-full gap-2">
             <div class="w-full mb-3">
-              <span class="text-base">Category name</span>
+              <span class="text-base">Hãng sản xuất</span>
               <select
                 name="categoryId"
                 class="w-full p-2 mt-1 rounded-sm outline-none"
@@ -50,18 +50,18 @@
           </div>
           <!-- Form full name. -->
           <div class="mb-4">
-            <span class="text-base">Product name</span>
+            <span class="text-base">Tên sản phẩm</span>
             <Input
               type="text"
               name="categoryName"
               v-model="data.productName"
-              placeholder="Name..."
+              placeholder="Tên sản phẩm..."
               classChild="mt-2"
             />
           </div>
           <!-- Form note detail. -->
           <div class="mb-3">
-            <span class="text-base">Product description</span>
+            <span class="text-base">Mô tả chi tiết sản phẩm</span>
             <!-- <Textarea name="categoryDescription" placeholder="Mô tả sản phẩm" /> -->
             <div class="bg-white">
               <quill-editor
@@ -73,37 +73,37 @@
           </div>
           <!-- Form product price. -->
           <div class="mb-3">
-            <span class="text-base">Product price</span>
+            <span class="text-base">Giá sản phẩm</span>
             <Input
               type="text"
               name="productPrice"
               v-model="data.productPrice"
-              placeholder="Price..."
+              placeholder="Giá..."
               classChild="mt-2"
             />
           </div>
           <div class="mb-3">
-            <span class="text-base">Product price sale</span>
+            <span class="text-base">Giá giảm sản phẩm</span>
             <Input
               type="text"
               name="productPriceSale"
-              placeholder="Price sale..."
+              placeholder="Giá giảm..."
               classChild="mt-2"
               v-model="data.productPriceSale"
             />
           </div>
           <div class="mb-3">
-            <span class="text-base">Quantity</span>
+            <span class="text-base">Số lượng</span>
             <Input
               type="text"
               name="productPriceSale"
-              placeholder="Quantity..."
+              placeholder="Số lượng..."
               classChild="mt-2"
               v-model="data.quantity"
             />
           </div>
           <div class="mb-3">
-            <span class="text-base">Upload file</span>
+            <span class="text-base">Tải ảnh</span>
             <div class="">
               <label for="file" class="grid grid-cols-8 mt-2">
                 <input
@@ -113,11 +113,11 @@
                   for="file"
                   disabled
                   :value="files"
-                  placeholder="Choose file..."
+                  placeholder="Chọn ảnh..."
                 />
                 <span
                   class="text-[#17b1ea] block text-center rounded-tl-none rounded-bl-none col-span-1 rounded cursor-pointer bg-[#0c3247] py-2 px-3"
-                  >Upload file</span
+                  >Chọn ảnh</span
                 >
               </label>
               <input
@@ -134,20 +134,20 @@
               class="text-[#17b1ea] block text-center col-span-1 rounded-tl-none rounded-bl-none rounded cursor-pointer bg-[#0c3247] py-2 px-3"
               @click="onPropsModalSize($event, 'size')"
             >
-              Change size
+              Thêm kích cỡ
             </p>
             <p
               class="text-[#17b1ea] block text-center col-span-1 rounded-tl-none rounded-bl-none rounded cursor-pointer bg-[#0c3247] py-2 px-3"
               @click="onPropsModalSize($event, 'color')"
             >
-              Change color
+              Thêm màu
             </p>
           </div>
         </div>
         <!-- Form address. -->
         <div class="flex items-center justify-between w-full gap-2">
           <div class="w-full mb-3">
-            <span class="text-base">Status</span>
+            <span class="text-base">Trạng thái</span>
             <select
               name="categoryStatus"
               class="w-full p-2 mt-1 rounded-sm outline-none"
@@ -155,8 +155,8 @@
               v-model="data.status"
               @change="switchSelectStatus($event)"
             >
-              <option value="1" selected>Active</option>
-              <option value="0">In-Active</option>
+              <option value="1" selected>Hoạt động</option>
+              <option value="0">Không hoạt động</option>
             </select>
           </div>
         </div>
@@ -166,19 +166,17 @@
           className="bg-brown
         hover:bg-brown-hover text-white w-full m-0 mt-3"
           name="login"
-          :text="pathName !== 'ProductEditAdmin' ? 'Register' : 'Update'"
+          :text="pathName !== 'ProductEditAdmin' ? 'Đăng kí' : 'Cập nhật'"
         />
       </form>
     </div>
     <form
       v-if="modal.isDisplay == true && modal.isType == 'size'"
-      class="absolute top-[10%] right-[50%] m-auto bg-[#171B2D] py-5 px-5 flex flex-col items-center justify-center"
+      class="fixed top-[10%] right-[50%] m-auto bg-[#171B2D] py-5 px-5 flex flex-col items-center justify-center"
     >
-      <h1 class="text-[#17b1ea] block text-center text-lg uppercase mb-2 font-bold">
-        Product size
-      </h1>
+      <h1 class="text-[#17b1ea] block text-center text-lg uppercase mb-2 font-bold">Kích cỡ</h1>
       <h5 class="text-[#17b1ea] block text-center text-xs uppercase mb-2 font-thin">
-        Total quantity: {{ data.quantity }}
+        Số lượng: {{ totalQuantity }}
       </h5>
       <h5 class="block mb-2 text-xs font-thin text-center text-red-500 uppercase">
         {{ errorSize !== null ? errorSize : '' }}
@@ -207,13 +205,11 @@
     </form>
     <form
       v-if="modal.isDisplay == true && modal.isType == 'color'"
-      class="rounded absolute top-[10%] right-[40%] m-auto bg-[#31395f] py-5 px-5 flex flex-col items-center justify-center"
+      class="rounded fixed top-[10%] translate-x-[100px] m-auto bg-[#31395f] py-5 px-5 flex flex-col items-center justify-center"
     >
-      <h1 class="text-[#17b1ea] block text-center text-lg uppercase mb-2 font-bold">
-        Product color
-      </h1>
+      <h1 class="text-[#17b1ea] block text-center text-lg uppercase mb-2 font-bold">Màu sắc</h1>
       <h5 class="text-[#17b1ea] block text-center text-xs uppercase mb-2 font-thin">
-        Total quantity: {{ data.quantity }}
+        Số lượng: {{ totalQuantity }}
       </h5>
       <h5 class="block mb-2 text-xs font-thin text-center text-red-500 uppercase">
         {{ errorSize !== null ? errorSize : '' }}
@@ -230,7 +226,7 @@
             {{ item.productSize }}
           </p>
           <p class="text-[#17b1ea] bg-[#0c3247] text-center py-2 px-3 w-[100px] border">
-            {{ item.productQuantity }}
+            {{ totalQuantity }}
           </p>
           <input
             @change="onChangeColor($event, item.productId)"
@@ -336,11 +332,12 @@ const data = reactive({
   productDescription: '',
   productPrice: '',
   productPriceSale: '',
-  quantity: 36,
+  quantity: '',
   status: '1',
   productColorModelList: [],
   productSizeModelList: []
 })
+const totalQuantity = ref(0)
 const form = reactive({ ...data })
 const files = ref([])
 const onPropsModalSize = (event, type) => {
@@ -348,14 +345,15 @@ const onPropsModalSize = (event, type) => {
   modal.value.isType = type
 }
 const onChangeSize = (event, productId) => {
+  totalQuantity.value = data.quantity
   productSize.forEach((element) => {
     if (element.productId === productId) {
       element.productQuantity = event.target.value
-      if (event.target.value > data.quantity) {
-        errorSize.value = 'The quantity does not exceed: ' + data.quantity
+      if (event.target.value > totalQuantity.value) {
+        errorSize.value = 'The quantity does not exceed: ' + totalQuantity.value
       }
-      if (event.target.value <= data.quantity) {
-        data.quantity = data.quantity - Number(event.target.value)
+      if (event.target.value <= totalQuantity.value) {
+        totalQuantity.value = totalQuantity.value - Number(event.target.value)
         errorSize.value = null
       }
     }
@@ -457,6 +455,7 @@ async function getById(categoryId, productId, data) {
           item.productColor = element.productColorQuantity
         })
     })
+    // totalQuantity = res.data.$event
   } catch (error) {
     formatResponse(error.response?.data) || error
   }

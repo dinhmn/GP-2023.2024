@@ -8,7 +8,7 @@ export default function render() {
     let objectItem = JSON.parse(localstorage.getItem('order'));
     for (let index = 0; index < objectItem.length; index++) {
       const element = objectItem[index];
-      let price = element.productModel.productPriceSale !== null ? element.productModel.productPriceSale : element.productModel.productPrice;
+      let price = element.productPriceSale !== null ? element.productPriceSale : element.productPrice;
       totalPrice += Number(price) * Number(element.productQuantity);
     }
   }

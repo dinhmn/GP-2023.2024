@@ -25,8 +25,8 @@
       ></vue-feather>
     </div> -->
     <router-link to="/">
-      <button class="absolute bottom-0 right-0 -translate-x-5 -translate-y-5">
-        Home
+      <button class="absolute bottom-0 right-0 -translate-x-2 -translate-y-2">
+        Trang chủ
       </button></router-link
     >
   </section>
