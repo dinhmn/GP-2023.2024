@@ -1,5 +1,6 @@
 package com.graduationproject.backend.backendwebsiteshoe.service;
 
+import com.graduationproject.backend.backendwebsiteshoe.dto.ChartJS;
 import com.graduationproject.backend.backendwebsiteshoe.dto.ICategory;
 import com.graduationproject.backend.backendwebsiteshoe.entity.CategoryEntity;
 import com.graduationproject.backend.backendwebsiteshoe.entity.CategoryEntityKey;
@@ -116,6 +117,15 @@ public class CategoryService {
     CategoryEntityKey categoryEntityKey = new CategoryEntityKey();
     categoryEntityKey.setPk(categoryId, trademarkId);
     categoryRepository.deleteById(categoryEntityKey);
+  }
+
+  /**
+   * Get all category.
+   *
+   * @return category
+   */
+  public List<ChartJS> getAllChart() {
+    return categoryRepository.findAllChart();
   }
 
   /**

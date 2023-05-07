@@ -10,8 +10,8 @@ import com.graduationproject.backend.backendwebsiteshoe.entity.CartEntity;
 import com.graduationproject.backend.backendwebsiteshoe.entity.OrderEntity;
 import com.graduationproject.backend.backendwebsiteshoe.entity.UserInformationEntity;
 import com.graduationproject.backend.backendwebsiteshoe.forms.OrderForm;
+import com.graduationproject.backend.backendwebsiteshoe.forms.OrderFormSupport;
 import com.graduationproject.backend.backendwebsiteshoe.model.OrderJasperModel;
-import com.graduationproject.backend.backendwebsiteshoe.repository.CartRepository;
 import com.graduationproject.backend.backendwebsiteshoe.service.CartService;
 import com.graduationproject.backend.backendwebsiteshoe.service.OrderService;
 import com.graduationproject.backend.backendwebsiteshoe.service.UserInformationService;
@@ -68,6 +68,7 @@ public class OrderHelper {
         this.toBuildUserInformationEntity(orderJasperModel.getCustomer(), userId == null
             ? User.CUSTOMER.getCode()
             : User.USER.getCode(), userId);
+    userInformationService.insert(userInformationEntity);
     for (CartEntity cart : cartEntityList) {
       totalPrice = totalPrice.add(cart.getProductCurrentPrice().multiply(
           BigDecimal.valueOf(cart.getProductQuantity())));
@@ -79,7 +80,6 @@ public class OrderHelper {
 
     try {
       cartService.insert(cartEntityList);
-      userInformationService.insert(userInformationEntity);
       return orderService.insert(orderEntity);
     } catch (DataAccessException dataAccessException) {
       dataAccessException.printStackTrace();
@@ -106,7 +106,7 @@ public class OrderHelper {
     Page<IOrder> orders = orderService.getAllByOrderId(pageable, searchValue);
 
     return OrderForm.builder()
-        .orderList(orders.getContent())
+        .orderList(this.toBuildOrderSupport(orders.getContent()).stream().distinct().toList())
         .pageNo(orders.getNumber())
         .pageSize(orders.getSize())
         .totalElements(orders.getTotalElements())
@@ -140,7 +140,7 @@ public class OrderHelper {
   /**
    * Get all by order id.
    *
-   * @param orderId orderId
+   * @param orderId     orderId
    * @param orderStatus orderStatus
    * @return list entity
    */
@@ -240,6 +240,29 @@ public class OrderHelper {
    * @param orderList orderList
    * @return order jasper
    */
+  private List<OrderFormSupport> toBuildOrderSupport(List<IOrder> orderList) {
+    return orderList.stream()
+        .map(order -> OrderFormSupport.builder()
+            .orderId(order.getOrderId())
+            .orderCode(order.getOrderCode())
+            .orderStatus(order.getStatus())
+            .fullName((Objects.nonNull(order.getCustomerLastName()) ? order.getCustomerLastName() :
+                Constant.EMPTY_SPACE)
+                + Constant.SPACE
+                + (Objects.nonNull(order.getCustomerFirstName()) ? order.getCustomerFirstName() :
+                    Constant.EMPTY_SPACE))
+            .customerAddress(order.getCustomerAddress())
+            .createdDate(order.getCreatedDate())
+            .build())
+        .toList();
+  }
+
+  /**
+   * To build order jasper modal.
+   *
+   * @param orderList orderList
+   * @return order jasper
+   */
   private OrderJasperModel toBuildOrderJasperModel(List<IOrder> orderList) {
     OrderJasperModel orderJasperModel = new OrderJasperModel();
 
@@ -248,7 +271,8 @@ public class OrderHelper {
         CollectionUtils.isEmpty(orderList) && Objects.isNull(orderList.get(0).getCreatedDate())
             ? " "
             : DatetimeConvertFormat
-            .convertDateToStringWithFormat(Constant.PATTERN_DATETIME_HOURS, orderList.get(0).getCreatedDate()));
+            .convertDateToStringWithFormat(Constant.PATTERN_DATETIME_HOURS,
+                orderList.get(0).getCreatedDate()));
     customer.setCustomerAddress(orderList.get(0).getCustomerAddress());
     customer.setCustomerOrderCode(orderList.get(0).getOrderCode());
     customer.setCustomerEmail(orderList.get(0).getCustomerEmail());
@@ -256,7 +280,9 @@ public class OrderHelper {
     customer.setCustomerLastName(orderList.get(0).getCustomerLastName());
     customer.setCustomerPhone(orderList.get(0).getCustomerPhone());
     customer.setUserId(orderList.get(0).getUserId());
-    customer.setCustomerNote(Objects.nonNull(orderList.get(0).getCustomerNote()) ? orderList.get(0).getCustomerNote() : "");
+    customer.setCustomerNote(
+        Objects.nonNull(orderList.get(0).getCustomerNote()) ? orderList.get(0).getCustomerNote() :
+            "");
     List<OrderJasperModel.Order> invoiceList = new ArrayList<>();
     BigDecimal totalPriceOfAllProduct = BigDecimal.ZERO;
     Integer totalQuantityOfAllProduct = 0;
@@ -267,7 +293,7 @@ public class OrderHelper {
       invoice.setProductPrice(order.getProductPrice().setScale(FIXED, RoundingMode.UP));
       invoice.setProductQuantity(order.getProductQuantity());
       invoice.setProductTotalPrice(order.getProductPrice().multiply(
-          BigDecimal.valueOf(order.getProductQuantity())));
+          BigDecimal.valueOf(order.getProductQuantity())).setScale(FIXED, RoundingMode.UP));
       totalPriceOfAllProduct = totalPriceOfAllProduct.add(order.getProductPrice());
       totalQuantityOfAllProduct += totalQuantityOfAllProduct + order.getProductQuantity();
       invoiceList.add(invoice);

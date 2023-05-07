@@ -39,7 +39,8 @@ public class ArticleEntity extends BaseEntity implements Serializable {
   @Column(name = "article_name", nullable = false)
   private String articleName;
 
-  @Column(name = "article_description", nullable = false)
+  @Column(name = "article_description",
+      nullable = false)
   private String articleDescription;
 
   @Column(name = "article_seo", nullable = false)

@@ -41,10 +41,12 @@ public class DataSourceConfig {
   private DatabasePopulator createDatabasePopulator() throws IOException {
     ResourceDatabasePopulator databasePopulator = new ResourceDatabasePopulator();
     databasePopulator.setContinueOnError(true);
-    databasePopulator.addScript(new ClassPathResource("templates/table/create_table.sql"));
-    databasePopulator.addScripts(
-        new PathMatchingResourcePatternResolver().getResources(SQL_PATTERN)
-    );
+
+    // TODO: Add script to use test UI
+    // databasePopulator.addScript(new ClassPathResource("templates/table/create_table.sql"));
+    //  databasePopulator.addScripts(
+    //     new PathMatchingResourcePatternResolver().getResources(SQL_PATTERN)
+    // );
     return databasePopulator;
   }
 

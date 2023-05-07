@@ -1,6 +1,7 @@
 package com.graduationproject.backend.backendwebsiteshoe.controller;
 
 import com.graduationproject.backend.backendwebsiteshoe.common.Constant;
+import com.graduationproject.backend.backendwebsiteshoe.dto.ChartJS;
 import com.graduationproject.backend.backendwebsiteshoe.entity.CategoryEntity;
 import com.graduationproject.backend.backendwebsiteshoe.forms.CategoryForm;
 import com.graduationproject.backend.backendwebsiteshoe.helper.CategoryHelper;
@@ -128,4 +129,15 @@ public class CategoryController {
     response.put("Deleted", action);
     return ResponseEntity.ok(response);
   }
+
+  /**
+   * Get all category.
+   *
+   * @return list object.
+   */
+  @GetMapping(value = "/init-chart-circle")
+  public List<ChartJS> getCategoryChart() {
+    return categoryHelper.getAllChart();
+  }
+
 }

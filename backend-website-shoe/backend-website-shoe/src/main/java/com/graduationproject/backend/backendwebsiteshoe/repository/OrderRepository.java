@@ -28,7 +28,7 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
       "SELECT product.productId AS productId, usr.userId AS userId, invoice.orderId AS orderId, "
           + " product.productName AS productName, userInfo.address AS customerAddress, "
           + " COALESCE(product.productPriceSale, product.productPrice) AS productPrice, "
-          + " product.quantity AS productQuantity, cart.cartId AS cartId, userInfo.firstName AS "
+          + " cart.productQuantity AS productQuantity, cart.cartId AS cartId, userInfo.firstName AS "
           + " customerFirstName, userInfo.lastName AS customerLastName, userInfo.email AS "
           + " customerEmail, userInfo.phone AS customerPhone, invoice.createdDate AS createdDate,"
           + " invoice.orderCode AS orderCode, userInfo.note AS customerNote, invoice.createdDate AS createdDate,"
@@ -77,28 +77,31 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
       "SELECT DISTINCT(invoice.order_id) AS orderId, product.product_id AS productId, usr.user_id AS userId, "
           + " product.product_name AS productName, userInfo.address AS customerAddress,"
           + " COALESCE(product.product_price_sale, product.product_price) AS productPrice, "
-          + " product.quantity AS productQuantity, cart.cart_id AS cartId, invoice.order_code AS orderCode,"
+          + " cart.product_quantity AS productQuantity, cart.cart_id AS cartId, invoice.order_code AS orderCode,"
           + " userInfo.first_name AS customerFirstName, userInfo.last_name AS customerLastName, "
           + " userInfo.email AS customerEmail, userInfo.phone AS customerPhone, invoice.created_date AS createdDate,"
           + " invoice.order_status AS status"
           + " FROM tbl_order invoice INNER JOIN tbl_cart cart ON cart.cart_id = invoice.cart_id"
           + " INNER JOIN tbl_product product ON cart.product_id = product.product_id"
-          + " INNER JOIN tbl_product_color color ON color.product_id = product.product_id"
-          + " INNER JOIN tbl_product_size si ON si.product_id = product.product_id"
-          + " INNER JOIN tbl_user_information userInfo ON userInfo.user_information_id = "
+          + " LEFT JOIN tbl_product_color color ON color.product_id = product.product_id"
+          + " LEFT JOIN tbl_product_size si ON si.product_id = product.product_id"
+          + " LEFT JOIN tbl_user_information userInfo ON userInfo.user_information_id = "
           + " invoice.user_information_id LEFT JOIN tbl_user usr ON usr.user_id = invoice.user_id"
           + " WHERE userInfo.first_name LIKE %?1% OR userInfo.last_name LIKE %?1% "
           + " OR userInfo.email LIKE %?1%", nativeQuery = true,
       countQuery = " SELECT COUNT(DISTINCT(invoice.order_id)) FROM tbl_order invoice"
           + " INNER JOIN tbl_cart cart ON cart.cart_id = invoice.cart_id"
           + " INNER JOIN tbl_product product ON cart.product_id = product.product_id"
-          + " INNER JOIN tbl_product_color color ON color.product_id = product.product_id"
-          + " INNER JOIN tbl_product_size si ON si.product_id = product.product_id"
-          + " INNER JOIN tbl_user_information userInfo ON userInfo.user_information_id = "
+          + " LEFT JOIN tbl_product_color color ON color.product_id = product.product_id"
+          + " LEFT JOIN tbl_product_size si ON si.product_id = product.product_id"
+          + " LEFT JOIN tbl_user_information userInfo ON userInfo.user_information_id = "
           + " invoice.user_information_id LEFT JOIN tbl_user usr ON usr.user_id = invoice.user_id"
           + " WHERE userInfo.first_name LIKE %?1% OR userInfo.last_name LIKE %?1% "
           + " OR userInfo.email LIKE %?1%")
   Page<IOrder> findAllPage(Pageable pageable, String searchValue);
+
+  @Query("SELECT MAX(ord.orderId) FROM OrderEntity ord")
+  Long getNewOrderId();
 
   @Query(value = "SELECT invoice.order_id AS orderId, invoice.cart_id AS cartId,"
       + " SUM(cart.product_quantity) AS totalQuantity, invoice.order_status AS orderStatus, "

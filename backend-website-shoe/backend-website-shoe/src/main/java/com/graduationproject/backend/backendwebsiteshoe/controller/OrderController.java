@@ -101,6 +101,16 @@ public class OrderController {
     return orderHelper.getAll();
   }
 
+//  /**
+//   * Get order by orderId.
+//   *
+//   * @return order response.
+//   */
+//  @GetMapping("/get-order-all")
+//  public List<ICart> getCart() {
+//    return orderHelper.getAll();
+//  }
+
   /**
    * Get order by orderId.
    *

@@ -3,6 +3,7 @@ package com.graduationproject.backend.backendwebsiteshoe.helper;
 import com.graduationproject.backend.backendwebsiteshoe.common.Action;
 import com.graduationproject.backend.backendwebsiteshoe.common.Constant;
 import com.graduationproject.backend.backendwebsiteshoe.common.DatetimeConvertFormat;
+import com.graduationproject.backend.backendwebsiteshoe.dto.ChartJS;
 import com.graduationproject.backend.backendwebsiteshoe.dto.ICategory;
 import com.graduationproject.backend.backendwebsiteshoe.entity.CategoryEntity;
 import com.graduationproject.backend.backendwebsiteshoe.forms.CategoryForm;
@@ -101,6 +102,15 @@ public class CategoryHelper {
     Optional<CategoryEntity> categoryEntity =
         categoryService.getCategoryByPrimaryKey(categoryId, trademarkId);
     return this.convertCategory(categoryEntity.get());
+  }
+
+  /**
+   * Get all category.
+   *
+   * @return category
+   */
+  public List<ChartJS> getAllChart() {
+    return categoryService.getAllChart();
   }
 
   /**
