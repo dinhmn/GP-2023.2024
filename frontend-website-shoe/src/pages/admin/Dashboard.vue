@@ -45,13 +45,14 @@
           id="my-chart-id"
           height="600"
           class="w-full"
+          v-if="loaded"
           :options="chartOptions"
           :data="chartData"
         />
       </div>
       <div class="col-span-1 bg-[#0c32477e] px-2 py-4 my-calendar rounded-lg">
         <div>
-          <Pie :options="pieOptions" :data="pieData" />
+          <Pie v-if="loaded" :options="pieOptions" :data="pieData" />
         </div>
         <div class="mt-8">
           <VDatePicker :attributes="attributes" is-dark="system" expanded theme="dark" />
@@ -115,6 +116,8 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { Bar, Pie } from 'vue-chartjs'
+import axios from 'axios'
+import OrderService from '../../stores/modules/OrderService.js'
 import {
   Chart as ChartJS,
   Title,
@@ -134,16 +137,70 @@ const attributes = ref([
   }
 ])
 const status = ['done', 'pending', 'wait']
-import OrderService from '../../stores/modules/OrderService.js'
+
 const data = ref({})
 const totalQuantity = ref(0)
 const totalPrice = ref(0)
 const totalComplete = ref(0)
-const dataDetail = ref({})
+const dataDetail = ref([])
 const router = useRouter()
+const pieData = ref([])
 export default {
   name: 'BarChart',
   components: { Bar, Pie },
+  data: () => ({
+    loaded: false,
+    chartData: null,
+    pieData: null
+  }),
+  async mounted() {
+    this.loaded = false
+    try {
+      await OrderService.get('/get-order-each').then(async (response) => {
+        dataDetail.value = response.data
+      })
+      await axios
+        .get('http://localhost:8088/api/categories/init-chart-circle')
+        .then(async (response) => (pieData.value = response.data))
+      this.chartData = {
+        labels: [
+          'January',
+          'February',
+          'March',
+          'April',
+          'May',
+          'June',
+          'July',
+          'August',
+          'September',
+          'October',
+          'November',
+          'December'
+        ],
+        datasets: [
+          {
+            label: 'Yearly revenue',
+            data: dataDetail.value,
+            backgroundColor: '#17b1ea',
+            width: '300px',
+            height: '400px'
+          }
+        ]
+      }
+      this.pieData = {
+        labels: pieData.value.map((cate) => cate.categoryName),
+        datasets: [
+          {
+            backgroundColor: ['#41B883', '#E46651', '#00D8FF', '#DD1B16'],
+            data: pieData.value.map((cate) => cate.countItem)
+          }
+        ]
+      }
+      this.loaded = true
+    } catch (error) {
+      console.log(error)
+    }
+  },
   setup() {
     try {
       OrderService.get('/get-order-all').then((response) => {
@@ -169,7 +226,7 @@ export default {
         sortDirection: 'ASC',
         value: ''
       }
-      OrderService.getAllOrder('/get-all', page).then((response) => {
+      OrderService.getAllOrder('/get-all', page).then(async (response) => {
         dataDetail.value = response.data
       })
     } catch (error) {
@@ -181,40 +238,6 @@ export default {
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
     }
     return {
-      chartData: {
-        labels: [
-          'January',
-          'February',
-          'March',
-          'April',
-          'May',
-          'June',
-          'July',
-          'August',
-          'September',
-          'October',
-          'November',
-          'December'
-        ],
-        datasets: [
-          {
-            label: 'Yearly revenue',
-            data: [40, 20, 12, 80, 22, 56, 90, 120, 200, 156, 98, 150],
-            backgroundColor: '#17b1ea',
-            width: '300px',
-            height: '400px'
-          }
-        ]
-      },
-      pieData: {
-        labels: ['VueJs', 'EmberJs', 'ReactJs', 'AngularJs'],
-        datasets: [
-          {
-            backgroundColor: ['#41B883', '#E46651', '#00D8FF', '#DD1B16'],
-            data: [40, 20, 80, 10]
-          }
-        ]
-      },
       chartOptions: {
         responsive: true
       },

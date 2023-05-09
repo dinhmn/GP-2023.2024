@@ -1,11 +1,14 @@
 package com.graduationproject.backend.backendwebsiteshoe.controller;
 
 import com.graduationproject.backend.backendwebsiteshoe.common.Constant;
+import com.graduationproject.backend.backendwebsiteshoe.dto.EachMonthOrderDto;
 import com.graduationproject.backend.backendwebsiteshoe.dto.ICart;
 import com.graduationproject.backend.backendwebsiteshoe.entity.OrderEntity;
 import com.graduationproject.backend.backendwebsiteshoe.forms.OrderForm;
 import com.graduationproject.backend.backendwebsiteshoe.helper.OrderHelper;
 import com.graduationproject.backend.backendwebsiteshoe.model.OrderJasperModel;
+import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -101,15 +104,15 @@ public class OrderController {
     return orderHelper.getAll();
   }
 
-//  /**
-//   * Get order by orderId.
-//   *
-//   * @return order response.
-//   */
-//  @GetMapping("/get-order-all")
-//  public List<ICart> getCart() {
-//    return orderHelper.getAll();
-//  }
+  /**
+   * Get order each month.
+   *
+   * @return order response.
+   */
+  @GetMapping("/get-order-each")
+  public Collection<BigDecimal> getEachMonthOrder() {
+    return orderHelper.getEachMonthOrder();
+  }
 
   /**
    * Get order by orderId.

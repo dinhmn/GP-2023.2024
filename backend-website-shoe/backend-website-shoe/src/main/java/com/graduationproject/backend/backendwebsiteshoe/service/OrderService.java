@@ -1,5 +1,6 @@
 package com.graduationproject.backend.backendwebsiteshoe.service;
 
+import com.graduationproject.backend.backendwebsiteshoe.dto.EachMonthOrderDto;
 import com.graduationproject.backend.backendwebsiteshoe.dto.ICart;
 import com.graduationproject.backend.backendwebsiteshoe.dto.IOrder;
 import com.graduationproject.backend.backendwebsiteshoe.entity.OrderEntity;
@@ -69,6 +70,15 @@ public class OrderService {
    */
   public List<IOrder> getAllByUserId(Long userId) {
     return orderRepository.findAllByUserId(userId);
+  }
+
+  /**
+   * Get total price each month.
+   *
+   * @return list dto
+   */
+  public List<EachMonthOrderDto> getEachMonthOrder() {
+    return orderRepository.findAllByMonth();
   }
 
   /**

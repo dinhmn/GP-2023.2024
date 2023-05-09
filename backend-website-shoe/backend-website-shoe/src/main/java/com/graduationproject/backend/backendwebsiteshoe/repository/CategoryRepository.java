@@ -100,11 +100,14 @@ public interface CategoryRepository extends JpaRepository<CategoryEntity, Catego
       nativeQuery = true)
   List<ICategory> findAllCategory();
 
-  @Query(value = "SELECT category.category_id AS title, " +
-      "COUNT(tp.product_id) AS countItem"
+  @Query(value = "SELECT category.category_id AS categoryId, "
+      + " category.category_name AS categoryName,"
+      + " COUNT(tp.product_id) AS countItem"
       + " FROM tbl_category category"
       + " INNER JOIN tbl_product tp on category.category_id = tp.category_id"
-      + " INNER JOIN tbl_cart tc on tp.product_id = tc.product_id", nativeQuery = true)
+      + " INNER JOIN tbl_cart tc on tp.product_id = tc.product_id"
+      + " GROUP BY category.category_id, category.category_name"
+      + " ORDER BY category.category_id", nativeQuery = true)
   List<ChartJS> findAllChart();
 
 }
