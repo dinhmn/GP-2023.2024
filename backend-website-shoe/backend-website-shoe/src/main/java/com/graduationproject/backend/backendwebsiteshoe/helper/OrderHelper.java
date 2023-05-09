@@ -4,6 +4,7 @@ import com.graduationproject.backend.backendwebsiteshoe.common.CommonService;
 import com.graduationproject.backend.backendwebsiteshoe.common.Constant;
 import com.graduationproject.backend.backendwebsiteshoe.common.DatetimeConvertFormat;
 import com.graduationproject.backend.backendwebsiteshoe.common.User;
+import com.graduationproject.backend.backendwebsiteshoe.dto.EachMonthOrderDto;
 import com.graduationproject.backend.backendwebsiteshoe.dto.ICart;
 import com.graduationproject.backend.backendwebsiteshoe.dto.IOrder;
 import com.graduationproject.backend.backendwebsiteshoe.entity.CartEntity;
@@ -18,10 +19,13 @@ import com.graduationproject.backend.backendwebsiteshoe.service.UserInformationS
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.TreeMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
@@ -167,6 +171,15 @@ public class OrderHelper {
    *
    * @return entity list
    */
+  public Collection<BigDecimal> getEachMonthOrder() {
+    return this.getTotalPriceEachMonth(orderService.getEachMonthOrder());
+  }
+
+  /**
+   * Find all.
+   *
+   * @return entity list
+   */
   public List<ICart> getAllDistinct() {
     return orderService.getAllDistinct();
   }
@@ -250,7 +263,7 @@ public class OrderHelper {
                 Constant.EMPTY_SPACE)
                 + Constant.SPACE
                 + (Objects.nonNull(order.getCustomerFirstName()) ? order.getCustomerFirstName() :
-                    Constant.EMPTY_SPACE))
+                Constant.EMPTY_SPACE))
             .customerAddress(order.getCustomerAddress())
             .createdDate(order.getCreatedDate())
             .build())
@@ -308,5 +321,24 @@ public class OrderHelper {
         totalPriceOfAllProduct.setScale(FIXED, RoundingMode.UP).doubleValue() + " đ");
     orderJasperModel.setTotalQuantityOfAllProduct(totalQuantityOfAllProduct.toString());
     return orderJasperModel;
+  }
+
+  /**
+   * To build order price each month.
+   *
+   * @param eachMonthOrderDtoList eachMonthOrderDtoList
+   * @return list total price month
+   */
+  private Collection<BigDecimal> getTotalPriceEachMonth(
+      List<EachMonthOrderDto> eachMonthOrderDtoList) {
+    Map<Integer, BigDecimal> listTotalPrice = new TreeMap<>();
+    for (int index = 1; index <= 12; index++) {
+      listTotalPrice.put(index, BigDecimal.ZERO);
+    }
+    for (EachMonthOrderDto each : eachMonthOrderDtoList) {
+      listTotalPrice.put(Integer.parseInt(each.getMonth()),
+          each.getTotalPrice().setScale(FIXED, RoundingMode.UP));
+    }
+    return listTotalPrice.values();
   }
 }

@@ -1,5 +1,6 @@
 package com.graduationproject.backend.backendwebsiteshoe.repository;
 
+import com.graduationproject.backend.backendwebsiteshoe.dto.EachMonthOrderDto;
 import com.graduationproject.backend.backendwebsiteshoe.dto.ICart;
 import com.graduationproject.backend.backendwebsiteshoe.dto.IOrder;
 import com.graduationproject.backend.backendwebsiteshoe.entity.OrderEntity;
@@ -28,10 +29,12 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
       "SELECT product.productId AS productId, usr.userId AS userId, invoice.orderId AS orderId, "
           + " product.productName AS productName, userInfo.address AS customerAddress, "
           + " COALESCE(product.productPriceSale, product.productPrice) AS productPrice, "
-          + " cart.productQuantity AS productQuantity, cart.cartId AS cartId, userInfo.firstName AS "
+          +
+          " cart.productQuantity AS productQuantity, cart.cartId AS cartId, userInfo.firstName AS "
           + " customerFirstName, userInfo.lastName AS customerLastName, userInfo.email AS "
           + " customerEmail, userInfo.phone AS customerPhone, invoice.createdDate AS createdDate,"
-          + " invoice.orderCode AS orderCode, userInfo.note AS customerNote, invoice.createdDate AS createdDate,"
+          +
+          " invoice.orderCode AS orderCode, userInfo.note AS customerNote, invoice.createdDate AS createdDate,"
           + " invoice.status AS status"
           + " FROM OrderEntity invoice INNER JOIN CartEntity cart ON cart.cartId = invoice.cartId"
           + " INNER JOIN ProductEntity product ON cart.productId = product.productId"
@@ -55,7 +58,8 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
           + " product.quantity AS productQuantity, cart.cartId AS cartId, userInfo.firstName AS "
           + " customerFirstName, userInfo.lastName AS customerLastName, userInfo.email AS "
           + " customerEmail, userInfo.phone AS customerPhone, invoice.createdDate AS createdDate,"
-          + " invoice.orderCode AS orderCode, userInfo.note AS customerNote, invoice.createdDate AS createdDate,"
+          +
+          " invoice.orderCode AS orderCode, userInfo.note AS customerNote, invoice.createdDate AS createdDate,"
           + " invoice.status AS status"
           + " FROM OrderEntity invoice INNER JOIN CartEntity cart ON cart.cartId = invoice.cartId"
           + " INNER JOIN ProductEntity product ON cart.productId = product.productId"
@@ -77,9 +81,11 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
       "SELECT DISTINCT(invoice.order_id) AS orderId, product.product_id AS productId, usr.user_id AS userId, "
           + " product.product_name AS productName, userInfo.address AS customerAddress,"
           + " COALESCE(product.product_price_sale, product.product_price) AS productPrice, "
-          + " cart.product_quantity AS productQuantity, cart.cart_id AS cartId, invoice.order_code AS orderCode,"
+          +
+          " cart.product_quantity AS productQuantity, cart.cart_id AS cartId, invoice.order_code AS orderCode,"
           + " userInfo.first_name AS customerFirstName, userInfo.last_name AS customerLastName, "
-          + " userInfo.email AS customerEmail, userInfo.phone AS customerPhone, invoice.created_date AS createdDate,"
+          +
+          " userInfo.email AS customerEmail, userInfo.phone AS customerPhone, invoice.created_date AS createdDate,"
           + " invoice.order_status AS status"
           + " FROM tbl_order invoice INNER JOIN tbl_cart cart ON cart.cart_id = invoice.cart_id"
           + " INNER JOIN tbl_product product ON cart.product_id = product.product_id"
@@ -116,4 +122,11 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
       + " INNER JOIN tbl_cart cart ON cart.cart_id = invoice.cart_id"
       + " GROUP BY invoice.order_id, invoice.cart_id, invoice.order_status", nativeQuery = true)
   List<ICart> findAllTotalDistinct();
+
+  @Query(value = "select MONTH(ord.created_date) AS month, SUM(ord.order_total_price) AS totalPrice"
+      + " from tbl_order ord"
+      + " inner join tbl_cart tc on ord.cart_id = tc.cart_id"
+      + " group by MONTH(ord.created_date)"
+      + " order by MONTH(ord.created_date)", nativeQuery = true)
+  List<EachMonthOrderDto> findAllByMonth();
 }
