@@ -13,5 +13,6 @@ class CategoryService {
       return http.get(API_CATEGORY_PREFIX + url + "?page_no=" + page.pageNo + "&page_size=" + page.pageSize
       + "&sort_direction=" + page.sortDirection + "&sort_by=" + page.sortBy + "&search_value=" + page.searchValue)
     }
+    
 }
   export default new CategoryService();
