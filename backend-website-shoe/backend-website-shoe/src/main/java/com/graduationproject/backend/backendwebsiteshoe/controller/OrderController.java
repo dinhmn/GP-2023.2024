@@ -135,4 +135,9 @@ public class OrderController {
     OrderEntity orderEntity = orderHelper.update(orderId, orderStatus);
     return new ResponseEntity<>(orderEntity, HttpStatus.OK);
   }
+
+  @GetMapping("/get-order-dashboard")
+  public List<ICart> getAllOrderDashboard() {
+    return orderHelper.getAllBill();
+  }
 }

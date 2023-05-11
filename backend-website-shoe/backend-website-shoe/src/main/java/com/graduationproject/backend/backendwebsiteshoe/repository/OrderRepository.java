@@ -129,4 +129,14 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
       + " group by MONTH(ord.created_date)"
       + " order by MONTH(ord.created_date)", nativeQuery = true)
   List<EachMonthOrderDto> findAllByMonth();
+
+  @Query(value = "SELECT invoice.order_id AS orderId, invoice.cart_id AS cartId,"
+      + " SUM(cart.product_quantity) AS totalQuantity, invoice.order_status AS orderStatus, "
+      + " usr.first_name AS firstName, usr.last_name AS lastName, invoice.created_date AS createdDate,"
+      + " SUM(invoice.order_total_price) AS totalOrderPrice FROM tbl_order invoice"
+      + " INNER JOIN tbl_cart cart ON cart.cart_id = invoice.cart_id "
+      + " LEFT JOIN tbl_user_information usr ON usr.user_information_id = invoice.user_information_id"
+      + " GROUP BY invoice.order_id, invoice.cart_id, invoice.order_status"
+      + " ORDER BY invoice.created_date DESC LIMIT 5", nativeQuery = true)
+  List<ICart> findBill();
 }

@@ -1,11 +1,15 @@
 package com.graduationproject.backend.backendwebsiteshoe.forms;
 
+import java.math.BigDecimal;
 import java.util.Date;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
+/**
+ * From support order.
+ *
+ * @author Mai Ngoc Dinh
+ */
 @Data
 @Builder
 public class OrderFormSupport {
@@ -21,4 +25,8 @@ public class OrderFormSupport {
   private Date createdDate;
 
   private String orderStatus;
+
+  private String quantity;
+
+  private String totalPrice;
 }

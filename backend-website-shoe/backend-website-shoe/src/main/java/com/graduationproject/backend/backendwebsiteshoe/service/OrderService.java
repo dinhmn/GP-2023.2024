@@ -52,6 +52,10 @@ public class OrderService {
     return orderRepository.findAllPage(pageable, searchValue);
   }
 
+  public List<ICart> findBill() {
+    return orderRepository.findBill();
+  }
+
   /**
    * Get all by order id.
    *
