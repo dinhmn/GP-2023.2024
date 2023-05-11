@@ -48,9 +48,11 @@
                 >{{ formatPrice(product.productModel.productPrice) }}đ</span
               >
               <span class="p-1 text-sm text-white rounded-sm bg-brown">{{
-                (product.productModel.productPrice / product.productModel.productPriceSale).toFixed(
-                  0
-                ) + '%'
+                (
+                  ((product.productModel.productPrice - product.productModel.productPriceSale) /
+                    product.productModel.productPrice) *
+                  100
+                ).toFixed(0) + '%'
               }}</span>
             </div>
             <div class="text-sm">
@@ -320,19 +322,27 @@ const productModel = reactive({
 
 const onSubmit = (event, type) => {
   if (type == 'add') {
+    let flag = false
     if (localStorage.getItem('order') !== null) {
       order.value = JSON.parse(localStorage.getItem('order'))
+      order.value.forEach((element) => {
+        if (element.productId === product.productModel.productId) {
+          element.productQuantity += product.productQuantity
+          flag = true
+        }
+      })
     }
-    console.log(product)
-    productModel.categoryId = product.productModel.categoryId
-    productModel.productId = product.productModel.productId
-    productModel.productQuantity = product.productQuantity
-    productModel.productSize = product.productSize
-    productModel.productName = product.productModel.productName
-    productModel.productPrice = product.productModel.productPrice
-    productModel.productPriceSale = product.productModel.productPriceSale
-    order.value.push(productModel)
-    console.log(JSON.stringify(order.value))
+    if (!flag) {
+      productModel.categoryId = product.productModel.categoryId
+      productModel.productId = product.productModel.productId
+      productModel.productQuantity = product.productQuantity
+      productModel.productSize = product.productSize
+      productModel.productName = product.productModel.productName
+      productModel.productPrice = product.productModel.productPrice
+      productModel.productPriceSale = product.productModel.productPriceSale
+      order.value.push(productModel)
+    }
+
     localStorage.setItem('order', JSON.stringify(order.value))
     render()
   } else {

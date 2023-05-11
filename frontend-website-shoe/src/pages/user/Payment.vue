@@ -2,63 +2,66 @@
 <template lang="">
   <BasePage
     class="flex flex-col items-center gap-5 text-white"
-    :class="cart !== null ? 'justify-center' : 'justify-start'"
+    :class="cart !== null && cart.length !== 0 ? 'justify-center' : 'justify-start'"
   >
     <template v-slot:body>
       <div
-        v-if="cart === null"
+        v-if="cart === null || cart.length === 0"
         class="flex items-start justify-between w-full p-5 rounded-lg cart bg-slate-600"
       >
         <h1 class="block text-center">Chưa có sản phẩm nào trong giỏ hàng.</h1>
       </div>
       <div
-        v-if="cart !== null"
+        v-if="cart !== null && cart.length !== 0"
         class="flex items-start justify-between w-full gap-10 py-2 my-1 rounded-[4px]"
       >
         <!-- Order in Cart -->
         <div class="cart bg-slate-600 w-[60%] p-5 rounded-lg">
           <!-- Item in Cart -->
-          <div
-            class="flex items-center justify-between mb-5"
-            v-for="(product, index) in productList"
-            :key="index"
-          >
-            <!-- Information of product. -->
-            <div class="flex items-start gap-5 align-middle">
-              <img
-                src="../../assets/images/default.png"
-                class="h-[100px] w-[100px] object-cover"
-                alt=""
-              />
-              <div class="flex flex-col items-start justify-start h-full gap-2">
-                <h2 class="text-xl font-bold min-w-[200px]">{{ product.productName }}</h2>
-                <div class="text-sm text-gray-200">
-                  <span>Size: {{ product.productSize }} </span>
-                  <p>
-                    {{ formatPrice(product.productPrice * product.productQuantity) }}
-                    đ
-                  </p>
+          <div id="cart-item">
+            <div
+              class="flex items-center justify-between mb-5"
+              v-for="(product, index) in productList"
+              :key="index"
+            >
+              <!-- Information of product. -->
+              <div class="flex items-start gap-5 align-middle">
+                <img
+                  src="../../assets/images/default.png"
+                  class="h-[100px] w-[100px] object-cover"
+                  alt=""
+                />
+                <div class="flex flex-col items-start justify-start h-full gap-2">
+                  <h2 class="text-xl font-bold min-w-[200px]">{{ product.productName }}</h2>
+                  <div class="text-sm text-gray-200">
+                    <span>Size: {{ product.productSize }} </span>
+                    <p>
+                      {{ formatPrice(product.productPrice * product.productQuantity) }}
+                      đ
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
-            <!-- Increment, decrement, or delete product. -->
-            <div class="flex items-center justify-between">
-              <div>
-                <input-increment
-                  :name="'quantity-' + product.productId"
-                  v-model="product.productQuantity"
-                  :value="product.productQuantity"
-                />
+              <!-- Increment, decrement, or delete product. -->
+              <div class="flex items-center justify-between">
+                <div>
+                  <input-increment
+                    :name="'quantity-' + product.productId"
+                    v-model="product.productQuantity"
+                    :value="product.productQuantity"
+                  />
+                </div>
+                <button class="bg-red-600" @click="handleDeleteItem($event, product)">Xóa</button>
               </div>
-              <button class="bg-red-600" @click="handleDeleteItem($event, product)">Delete</button>
             </div>
-          </div>
-          <!-- Total money a lot of product -->
-          <div class="after-cart flex items-center font-bold justify-between mt-[30px]">
-            <span>Tạm tính ({{ productList.length }} sản phẩm):</span>
-            <span>{{ formatPrice(moneyOfOneProduct) }} đ</span>
+            <!-- Total money a lot of product -->
+            <div class="after-cart flex items-center font-bold justify-between mt-[30px]">
+              <span>Tạm tính ({{ productList.length }} sản phẩm):</span>
+              <span class="temporaryCalculation">{{ formatPrice(moneyOfOneProduct()) }} đ</span>
+            </div>
           </div>
         </div>
+
         <!-- Form use to order -->
         <div class="order w-[40%] bg-slate-600 p-5 rounded-lg">
           <h2 class="my-2 text-xl font-bold uppercase text-brown">Thanh toán và giao hàng</h2>
@@ -212,7 +215,9 @@
             <div class="flex flex-col gap-2 total">
               <div class="flex items-center justify-between">
                 <span>Tạm tính:</span>
-                <span class="text-sm">{{ formatPrice(moneyOfOneProduct) }} đ</span>
+                <span class="text-sm temporaryCalculation-1"
+                  >{{ formatPrice(moneyOfOneProduct()) }} đ</span
+                >
               </div>
               <div class="flex items-center justify-between">
                 <span>Giao hàng:</span>
@@ -220,7 +225,9 @@
               </div>
               <div class="flex items-center justify-between">
                 <span>Tổng:</span>
-                <span class="text-sm">{{ formatPrice(moneyOfOneProduct) }} đ</span>
+                <span class="text-sm temporaryCalculation-2"
+                  >{{ formatPrice(moneyOfOneProduct()) }} đ</span
+                >
               </div>
             </div>
             <!-- Payments. -->
@@ -286,6 +293,8 @@ import Radio from '@/components/common/input/Radio.vue'
 import Textarea from '@/components/common/input/Textarea.vue'
 import InputIncrement from '@/components/common/input/InputIncrement.vue'
 import OrderService from '@/stores/modules/OrderService'
+import render from '@/stores/modules/re-render'
+import clear from '@/stores/modules/clear-item'
 export default {
   name: 'PaymentPage',
   components: {
@@ -352,7 +361,6 @@ export default {
 
       dataOrder.then((response) => {
         oldOrder.value.push(response.data)
-        console.log(response.data)
       })
     }
     return { props, productList, data, count, validate, success, error, cart, oldOrder }
@@ -390,8 +398,36 @@ export default {
       let val = (value / 1).toFixed(0).replace('.', ',')
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
     },
-    handleDeleteItem(event, index) {
-      this.data.product = this.data.product.filter((x) => x.id !== index)
+    handleDeleteItem(event, item) {
+      let orders = ref([])
+      orders.value = JSON.parse(localStorage.getItem('order'))
+
+      orders.value = orders.value.filter((x) => x.productId !== item.productId)
+
+      localStorage.setItem('order', JSON.stringify(orders.value))
+      if (orders.value.length === 0) {
+        localStorage.removeItem('order')
+      }
+      render()
+      clear()
+      if (orders.value !== null) {
+        orders.value.forEach((item) => {
+          let product = {
+            productId: '',
+            productName: '',
+            productQuantity: '',
+            productPrice: 0,
+            productTotalPrice: ''
+          }
+          product.productId = item.productId
+          product.productName = item.productName
+          product.productQuantity = item.productQuantity
+          product.productPrice =
+            item.productPriceSale !== null ? item.productPriceSale : item.productPrice
+          product.productSize = item.productSize
+          this.productList.push(product)
+        })
+      }
     },
     onPressText(event, type) {
       if (type == 'email') {
@@ -418,15 +454,18 @@ export default {
       } else if (!this.error.phone) {
         this.error.phone = false
       }
-    }
-  },
-  computed: {
+    },
     moneyOfOneProduct() {
+      let orders = JSON.parse(localStorage.getItem('order'))
       let sum = 0
-      this.data.product.map((x) => (sum += x.productPrice * x.productQuantity))
+      orders.map(
+        (x) =>
+          (sum += (x.productPriceSale ? x.productPriceSale : x.productPrice) * x.productQuantity)
+      )
       return sum
     }
-  }
+  },
+  computed: {}
 }
 </script>
 <style lang="scss">

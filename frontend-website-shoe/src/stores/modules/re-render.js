@@ -12,6 +12,5 @@ export default function render() {
       totalPrice += Number(price) * Number(element.productQuantity);
     }
   }
-  document.getElementById("total-price-cart").innerHTML = ((totalPrice / 1).toFixed(0).replace('.', ',')).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + 'đ'
-
-}
+  document.getElementById("total-price-cart").innerHTML = ((totalPrice / 1).toFixed(0).replace('.', ',')).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + 'đ'  
+  }
