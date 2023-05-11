@@ -116,11 +116,11 @@ const total = reactive({
   item: 0,
   totalPrice: 0
 })
-if (window.localStorage.getItem('order') !== null) {
+if (localStorage.getItem('order') !== null) {
   total.totalPrice = 0
   let object = JSON.parse(window.localStorage.getItem('order'))
-  total.item = object.length
   if (object !== null) {
+    total.item = object.length
     object.forEach((element) => {
       let price =
         element.productPriceSale === null ? element.productPrice : element.productPriceSale

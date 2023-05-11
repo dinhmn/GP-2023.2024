@@ -66,38 +66,38 @@
             <th>STT.</th>
             <th>Họ và tên</th>
             <th>Số lượng mua</th>
-            <th>Ngày đặt hàng</th>
             <th>Tổng tiền</th>
+            <th>Ngày đặt hàng</th>
             <th>Trạng thái</th>
             <th class="w-[150px]">Hoạt động</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(item, index) in dataDetail.orderList" :key="item.orderId">
+          <tr v-for="(item, index) in dataDetail" :key="item.orderId">
             <td>{{ index + 1 }}</td>
             <td>
               {{
-                (item.customerLastName !== null ? item.customerLastName : '') +
+                (item.lastName !== null ? item.lastName : '') +
                 ' ' +
-                (item.customerFirstName !== null ? item.customerFirstName : '')
+                (item.firstName !== null ? item.firstName : '')
               }}
             </td>
-            <td>{{ item.productQuantity }}</td>
+            <td>{{ item.totalQuantity }}</td>
+            <td>{{ formatPrice(item.totalOrderPrice) + ' đ' }}</td>
             <td>{{ new Date(item.createdDate).toLocaleString().replaceAll('/', '-') }}</td>
-            <td>{{ formatPrice(item.productPrice * item.productQuantity) + ' đ' }}</td>
             <td>
               <strong
-                v-if="Number(item.status) === 0"
+                v-if="Number(item.orderStatus) === 0"
                 class="px-[20px] py-[4px] text-xs text-yellow-700 bg-yellow-400 rounded-full"
                 >Chờ duyệt</strong
               >
               <strong
-                v-if="Number(item.status) === 1"
+                v-if="Number(item.orderStatus) === 1"
                 class="px-[20px] py-[4px] text-xs min-w-[100px] text-green-700 bg-green-400 rounded-full"
                 >Hoàn thành</strong
               >
               <strong
-                v-if="Number(item.status) === 2"
+                v-if="Number(item.orderStatus) === 2"
                 class="px-[20px] py-[4px] text-xs text-red-700 bg-red-400 rounded-full"
                 >Hủy</strong
               >
@@ -200,6 +200,14 @@ export default {
     } catch (error) {
       console.log(error)
     }
+    try {
+      OrderService.get('/get-order-dashboard').then(async (response) => {
+        dataDetail.value = response.data
+      })
+      console.log(dataDetail)
+    } catch (error) {
+      router.push({ name: '404' })
+    }
   },
   setup() {
     try {
@@ -213,21 +221,6 @@ export default {
             totalComplete.value += 1
           }
         }
-      })
-    } catch (error) {
-      router.push({ name: '404' })
-    }
-
-    try {
-      let page = {
-        pageNo: 0,
-        pageSize: 5,
-        sortBy: 'created_date',
-        sortDirection: 'ASC',
-        value: ''
-      }
-      OrderService.getAllOrder('/get-all', page).then(async (response) => {
-        dataDetail.value = response.data
       })
     } catch (error) {
       router.push({ name: '404' })

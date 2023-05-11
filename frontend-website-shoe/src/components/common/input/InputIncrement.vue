@@ -25,6 +25,8 @@
 </template>
 <script setup>
 import { ref } from 'vue'
+import render from '@/stores/modules/re-render'
+import { elements } from 'chart.js'
 const props = defineProps({
   type: {
     type: String,
@@ -47,7 +49,6 @@ const props = defineProps({
     default: ''
   }
 })
-
 const propsValue = ref(props.modelValue)
 const emit = defineEmits(['update:modelValue'])
 
@@ -56,10 +57,37 @@ const updateValue = (value) => {
   emit('update:modelValue', value)
 }
 const increment = () => {
+  const items = JSON.parse(localStorage.getItem('order'))
+  const productId = props.name.replaceAll('quantity-', '')
+  if (items !== null) {
+    items.forEach((element) => {
+      if (element.productId === Number(productId)) {
+        element.productQuantity += 1
+      }
+    })
+    localStorage.setItem('order', JSON.stringify(items))
+    render()
+  }
   propsValue.value += 1
   updateValue(propsValue.value)
 }
 const decrement = () => {
+  const items = JSON.parse(localStorage.getItem('order'))
+  const productId = props.name.replaceAll('quantity-', '')
+  if (items !== null) {
+    items.forEach((element) => {
+      if (
+        element.productId === Number(productId) &&
+        Number(elements.productQuantity) !== Number(1)
+      ) {
+        console.log(element.productQuantity)
+        element.productQuantity -= 1
+      }
+    })
+    localStorage.setItem('order', JSON.stringify(items))
+    render()
+  }
+
   propsValue.value = propsValue.value === 1 ? 1 : propsValue.value - 1
   updateValue(propsValue.value)
 }

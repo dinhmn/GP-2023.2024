@@ -171,6 +171,15 @@ public class OrderHelper {
    *
    * @return entity list
    */
+  public List<ICart> getAllBill() {
+    return orderService.findBill();
+  }
+
+  /**
+   * Find all.
+   *
+   * @return entity list
+   */
   public Collection<BigDecimal> getEachMonthOrder() {
     return this.getTotalPriceEachMonth(orderService.getEachMonthOrder());
   }
