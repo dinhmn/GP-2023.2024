@@ -2,139 +2,148 @@
 <template lang="">
   <BasePage>
     <template v-slot:body>
-      <div
-        class="flex items-center text-cyan-800 justify-between w-full px-3 py-3 mb-2 rounded bg-[#F8F8F8]"
-      >
-        <div class="flex items-center justify-between gap-2 text-xl font-bold">
-          <h3>Trang chủ</h3>
-          <vue-feather type="chevron-right"></vue-feather>
-          <h3>Sản phẩm</h3>
-        </div>
-        <div class="flex items-center justify-center">
-          <Input
-            type="text"
-            classChild="min-w-[300px] px-2 rounded-sm"
-            name="search"
-            placeholder="Tìm kiếm..."
-            v-model="state.search"
-          />
-          <button
-            class="right-0 px-6 py-[13px] text-white font-bold bg-[#0c3247] hover:bg-[#135070] rounded-tr-[3px] rounded-br-[3px] m-0 text-xs rounded-none"
-            @click="filter()"
-          >
-            Tìm
-          </button>
+      <div v-if="loading" class="flex items-center justify-center w-full h-[100vh]">
+        <div class="lds-facebook">
+          <div></div>
+          <div></div>
+          <div></div>
         </div>
       </div>
-      <div class="grid w-full grid-cols-4 gap-2">
-        <div class="col-span-1 form-search h-[100%] flex flex-col gap-4 rounded-md py-2 -mt-2">
-          <h3 class="block py-2 text-xl font-bold text-center rounded text-cyan-800 bg-[#F8F8F8]">
-            Danh mục sản phẩm
-          </h3>
-          <div>
-            <ul class="flex flex-col gap-2 text-sm bg-[#F8F8F8] -mt-2">
-              <li
-                v-for="item in api.categoryList"
-                :key="item"
-                @click="onSelectedCategory($event, item.categoryId)"
-                class="py-3 px-4 text-base text-cyan-800 hover:text-[#17b1ea] border-transparent border-l-[4px] border-solid"
-                :class="active == item.categoryId ? 'active' : ''"
-              >
-                {{ item.categoryName }}
-              </li>
-            </ul>
+      <div v-else>
+        <div
+          class="flex items-center text-cyan-800 justify-between w-full px-3 py-3 mb-2 rounded bg-[#F8F8F8]"
+        >
+          <div class="flex items-center justify-between gap-2 text-xl font-bold">
+            <h3>Trang chủ</h3>
+            <vue-feather type="chevron-right"></vue-feather>
+            <h3>Sản phẩm</h3>
           </div>
-          <form action="" class="flex flex-col gap-1 text-cyan-800 bg-[#F8F8F8] rounded-sm">
-            <h1 class="px-2 py-2 text-lg font-bold text-center">Tìm kiếm theo</h1>
-            <div class="p-2">
-              <h3>Giá</h3>
-              <div>
-                <VueSimpleRangeSlider
-                  class="w-[300px] mt-3"
-                  :min="0"
-                  :max="10000000"
-                  v-model="state.range"
-                  active-bar-color="#17b1ea"
-                  bar-color="#fff"
+          <div class="flex items-center justify-center">
+            <Input
+              type="text"
+              classChild="min-w-[300px] px-2 rounded-sm"
+              name="search"
+              placeholder="Tìm kiếm..."
+              v-model="state.search"
+            />
+            <button
+              class="right-0 px-6 py-[13px] text-white font-bold bg-[#0c3247] hover:bg-[#135070] rounded-tr-[3px] rounded-br-[3px] m-0 text-xs rounded-none"
+              @click="filter()"
+            >
+              Tìm
+            </button>
+          </div>
+        </div>
+        <div class="grid w-full grid-cols-4 gap-2">
+          <div class="col-span-1 form-search h-[100%] flex flex-col gap-4 rounded-md py-2 -mt-2">
+            <h3 class="block py-2 text-xl font-bold text-center rounded text-cyan-800 bg-[#F8F8F8]">
+              Danh mục sản phẩm
+            </h3>
+            <div>
+              <ul class="flex flex-col gap-2 text-sm bg-[#F8F8F8] -mt-2">
+                <li
+                  v-for="item in api.categoryList"
+                  :key="item"
+                  @click="onSelectedCategory($event, item.categoryId)"
+                  class="py-3 px-4 text-base text-cyan-800 hover:text-[#17b1ea] border-transparent border-l-[4px] border-solid"
+                  :class="active == item.categoryId ? 'active' : ''"
                 >
-                  <template #suffix> đ</template>
-                </VueSimpleRangeSlider>
+                  {{ item.categoryName }}
+                </li>
+              </ul>
+            </div>
+            <form action="" class="flex flex-col gap-1 text-cyan-800 bg-[#F8F8F8] rounded-sm">
+              <h1 class="px-2 py-2 text-lg font-bold text-center">Tìm kiếm theo</h1>
+              <div class="p-2">
+                <h3>Giá</h3>
+                <div>
+                  <VueSimpleRangeSlider
+                    class="w-[300px] mt-3"
+                    :min="0"
+                    :max="10000000"
+                    v-model="state.range"
+                    active-bar-color="#17b1ea"
+                    bar-color="#fff"
+                  >
+                    <template #suffix> đ</template>
+                  </VueSimpleRangeSlider>
+                </div>
+              </div>
+              <div class="w-full p-2">
+                <h3>Kích cỡ</h3>
+                <ul class="grid w-full grid-cols-5 gap-3 mt-3">
+                  <li
+                    class="border-[#0c3247] border-solid border-[2px] px-2 col-span-1 text-center"
+                    :class="size.selected ? 'bg-[#0c3247] text-white' : ''"
+                    @click="onSelected($event, size, 'size')"
+                    v-for="(size, index) in sizes"
+                    :key="index"
+                  >
+                    {{ size.size }}
+                  </li>
+                </ul>
+              </div>
+              <div class="w-full p-2">
+                <h3>Màu sắc</h3>
+                <ul class="grid w-full grid-cols-5 gap-3 mt-3">
+                  <li
+                    class="border-transparent border-solid border-[2px] px-2 col-span-1 text-center"
+                    :class="color.selected ? '' : 'text-transparent'"
+                    @click="onSelected($event, color, 'color')"
+                    :style="{ backgroundColor: color.color }"
+                    v-for="(color, index) in colors"
+                    :key="index"
+                  >
+                    x
+                  </li>
+                </ul>
+              </div>
+              <button
+                @click.prevent="filter"
+                class="right-0 bg-[#0c3247] text-white hover:bg-[#135070] m-0"
+              >
+                Lọc
+              </button>
+            </form>
+          </div>
+          <div class="col-span-3">
+            <div class="grid grid-cols-4 gap-3">
+              <div
+                v-for="item in api.data"
+                :key="item.productId"
+                classChild="col-span-1 mb-3 bg-[#0c3247] text-[#17b1ea]"
+              >
+                <router-link
+                  :to="{
+                    name: 'DetailProduct',
+                    params: { categoryId: item.categoryId, productId: item.productId }
+                  }"
+                >
+                  <Item
+                    :price="item.productPrice"
+                    :priceSale="item.productPriceSale"
+                    :quantitySold="Number(item.productQuantity)"
+                    :productName="item.productName"
+                    :src="item.fileName !== null ? item.fileName : 'default.png'"
+                    :alt="item.productName"
+                    :key="item.productId"
+                  >
+                    <template v-slot:imageChild>
+                      <img
+                        class="object-cover w-full h-full max-h-[230px]"
+                        :src="getImageUrl(item.fileName)"
+                        :alt="item.productName"
+                      />
+                    </template>
+                  </Item>
+                </router-link>
               </div>
             </div>
-            <div class="w-full p-2">
-              <h3>Kích cỡ</h3>
-              <ul class="grid w-full grid-cols-5 gap-3 mt-3">
-                <li
-                  class="border-[#0c3247] border-solid border-[2px] px-2 col-span-1 text-center"
-                  :class="size.selected ? 'bg-[#0c3247] text-white' : ''"
-                  @click="onSelected($event, size, 'size')"
-                  v-for="(size, index) in sizes"
-                  :key="index"
-                >
-                  {{ size.size }}
-                </li>
-              </ul>
+            <div class="w-full my-3 text-center">
+              <button class="bg-[#0c3247] hover:bg-[#135070] text-white" @click="loadMore">
+                {{ api.size === api.totalElements ? 'Rút gọn' : 'Xem thêm' }}
+              </button>
             </div>
-            <div class="w-full p-2">
-              <h3>Màu sắc</h3>
-              <ul class="grid w-full grid-cols-5 gap-3 mt-3">
-                <li
-                  class="border-transparent border-solid border-[2px] px-2 col-span-1 text-center"
-                  :class="color.selected ? '' : 'text-transparent'"
-                  @click="onSelected($event, color, 'color')"
-                  :style="{ backgroundColor: color.color }"
-                  v-for="(color, index) in colors"
-                  :key="index"
-                >
-                  x
-                </li>
-              </ul>
-            </div>
-            <button
-              @click.prevent="filter"
-              class="right-0 bg-[#0c3247] text-white hover:bg-[#135070] m-0"
-            >
-              Lọc
-            </button>
-          </form>
-        </div>
-        <div class="col-span-3">
-          <div class="grid grid-cols-4 gap-3">
-            <div
-              v-for="item in api.data"
-              :key="item.productId"
-              classChild="col-span-1 mb-3 bg-[#0c3247] text-[#17b1ea]"
-            >
-              <router-link
-                :to="{
-                  name: 'DetailProduct',
-                  params: { categoryId: item.categoryId, productId: item.productId }
-                }"
-              >
-                <Item
-                  :price="item.productPrice"
-                  :priceSale="item.productPriceSale"
-                  :quantitySold="Number(item.productQuantity)"
-                  :productName="item.productName"
-                  :src="item.fileName !== null ? item.fileName : 'default.png'"
-                  :alt="item.productName"
-                  :key="item.productId"
-                >
-                  <template v-slot:imageChild>
-                    <img
-                      class="object-cover w-full h-full max-h-[230px]"
-                      :src="getImageUrl(item.fileName)"
-                      :alt="item.productName"
-                    />
-                  </template>
-                </Item>
-              </router-link>
-            </div>
-          </div>
-          <div class="w-full my-3 text-center">
-            <button class="bg-[#0c3247] hover:bg-[#135070] text-white" @click="loadMore">
-              {{ api.size === api.totalElements ? 'Rút gọn' : 'Xem thêm' }}
-            </button>
           </div>
         </div>
       </div>
@@ -151,6 +160,7 @@ import ProductService from '@/stores/modules/ProductService'
 import CategoryService from '@/stores/modules/CategoryService'
 import VueSimpleRangeSlider from 'vue-simple-range-slider'
 import 'vue-simple-range-slider/css'
+const loading = ref(true)
 const sizes = reactive([
   {
     size: 36,
@@ -267,16 +277,19 @@ onMounted(async () => {
   await getAllCategory(api)
 })
 async function getAllData(api, pageNo) {
+  loading.value = true
   try {
-    const res = await ProductService.getAllUser('/init/pageable', pageNo, 12, '', '', '')
+    await ProductService.getAllUser('/init/pageable', pageNo, 12, '', '', '')
+      .then((res) => {
+        const result = {
+          status: res.status + '-' + res.statusText,
+          headers: res.headers,
+          data: res.data
+        }
 
-    const result = {
-      status: res.status + '-' + res.statusText,
-      headers: res.headers,
-      data: res.data
-    }
-
-    fetchData(result.data, api)
+        fetchData(result.data, api)
+      })
+      .finally(() => (loading.value = false))
   } catch (error) {
     api = formatResponse(error.response?.data) || error
   }
@@ -384,5 +397,9 @@ const getImageUrl = (root) => {
   background-color: #0c3247;
   color: #17b1ea;
   border-left: 4px solid #17b1ea;
+}
+
+.lds-facebook > div {
+  background: black;
 }
 </style>

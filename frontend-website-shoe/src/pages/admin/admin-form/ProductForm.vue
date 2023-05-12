@@ -100,6 +100,7 @@
               placeholder="Số lượng..."
               classChild="mt-2"
               v-model="data.quantity"
+              @change="changeQuantity($event)"
             />
           </div>
           <div class="mb-3">
@@ -318,6 +319,7 @@ onMounted(async () => {
     await getById(route.params.categoryId, route.params.productId, data)
   }
 })
+
 const productColor = reactive({})
 addProductColor(productSize)
 const errorSize = ref('')
@@ -337,6 +339,7 @@ const data = reactive({
   productColorModelList: [],
   productSizeModelList: []
 })
+const backupQuantity = ref(0)
 const totalQuantity = ref(0)
 const form = reactive({ ...data })
 const files = ref([])
@@ -345,7 +348,6 @@ const onPropsModalSize = (event, type) => {
   modal.value.isType = type
 }
 const onChangeSize = (event, productId) => {
-  totalQuantity.value = data.quantity
   productSize.forEach((element) => {
     if (element.productId === productId) {
       element.productQuantity = event.target.value
@@ -409,6 +411,11 @@ function addProductColor(productSize) {
     array.push(color)
   }
   productColor.value = array
+}
+
+function changeQuantity(event) {
+  backupQuantity.value = event.target.value
+  totalQuantity.value = event.target.value
 }
 
 async function getAllDataCategory(api) {
