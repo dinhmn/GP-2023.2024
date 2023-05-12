@@ -48,17 +48,13 @@
         <span class="text-base"> Admin </span>
         <vue-feather class="w-5 h-5 mt-1 -ml-2" type="chevron-down"></vue-feather>
         <div class="logout-child absolute w-[150px] flex flex-col top-[55px] right-0 z-50">
-          <router-link :to="{ name: 'Login', params: {} }">
-            <div
-              class="flex items-center justify-between px-4 py-2 rounded-tl-sm rounded-tr-sm bg-slate-700 hover:bg-slate-500"
-            >
-              <span>Logout</span>
-              <vue-feather
-                class="relative w-5 h-5 mt-1 message-circle"
-                type="log-out"
-              ></vue-feather>
-            </div>
-          </router-link>
+          <div
+            class="flex items-center justify-between px-4 py-2 rounded-tl-sm rounded-tr-sm bg-slate-700 hover:bg-slate-500"
+            @click="logout"
+          >
+            <span>Logout</span>
+            <vue-feather class="relative w-5 h-5 mt-1 message-circle" type="log-out"></vue-feather>
+          </div>
           <router-link :to="{ name: 'User', params: {} }">
             <div
               class="flex items-center justify-between px-4 py-2 rounded-tl-sm rounded-tr-sm bg-slate-700 hover:bg-slate-500"
@@ -74,10 +70,17 @@
 </template>
 <script setup>
 import { onMounted } from 'vue'
+import store from '@/stores/store'
 import ChatService from '@/stores/modules/ChatService'
+import { useRouter } from 'vue-router'
+const router = useRouter()
 onMounted(async () => {
   await ChatService.getAllMessage()
 })
+const logout = () => {
+  store.dispatch('auth/logout')
+  router.push({ name: 'User' })
+}
 </script>
 <style lang="scss">
 .announce {

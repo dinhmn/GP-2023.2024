@@ -147,11 +147,11 @@
       :class="!success ? 'hidden' : ''"
     >
       <div><vue-feather class="w-16 h-16 text-green-600" type="check-circle"></vue-feather></div>
-      <div class="">Register account successfully!</div>
+      <div class="">Đăng ký tài khoản thành công!</div>
       <button
         type="button"
         class="px-10 text-white transition-all bg-[#0c3247] hover:bg-[#135070] hover:opacity-90"
-        @click="success = false"
+        @click="registerSuccess"
       >
         OK
       </button>
@@ -181,6 +181,8 @@ import AuthService from '@/stores/modules/AuthService'
 import useValidate from '@vuelidate/core'
 import { required, email, minLength, sameAs } from '@vuelidate/validators'
 import store from '@/stores/store'
+import { useRouter } from 'vue-router'
+const router = useRouter()
 export default {
   name: 'SignupPage',
   components: {
@@ -276,6 +278,10 @@ export default {
       } else if (!this.error.confirm) {
         this.errors.confirm = false
       }
+    },
+    registerSuccess() {
+      this.success = false
+      router.push({ name: 'Login' })
     }
   }
 }
