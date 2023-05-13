@@ -124,6 +124,17 @@ public class ProductController {
   /**
    * Get all product.
    *
+   * @param limitItem limitItem
+   * @return list object.
+   */
+  @GetMapping(value = "/init-new/{limitItem}")
+  public List<IProduct> selectProductNew(@PathVariable Integer limitItem) {
+    return productHelper.getAllProductSaleByCategoryId(limitItem);
+  }
+
+  /**
+   * Get all product.
+   *
    * @param filterProduct filterProduct
    * @return list object.
    */

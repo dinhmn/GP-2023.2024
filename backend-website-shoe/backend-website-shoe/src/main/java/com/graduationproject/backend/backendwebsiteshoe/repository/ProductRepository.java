@@ -110,6 +110,37 @@ public interface ProductRepository extends JpaRepository<ProductEntity, ProductE
   /**
    * Get all product.
    *
+   * @param limitItem limitItem
+   * @return list of product.
+   */
+  @Query(value =
+      "SELECT trade.trademark_name as trademarkName, "
+          + " category.category_id AS categoryId, "
+          + " category.category_name AS categoryName, "
+          + " product.product_id AS productId, "
+          + " product.product_name AS productName, "
+          + " product.product_price AS productPrice, "
+          + " product.product_price_sale AS productPriceSale, "
+          + " product.quantity AS productQuantity, "
+          + " product.product_description AS productDescription, "
+          + " product.product_seo AS productSeo,"
+          + " image.image_id AS imageId, "
+          + " image.file_name AS fileName, "
+          + " image.file_type AS fileType, "
+          + " image.data AS fileSize, "
+          + " image.image_code AS fileCode"
+          + " FROM tbl_trademark trade "
+          + " INNER JOIN tbl_category category ON trade.trademark_id =  category.trademark_id"
+          + " INNER JOIN tbl_product product ON product.category_id = category.category_id"
+          + " LEFT JOIN tbl_source_images image ON product.product_id = image.product_id AND image.image_code = 31"
+          + " WHERE product.product_price_sale IS NOT NULL"
+          + " ORDER BY product.created_date DESC, product.product_id ASC LIMIT ?1",
+      nativeQuery = true)
+  List<IProduct> findAllProductNew(Integer limitItem);
+
+  /**
+   * Get all product.
+   *
    * @param pageable pageable
    * @return list of product.
    */
@@ -182,10 +213,10 @@ public interface ProductRepository extends JpaRepository<ProductEntity, ProductE
    * @param pageable pageable
    * @return list of product.
    */
-  @Query(value = "SELECT trade.trademark_name as trademarkName, "
+  @Query(value = "SELECT DISTINCT(product.product_id) AS productId, "
       + " category.category_id AS categoryId, "
       + " category.category_name AS categoryName, "
-      + " product.product_id AS productId, "
+      + " trade.trademark_name as trademarkName, "
       + " product.product_name AS productName, "
       + " product.product_price AS productPrice, "
       + " product.product_price_sale AS productPriceSale, "

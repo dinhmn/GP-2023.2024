@@ -129,6 +129,17 @@ public class ProductHelper {
   /**
    * Select all product.
    *
+   * @param limitItem limitItem
+   * @return list product.
+   */
+  @NonNull
+  public List<IProduct> getAllProductNew(Integer limitItem) {
+    return productService.getAllProductNew(limitItem);
+  }
+
+  /**
+   * Select all product.
+   *
    * @param filterProduct filterProduct
    * @return list product.
    */

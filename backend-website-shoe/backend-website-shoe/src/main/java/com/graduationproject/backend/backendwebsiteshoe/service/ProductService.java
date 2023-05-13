@@ -99,6 +99,16 @@ public class ProductService {
   }
 
   /**
+   * Get all product.
+   *
+   * @param limitItem limitItem
+   * @return list of entity product.
+   */
+  public List<IProduct> getAllProductNew(Integer limitItem) {
+    return productRepository.findAllProductNew(limitItem);
+  }
+
+  /**
    * Get product item.
    *
    * @return entity product.
