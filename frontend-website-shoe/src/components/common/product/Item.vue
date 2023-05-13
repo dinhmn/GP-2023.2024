@@ -1,17 +1,12 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template lang="">
   <div
-    class="flex flex-col w-full gap-4 py-4 px-1 rounded cursor-pointer h-[360px] item bg-[#F4F4F4] text-cyan-800 hover:bg-gray-200 transition-all"
+    class="flex flex-col w-full gap-4 py-4 px-1 rounded cursor-pointer h-[400px] item bg-[#F4F4F4] text-cyan-800 hover:bg-gray-200 transition-all"
     :class="classChild"
   >
-    <!-- <img
-      class="object-cover w-full h-full max-h-[230px]"
-      :src="getImageUrl(product.src)"
-      :alt="alt"
-    /> -->
     <slot name="imageChild" />
-    <div class="flex flex-col gap-1 ml-2">
-      <span class="text-base text-cyan-800">{{ productName }}</span>
+    <div class="flex flex-col gap-1 ml-2 h-[150px]">
+      <span class="text-base text-cyan-800 h-[100px]">{{ productName }}</span>
       <h4 class="text-base text-cyan-800">
         Giá: <span class="text-sm line-through">{{ formatPrice(product.price) }} đ</span>
         {{ formatPrice(product.priceSale) }} đ

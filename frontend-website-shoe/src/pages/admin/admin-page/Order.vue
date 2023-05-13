@@ -242,8 +242,8 @@ const sendMail = (event, item) => {
   let requestModel = {
     mailName: 'Thank you has set the row.',
     // mailTo: item.customerEmail,
-    mailTo: 'ngocdinh11052001@gmail.com',
-    mailFrom: 'ngocdinh2k1@gmail.com',
+    mailTo: 'ngocdinh2k1@gmail.com',
+    mailFrom: 'ngocdinh11052001@gmail.com',
     mailSubject: `Hello ${
       item.customerLastName !== null ? item.customerLastName : item.customerFirstName
     }, Confirm your order`
@@ -254,7 +254,7 @@ const sendMail = (event, item) => {
     .catch((error) => console.log(error))
 }
 </script>
-<style lang="css">
+<style lang="css" scoped>
 ul li {
   padding: 4px 20px;
   text-align: center;
