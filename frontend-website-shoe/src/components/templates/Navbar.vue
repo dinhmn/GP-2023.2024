@@ -120,8 +120,8 @@ if (localStorage.getItem('order') !== null) {
   total.totalPrice = 0
   let object = JSON.parse(window.localStorage.getItem('order'))
   if (object !== null) {
-    total.item = object.length
-    object.forEach((element) => {
+    total.item = object.value.length
+    object.value.forEach((element) => {
       let price =
         element.productPriceSale === null ? element.productPrice : element.productPriceSale
       total.totalPrice += total.totalPrice + Number(price) * Number(element.productQuantity)

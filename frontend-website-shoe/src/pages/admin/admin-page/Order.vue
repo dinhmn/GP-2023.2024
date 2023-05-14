@@ -76,7 +76,6 @@
                 Xem
               </button>
             </router-link>
-
             <button
               class="block min-w-[100px] px-2 m-0 text-sm text-center bg-blue-700 hover:bg-blue-600 mr-3"
               name="delete"

@@ -256,26 +256,53 @@
           <!-- Form Payment -->
         </div>
       </div>
-      <div class="block w-full text-cyan-800">
+      <div class="block w-full text-cyan-800" v-if="oldOrder.length > 0">
         <div class="w-full mt-2 border-[1px] border-solid border-t-gray-500"></div>
-        <div class="mt-1 text-lg font-bold">Đơn hàng gần đây</div>
+        <div class="mt-1 mb-5 text-lg font-bold">Đơn hàng gần đây</div>
         <div
-          v-for="item in oldOrder"
-          :key="item.orderId"
-          class="flex items-start p-2 justify-between mt-1 border-[2px] border-solid border-gray-500"
+          v-for="order in oldOrder"
+          :key="order.orderId"
+          class="mb-5 flex flex-col items-start p-2 justify-between mt-1 border-[2px] border-solid border-gray-500"
         >
-          <div>
-            <p>Số lượng: {{ item.totalQuantityOfAllProduct }}</p>
-            <p>Thành tiền: {{ item.totalPriceOfAllProduct }}</p>
-            <p></p>
-          </div>
-          <div>
-            <p>Mã đơn: {{ item.orderCode }}</p>
+          <table class="w-full">
+            <tr>
+              <th>Tên sản phẩm</th>
+              <th>Số lượng</th>
+              <th>Thành tiền</th>
+              <th>Kích cỡ</th>
+            </tr>
+            <tr v-for="item in order.orderList" :key="item.orderId">
+              <td>{{ item.productName }}</td>
+              <td>{{ item.productQuantity }}</td>
+              <td>{{ formatPrice(item.productTotalPrice) + ' đ' }}</td>
+              <td>{{ item.productSize }}</td>
+            </tr>
+          </table>
+          <div class="w-full text-right">
+            <p>
+              Tổng tiền: {{ formatPrice(order.totalPriceOfAllProduct.replace('.0 đ', '')) + ' đ' }}
+            </p>
+            <p>Mã đơn hàng: {{ order.orderCode }}</p>
             <p>
               Trạng thái:
-              {{ item.orderStatus === 1 ? 'Confirm' : item.orderStatus === 2 ? 'Cancel' : 'Wait' }}
+              {{
+                order.orderStatus === '1'
+                  ? 'Xác nhận'
+                  : order.orderStatus === '2'
+                  ? 'Hủy'
+                  : 'Đợi xác nhận'
+              }}
             </p>
-            <p>Thời gian đặt: {{ item.customer.createdDate }}</p>
+            <p>Thời gian đặt: {{ order.customer?.createdDate }}</p>
+            <p class="text-right" v-if="order.orderStatus === '0'">
+              <button-component
+                @click.prevent="cancelOrder($event, order.orderId)"
+                type="button"
+                className="bg-brown text-white w-[200px] mt-2 m-0"
+                name="Hủy đơn"
+                text="Hủy"
+              />
+            </p>
           </div>
         </div>
       </div>
@@ -295,6 +322,7 @@ import InputIncrement from '@/components/common/input/InputIncrement.vue'
 import OrderService from '@/stores/modules/OrderService'
 import render from '@/stores/modules/re-render'
 import clear from '@/stores/modules/clear-item'
+import { useRouter } from 'vue-router'
 export default {
   name: 'PaymentPage',
   components: {
@@ -306,17 +334,19 @@ export default {
     BasePage
   },
   setup(props) {
+    const router = useRouter()
     const cart = JSON.parse(localStorage.getItem('order'))
     const user = JSON.parse(localStorage.getItem('user'))
     const productList = reactive([])
     if (cart !== null) {
-      cart.forEach((item) => {
+      cart.value.forEach((item) => {
         let product = {
           productId: '',
           productName: '',
           productQuantity: '',
           productPrice: 0,
-          productTotalPrice: ''
+          productTotalPrice: '',
+          productSize: ''
         }
         product.productId = item.productId
         product.productName = item.productName
@@ -357,13 +387,14 @@ export default {
     const success = ref(false)
     const oldOrder = ref([])
     if (user !== null) {
+      data.email = user.email
       let dataOrder = OrderService.getOrderByUserId(user.id)
-
       dataOrder.then((response) => {
-        oldOrder.value.push(response.data)
+        oldOrder.value = response.data
+        console.log(oldOrder.value)
       })
     }
-    return { props, productList, data, count, validate, success, error, cart, oldOrder }
+    return { props, productList, router, data, count, validate, success, error, cart, oldOrder }
   },
   methods: {
     onSubmit() {
@@ -402,16 +433,19 @@ export default {
       let orders = ref([])
       orders.value = JSON.parse(localStorage.getItem('order'))
 
-      orders.value = orders.value.filter((x) => x.productId !== item.productId)
-
-      localStorage.setItem('order', JSON.stringify(orders.value))
-      if (orders.value.length === 0) {
+      orders.value.value = orders.value.value.filter((x) => x.productId !== item.productId)
+      let itemOrder = {
+        value: orders.value.value,
+        expiry: new Date().getTime() + 1000000
+      }
+      localStorage.setItem('order', JSON.stringify(itemOrder))
+      if (orders.value.value.length === 0) {
         localStorage.removeItem('order')
       }
       render()
       clear()
-      if (orders.value !== null) {
-        orders.value.forEach((item) => {
+      if (orders.value.value !== null) {
+        orders.value.value.forEach((item) => {
           let product = {
             productId: '',
             productName: '',
@@ -455,10 +489,17 @@ export default {
         this.error.phone = false
       }
     },
+    cancelOrder(event, orderId) {
+      OrderService.delete(orderId)
+      this.router.push('/product')
+      setTimeout(() => {
+        this.router.push('/payment')
+      }, 500)
+    },
     moneyOfOneProduct() {
       let orders = JSON.parse(localStorage.getItem('order'))
       let sum = 0
-      orders.map(
+      orders.value.map(
         (x) =>
           (sum += (x.productPriceSale ? x.productPriceSale : x.productPrice) * x.productQuantity)
       )
@@ -468,7 +509,7 @@ export default {
   computed: {}
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .after-cart {
   position: relative;
   padding-top: 20px;
@@ -491,5 +532,27 @@ export default {
     width: 450px;
     background-color: white;
   }
+}
+table,
+tr,
+td,
+th {
+  padding: 5px 10px;
+  text-align: center;
+}
+table {
+  tr {
+    td,
+    th {
+      border: 1px solid black;
+    }
+  }
+}
+table tr td,
+table tr td {
+  border-bottom: 2px solid #464b53;
+}
+table tr td {
+  padding: 5px;
 }
 </style>

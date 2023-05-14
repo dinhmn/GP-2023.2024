@@ -47,7 +47,10 @@
               :key="index"
               class="flex flex-col gap-3 px-2 py-1"
             >
-              <div v-if="item.messageFrom == 'Admin'" class="flex items-center justify-start gap-3">
+              <div
+                v-if="item.messageFrom === 'admin'"
+                class="flex items-center justify-start gap-3"
+              >
                 <img
                   src="../assets/images/default.png"
                   class="w-[40px] h-[40px] object-cover rounded-full"
@@ -62,7 +65,7 @@
                   {{ item.messageTime }}
                 </strong>
               </div>
-              <div v-if="item.messageFrom != 'Admin'" class="flex items-center justify-end gap-3">
+              <div v-if="item.messageFrom != 'admin'" class="flex items-center justify-end gap-3">
                 <strong class="text-[10px]">
                   {{ item.messageTime }}
                 </strong>
@@ -84,8 +87,11 @@
             :key="index + message.receivedMessagesDatabase.length"
             class="flex flex-col gap-3 px-2"
           >
+            {{ response.messageTo === 'admin' && response.messageFrom === login.username }}
+            {{ response.messageFrom }}
+            {{ login.username }}
             <div
-              v-if="response.messageFrom == 'Admin'"
+              v-if="response.messageFrom == 'admin' && response.messageTo == login.username"
               class="flex items-center justify-start gap-3"
             >
               <img
@@ -102,7 +108,7 @@
                 {{ response.messageTime }}
               </strong>
             </div>
-            <div v-if="response.messageFrom != 'Admin'" class="flex items-center justify-end gap-3">
+            <div v-if="response.messageFrom != 'admin'" class="flex items-center justify-end gap-3">
               <strong class="text-[10px]">
                 {{ response.messageTime }}
               </strong>
@@ -152,7 +158,7 @@ const login = reactive({
 const message = reactive({
   receivedMessagesDatabase: [],
   receivedMessages: [],
-  sendMessage: { chatId: 1, messageText: '', messageFrom: '1', messageTo: '' },
+  sendMessage: { chatId: 1, messageText: '', messageFrom: '1', messageTo: '', userId: '' },
   messageRequest: { messageFrom: '', messageTo: '' }
 })
 const socket = reactive({
@@ -172,11 +178,14 @@ onMounted(() => {
 })
 
 const send = () => {
+  let currentUser = JSON.parse(localStorage.getItem('user'))
+  login.username = currentUser.username
+  login.password = currentUser.password
   if (socket.stompClient && socket.stompClient.connected) {
+    message.sendMessage.messageTo = 'admin'
+    message.sendMessage.userId = currentUser.id
+    message.sendMessage.messageFrom = currentUser.username
     const sendMessage = message.sendMessage
-    if (login.username == null) {
-      message.sendMessage.messageTo = 'Admin'
-    }
     socket.stompClient.send('/app/chat', JSON.stringify(sendMessage), {})
   }
   message.sendMessage.messageText = ''
@@ -184,8 +193,8 @@ const send = () => {
 
 const connect = async () => {
   let currentUser = JSON.parse(localStorage.getItem('user'))
-  message.messageRequest.messageFrom = '1'
-  message.messageRequest.messageTo = 'Admin'
+  message.messageRequest.messageFrom = currentUser.username
+  message.messageRequest.messageTo = 'admin'
   await fetchAllMessage(message.messageRequest.messageFrom, message.messageRequest.messageTo)
   socket.socket = new SockJS('http://localhost:8088/chat')
   socket.stompClient = Stomp.over(socket.socket)

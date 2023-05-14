@@ -41,5 +41,8 @@ class OrderService {
     return http.get(API_ORDER_PREFIX + "/get-order/" + userId);
   }
 
+  delete(orderId) {
+    return http.delete(API_ORDER_PREFIX + "/delete/" + orderId);
+  }
 }
 export default new OrderService();

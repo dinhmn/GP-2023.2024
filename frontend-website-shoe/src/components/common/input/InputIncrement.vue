@@ -60,12 +60,16 @@ const increment = () => {
   const items = JSON.parse(localStorage.getItem('order'))
   const productId = props.name.replaceAll('quantity-', '')
   if (items !== null) {
-    items.forEach((element) => {
+    items.value.forEach((element) => {
       if (element.productId === Number(productId)) {
         element.productQuantity += 1
       }
     })
-    localStorage.setItem('order', JSON.stringify(items))
+    let item = {
+      value: items.value,
+      expiry: new Date().getTime() + 86400000
+    }
+    localStorage.setItem('order', JSON.stringify(item))
     render()
   }
   propsValue.value += 1
@@ -75,7 +79,7 @@ const decrement = () => {
   const items = JSON.parse(localStorage.getItem('order'))
   const productId = props.name.replaceAll('quantity-', '')
   if (items !== null) {
-    items.forEach((element) => {
+    items.value.forEach((element) => {
       if (
         element.productId === Number(productId) &&
         Number(elements.productQuantity) !== Number(1)
@@ -84,7 +88,11 @@ const decrement = () => {
         element.productQuantity -= 1
       }
     })
-    localStorage.setItem('order', JSON.stringify(items))
+    let item = {
+      value: items.value,
+      expiry: new Date().getTime() + 86400000
+    }
+    localStorage.setItem('order', JSON.stringify(item))
     render()
   }
 
