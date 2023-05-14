@@ -205,7 +205,7 @@
                 <textElement textAlignment="Left" verticalAlignment="Middle">
                     <font size="12"/>
                 </textElement>
-                <textFieldExpression><![CDATA[$P{order}.getTotalPriceOfAllProduct()]]></textFieldExpression>
+                <textFieldExpression><![CDATA[new java.text.DecimalFormat("#,###").format(Double.valueOf(String.valueOf($P{order}.getTotalPriceOfAllProduct()) != null && String.valueOf($P{order}.getTotalPriceOfAllProduct()).length() > 0 ? Double.valueOf(String.valueOf($P{order}.getTotalPriceOfAllProduct())) : 0))]]></textFieldExpression>
             </textField>
             <staticText>
                 <reportElement style="Title" x="0" y="90" width="100" height="20" isRemoveLineWhenBlank="true" uuid="60a17643-8024-410b-ad9d-29235ac86a4c">
@@ -301,7 +301,7 @@
                                 <textElement textAlignment="Center" verticalAlignment="Middle">
                                     <paragraph leftIndent="5"/>
                                 </textElement>
-                                <textFieldExpression><![CDATA[$F{productName}]]></textFieldExpression>
+                                <textFieldExpression><![CDATA[$F{productName} + "-"]]></textFieldExpression>
                             </textField>
                         </jr:detailCell>
                     </jr:column>
@@ -327,7 +327,7 @@
                                 <textElement textAlignment="Center" verticalAlignment="Middle">
                                     <paragraph leftIndent="5"/>
                                 </textElement>
-                                <textFieldExpression><![CDATA[$F{productPrice}]]></textFieldExpression>
+                                <textFieldExpression><![CDATA[new java.text.DecimalFormat("#,###").format(Double.valueOf(String.valueOf($F{productPrice}) != null && String.valueOf($F{productPrice}).length() > 0 ? Double.valueOf(String.valueOf($F{productPrice})) : 0))]]></textFieldExpression>
                             </textField>
                         </jr:detailCell>
                     </jr:column>
@@ -375,7 +375,7 @@
                                 <textElement textAlignment="Center" verticalAlignment="Middle">
                                     <paragraph leftIndent="5"/>
                                 </textElement>
-                                <textFieldExpression><![CDATA[$P{order}.getTotalPriceOfAllProduct()]]></textFieldExpression>
+                                <textFieldExpression><![CDATA[new java.text.DecimalFormat("#,###").format(Double.valueOf(String.valueOf($P{order}.getTotalPriceOfAllProduct()) != null && String.valueOf($P{order}.getTotalPriceOfAllProduct()).length() > 0 ? Double.valueOf(String.valueOf($P{order}.getTotalPriceOfAllProduct())) : 0))]]></textFieldExpression>
                             </textField>
                         </jr:tableFooter>
                         <jr:columnHeader style="Table_CH" height="30" rowSpan="1">
@@ -397,7 +397,8 @@
                                 <textElement textAlignment="Center" verticalAlignment="Middle">
                                     <paragraph leftIndent="5"/>
                                 </textElement>
-                                <textFieldExpression><![CDATA[$F{productTotalPrice}]]></textFieldExpression>
+
+                                <textFieldExpression><![CDATA[new java.text.DecimalFormat("#,###").format(Double.valueOf(String.valueOf($F{productTotalPrice}) != null && String.valueOf($F{productTotalPrice}).length() > 0 ? Double.valueOf(String.valueOf($F{productTotalPrice})) : 0))]]></textFieldExpression>
                             </textField>
                         </jr:detailCell>
                     </jr:column>

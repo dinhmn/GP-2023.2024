@@ -1,6 +1,7 @@
 package com.graduationproject.backend.backendwebsiteshoe.model;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -73,5 +74,11 @@ public class OrderJasperModel {
     private Integer productQuantity;
 
     private BigDecimal productTotalPrice;
+
+    private String productSize;
+
+    private Date createdDateOrder;
+
+    private String status;
   }
 }

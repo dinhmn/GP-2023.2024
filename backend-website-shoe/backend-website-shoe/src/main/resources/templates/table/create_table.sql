@@ -19,13 +19,14 @@ create table tbl_cart (
       product_id BIGINT NOT NULL,
       product_current_price DECIMAL(15, 2) NOT NULL,
       product_name VARCHAR(255) NOT NULL,
+      product_size_name VARCHAR(255) NOT NULL,
       product_quantity INTEGER NOT NULL,
       created_by INTEGER NOT NULL,
       created_date DATETIME(6) NOT NULL,
       status BIT,
       updated_by INTEGER NOT NULL,
       updated_date DATETIME(6) NOT NULL,
-      PRIMARY KEY (cart_id, product_id)
+      PRIMARY KEY (cart_id, product_id, product_size_name)
 );
 
 DROP TABLE if EXISTS tbl_category CASCADE;

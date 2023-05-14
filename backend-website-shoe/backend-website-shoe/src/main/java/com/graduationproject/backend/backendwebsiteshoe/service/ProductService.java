@@ -1,6 +1,7 @@
 package com.graduationproject.backend.backendwebsiteshoe.service;
 
 import com.graduationproject.backend.backendwebsiteshoe.common.CommonService;
+import com.graduationproject.backend.backendwebsiteshoe.common.Constant;
 import com.graduationproject.backend.backendwebsiteshoe.dto.FilterProduct;
 import com.graduationproject.backend.backendwebsiteshoe.dto.IOneProduct;
 import com.graduationproject.backend.backendwebsiteshoe.dto.IProduct;
@@ -12,6 +13,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -55,7 +57,7 @@ public class ProductService {
   /**
    * Get all product.
    *
-   * @param pageable    pageable
+   * @param pageable   pageable
    * @param categoryId categoryId
    * @return list of entity product.
    */
@@ -81,7 +83,7 @@ public class ProductService {
    * Get all product.
    *
    * @param categoryId categoryId
-   * @param limitItem limitItem
+   * @param limitItem  limitItem
    * @return list of entity product.
    */
   public List<IProduct> getAll(Long categoryId, Integer limitItem) {
@@ -169,10 +171,21 @@ public class ProductService {
     productRepository.deleteById(productEntityKey);
   }
 
+  public ProductEntity updateSize(Long productId, Integer quantity, String caculation) {
+    Optional<ProductEntity> product = productRepository.findByProductId(productId);
+    ProductEntity productEntity = new ProductEntity();
+    BeanUtils.copyProperties(product.get(), productEntity);
+    productEntity.setQuantity(
+        Constant.MINUS.equals(caculation)
+            ? productEntity.getQuantity() - quantity
+            : productEntity.getQuantity() + quantity);
+    return productRepository.save(productEntity);
+  }
+
   /**
    * Get product last.
    *
-   * @return  productId productId
+   * @return productId productId
    */
   public Long getProductLast() {
     return productRepository.getProductIdLast();

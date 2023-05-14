@@ -23,6 +23,7 @@ import com.graduationproject.backend.backendwebsiteshoe.service.ProductSizeServi
 import com.graduationproject.backend.backendwebsiteshoe.service.SourceImageService;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -370,14 +371,29 @@ public class ProductHelper {
 
       // Convert product size entity to model.
       List<ProductSizeModel> productSizeModelList = new ArrayList<>();
-      for (IOneProduct size : productList) {
-        ProductSizeModel model = ProductSizeModel.builder()
-            .productSizeId(Objects.nonNull(size.getProductSizeId())
-                ? Long.parseLong(size.getProductSizeId()) : Constant.ZERO)
-            .productSizeName(size.getProductSizeName())
-            .productSizeQuantity(Objects.nonNull(size.getProductSizeQuantity()) ? Integer.parseInt(size.getProductSizeQuantity()) : 0)
-            .build();
+      for (int i = 36; i <= 43; i++) {
+        ProductSizeModel model = new ProductSizeModel();
+        model.setProductSizeName(String.valueOf(i));
+        model.setProductSizeQuantity(0);
         productSizeModelList.add(model);
+      }
+
+      for (IOneProduct size : productList) {
+        for (ProductSizeModel modelSize : productSizeModelList) {
+          if (modelSize.getProductSizeName().equals(size.getProductSizeName())) {
+            modelSize.setProductSizeId(Objects.nonNull(size.getProductSizeId())
+                ? Long.parseLong(size.getProductSizeId()) : Constant.ZERO);
+            modelSize.setProductSizeQuantity(Objects.nonNull(size.getProductSizeQuantity()) ?
+                Integer.parseInt(size.getProductSizeQuantity()) : 0);
+          }
+        }
+//        ProductSizeModel model = ProductSizeModel.builder()
+//            .productSizeId(Objects.nonNull(size.getProductSizeId())
+//                ? Long.parseLong(size.getProductSizeId()) : Constant.ZERO)
+//            .productSizeName(size.getProductSizeName())
+//            .productSizeQuantity(Objects.nonNull(size.getProductSizeQuantity()) ? Integer.parseInt(size.getProductSizeQuantity()) : 0)
+//            .build();
+//        productSizeModelList.add(model);
       }
 
       // Convert product entity to model
@@ -391,9 +407,11 @@ public class ProductHelper {
           .productPriceSale(productList.get(0).getProductPriceSale())
           .quantity(Integer.parseInt(productList.get(0).getProductQuantity()))
           .status(productList.get(0).getProductStatus())
-          .sourceImageModelList(sourceImageModelList)
-          .productSizeModelList(productSizeModelList)
-          .productColorModelList(productColorModelList)
+          .sourceImageModelList(sourceImageModelList.stream().distinct().toList())
+          .productSizeModelList(productSizeModelList.stream()
+              .sorted(Comparator.comparing(ProductSizeModel::getProductSizeName)).distinct()
+              .toList())
+          .productColorModelList(productColorModelList.stream().distinct().toList())
           .build();
     }
 

@@ -45,4 +45,8 @@ public interface Constant {
 
   String UNDERSCORE = "_";
 
+  String PLUS = "+";
+
+  String MINUS = "-";
+
 }

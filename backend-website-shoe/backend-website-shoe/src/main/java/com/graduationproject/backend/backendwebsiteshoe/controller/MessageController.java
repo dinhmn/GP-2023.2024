@@ -36,7 +36,7 @@ public class MessageController {
   public MessageResponse send(MessageModel message) {
 
     // insert new value
-    messageHelper.insert(message, message.getChatId());
+    messageHelper.insert(message, message.getUserId());
 
     return messageHelper.responseMessage(message);
   }
@@ -46,21 +46,21 @@ public class MessageController {
    *
    * @param messageFrom messageFrom
    * @param messageTo   messageTo
-   * @param chatId      chatId
+   * @param userId      userId
    * @return list message.
    */
   @GetMapping(value = {
       "/api/messages",
       "/api/messages/{messageFrom}/{messageTo}",
-      "/api/messages/chat/{chatId}"})
+      "/api/messages/chat/{userId}"})
   public List<MessageModel> getListMessageChat(@PathVariable Optional<String> messageFrom,
                                                @PathVariable Optional<String> messageTo,
-                                               @PathVariable Optional<Long> chatId) {
+                                               @PathVariable Optional<Long> userId) {
     if (messageFrom.isPresent() && messageTo.isPresent()) {
-      return messageHelper.getAll(messageFrom.get(), messageTo.get(), chatId.orElse(null));
+      return messageHelper.getAll(messageFrom.get(), messageTo.get(), userId.orElse(null));
     }
-    if (chatId.isPresent()) {
-      return messageHelper.getByChatId(chatId.get());
+    if (userId.isPresent()) {
+      return messageHelper.getByChatId(userId.get());
     }
 
     return messageHelper.getAll();

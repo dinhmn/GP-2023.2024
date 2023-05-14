@@ -1,6 +1,7 @@
 package com.graduationproject.backend.backendwebsiteshoe.service;
 
 import com.graduationproject.backend.backendwebsiteshoe.entity.CartEntity;
+import com.graduationproject.backend.backendwebsiteshoe.entity.CartEntityKey;
 import com.graduationproject.backend.backendwebsiteshoe.entity.OrderEntity;
 import com.graduationproject.backend.backendwebsiteshoe.repository.CartRepository;
 import java.util.List;
@@ -39,5 +40,15 @@ public class CartService {
    */
   public List<CartEntity> getAll() {
     return cartRepository.findAll();
+  }
+
+  public List<CartEntity> getByCartId(Long cartId) {
+    return cartRepository.findByCartId(cartId);
+  }
+
+  public void deleteAllByCartId(Long cartId, Long productId, String productSizeName) {
+    CartEntityKey cartEntityKey = new CartEntityKey();
+    cartEntityKey.setPk(cartId, productId, productSizeName);
+    cartRepository.deleteById(cartEntityKey);
   }
 }

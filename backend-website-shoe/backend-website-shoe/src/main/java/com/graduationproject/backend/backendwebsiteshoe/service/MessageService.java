@@ -1,5 +1,6 @@
 package com.graduationproject.backend.backendwebsiteshoe.service;
 
+import com.graduationproject.backend.backendwebsiteshoe.dto.IMessage;
 import com.graduationproject.backend.backendwebsiteshoe.entity.MessageEntity;
 import com.graduationproject.backend.backendwebsiteshoe.repository.MessageRepository;
 import java.util.List;
@@ -32,18 +33,18 @@ public class MessageService {
    *
    * @return list entity
    */
-  public List<MessageEntity> selectAll() {
-    return messageRepository.findAll();
+  public List<IMessage> selectAll() {
+    return messageRepository.findAllApi();
   }
 
   /**
    * Select all by chatId.
    *
-   * @param chatId chatId
+   * @param userId userId
    * @return list entity
    */
-  public List<MessageEntity> selectByChatId(Long chatId) {
-    return messageRepository.findAll(chatId);
+  public List<MessageEntity> selectByChatId(Long userId) {
+    return messageRepository.findAll(userId);
   }
 
   /**
@@ -51,11 +52,11 @@ public class MessageService {
    *
    * @param messageFrom messageFrom
    * @param messageTo   messageTo
-   * @param chatId      chatId
+   * @param userId      userId
    * @return list entity
    */
   public List<MessageEntity> selectByMessageFromByMessageToByChatId(String messageFrom,
-                                                                    String messageTo, Long chatId) {
-    return messageRepository.findAll(messageFrom, messageTo, chatId);
+                                                                    String messageTo, Long userId) {
+    return messageRepository.findAll(messageFrom, messageTo, userId);
   }
 }
