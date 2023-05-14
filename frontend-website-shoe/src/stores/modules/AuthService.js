@@ -33,9 +33,6 @@ class AuthSevice {
       roleIdList: ['1'],
       firstName: user.firstName,
       lastName: user.lastName
-    })
-    .then(response => {
-      console.log(response);
     });
   }
 

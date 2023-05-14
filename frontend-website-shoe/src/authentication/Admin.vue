@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template lang="">
-  <NavbarAdmin />
+  <NavbarAdmin v-on:userChat="getUserChat" />
   <div class="h-auto grid grid-cols-7 bg-[#1a1e30] relative">
     <SidebarAdmin class="col-span-1" />
     <div class="col-span-6 m-3 p-5 rounded-md bg-[#171B2D] shadow-md">
@@ -86,7 +86,7 @@
           :key="index + message.receivedMessagesDatabase.length"
           class="flex flex-col gap-3 px-2 -mt-1"
         >
-          <div v-if="response.messageFrom != 'Admin'" class="flex items-center justify-start gap-3">
+          <div v-if="response.messageFrom != 'admin'" class="flex items-center justify-start gap-3">
             <img
               src="../assets/images/default.png"
               class="w-[40px] h-[40px] mt-1 object-cover rounded-full"
@@ -101,7 +101,7 @@
               {{ response.messageTime }}
             </strong>
           </div>
-          <div v-if="response.messageFrom == 'Admin'" class="flex items-center justify-end gap-3">
+          <div v-if="response.messageFrom == 'admin'" class="flex items-center justify-end gap-3">
             <strong class="text-[10px]">
               {{ response.messageTime }}
             </strong>
@@ -136,14 +136,13 @@
   </div>
 </template>
 <script setup>
-import { reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import Input from '../components/common/input/Input.vue'
 import NavbarAdmin from '@/components/templates/NavbarAdmin.vue'
 import SidebarAdmin from '@/components/templates/SidebarAdmin.vue'
 import SockJS from 'sockjs-client'
 import Stomp from 'webstomp-client'
 import ChatService from '@/stores/modules/ChatService'
-
 const login = reactive({
   username: null,
   password: null
@@ -151,7 +150,7 @@ const login = reactive({
 const message = reactive({
   receivedMessagesDatabase: [],
   receivedMessages: [],
-  sendMessage: { chatId: 1, messageText: '', messageFrom: 'Admin', messageTo: '1' },
+  sendMessage: { userId: '', chatId: 1, messageText: '', messageFrom: 'admin', messageTo: '1' },
   messageRequest: { messageFrom: '', messageTo: '' }
 })
 const socket = reactive({
@@ -160,27 +159,29 @@ const socket = reactive({
   connected: false
 })
 onMounted(async () => {})
-
+const userReceive = ref({})
 const send = () => {
-  console.log(message.receivedMessages)
+  console.log(userReceive.value)
   if (socket.stompClient && socket.stompClient.connected) {
+    message.sendMessage.messageTo = userReceive.value.messageFrom
+    message.sendMessage.userId = '1'
+    message.sendMessage.messageFrom = 'admin'
     const sendMessage = message.sendMessage
-    if (login.username == null) {
-      message.sendMessage.messageTo = '1'
-    }
     socket.stompClient.send('/app/chat', JSON.stringify(sendMessage), {})
   }
   message.sendMessage.messageText = ''
 }
 
-const connect = async () => {
-  message.messageRequest.messageFrom = 'Admin'
-  message.messageRequest.messageTo = '1'
+const connect = async (user) => {
+  console.log(user)
+  message.messageRequest.messageFrom = 'admin'
+  message.messageRequest.messageTo = user.messageFrom
+  message.sendMessage.userId = user.userId
   await fetchAllMessage(message.messageRequest.messageFrom, message.messageRequest.messageTo)
   socket.socket = new SockJS('http://localhost:8088/chat')
   socket.stompClient = Stomp.over(socket.socket)
   socket.stompClient.connect(
-    { username: 'ngocdinh2k1', password: '12345678' },
+    { username: 'admin', password: '12345678' },
     (frame) => {
       socket.connected = true
       console.log(frame)
@@ -195,6 +196,11 @@ const connect = async () => {
       socket.connected = false
     }
   )
+}
+
+async function getUserChat(value) {
+  await connect(value)
+  userReceive.value = value
 }
 
 async function fetchAllMessage(messageFrom, messageTo) {

@@ -1,13 +1,14 @@
 package com.graduationproject.backend.backendwebsiteshoe.service;
 
 import com.graduationproject.backend.backendwebsiteshoe.common.CommonService;
-import com.graduationproject.backend.backendwebsiteshoe.entity.ProductColorEntity;
+import com.graduationproject.backend.backendwebsiteshoe.common.Constant;
 import com.graduationproject.backend.backendwebsiteshoe.entity.ProductSizeEntity;
 import com.graduationproject.backend.backendwebsiteshoe.model.ProductSizeModel;
 import com.graduationproject.backend.backendwebsiteshoe.repository.ProductSizeRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -120,6 +121,26 @@ public class ProductSizeService {
    */
   public void deleteByPrimaryKey(Long productSizeId) {
     productSizeRepository.deleteById(productSizeId);
+  }
+
+  /**
+   * Update quantity.
+   *
+   * @param productId        productId
+   * @param productSizeName        productSizeName
+   * @param quantity        quantity
+   * @return entity
+   */
+  public ProductSizeEntity updateSize(Long productId, String productSizeName, Integer quantity, String caculation) {
+    Optional<ProductSizeEntity> productSizeEntityOptional =
+        productSizeRepository.findByProductIdAndProductSizeName(productId, productSizeName);
+    ProductSizeEntity productSizeEntity = new ProductSizeEntity();
+    BeanUtils.copyProperties(productSizeEntityOptional.get(), productSizeEntity);
+    productSizeEntity.setProductSizeQuantity(
+        Constant.MINUS.equals(caculation)
+        ? productSizeEntity.getProductSizeQuantity() - quantity
+        : productSizeEntity.getProductSizeQuantity() + quantity);
+    return productSizeRepository.save(productSizeEntity);
   }
 
   /**

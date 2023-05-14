@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -90,7 +91,7 @@ public class OrderController {
    * @return order response.
    */
   @GetMapping("/get-order/{userId}")
-  public OrderJasperModel getOrderByUserId(@PathVariable Long userId) {
+  public List<OrderJasperModel> getOrderByUserId(@PathVariable Long userId) {
     return orderHelper.getAllByUserId(userId);
   }
 
@@ -140,4 +141,11 @@ public class OrderController {
   public List<ICart> getAllOrderDashboard() {
     return orderHelper.getAllBill();
   }
+
+  @DeleteMapping("/delete/{orderId}")
+  public ResponseEntity<?> deleteOrder(@PathVariable Long orderId) {
+    Boolean flag = orderHelper.deleteOrder(orderId);
+    return new ResponseEntity<>(flag, flag ? HttpStatus.OK : HttpStatus.BAD_REQUEST);
+  }
+
 }

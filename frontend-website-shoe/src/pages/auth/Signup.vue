@@ -180,7 +180,6 @@ import Button from '@/components/common/button/Button.vue'
 import AuthService from '@/stores/modules/AuthService'
 import useValidate from '@vuelidate/core'
 import { required, email, minLength, sameAs } from '@vuelidate/validators'
-import store from '@/stores/store'
 import { useRouter } from 'vue-router'
 const router = useRouter()
 export default {
@@ -219,22 +218,34 @@ export default {
     })
     const success = ref(false)
     const v$ = useValidate(rules, data)
-    return { props, data, success, errors, v$, AuthService, register: false }
+    return { props, data, success, errors, router, v$, AuthService, register: false }
   },
   methods: {
     onSubmit() {
       this.v$.$validate()
       if (!this.v$.$error) {
         // if ANY fail validation
-        store.dispatch('auth/register', this.data).then(
-          () => {
+        // store.dispatch('auth/register', this.).then(
+        //   (response) => {
+        //     console.log(response)
+        //     this.success = true
+        //     this.register = true
+        //   },
+        //   (error) => {
+        //     this.register = false
+        //     this.success = false
+        //     console.log(error)
+        //   }
+        // )
+        AuthService.register(this.data).then(
+          (response) => {
+            console.log(response)
             this.success = true
             this.register = true
           },
-          (error) => {
-            this.register = false
-            this.success = false
-            console.log(error)
+          () => {
+            this.success = true
+            this.register = true
           }
         )
       } else {
@@ -281,7 +292,7 @@ export default {
     },
     registerSuccess() {
       this.success = false
-      router.push({ name: 'Login' })
+      this.$router.push({ name: 'Login' })
     }
   }
 }

@@ -42,6 +42,10 @@ public class CartEntity extends BaseEntity implements Serializable {
   @Column(name = "product_name", nullable = false)
   private String productName;
 
+  @Id
+  @Column(name = "product_size_name", nullable = false)
+  private String productSizeName;
+
   @Column(name = "product_quantity", length = 15, nullable = false)
   private Integer productQuantity;
 

@@ -20,6 +20,9 @@ public class CartEntityKey implements Serializable {
   @Column(name = "product_id", nullable = false)
   private Long productId;
 
+  @Column(name = "product_size_name", nullable = false)
+  private String productSizeName;
+
   /**
    * Set PK.
    *
@@ -27,9 +30,10 @@ public class CartEntityKey implements Serializable {
    * @param productId productId
    * @return key.
    */
-  public CartEntityKey setPk(Long cartId, Long productId) {
+  public CartEntityKey setPk(Long cartId, Long productId, String productSizeName) {
     setCartId(cartId);
     setProductId(productId);
+    setProductSizeName(productSizeName);
     return this;
   }
 }

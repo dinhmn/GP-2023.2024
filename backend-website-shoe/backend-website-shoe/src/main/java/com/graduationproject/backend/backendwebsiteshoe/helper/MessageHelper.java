@@ -3,6 +3,7 @@ package com.graduationproject.backend.backendwebsiteshoe.helper;
 import com.graduationproject.backend.backendwebsiteshoe.common.CommonService;
 import com.graduationproject.backend.backendwebsiteshoe.common.Constant;
 import com.graduationproject.backend.backendwebsiteshoe.common.DatetimeConvertFormat;
+import com.graduationproject.backend.backendwebsiteshoe.dto.IMessage;
 import com.graduationproject.backend.backendwebsiteshoe.entity.ChatEntity;
 import com.graduationproject.backend.backendwebsiteshoe.entity.MessageEntity;
 import com.graduationproject.backend.backendwebsiteshoe.model.MessageModel;
@@ -57,13 +58,14 @@ public class MessageHelper {
    * Select all article.
    *
    * @param messageModel messageModel
-   * @param chatId       chatId
+   * @param userId       userId
    * @return message entity.
    */
-  public MessageEntity insert(MessageModel messageModel, Long chatId) {
+  public MessageEntity insert(MessageModel messageModel, Long userId) {
     List<MessageEntity> messageModelList = messageService
         .selectByMessageFromByMessageToByChatId(messageModel.getMessageFrom(),
-            messageModel.getMessageTo(), chatId);
+            messageModel.getMessageTo(), userId);
+    Long chatId;
     if (CollectionUtils.isEmpty(messageModelList)) {
       ChatEntity chatEntity = this.toBuildChatEntity(messageModel.getUserId());
       chatId = chatService.insert(chatEntity).getChatId();
@@ -84,10 +86,15 @@ public class MessageHelper {
    * @return list message.
    */
   public List<MessageModel> getAll() {
-    return messageService.selectAll()
-        .stream()
-        .map(this::toBuildMessage)
-        .toList();
+    Set<Long> chatId = new HashSet<>();
+    List<MessageModel> messageModelList = new ArrayList<>();
+    messageService.selectAll().forEach(messageModel -> {
+      if (!chatId.contains(messageModel.getChatId())) {
+        chatId.add(messageModel.getChatId());
+        messageModelList.add(this.toBuildMessage(messageModel));
+      }
+    });
+    return messageModelList;
   }
 
   /**
@@ -95,11 +102,11 @@ public class MessageHelper {
    *
    * @param messageTo   messageTo
    * @param messageFrom messageFrom
-   * @param chatId      chatId
+   * @param userId      userId
    * @return list message.
    */
-  public List<MessageModel> getAll(String messageTo, String messageFrom, Long chatId) {
-    return messageService.selectByMessageFromByMessageToByChatId(messageFrom, messageTo, chatId)
+  public List<MessageModel> getAll(String messageTo, String messageFrom, Long userId) {
+    return messageService.selectByMessageFromByMessageToByChatId(messageFrom, messageTo, userId)
         .stream()
         .map(this::toBuildMessage)
         .toList();
@@ -110,8 +117,8 @@ public class MessageHelper {
    *
    * @return list message.
    */
-  public List<MessageModel> getByChatId(Long chatId) {
-    return messageService.selectByChatId(chatId)
+  public List<MessageModel> getByChatId(Long userId) {
+    return messageService.selectByChatId(userId)
         .stream()
         .map(this::toBuildMessage)
         .toList();
@@ -158,6 +165,24 @@ public class MessageHelper {
   private MessageModel toBuildMessage(MessageEntity messageEntity) {
     MessageModel messageModel = new MessageModel();
     messageModel.setChatId(messageEntity.getChatId());
+    messageModel.setMessageText(messageEntity.getMessageText());
+    messageModel.setMessageFrom(messageEntity.getMessageFrom());
+    messageModel.setMessageTo(messageEntity.getMessageTo());
+    messageModel.setMessageTime(DatetimeConvertFormat
+        .convertDateToStringWithFormat(Constant.PATTERN_HH_MM, messageEntity.getCreatedDate()));
+    return messageModel;
+  }
+
+  /**
+   * Build message model.
+   *
+   * @param messageEntity messageEntity
+   * @return message model.
+   */
+  private MessageModel toBuildMessage(IMessage messageEntity) {
+    MessageModel messageModel = new MessageModel();
+    messageModel.setChatId(messageEntity.getChatId());
+    messageModel.setUserId(messageEntity.getUserId());
     messageModel.setMessageText(messageEntity.getMessageText());
     messageModel.setMessageFrom(messageEntity.getMessageFrom());
     messageModel.setMessageTo(messageEntity.getMessageTo());

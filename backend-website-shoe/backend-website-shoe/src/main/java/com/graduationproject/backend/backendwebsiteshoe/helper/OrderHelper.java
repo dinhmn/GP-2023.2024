@@ -15,16 +15,21 @@ import com.graduationproject.backend.backendwebsiteshoe.forms.OrderFormSupport;
 import com.graduationproject.backend.backendwebsiteshoe.model.OrderJasperModel;
 import com.graduationproject.backend.backendwebsiteshoe.service.CartService;
 import com.graduationproject.backend.backendwebsiteshoe.service.OrderService;
+import com.graduationproject.backend.backendwebsiteshoe.service.ProductService;
+import com.graduationproject.backend.backendwebsiteshoe.service.ProductSizeService;
 import com.graduationproject.backend.backendwebsiteshoe.service.UserInformationService;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.TreeMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -32,6 +37,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.PathVariable;
 
 /**
  * Implement helper of order helper.
@@ -54,6 +60,12 @@ public class OrderHelper {
 
   @Autowired
   UserInformationService userInformationService;
+
+  @Autowired
+  ProductService productService;
+
+  @Autowired
+  ProductSizeService productSizeService;
 
   /**
    * Insert order into database.
@@ -81,9 +93,16 @@ public class OrderHelper {
     OrderEntity orderEntity =
         this.toBuildOrderEntity(orderJasperModel, cartId, totalPrice, userId,
             userInformationEntity.getUserInformationId());
-
+    for (OrderJasperModel.Order ord :
+        orderJasperModel.getOrderList()) {
+      productService.updateSize(ord.getProductId(), ord.getProductQuantity(), Constant.MINUS);
+      productSizeService
+          .updateSize(ord.getProductId(), ord.getProductSize(), ord.getProductQuantity(),
+              Constant.MINUS);
+    }
     try {
       cartService.insert(cartEntityList);
+
       return orderService.insert(orderEntity);
     } catch (DataAccessException dataAccessException) {
       dataAccessException.printStackTrace();
@@ -136,9 +155,17 @@ public class OrderHelper {
    * @param userId userId
    * @return list entity
    */
-  public OrderJasperModel getAllByUserId(Long userId) {
+  public List<OrderJasperModel> getAllByUserId(Long userId) {
+    List<OrderJasperModel> orderJasperModelList = new ArrayList<>();
     List<IOrder> order = orderService.getAllByUserId(userId);
-    return this.toBuildOrderJasperModel(order);
+    List<Long> orderIdList = order.stream().map(IOrder::getOrderId).distinct().toList();
+    orderIdList.forEach(o -> {
+      orderJasperModelList.add(
+          this.toBuildOrderJasperModel(order.stream().filter(ord -> ord.getOrderId().equals(o)).toList())
+      );
+    });
+
+    return orderJasperModelList;
   }
 
   /**
@@ -176,6 +203,34 @@ public class OrderHelper {
   }
 
   /**
+   * Delete order.
+   *
+   * @return TRUE or FALSE
+   */
+  public Boolean deleteOrder(Long orderId) {
+    Boolean flag = Boolean.FALSE;
+    Optional<OrderEntity> orderEntity = orderService.getByOrderId(orderId);
+    List<CartEntity> cartEntityList = cartService.getByCartId(orderEntity.get().getCartId());
+    cartEntityList.forEach(cart -> {
+      productSizeService
+          .updateSize(cart.getProductId(), cart.getProductSizeName(), cart.getProductQuantity(),
+              Constant.PLUS);
+      productService.updateSize(cart.getProductId(), cart.getProductQuantity(), Constant.PLUS);
+      cartService
+          .deleteAllByCartId(cart.getCartId(), cart.getProductId(), cart.getProductSizeName());
+    });
+
+    try {
+      orderService.deleteByOrderId(orderId);
+      flag = Boolean.TRUE;
+    } catch (DataAccessException dataAccessException) {
+      dataAccessException.printStackTrace();
+    }
+
+    return flag;
+  }
+
+  /**
    * Find all.
    *
    * @return entity list
@@ -205,6 +260,7 @@ public class OrderHelper {
     cartEntity.setCartId(cartId);
     cartEntity.setProductId(cart.getProductId());
     cartEntity.setProductCurrentPrice(cart.getProductPrice());
+    cartEntity.setProductSizeName(cart.getProductSize());
     cartEntity.setProductName(cart.getProductName());
     cartEntity.setProductQuantity(cart.getProductQuantity());
     commonService.setCommonCreatedEntity(cartEntity);
@@ -288,6 +344,11 @@ public class OrderHelper {
   private OrderJasperModel toBuildOrderJasperModel(List<IOrder> orderList) {
     OrderJasperModel orderJasperModel = new OrderJasperModel();
 
+    if (orderList.size() <= 0) {
+      orderJasperModel.setOrderList(Collections.emptyList());
+      return orderJasperModel;
+    }
+
     OrderJasperModel.Customer customer = new OrderJasperModel.Customer();
     customer.setCreatedDate(
         CollectionUtils.isEmpty(orderList) && Objects.isNull(orderList.get(0).getCreatedDate())
@@ -314,6 +375,9 @@ public class OrderHelper {
       invoice.setProductName(order.getProductName());
       invoice.setProductPrice(order.getProductPrice().setScale(FIXED, RoundingMode.UP));
       invoice.setProductQuantity(order.getProductQuantity());
+      invoice.setProductSize(order.getProductSizeName());
+      invoice.setCreatedDateOrder(order.getCreatedDateOrder());
+      invoice.setStatus(order.getStatus());
       invoice.setProductTotalPrice(order.getProductPrice().multiply(
           BigDecimal.valueOf(order.getProductQuantity())).setScale(FIXED, RoundingMode.UP));
       totalPriceOfAllProduct = totalPriceOfAllProduct.add(order.getProductPrice());
@@ -327,7 +391,7 @@ public class OrderHelper {
     orderJasperModel.setOrderList(invoiceList);
     orderJasperModel.setOrderStatus(orderList.get(0).getStatus());
     orderJasperModel.setTotalPriceOfAllProduct(
-        totalPriceOfAllProduct.setScale(FIXED, RoundingMode.UP).doubleValue() + " đ");
+        totalPriceOfAllProduct.setScale(FIXED, RoundingMode.UP).toString());
     orderJasperModel.setTotalQuantityOfAllProduct(totalQuantityOfAllProduct.toString());
     return orderJasperModel;
   }

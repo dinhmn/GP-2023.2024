@@ -4,14 +4,14 @@
     class="m-auto 2xl:w-[1280px] xl:w-[100%] container flex items-start justify-start flex-col min-h-[100vh]"
   >
     <template v-slot:body>
-      <!-- <div v-if="loading" class="flex items-center justify-center w-full h-[100vh]">
+      <div v-if="loading" class="flex items-center justify-center w-full h-[100vh]">
         <div class="lds-facebook">
           <div></div>
           <div></div>
           <div></div>
         </div>
-      </div> -->
-      <div>
+      </div>
+      <div v-else>
         <div class="flex items-center justify-center w-full my-4">
           <img
             src="../../assets/images/banner.png"
@@ -23,12 +23,12 @@
           class="flex items-center justify-around w-full py-2 my-1 rounded-[4px] bg-[#F8F8F8] text-cyan-800"
         >
           <div
-            class="flex flex-col items-center justify-center transition-all scale-75 cursor-pointer hover:text-brown hover:scale-90"
+            class="relative flex flex-col items-center justify-center transition-all cursor-pointer -z-1 hover:text-brown"
             v-for="(item, index) in trademark"
             :key="index"
           >
-            <img :src="getImageUrl(item.img)" :alt="item.title" />
-            <p class="mt-2 text-xl">Giày {{ item.title }}</p>
+            <img class="w-[80px]" :src="getImageUrl(item.img)" :alt="item.title" />
+            <p class="mt-2 text-base">Giày {{ item.title }}</p>
           </div>
         </div>
         <BoxCommon>
@@ -74,15 +74,14 @@
         <div class="my-4 rounded-[4px] w-full bg-[#F8F8F8] shadow-custom">
           <div
             class="flex flex-col items-start justify-between"
-            v-for="(item, index) in dataList"
+            v-for="(item, index) in dataNew"
             :key="index"
           >
             <div class="flex items-center justify-between w-full px-4 py-2">
               <h3
                 class="text-2xl font-bold leading-9 tracking-widest uppercase text-cyan-800 border-b-cyan-800 border-b-[2px] border-solid"
               >
-                Giày
-                {{ item[0].categoryName }}
+                Sản phẩm mới
               </h3>
               <h3
                 class="flex text-lg font-bold align-middle transition-all cursor-pointer text-cyan-800 hover:text-cyanBlue"
@@ -93,7 +92,7 @@
                 <vue-feather class="w-6 h-6 translate-y-1" type="chevrons-right"></vue-feather>
               </h3>
             </div>
-            <div class="relative grid grid-cols-5 gap-5 py-4 mx-3 -z-10">
+            <div class="grid grid-cols-5 gap-5 py-4 mx-3">
               <div v-for="product in item" :key="product.productId">
                 <router-link
                   :to="{
@@ -112,7 +111,7 @@
                   >
                     <template v-slot:imageChild>
                       <img
-                        class="object-cover w-full h-full max-h-[230px] -z-1"
+                        class="object-cover w-full h-[230px]"
                         :src="getImageUrl(product.fileName)"
                         :alt="product.productName"
                       />
@@ -177,7 +176,6 @@ import Article from '@/components/common/product/Article.vue'
 import BasePage from '../auth/BasePage.vue'
 import ProductService from '@/stores/modules/ProductService'
 import axios from 'axios'
-const loading = ref(true)
 const trademark = [
   {
     img: 'sale-item.png',
@@ -208,60 +206,63 @@ const trademark = [
     title: 'LV'
   }
 ]
-const dataNike = reactive()
-const dataAdidas = reactive()
-const dataNB = reactive()
-const dataMLB = reactive()
-const dataConvert = reactive()
+const dataNew = ref([])
 const dataSale = ref([])
-const dataList = reactive([])
 const article = reactive([])
+const loading = ref(true)
 onMounted(async () => {
-  await getAllData(dataNike, 1, 5)
-  await getAllData(dataAdidas, 2, 5)
-  await getAllData(dataNB, 3, 5)
-  await getAllData(dataMLB, 4, 5)
-  await getAllData(dataConvert, 5, 5)
-  await getAllDataSale(10)
-  getAllDataArticle()
-  loading.value = false
-  console.log(loading.value)
+  await getAllDataSale(10, loading)
+  await getAllDataNew(15, loading)
+  await getAllDataArticle(loading)
 })
 
-async function getAllData(data, categoryId, limitItem) {
+async function getAllDataSale(limitItem, loading) {
+  loading.value = true
   try {
-    await ProductService.getProductByCategoryId('/init-home', categoryId, limitItem).then((res) => {
-      const result = {
-        status: res.status + '-' + res.statusText,
-        headers: res.headers,
-        data: res.data
-      }
-      data = result.data
-      dataList.push(data)
-    })
+    await ProductService.getProductSaleByCategoryId('/init-sale', limitItem)
+      .then((res) => {
+        const result = {
+          status: res.status + '-' + res.statusText,
+          headers: res.headers,
+          data: res.data
+        }
+
+        dataSale.value.push(result.data)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+      .finally(() => (loading.value = false))
   } catch (error) {
     console.log(error)
   }
 }
 
-async function getAllDataSale(limitItem) {
+async function getAllDataNew(limitItem, loading) {
+  loading.value = true
   try {
-    await ProductService.getProductSaleByCategoryId('/init-sale', limitItem).then((res) => {
-      const result = {
-        status: res.status + '-' + res.statusText,
-        headers: res.headers,
-        data: res.data
-      }
-      dataSale.value.push(result.data)
-    })
+    await ProductService.getProductSaleByCategoryId('/init-new', limitItem)
+      .then((res) => {
+        const result = {
+          status: res.status + '-' + res.statusText,
+          headers: res.headers,
+          data: res.data
+        }
+
+        dataNew.value.push(result.data)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+      .finally(() => (loading.value = false))
   } catch (error) {
     console.log(error)
   }
 }
 
-function getAllDataArticle() {
+async function getAllDataArticle(loading) {
+  loading.value = true
   try {
-    loading.value = true
     axios
       .get('http://localhost:8088/api/article/init/pageable?page_no=0&page_size=4')
       .then((response) => {
@@ -289,10 +290,6 @@ section {
   .item img {
     overflow: hidden;
     transition: 0.4s all ease-in-out;
-    transform: scale(0.95);
-  }
-  .item:hover img {
-    transform: scale(1);
   }
 }
 ul {
@@ -302,9 +299,7 @@ ul {
     border-radius: 4px;
   }
 }
-.lds-facebook {
-  div {
-    background: black;
-  }
+.lds-facebook > div {
+  background: black;
 }
 </style>

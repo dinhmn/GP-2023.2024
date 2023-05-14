@@ -2,6 +2,7 @@ package com.graduationproject.backend.backendwebsiteshoe.controller;
 
 import com.graduationproject.backend.backendwebsiteshoe.helper.SendMailHelper;
 import com.graduationproject.backend.backendwebsiteshoe.model.MailRequestModel;
+import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +34,7 @@ public class SendMailController {
    */
   @PostMapping(value = "/post/{orderId}")
   public ResponseEntity<?> registerProduct(@RequestBody MailRequestModel requestModel,
-                                           @PathVariable Long orderId) {
+                                           @PathVariable Long orderId) throws IOException {
     Boolean statusSend = sendMailHelper.sendMail(requestModel, orderId);
 
     if (Boolean.FALSE.equals(statusSend)) {

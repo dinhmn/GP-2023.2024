@@ -68,11 +68,7 @@
             <tr>
               <td>Tổng tiền thanh toán:</td>
               <td>
-                {{
-                  formatPrice(
-                    data.totalPriceOfAllProduct.replace('.0 đ', '') * data.totalQuantityOfAllProduct
-                  ) + ' đ'
-                }}
+                {{ formatPrice(data.totalPriceOfAllProduct.replace('.0 đ', '')) + ' đ' }}
               </td>
             </tr>
             <tr>
@@ -103,12 +99,7 @@
               <tr>
                 <td colspan="3">Tổng tiền</td>
                 <td>
-                  {{
-                    formatPrice(
-                      data.totalPriceOfAllProduct.replace('.0 đ', '') *
-                        data.totalQuantityOfAllProduct
-                    ) + ' đ'
-                  }}
+                  {{ formatPrice(data.totalPriceOfAllProduct.replace('.0 đ', '')) + ' đ' }}
                 </td>
               </tr>
             </tfoot>
@@ -140,6 +131,7 @@ async function fetchDataOrder(data) {
       data.value = resp.data
     })
     .finally(() => (loading.value = false))
+  console.log(data.value)
 }
 
 async function sendMail() {

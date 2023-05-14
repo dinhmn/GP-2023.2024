@@ -131,4 +131,8 @@ public class OrderService {
   public Long getNewOrderId() {
     return orderRepository.getNewOrderId();
   }
+
+  public void deleteByOrderId(Long orderId) {
+    orderRepository.deleteById(orderId);
+  }
 }

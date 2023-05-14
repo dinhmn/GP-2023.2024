@@ -4,141 +4,151 @@
     <Navbar />
     <router-view />
     <Footer />
-    <div
-      v-if="socket.connected == false"
-      @click="connect"
-      class="fixed flex items-center justify-end cursor-pointer right-2 bottom-3"
-    >
-      <span class="px-2 py-1 mr-2 text-xs bg-white rounded-[4px] w-fit">Liên hệ để hỗ trợ!</span>
-      <img
-        src="../assets/images/default.png"
-        class="w-[40px] h-[40px] object-cover rounded-full"
-        alt=""
-      />
-    </div>
-    <form
-      v-if="socket.connected == true"
-      class="w-[350px] h-[400px] grid grid-rows-7 bottom-0 right-20 fixed bg-gray-700 z-10 text-white"
-      method="post"
-    >
+    <div v-if="activeSupport">
       <div
-        class="flex items-center h-[50px] bg-gray-400 text-black justify-between row-span-1 px-2 border-b-2 border-gray-500 border-solid"
+        v-if="socket.connected == false"
+        @click="connect"
+        class="fixed flex items-center justify-end cursor-pointer right-2 bottom-3"
       >
-        <div class="flex items-center gap-2">
-          <img
-            src="../assets/images/default.png"
-            class="w-[30px] h-[30px] object-cover rounded-full"
-            alt=""
-          />
-          <h2>Hỗ trợ khách hàng</h2>
-        </div>
-        <button
-          @click="disconnect"
-          class="text-white font-bold max-h-[36px] px-3 py-1 translate-x-4"
-        >
-          X
-        </button>
+        <span class="px-2 py-1 mr-2 text-xs bg-white rounded-[4px] w-fit">Liên hệ để hỗ trợ!</span>
+        <img
+          src="../assets/images/default.png"
+          class="w-[40px] h-[40px] object-cover rounded-full"
+          alt=""
+        />
       </div>
-      <div class="flex flex-col min-h-[300px] row-span-5 gap-3 px-2 overflow-y-scroll">
-        <div v-if="message.receivedMessagesDatabase.length != 0">
-          <div
-            v-for="(item, index) in message.receivedMessagesDatabase"
-            :key="index"
-            class="flex flex-col gap-3 px-2 py-1"
-          >
-            <div v-if="item.messageFrom == 'Admin'" class="flex items-center justify-start gap-3">
-              <img
-                src="../assets/images/default.png"
-                class="w-[40px] h-[40px] object-cover rounded-full"
-                alt=""
-              />
-              <span
-                class="px-3 border-gray-300 border-solid border-[1px] rounded-md max-w-[220px] gap-3 break-words"
-              >
-                {{ item.messageText }}
-              </span>
-              <strong class="text-[10px]">
-                {{ item.messageTime }}
-              </strong>
-            </div>
-            <div v-if="item.messageFrom != 'Admin'" class="flex items-center justify-end gap-3">
-              <strong class="text-[10px]">
-                {{ item.messageTime }}
-              </strong>
-              <span
-                class="px-3 border-gray-300 border-solid border-[1px] rounded-md max-w-[220px] gap-3 break-words"
-              >
-                {{ item.messageText }}
-              </span>
-              <img
-                src="../assets/images/default.png"
-                class="w-[40px] h-[40px] object-cover rounded-full"
-                alt=""
-              />
-            </div>
-          </div>
-        </div>
+      <form
+        v-if="socket.connected == true"
+        class="w-[350px] h-[400px] grid grid-rows-7 bottom-0 right-20 fixed bg-gray-700 z-10 text-white"
+        method="post"
+      >
         <div
-          v-for="(response, index) in message.receivedMessages"
-          :key="index + message.receivedMessagesDatabase.length"
-          class="flex flex-col gap-3 px-2"
+          class="flex items-center h-[50px] bg-gray-400 text-black justify-between row-span-1 px-2 border-b-2 border-gray-500 border-solid"
         >
-          <div v-if="response.messageFrom == 'Admin'" class="flex items-center justify-start gap-3">
+          <div class="flex items-center gap-2">
             <img
               src="../assets/images/default.png"
-              class="w-[40px] h-[40px] object-cover rounded-full"
+              class="w-[30px] h-[30px] object-cover rounded-full"
               alt=""
             />
-            <span
-              class="px-3 border-gray-300 border-solid border-[1px] rounded-md max-w-[220px] gap-3 break-words"
-            >
-              {{ response.messageText }}
-            </span>
-            <strong class="text-[10px]">
-              {{ response.messageTime }}
-            </strong>
+            <h2>Hỗ trợ khách hàng</h2>
           </div>
-          <div v-if="response.messageFrom != 'Admin'" class="flex items-center justify-end gap-3">
-            <strong class="text-[10px]">
-              {{ response.messageTime }}
-            </strong>
-            <span
-              class="px-3 border-gray-300 border-solid border-[1px] rounded-md max-w-[220px] gap-3 break-words"
+          <button
+            @click="disconnect"
+            class="text-white font-bold max-h-[36px] px-3 py-1 translate-x-4"
+          >
+            X
+          </button>
+        </div>
+        <div class="flex flex-col min-h-[300px] row-span-5 gap-3 px-2 overflow-y-scroll">
+          <div v-if="message.receivedMessagesDatabase.length != 0">
+            <div
+              v-for="(item, index) in message.receivedMessagesDatabase"
+              :key="index"
+              class="flex flex-col gap-3 px-2 py-1"
             >
-              {{ response.messageText }}
-            </span>
-            <img
-              src="../assets/images/default.png"
-              class="w-[40px] h-[40px] object-cover rounded-full"
-              alt=""
-            />
+              <div
+                v-if="item.messageFrom === 'admin'"
+                class="flex items-center justify-start gap-3"
+              >
+                <img
+                  src="../assets/images/default.png"
+                  class="w-[40px] h-[40px] object-cover rounded-full"
+                  alt=""
+                />
+                <span
+                  class="px-3 border-gray-300 border-solid border-[1px] rounded-md max-w-[220px] gap-3 break-words"
+                >
+                  {{ item.messageText }}
+                </span>
+                <strong class="text-[10px]">
+                  {{ item.messageTime }}
+                </strong>
+              </div>
+              <div v-if="item.messageFrom != 'admin'" class="flex items-center justify-end gap-3">
+                <strong class="text-[10px]">
+                  {{ item.messageTime }}
+                </strong>
+                <span
+                  class="px-3 border-gray-300 border-solid border-[1px] rounded-md max-w-[220px] gap-3 break-words"
+                >
+                  {{ item.messageText }}
+                </span>
+                <img
+                  src="../assets/images/default.png"
+                  class="w-[40px] h-[40px] object-cover rounded-full"
+                  alt=""
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            v-for="(response, index) in message.receivedMessages"
+            :key="index + message.receivedMessagesDatabase.length"
+            class="flex flex-col gap-3 px-2"
+          >
+            {{ response.messageTo === 'admin' && response.messageFrom === login.username }}
+            {{ response.messageFrom }}
+            {{ login.username }}
+            <div
+              v-if="response.messageFrom == 'admin' && response.messageTo == login.username"
+              class="flex items-center justify-start gap-3"
+            >
+              <img
+                src="../assets/images/default.png"
+                class="w-[40px] h-[40px] object-cover rounded-full"
+                alt=""
+              />
+              <span
+                class="px-3 border-gray-300 border-solid border-[1px] rounded-md max-w-[220px] gap-3 break-words"
+              >
+                {{ response.messageText }}
+              </span>
+              <strong class="text-[10px]">
+                {{ response.messageTime }}
+              </strong>
+            </div>
+            <div v-if="response.messageFrom != 'admin'" class="flex items-center justify-end gap-3">
+              <strong class="text-[10px]">
+                {{ response.messageTime }}
+              </strong>
+              <span
+                class="px-3 border-gray-300 border-solid border-[1px] rounded-md max-w-[220px] gap-3 break-words"
+              >
+                {{ response.messageText }}
+              </span>
+              <img
+                src="../assets/images/default.png"
+                class="w-[40px] h-[40px] object-cover rounded-full"
+                alt=""
+              />
+            </div>
           </div>
         </div>
-      </div>
-      <div class="flex items-end justify-between row-span-1">
-        <Input
-          v-model="message.sendMessage.messageText"
-          class="w-full h-[44px] rounded-none"
-        ></Input>
-        <button
-          @click.prevent="send"
-          id="send"
-          class="text-white font-bold w-[80px] text-sm m-0 py-3 rounded-none"
-        >
-          Send
-        </button>
-      </div>
-    </form>
+        <div class="flex items-end justify-between row-span-1">
+          <Input
+            v-model="message.sendMessage.messageText"
+            class="w-full h-[44px] rounded-none"
+          ></Input>
+          <button
+            @click.prevent="send"
+            id="send"
+            class="text-white font-bold w-[80px] text-sm m-0 py-3 rounded-none"
+          >
+            Send
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
 </template>
 <script setup>
-import { reactive, onMounted } from 'vue'
+import { reactive, ref, onMounted } from 'vue'
 import Input from '../components/common/input/Input.vue'
 import Navbar from '../components/templates/Navbar.vue'
 import Footer from '../components/templates/Footer.vue'
 import SockJS from 'sockjs-client'
 import Stomp from 'webstomp-client'
-import { globalCookiesConfig } from 'vue3-cookies'
 import ChatService from '@/stores/modules/ChatService'
 
 const login = reactive({
@@ -148,7 +158,7 @@ const login = reactive({
 const message = reactive({
   receivedMessagesDatabase: [],
   receivedMessages: [],
-  sendMessage: { chatId: 1, messageText: '', messageFrom: '1', messageTo: '' },
+  sendMessage: { chatId: 1, messageText: '', messageFrom: '1', messageTo: '', userId: '' },
   messageRequest: { messageFrom: '', messageTo: '' }
 })
 const socket = reactive({
@@ -156,24 +166,26 @@ const socket = reactive({
   stompClient: '',
   connected: false
 })
-globalCookiesConfig({
-  expireTimes: '30d',
-  path: '/',
-  domain: '',
-  secure: true,
-  sameSite: 'None'
-})
+const activeSupport = ref(false)
 
-onMounted(async () => {
+onMounted(() => {
+  if (localStorage.getItem('user') !== null) {
+    activeSupport.value = true
+  } else {
+    activeSupport.value = false
+  }
   // await connect()
 })
 
 const send = () => {
+  let currentUser = JSON.parse(localStorage.getItem('user'))
+  login.username = currentUser.username
+  login.password = currentUser.password
   if (socket.stompClient && socket.stompClient.connected) {
+    message.sendMessage.messageTo = 'admin'
+    message.sendMessage.userId = currentUser.id
+    message.sendMessage.messageFrom = currentUser.username
     const sendMessage = message.sendMessage
-    if (login.username == null) {
-      message.sendMessage.messageTo = 'Admin'
-    }
     socket.stompClient.send('/app/chat', JSON.stringify(sendMessage), {})
   }
   message.sendMessage.messageText = ''
@@ -181,8 +193,8 @@ const send = () => {
 
 const connect = async () => {
   let currentUser = JSON.parse(localStorage.getItem('user'))
-  message.messageRequest.messageFrom = '1'
-  message.messageRequest.messageTo = 'Admin'
+  message.messageRequest.messageFrom = currentUser.username
+  message.messageRequest.messageTo = 'admin'
   await fetchAllMessage(message.messageRequest.messageFrom, message.messageRequest.messageTo)
   socket.socket = new SockJS('http://localhost:8088/chat')
   socket.stompClient = Stomp.over(socket.socket)

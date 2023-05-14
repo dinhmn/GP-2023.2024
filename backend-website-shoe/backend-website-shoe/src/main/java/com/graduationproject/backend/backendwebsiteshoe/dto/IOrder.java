@@ -36,4 +36,8 @@ public interface IOrder {
   String getCustomerNote();
 
   String getStatus();
+
+  String getProductSizeName();
+
+  Date getCreatedDateOrder();
 }

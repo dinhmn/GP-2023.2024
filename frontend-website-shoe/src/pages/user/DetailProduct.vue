@@ -79,7 +79,7 @@
                 </p>
               </div>
               <p class="text-lg">
-                Số lượng: <span class="text-sm">{{ product.productModel.quantity }}</span>
+                Tổng số lượng: <span class="text-sm">{{ product.productModel.quantity }}</span>
               </p>
             </div>
             <div class="w-full mb-3 mr-3">
@@ -89,30 +89,39 @@
               <select
                 name="productSize"
                 v-model="product.productSize"
+                @change="chooseSizeShoes($event)"
                 class="w-full p-2 mt-1 text-gray-800 rounded-sm outline-none border-cyan-900 border-[1px] border-solid"
                 :value="Number(36)"
               >
                 <option
                   class="text-gray-800"
-                  v-for="item in count"
-                  :selected="item === 1"
-                  :key="item"
-                  :value="35 + item"
+                  v-for="(item, index) in product.productModel.productSizeModelList"
+                  :key="index"
+                  :value="item.productSizeName"
                 >
-                  {{ item + 35 }}
+                  {{ item.productSizeName }}
                 </option>
               </select>
+              <span
+                class="mt-2 ml-2 text-sm"
+                :class="Number(quantitySize) === 0 ? 'text-red-500' : ''"
+              >
+                {{ Number(quantitySize) === 0 ? 'Hết hàng' : 'Số lượng còn: ' + quantitySize }}
+              </span>
             </div>
-            <div class="flex h-[33px]">
+            <div class="flex h-[33px]" :class="Number(quantitySize) === 0 ? 'hidden' : ''">
               <span class="text-lg w-[150px]">Số lượng: </span>
               <InputIncrement
-                classChild="text-sm p-0 w-full text-white "
+                classChild="text-sm p-0 w-full text-white"
                 name="quantity"
                 v-model="product.productQuantity"
                 :value="quantity"
               />
             </div>
-            <form class="flex w-full gap-10">
+            <form
+              class="flex w-full gap-10"
+              :class="Number(quantitySize) === 0 ? 'pointer-events-none' : 'pointer-events-auto'"
+            >
               <Button
                 @click.prevent="onSubmit($event, 'add')"
                 type="submit"
@@ -121,7 +130,7 @@
                 text="Thêm vào giỏ hàng"
               />
               <Button
-                @click="onSubmit($event, 'buy')"
+                @click.prevent="onSubmit($event, 'buy')"
                 type="submit"
                 className="bg-dark-blue hover:bg-dark-blue-hover text-white hover:text-cyanBlue w-full m-0"
                 name="buyNow"
@@ -295,10 +304,10 @@ const activeImage = reactive({
   fileName: '',
   imageId: ''
 })
-
 const order = ref([])
+const quantitySize = ref(0)
 const quantity = ref(0)
-const count = 8
+
 const userSelect = reactive({
   spec: true,
   desc: false,
@@ -306,6 +315,22 @@ const userSelect = reactive({
 })
 onMounted(async () => {
   await fetchData(route.params.categoryId, route.params.productId, product)
+  const itemStr = localStorage.getItem('order')
+
+  // if the item doesn't exist, return null
+  if (itemStr) {
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    // compare the expiry time of the item with the current time
+    if (now.getTime() > item.expiry) {
+      console.log(true)
+      // If the item is expired, delete the item from storage
+      // and return null
+      localStorage.removeItem('order')
+      render()
+    }
+  }
 })
 
 async function fetchData(categoryId, productId, product) {
@@ -337,9 +362,13 @@ const onSubmit = (event, type) => {
   if (type == 'add') {
     let flag = false
     if (localStorage.getItem('order') !== null) {
-      order.value = JSON.parse(localStorage.getItem('order'))
-      order.value.forEach((element) => {
-        if (element.productId === product.productModel.productId) {
+      let itemJson = JSON.parse(localStorage.getItem('order'))
+      order.value = itemJson.value
+      itemJson.value.forEach((element) => {
+        if (
+          element.productId === product.productModel.productId &&
+          element.productSize === product.productSize
+        ) {
           element.productQuantity += product.productQuantity
           flag = true
         }
@@ -355,8 +384,16 @@ const onSubmit = (event, type) => {
       productModel.productPriceSale = product.productModel.productPriceSale
       order.value.push(productModel)
     }
-
-    localStorage.setItem('order', JSON.stringify(order.value))
+    let item = {
+      value: order.value,
+      expiry: new Date().getTime() + 86400000
+    }
+    product.productModel.productSizeModelList.forEach((element) => {
+      if (Number(element.productSizeName) === Number(product.productSize)) {
+        element.productQuantity -= product.productQuantity
+      }
+    })
+    localStorage.setItem('order', JSON.stringify(item))
     render()
   } else {
     if (product.productQuantity === null) {
@@ -365,8 +402,19 @@ const onSubmit = (event, type) => {
     if (product.productSize === null) {
       product.productSize = 36
     }
-    order.value.push(product)
-    localStorage.setItem('order', JSON.stringify(order.value))
+    productModel.categoryId = product.productModel.categoryId
+    productModel.productId = product.productModel.productId
+    productModel.productQuantity = product.productQuantity
+    productModel.productSize = product.productSize
+    productModel.productName = product.productModel.productName
+    productModel.productPrice = product.productModel.productPrice
+    productModel.productPriceSale = product.productModel.productPriceSale
+    order.value.push(productModel)
+    let item = {
+      value: order.value,
+      expiry: new Date().getTime() + 1000000
+    }
+    localStorage.setItem('order', JSON.stringify(item))
     router.push({ name: 'Payment' })
     render()
   }
@@ -418,6 +466,13 @@ function onUserSelect(event, userSelectStatus) {
     userSelect.desc = false
     userSelect.review = true
   }
+}
+function chooseSizeShoes(event) {
+  let size = product.productModel.productSizeModelList
+    .filter((pro) => Number(pro.productSizeName) === Number(event.target.value))
+    .map((pro) => pro.productSizeQuantity)
+  quantitySize.value = Number(size)
+  product.productQuantity = Number(size) === 0 ? 0 : 1
 }
 </script>
 <style lang="scss" scoped>
