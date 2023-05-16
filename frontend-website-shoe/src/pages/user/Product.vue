@@ -42,11 +42,18 @@
             <div>
               <ul class="flex flex-col gap-2 text-sm bg-[#F8F8F8] -mt-2">
                 <li
+                  class="py-3 px-4 text-base text-cyan-800 hover:text-[#17b1ea] border-transparent border-l-[4px] border-solid"
+                  @click="onSelectedCategory($event, 0)"
+                  :class="active == 0 ? 'active' : ''"
+                >
+                  Tất cả
+                </li>
+                <li
                   v-for="item in api.categoryList"
                   :key="item"
                   @click="onSelectedCategory($event, item.categoryId)"
                   class="py-3 px-4 text-base text-cyan-800 hover:text-[#17b1ea] border-transparent border-l-[4px] border-solid"
-                  :class="active == item.categoryId ? 'active' : ''"
+                  :class="active == item.categoryId && active != 0 ? 'active' : ''"
                 >
                   {{ item.categoryName }}
                 </li>
@@ -237,7 +244,7 @@ const onSelected = (event, value, type) => {
     })
   }
 }
-const active = ref(1)
+const active = ref(0)
 const state = reactive({
   range: [500000, 2000000],
   number: 100000,
@@ -259,15 +266,19 @@ const api = reactive({
 const onSelectedCategory = async (event, categoryId) => {
   active.value = categoryId
   try {
-    const res = await ProductService.getAll('/init-category/' + categoryId, 0)
+    if (categoryId == 0) {
+      await getAllData(api, 0)
+    } else {
+      const res = await ProductService.getAll('/init-category/' + categoryId, 0)
 
-    const result = {
-      status: res.status + '-' + res.statusText,
-      headers: res.headers,
-      data: res.data
+      const result = {
+        status: res.status + '-' + res.statusText,
+        headers: res.headers,
+        data: res.data
+      }
+
+      fetchData(result.data, api)
     }
-
-    fetchData(result.data, api)
   } catch (error) {
     console.log(error)
   }

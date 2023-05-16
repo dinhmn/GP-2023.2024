@@ -8,6 +8,7 @@ class OrderService {
   }
 
   getAllOrder(url, page) {
+    console.log(page);
     return http.get(API_ORDER_PREFIX + url + "?page_no=" + page.pageNo
     + "&page_size=" + page.pageSize + "&sort_direction=" + page.sortDirection
     + "&sort_by=" + page.sortBy + "&search_value=" + page.value);
@@ -41,8 +42,9 @@ class OrderService {
     return http.get(API_ORDER_PREFIX + "/get-order/" + userId);
   }
 
-  delete(orderId) {
-    return http.delete(API_ORDER_PREFIX + "/delete/" + orderId);
+  delete(orderId, cancelOrder) {
+    return http.put(API_ORDER_PREFIX + "/delete/" + orderId, cancelOrder);
   }
+  
 }
 export default new OrderService();

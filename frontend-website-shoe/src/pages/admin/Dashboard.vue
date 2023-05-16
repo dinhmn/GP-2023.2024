@@ -103,7 +103,9 @@
               >
             </td>
             <td class="flex items-center w-[150px] justify-around text-xs cursor-pointer">
-              <button class="bg-blue-500">Xem</button>
+              <router-link :to="{ name: 'OrderDetail', params: { orderId: Number(item.orderId) } }">
+                <button class="bg-blue-500">Xem</button>
+              </router-link>
               <button class="bg-green-500">In</button>
             </td>
           </tr>
@@ -161,7 +163,9 @@ export default {
       })
       await axios
         .get('http://localhost:8088/api/categories/init-chart-circle')
-        .then(async (response) => (pieData.value = response.data))
+        .then(async (response) => {
+          pieData.value = response.data
+        })
       this.chartData = {
         labels: [
           'January',
@@ -204,7 +208,6 @@ export default {
       OrderService.get('/get-order-dashboard').then(async (response) => {
         dataDetail.value = response.data
       })
-      console.log(dataDetail)
     } catch (error) {
       router.push({ name: '404' })
     }

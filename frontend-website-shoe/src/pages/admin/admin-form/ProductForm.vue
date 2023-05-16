@@ -252,12 +252,13 @@
 </template>
 <script setup>
 import { reactive, ref, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import Input from '@/components/common/input/Input.vue'
 import Button from '@/components/common/button/Button.vue'
 import ProductService from '@/stores/modules/ProductService'
 import CategoryService from '@/stores/modules/CategoryService'
 import { PRODUCT_EDIT, PRODUCT_NEW, INSERT, UPDATE } from '@/constants/index'
+const router = useRouter()
 const productSize = reactive([
   {
     productId: 1,
@@ -352,7 +353,7 @@ const onChangeSize = (event, productId) => {
     if (element.productId === productId) {
       element.productQuantity = event.target.value
       if (event.target.value > totalQuantity.value) {
-        errorSize.value = 'The quantity does not exceed: ' + totalQuantity.value
+        errorSize.value = 'Số lượng vượt quá: ' + totalQuantity.value
       }
       if (event.target.value <= totalQuantity.value) {
         totalQuantity.value = totalQuantity.value - Number(event.target.value)
@@ -372,11 +373,12 @@ const submitSize = ($event, type) => {
   modal.value.isDisplay = false
   modal.value.isType = 'none'
   if (type === 'size') {
-    data.productSizeModelList.value = productSize
+    data.productSizeModelList = productSize
+    console.log(data.productSizeModelList)
     addProductColor(productSize)
   }
   if (type === 'color') {
-    data.productColorModelList.value = productColor
+    data.productColorModelList = productColor
   }
 }
 const switchSelectStatus = (event) => {
@@ -386,19 +388,43 @@ const switchSelectTrademark = (event) => {
   data.categoryId = event.target.value
 }
 const onChangeFile = (event) => {
+  console.log(event.target.files)
+  console.log(typeof event.target.files)
   files.value = event.target.files
 }
 const onSubmit = (pathName) => {
   try {
     if (PRODUCT_NEW === pathName) {
-      ProductService.insertOrUpdate(files.value, data, '/register', INSERT)
+      let productSizes = []
+      productSize.map((size) => {
+        let productSizeModelList = {
+          productSizeId: size.productId,
+          productSizeName: size.productSize,
+          productSizeQuantity: size.productQuantity
+        }
+        productSizes.push(productSizeModelList)
+        console.log(productSizes)
+      })
+      data.productSizeModelList = productSizes
+      ProductService.insertOrUpdate(files.value, data, '/register', INSERT).then(() =>
+        router.push({ name: 'ProductAdmin' })
+      )
+      Object.assign(form, data)
+      files.value = ''
+      data.productName = ''
+      data.productPrice = ''
+      data.productPriceSale = ''
+      data.productPriceSale = ''
+      data.quantity = ''
+      data.productDescription = ''
+      data.categoryId = 1
     }
 
     if (PRODUCT_EDIT === pathName) {
-      ProductService.insertOrUpdate(files.value, data, '/update', UPDATE)
+      ProductService.insertOrUpdate(files.value, data, '/update', UPDATE).then(() =>
+        router.push({ name: 'ProductAdmin' })
+      )
     }
-    Object.assign(form, data)
-    files.value = ''
   } catch (e) {
     console.log(e)
   }
@@ -444,7 +470,6 @@ async function getById(categoryId, productId, data) {
       headers: res.headers,
       data: res.data
     }
-
     Object.assign(data, result.data)
     data.productSizeModelList.forEach((element) => {
       productSize

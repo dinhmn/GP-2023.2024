@@ -293,8 +293,14 @@
                   : 'Đợi xác nhận'
               }}
             </p>
+            <p v-if="order.orderStatus === '2'">Lí do hủy: {{ order.customer?.customerNote }}</p>
             <p>Thời gian đặt: {{ order.customer?.createdDate }}</p>
             <p class="text-right" v-if="order.orderStatus === '0'">
+              <input
+                class="w-[200px] text-cyan-900 border-solid border-[1px] border-cyan-900 p-2 mx-2"
+                placeholder="Lý do hủy đơn"
+                @change="cancelOrderNow($event)"
+              />
               <button-component
                 @click.prevent="cancelOrder($event, order.orderId)"
                 type="button"
@@ -320,6 +326,7 @@ import Radio from '@/components/common/input/Radio.vue'
 import Textarea from '@/components/common/input/Textarea.vue'
 import InputIncrement from '@/components/common/input/InputIncrement.vue'
 import OrderService from '@/stores/modules/OrderService'
+import UserService from '@/stores/modules/UserService'
 import render from '@/stores/modules/re-render'
 import clear from '@/stores/modules/clear-item'
 import { useRouter } from 'vue-router'
@@ -391,9 +398,18 @@ export default {
       let dataOrder = OrderService.getOrderByUserId(user.id)
       dataOrder.then((response) => {
         oldOrder.value = response.data
-        console.log(oldOrder.value)
       })
+      UserService.getByUserId(user.id).then((response) => {
+        data.fullName =
+          (response.data.lastName !== null ? response.data.lastName : '') +
+          ' ' +
+          (response.data.firstName !== null ? response.data.firstName : '')
+        data.phone = response.data.phone !== null ? response.data.phone : ''
+        data.address = response.data.address !== null ? response.data.address : ''
+      })
+      console.log(oldOrder)
     }
+
     return { props, productList, router, data, count, validate, success, error, cart, oldOrder }
   },
   methods: {
@@ -490,7 +506,13 @@ export default {
       }
     },
     cancelOrder(event, orderId) {
-      OrderService.delete(orderId)
+      let userId = JSON.parse(localStorage.getItem('user')).id
+      let cancelOrder = {
+        userId: userId,
+        userNote: this.data.customerNote
+      }
+
+      OrderService.delete(orderId, cancelOrder).then((res) => console.log(res))
       this.router.push('/product')
       setTimeout(() => {
         this.router.push('/payment')
@@ -504,6 +526,9 @@ export default {
           (sum += (x.productPriceSale ? x.productPriceSale : x.productPrice) * x.productQuantity)
       )
       return sum
+    },
+    cancelOrderNow(event) {
+      this.data.customerNote = event.target.value
     }
   },
   computed: {}

@@ -29,19 +29,13 @@
           </div>
         </div>
       </div>
-      <div
-        class="relative h-full w-[50px] text-center mr-6 cursor-pointer announce"
-        @click="activeMessage"
-      >
+      <div class="relative h-full w-[50px] text-center mr-6 cursor-pointer announce">
         <vue-feather class="relative w-8 h-8 mt-1 message-circle" type="bell"></vue-feather>
         <span class="py-1 px-2 text-xs rounded-[100%] absolute -top-0 -right-0 z-[999] bg-brown">{{
           dataMessage.length
         }}</span>
         <div class="bg-white w-[400px] z-99 -left-[350px] absolute rounded-md text-black">
           <div class="flex flex-col items-start justify-center">
-            <span class="announce-check" v-for="item in dataMessage" :key="item.chatId">{{
-              item.messageText
-            }}</span>
             <span class="">Thông báo 1</span>
             <span class="">Thông báo 1</span>
           </div>
@@ -80,31 +74,22 @@
   </div>
 </template>
 <script setup>
-import { onMounted, ref, reactive } from 'vue'
+import { onMounted, ref } from 'vue'
 import store from '@/stores/store'
 import ChatService from '@/stores/modules/ChatService'
 import { useRouter } from 'vue-router'
 const router = useRouter()
 const dataMessage = ref([])
-const active = reactive({
-  activeMessage: false,
-  activeAnnounce: false
-})
 onMounted(async () => {
   await getAllUserChat(dataMessage)
-  console.log(dataMessage)
 })
 const logout = () => {
+  router.push('/')
   store.dispatch('auth/logout')
-  router.push({ name: 'User' })
 }
 async function getAllUserChat(data) {
   const res = await ChatService.getAllMessage()
   data.value = res.data
-}
-function activeMessage() {
-  active.activeMessage = !active.activeMessage
-  console.log(active.activeMessage)
 }
 </script>
 <style lang="scss">

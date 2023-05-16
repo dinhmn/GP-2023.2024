@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template lang="">
-  <CommonAdmin title="Đơn hàng" actionNew="false">
+  <CommonAdmin title="Đơn hàng" actionNew="false" class="relative">
     <template v-slot:search>
       <form class="flex w-[600px] gap-2 items-center justify-center">
         <Input
@@ -18,7 +18,7 @@
           v-model="searchData.sortBy"
         >
           <option value="order_id">Hóa đơn</option>
-          <option value="created_date">Ngày tạo</option>
+          <option value="created_date">Ngày tạo mới nhất</option>
         </select>
         <Button
           type="button"
@@ -37,6 +37,7 @@
           <th>Địa chỉ</th>
           <th>Mã hóa đơn</th>
           <th>Ngày tạo hóa đơn</th>
+          <th>Lý do hủy</th>
           <th>Trạng thái</th>
           <th class="w-[150px]">Hành động</th>
         </tr>
@@ -53,13 +54,16 @@
           <td>{{ item.orderCode }}</td>
           <td>{{ new Date(item.createdDate).toLocaleString().replaceAll('/', '-') }}</td>
           <td>
+            <span>{{ item.customerNote }}</span>
+          </td>
+          <td>
             <select
               name="role"
               class="w-[120px] px-3 py-1 text-gray-800 rounded outline-none cursor-pointer"
               :value="item.orderStatus"
               :disabled="item.orderStatus === '1'"
               :class="item.orderStatus === '1' ? 'select-none pointer-events-none bg-gray-500' : ''"
-              @change="onConfirm($event, item.orderId)"
+              @change="onConfirm($event, item)"
             >
               <option value="0">Chờ</option>
               <option value="1">Xác nhận</option>
@@ -114,8 +118,11 @@ import OrderService from '@/stores/modules/OrderService'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
 const searchData = reactive({
+  pageNo: 0,
+  pageSize: 10,
   searchValue: '',
-  sortBy: 'order_id'
+  sortBy: 'order_id',
+  sortDirection: 'ASC'
 })
 const api = reactive({
   data: [],
@@ -136,7 +143,6 @@ onMounted(async () => {
     value: ''
   }
   await getAllData(api, page)
-  console.log(api.data)
 })
 
 async function getAllData(api, page) {
@@ -153,10 +159,15 @@ async function getAllData(api, page) {
   }
 }
 
-function onConfirm(event, orderId) {
+function onConfirm(event, item) {
   try {
-    console.log(event.target.value)
-    OrderService.update('/update', orderId, event.target.value)
+    if (Number(event.target.value) !== 2) {
+      OrderService.update('/update', item.orderId, event.target.value)
+      if (Number(event.target.value) === 1) {
+        // OrderService.delete(Number(item.orderId))
+        sendMail(event, item)
+      }
+    }
   } catch (error) {
     route.push({ name: '404' })
   }
@@ -236,16 +247,35 @@ const onView = async (event, orderId) => {
     route.push({ name: '404' })
   }
 }
-function onSearch() {}
+async function onSearch() {
+  try {
+    let page = {
+      pageNo: searchData.pageNo,
+      pageSize: 10,
+      sortDirection: searchData.sortBy === 'created_date' ? 'DESC' : searchData.sortDirection,
+      sortBy: searchData.sortBy,
+      value: searchData.searchValue
+    }
+    const res = await OrderService.getAllOrder('/get-all', page)
+    const result = {
+      status: res.status + '-' + res.statusText,
+      headers: res.headers,
+      data: res.data
+    }
+    fetchData(result.data, api)
+    console.log(result.data)
+  } catch (error) {
+    console.log(error)
+  }
+}
 const sendMail = (event, item) => {
   let requestModel = {
-    mailName: 'Thank you has set the row.',
-    // mailTo: item.customerEmail,
+    mailName: 'Xác nhận đơn hàng',
     mailTo: 'ngocdinh2k1@gmail.com',
     mailFrom: 'ngocdinh11052001@gmail.com',
-    mailSubject: `Hello ${
+    mailSubject: `Chào bạn ${
       item.customerLastName !== null ? item.customerLastName : item.customerFirstName
-    }, Confirm your order`
+    }, Xác nhận đơn hàng`
   }
   axios
     .post('http://localhost:8088/api/send-mail/post/' + item.orderId, requestModel)

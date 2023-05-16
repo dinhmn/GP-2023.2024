@@ -42,6 +42,7 @@ class ProductService {
       });
     }
     if (UPDATE === type) {
+      console.log(formData);
       return http.put(API_PRODUCT_PREFIX + url + "/" + product.categoryId + "/" + product.productId, formData, {
         headers: {
           "Content-Type": "multipart/form-data"

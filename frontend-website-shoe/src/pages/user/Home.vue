@@ -11,7 +11,7 @@
           <div></div>
         </div>
       </div>
-      <div v-else>
+      <div class="w-full" v-else>
         <div class="flex items-center justify-center w-full my-4">
           <img
             src="../../assets/images/banner.png"

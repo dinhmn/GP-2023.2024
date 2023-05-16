@@ -49,7 +49,13 @@
         <tr v-for="(item, index) in api.data" :key="item.userId">
           <td>{{ index }}</td>
           <td>{{ item.username }}</td>
-          <td>{{ item.lastName + ' ' + item.firstName }}</td>
+          <td>
+            {{
+              (item.lastName !== null ? item.lastName : '') +
+              ' ' +
+              (item.firstName !== null ? item.firstName : '')
+            }}
+          </td>
           <td>{{ item.userEmail }}</td>
           <td>{{ new Date(item.createdDate).toLocaleDateString().replaceAll('/', '-') }}</td>
           <td>
@@ -181,6 +187,30 @@ function onNextPage() {
     getAllData(api, active.value - 1)
   } catch (err) {
     route.push({ name: '404' })
+  }
+}
+
+async function search() {
+  try {
+    let page = {
+      pageNo: searchData.pageNo,
+      pageSize: 10,
+      sortDirection: searchData.sortBy === 'created_date' ? 'DESC' : searchData.sortDirection,
+      sortBy: searchData.sortBy,
+      value: searchData.searchValue
+    }
+    const res = await UserService.getAllPage('/get-all', page)
+
+    const result = {
+      status: res.status + '-' + res.statusText,
+      headers: res.headers,
+      data: res.data
+    }
+
+    fetchData(result.data, api)
+    console.log(api)
+  } catch (error) {
+    console.log(error)
   }
 }
 </script>

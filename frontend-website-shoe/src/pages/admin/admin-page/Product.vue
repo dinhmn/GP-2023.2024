@@ -207,6 +207,7 @@ async function onDelete(event, categoryId, productId) {
       .catch((error) => {
         console.log(error)
       })
+    await getAllData(api, 0)
   } catch (error) {
     console.log(error)
   }
