@@ -10,6 +10,7 @@ import com.graduationproject.backend.backendwebsiteshoe.dto.IOrder;
 import com.graduationproject.backend.backendwebsiteshoe.entity.CartEntity;
 import com.graduationproject.backend.backendwebsiteshoe.entity.OrderEntity;
 import com.graduationproject.backend.backendwebsiteshoe.entity.UserInformationEntity;
+import com.graduationproject.backend.backendwebsiteshoe.forms.CancelOrder;
 import com.graduationproject.backend.backendwebsiteshoe.forms.OrderForm;
 import com.graduationproject.backend.backendwebsiteshoe.forms.OrderFormSupport;
 import com.graduationproject.backend.backendwebsiteshoe.model.OrderJasperModel;
@@ -24,20 +25,18 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 import java.util.TreeMap;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.PathVariable;
 
 /**
  * Implement helper of order helper.
@@ -80,10 +79,22 @@ public class OrderHelper {
     List<CartEntity> cartEntityList = orderJasperModel.getOrderList().stream()
         .map(cart -> this.toBuildCartEntity(cart, cartId))
         .toList();
-    UserInformationEntity userInformationEntity =
-        this.toBuildUserInformationEntity(orderJasperModel.getCustomer(), userId == null
-            ? User.CUSTOMER.getCode()
-            : User.USER.getCode(), userId);
+    Optional<UserInformationEntity> userInformation;
+    UserInformationEntity userInformationEntity = new UserInformationEntity();
+    if (userId != null) {
+      userInformation = userInformationService.getUserInformation(userId);
+      if (userInformation.isPresent()) {
+        BeanUtils.copyProperties(userInformation.get(), userInformationEntity);
+      }
+      userInformationEntity.setPhone(orderJasperModel.getCustomer().getCustomerPhone());
+      userInformationEntity.setAddress(orderJasperModel.getCustomer().getCustomerAddress());
+      userInformationEntity.setNote(orderJasperModel.getCustomer().getCustomerNote());
+    } else {
+      userInformationEntity =
+          this.toBuildUserInformationEntity(orderJasperModel.getCustomer(), User.CUSTOMER.getCode(),
+              userId);
+    }
+
     userInformationService.insert(userInformationEntity);
     for (CartEntity cart : cartEntityList) {
       totalPrice = totalPrice.add(cart.getProductCurrentPrice().multiply(
@@ -161,7 +172,8 @@ public class OrderHelper {
     List<Long> orderIdList = order.stream().map(IOrder::getOrderId).distinct().toList();
     orderIdList.forEach(o -> {
       orderJasperModelList.add(
-          this.toBuildOrderJasperModel(order.stream().filter(ord -> ord.getOrderId().equals(o)).toList())
+          this.toBuildOrderJasperModel(
+              order.stream().filter(ord -> ord.getOrderId().equals(o)).toList())
       );
     });
 
@@ -207,7 +219,7 @@ public class OrderHelper {
    *
    * @return TRUE or FALSE
    */
-  public Boolean deleteOrder(Long orderId) {
+  public Boolean deleteOrder(Long orderId, CancelOrder cancelOrder) {
     Boolean flag = Boolean.FALSE;
     Optional<OrderEntity> orderEntity = orderService.getByOrderId(orderId);
     List<CartEntity> cartEntityList = cartService.getByCartId(orderEntity.get().getCartId());
@@ -216,12 +228,24 @@ public class OrderHelper {
           .updateSize(cart.getProductId(), cart.getProductSizeName(), cart.getProductQuantity(),
               Constant.PLUS);
       productService.updateSize(cart.getProductId(), cart.getProductQuantity(), Constant.PLUS);
-      cartService
-          .deleteAllByCartId(cart.getCartId(), cart.getProductId(), cart.getProductSizeName());
+//      cartService
+//          .deleteAllByCartId(cart.getCartId(), cart.getProductId(), cart.getProductSizeName());
     });
 
     try {
-      orderService.deleteByOrderId(orderId);
+      Optional<OrderEntity> entity = orderService.getByOrderId(orderId);
+      OrderEntity order = new OrderEntity();
+      BeanUtils.copyProperties(entity.get(), order);
+      order.setOrderStatus("2");
+      orderService.update(order);
+      if (Objects.nonNull(cancelOrder.getUserId())) {
+        Long userId = cancelOrder.getUserId();
+        Optional<UserInformationEntity> userInformationEntity = userInformationService.getUserInformation(userId);
+        UserInformationEntity userInfo = new UserInformationEntity();
+        BeanUtils.copyProperties(userInformationEntity.get(), userInfo);
+        userInfo.setNote(cancelOrder.getUserNote());
+        userInformationService.update(userInfo);
+      }
       flag = Boolean.TRUE;
     } catch (DataAccessException dataAccessException) {
       dataAccessException.printStackTrace();
@@ -331,6 +355,8 @@ public class OrderHelper {
                 Constant.EMPTY_SPACE))
             .customerAddress(order.getCustomerAddress())
             .createdDate(order.getCreatedDate())
+            .customerNote(order.getStatus().equals("2") ? order.getCustomerNote() : "")
+            .userId(order.getUserId())
             .build())
         .toList();
   }
@@ -380,7 +406,7 @@ public class OrderHelper {
       invoice.setStatus(order.getStatus());
       invoice.setProductTotalPrice(order.getProductPrice().multiply(
           BigDecimal.valueOf(order.getProductQuantity())).setScale(FIXED, RoundingMode.UP));
-      totalPriceOfAllProduct = totalPriceOfAllProduct.add(order.getProductPrice());
+      totalPriceOfAllProduct = totalPriceOfAllProduct.add(invoice.getProductTotalPrice());
       totalQuantityOfAllProduct += totalQuantityOfAllProduct + order.getProductQuantity();
       invoiceList.add(invoice);
     }

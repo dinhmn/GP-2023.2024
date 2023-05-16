@@ -29,4 +29,8 @@ public class OrderFormSupport {
   private String quantity;
 
   private String totalPrice;
+
+  private String customerNote;
+
+  private Long userId;
 }

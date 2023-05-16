@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -207,16 +206,19 @@ public class ProductController {
    * @return response entity
    */
   @PutMapping(value = "/update/{categoryId}/{productId}")
-  public ResponseEntity<ProductEntity> updateCategory(@RequestBody ProductModel productModel,
-                                                      @PathVariable String categoryId,
+  public ResponseEntity<ProductEntity> updateCategory(@PathVariable String categoryId,
                                                       @PathVariable String productId,
-                                                      @RequestBody List<MultipartFile> files)
+                                                      @RequestPart("product") String productModel,
+                                                      @RequestPart("files")
+                                                          List<MultipartFile> files)
       throws IOException {
+    ObjectMapper mapper = new ObjectMapper();
+    ProductModel product = mapper.readValue(productModel, ProductModel.class);
     ProductEntity productEntity = null;
     try {
-      productModel.setProductId(Long.parseLong(productId));
-      productModel.setCategoryId(Long.parseLong(categoryId));
-      productEntity = productHelper.update(productModel, files);
+      product.setProductId(Long.parseLong(productId));
+      product.setCategoryId(Long.parseLong(categoryId));
+      productEntity = productHelper.update(product, files);
     } catch (FileUploadException fileUploadException) {
       fileUploadException.printStackTrace();
     }

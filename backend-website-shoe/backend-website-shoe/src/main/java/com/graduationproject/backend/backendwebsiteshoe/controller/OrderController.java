@@ -1,9 +1,9 @@
 package com.graduationproject.backend.backendwebsiteshoe.controller;
 
 import com.graduationproject.backend.backendwebsiteshoe.common.Constant;
-import com.graduationproject.backend.backendwebsiteshoe.dto.EachMonthOrderDto;
 import com.graduationproject.backend.backendwebsiteshoe.dto.ICart;
 import com.graduationproject.backend.backendwebsiteshoe.entity.OrderEntity;
+import com.graduationproject.backend.backendwebsiteshoe.forms.CancelOrder;
 import com.graduationproject.backend.backendwebsiteshoe.forms.OrderForm;
 import com.graduationproject.backend.backendwebsiteshoe.helper.OrderHelper;
 import com.graduationproject.backend.backendwebsiteshoe.model.OrderJasperModel;
@@ -142,9 +142,9 @@ public class OrderController {
     return orderHelper.getAllBill();
   }
 
-  @DeleteMapping("/delete/{orderId}")
-  public ResponseEntity<?> deleteOrder(@PathVariable Long orderId) {
-    Boolean flag = orderHelper.deleteOrder(orderId);
+  @PutMapping("/delete/{orderId}")
+  public ResponseEntity<?> deleteOrder(@PathVariable Long orderId, @RequestBody CancelOrder cancel) {
+    Boolean flag = orderHelper.deleteOrder(orderId, cancel);
     return new ResponseEntity<>(flag, flag ? HttpStatus.OK : HttpStatus.BAD_REQUEST);
   }
 

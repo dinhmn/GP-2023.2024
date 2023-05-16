@@ -82,6 +82,17 @@ public class ExportPdfController {
     return new ResponseEntity<>(inputStreamResource, httpHeaders, HttpStatus.OK);
   }
 
+  @PostMapping(value = "/download-pdf", produces = "application/pdf")
+  public void download(
+      @RequestParam(name = "code", defaultValue = "4") Long orderId,
+      @RequestParam(name = "lang", defaultValue = "en") String lang)
+      throws IOException, FileNotFoundException {
+
+    OrderJasperModel orderJasperModel = orderHelper.getAllByOrderId(orderId);
+
+    invoiceService.exportPdf(orderJasperModel, Locale.forLanguageTag(lang));
+  }
+
   /**
    * Http header.
    *

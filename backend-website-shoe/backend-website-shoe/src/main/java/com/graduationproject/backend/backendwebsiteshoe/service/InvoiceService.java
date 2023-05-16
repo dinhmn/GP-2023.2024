@@ -1,6 +1,5 @@
 package com.graduationproject.backend.backendwebsiteshoe.service;
 
-import com.graduationproject.backend.backendwebsiteshoe.common.Constant;
 import com.graduationproject.backend.backendwebsiteshoe.model.OrderJasperModel;
 import com.graduationproject.backend.backendwebsiteshoe.utils.JasperUtils;
 import java.io.File;
@@ -13,6 +12,9 @@ import java.util.Locale;
 import java.util.Map;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.design.JasperDesign;
@@ -72,6 +74,49 @@ public class InvoiceService {
       JasperUtils.renderAsPdf(report, exportParameters, dataSource, output);
 
       return pdfFile;
+
+    } catch (final Exception exception) {
+      exception.printStackTrace();
+      throw new RuntimeException(exception);
+    }
+  }
+
+  /**
+   * Export invoice for each personal.
+   *
+   * @param orderJasperModel is a POJO contains all the data about the Invoice
+   * @param locale           Locale is used to localize the PDF file (French, English...)
+   * @return file pdf
+   */
+  public void exportPdf(OrderJasperModel orderJasperModel, Locale locale)
+      throws IOException {
+    // Create template order
+    File pdfFile =
+        File.createTempFile(PREFIX_INVOICE + orderJasperModel.getOrderCode(), SUFFIX);
+    String origPath = pdfFile.getCanonicalPath();
+    String parentPath = pdfFile.getParent();
+    String fileName = pdfFile.getName();
+    String replacePath = origPath.replace(parentPath, TARGET_SOURCE);
+    String pathFinish = replacePath.replace(fileName, "order_" + orderJasperModel.getOrderCode() + SUFFIX);
+    // Initiate a FileOutputStream
+    try (FileOutputStream output = new FileOutputStream(pathFinish)) {
+
+      // Load the invoice jrxml template
+      JasperReport report = this.createTemplate();
+
+      // Create parameter map.
+      Map<String, Object> exportParameters = this.getParameters(orderJasperModel, locale);
+
+      // Create an empty datasource.
+      JRBeanCollectionDataSource dataSource =
+          new JRBeanCollectionDataSource(Collections.singletonList("Invoice"));
+
+      // Render the PDF file
+      JasperUtils.renderAsPdf(report, exportParameters, dataSource, output);
+      JasperPrint print =
+          JasperFillManager.fillReport(report, exportParameters, dataSource);
+
+      JasperExportManager.exportReportToPdf(print);
 
     } catch (final Exception exception) {
       exception.printStackTrace();

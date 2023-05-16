@@ -5,6 +5,7 @@ import com.graduationproject.backend.backendwebsiteshoe.common.Constant;
 import com.graduationproject.backend.backendwebsiteshoe.dto.UserRoleDTO;
 import com.graduationproject.backend.backendwebsiteshoe.entity.RoleEntity;
 import com.graduationproject.backend.backendwebsiteshoe.entity.UserEntity;
+import com.graduationproject.backend.backendwebsiteshoe.entity.UserInformationEntity;
 import com.graduationproject.backend.backendwebsiteshoe.forms.UserForm;
 import com.graduationproject.backend.backendwebsiteshoe.service.UserService;
 import java.util.List;
@@ -46,8 +47,9 @@ public class UserController {
       @RequestParam(value = "page_size", defaultValue = Constant.DEFAULT_PAGE_SIZE) int pageSize,
       @RequestParam(value = "sort_direction", defaultValue = Constant.DEFAULT_SORT_DIRECTION)
           String sortDirection,
-      @RequestParam(value = "sort_by", defaultValue = "userId") String sortBy) {
-    return this.getAllUser(pageNo, pageSize, sortBy, sortDirection);
+      @RequestParam(value = "sort_by", defaultValue = "userId") String sortBy,
+      @RequestParam(value = "search_value", defaultValue = Constant.EMPTY_SPACE) String searchValue) {
+    return this.getAllUser(pageNo, pageSize, sortBy, sortDirection, searchValue);
   }
 
   /**
@@ -63,6 +65,17 @@ public class UserController {
   }
 
   /**
+   * Login with information from UI.
+   *
+   * @param userId userId
+   * @return entity.
+   */
+  @GetMapping("/get-user/{userId}")
+  public UserInformationEntity getUserById(@PathVariable Long userId) {
+    return userService.getUserInformation(userId).get();
+  }
+
+  /**
    * Select all user.
    *
    * @param pageNo pageNo
@@ -72,10 +85,10 @@ public class UserController {
    * @return list article.
    */
   private UserForm getAllUser(int pageNo, int pageSize, String sortBy,
-                          String sortDirection) {
+                          String sortDirection, String searchValue) {
     Pageable pageable = commonService.setPageable(pageSize, pageNo, sortBy, sortDirection);
 
-    Page<UserRoleDTO> userPage = userService.getAll(pageable);
+    Page<UserRoleDTO> userPage = userService.getAll(pageable, searchValue);
 
     List<RoleEntity> roleEntityList = userService.getAllRole();
 

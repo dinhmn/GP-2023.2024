@@ -5,6 +5,7 @@ import com.graduationproject.backend.backendwebsiteshoe.entity.CartEntityKey;
 import com.graduationproject.backend.backendwebsiteshoe.entity.OrderEntity;
 import com.graduationproject.backend.backendwebsiteshoe.repository.CartRepository;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,8 @@ public class CartService {
   CartRepository cartRepository;
 
   public Long getMaxCartId() {
-    return cartRepository.findMaxOrderId();
+    Optional<Long> cartId = cartRepository.findMaxOrderId();
+    return cartId.isEmpty() ? 1L : cartId.get();
   }
 
   /**

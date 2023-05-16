@@ -4,8 +4,10 @@ import com.graduationproject.backend.backendwebsiteshoe.dto.RoleDTO;
 import com.graduationproject.backend.backendwebsiteshoe.dto.UserRoleDTO;
 import com.graduationproject.backend.backendwebsiteshoe.entity.RoleEntity;
 import com.graduationproject.backend.backendwebsiteshoe.entity.UserEntity;
+import com.graduationproject.backend.backendwebsiteshoe.entity.UserInformationEntity;
 import com.graduationproject.backend.backendwebsiteshoe.model.UserDetailsModel;
 import com.graduationproject.backend.backendwebsiteshoe.repository.RoleRepository;
+import com.graduationproject.backend.backendwebsiteshoe.repository.UserInformationRepository;
 import com.graduationproject.backend.backendwebsiteshoe.repository.UserRepository;
 import java.util.List;
 import java.util.Optional;
@@ -36,6 +38,9 @@ public class UserService implements UserDetailsService {
 
   @Autowired
   RoleRepository roleRepository;
+
+  @Autowired
+  UserInformationRepository userInformationRepository;
 
   /**
    * Locates the user based on the username. In the actual implementation, the search
@@ -81,8 +86,8 @@ public class UserService implements UserDetailsService {
    *
    * @return find all user.
    */
-  public Page<UserRoleDTO> getAll(Pageable pageable) {
-    return userRepository.getAll(pageable);
+  public Page<UserRoleDTO> getAll(Pageable pageable, String searchValue) {
+    return userRepository.getAll(searchValue, pageable);
   }
 
   /**
@@ -179,5 +184,9 @@ public class UserService implements UserDetailsService {
         .email(user.getUserEmail())
         .authorities(authorityList)
         .build();
+  }
+
+  public Optional<UserInformationEntity> getUserInformation(Long userId) {
+    return userInformationRepository.findByUserId(userId);
   }
 }

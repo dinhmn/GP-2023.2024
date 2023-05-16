@@ -7,6 +7,7 @@ import com.graduationproject.backend.backendwebsiteshoe.entity.UserEntity;
 import com.graduationproject.backend.backendwebsiteshoe.entity.UserInformationEntity;
 import com.graduationproject.backend.backendwebsiteshoe.model.CommentModel;
 import com.graduationproject.backend.backendwebsiteshoe.repository.UserInformationRepository;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,6 +45,10 @@ public class UserInformationService {
     return userInformationRepository.save(this.toBuildUserInformationComment(commentModel));
   }
 
+  public Optional<UserInformationEntity> getUserInformation(Long userId) {
+    return userInformationRepository.findByUserId(userId);
+  }
+
   /**
    * To build user information entity.
    *
@@ -60,5 +65,9 @@ public class UserInformationService {
 
     commonService.setCommonCreatedEntity(entity);
     return entity;
+  }
+
+  public UserInformationEntity update(UserInformationEntity userInfo) {
+    return userInformationRepository.save(userInfo);
   }
 }

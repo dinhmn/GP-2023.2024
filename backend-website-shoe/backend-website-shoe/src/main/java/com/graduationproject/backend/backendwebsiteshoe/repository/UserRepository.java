@@ -40,12 +40,16 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
       + " usr.created_date AS createdDate, usr.status AS status"
       + " FROM tbl_user usr "
       + " INNER JOIN tbl_role role ON usr.role_id = role.role_id"
-      + " INNER JOIN tbl_user_information usfn ON usr.user_id = usfn.user_id", nativeQuery = true,
+      + " LEFT JOIN tbl_user_information usfn ON usr.user_id = usfn.user_id"
+      + " WHERE usr.username LIKE %?1% OR usr.user_email LIKE %?1%"
+      + " OR usfn.first_name LIKE %?1% OR usfn.last_name LIKE %?1%", nativeQuery = true,
       countQuery = "SELECT COUNT(*)"
-      + " FROM tbl_user usr"
-      + " INNER JOIN tbl_role role ON usr.role_id = role.role_id"
-      + " INNER JOIN tbl_user_information usfn ON usr.user_id = usfn.user_id")
-  Page<UserRoleDTO> getAll(Pageable pageable);
+          + " FROM tbl_user usr"
+          + " INNER JOIN tbl_role role ON usr.role_id = role.role_id"
+          + " LEFT JOIN tbl_user_information usfn ON usr.user_id = usfn.user_id"
+          + " WHERE usr.username LIKE %?1% OR usr.user_email LIKE %?1%"
+          + " OR usfn.first_name LIKE %?1% OR usfn.last_name LIKE %?1%")
+  Page<UserRoleDTO> getAll(String searchValue, Pageable pageable);
 
   /**
    * Get TRUE or FALSE.

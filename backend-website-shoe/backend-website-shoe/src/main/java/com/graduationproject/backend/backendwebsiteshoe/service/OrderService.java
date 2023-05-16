@@ -27,10 +27,6 @@ public class OrderService {
   @Autowired
   OrderRepository orderRepository;
 
-  public Long getMaxCartId() {
-    return cartRepository.findMaxOrderId();
-  }
-
   /**
    * Insert order into database.
    *

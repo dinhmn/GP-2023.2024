@@ -71,14 +71,14 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
    * @return list invoice.
    */
   @Query(value =
-      "SELECT DISTINCT(invoice.order_id) AS orderId, product.product_id AS productId, usr.user_id AS userId, "
+      "SELECT DISTINCT(invoice.order_id) AS orderId, product.product_id AS productId, "
           + " product.product_name AS productName, userInfo.address AS customerAddress,"
           + " COALESCE(product.product_price_sale, product.product_price) AS productPrice, "
-          +
-          " cart.product_quantity AS productQuantity, cart.cart_id AS cartId, invoice.order_code AS orderCode,"
+          + " cart.product_quantity AS productQuantity, cart.cart_id AS cartId,"
+          + "  invoice.order_code AS orderCode, COALESCE(usr.user_id, userInfo.user_id) AS userId,"
           + " userInfo.first_name AS customerFirstName, userInfo.last_name AS customerLastName, "
-          +
-          " userInfo.email AS customerEmail, userInfo.phone AS customerPhone, invoice.created_date AS createdDate,"
+          + " userInfo.email AS customerEmail, userInfo.phone AS customerPhone, "
+          + " invoice.created_date AS createdDate, userInfo.note AS customerNote,"
           + " invoice.order_status AS status"
           + " FROM tbl_order invoice INNER JOIN tbl_cart cart ON cart.cart_id = invoice.cart_id"
           + " INNER JOIN tbl_product product ON cart.product_id = product.product_id"
@@ -106,6 +106,7 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
       + " SUM(cart.product_quantity) AS totalQuantity, invoice.order_status AS orderStatus, "
       + " SUM(invoice.order_total_price) AS totalOrderPrice FROM tbl_order invoice"
       + " INNER JOIN tbl_cart cart ON cart.cart_id = invoice.cart_id"
+      + " WHERE invoice.order_status = '1'"
       + " GROUP BY invoice.order_id, invoice.cart_id, invoice.order_status", nativeQuery = true)
   List<ICart> findAllTotal();
 
@@ -119,6 +120,7 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
   @Query(value = "select MONTH(ord.created_date) AS month, SUM(ord.order_total_price) AS totalPrice"
       + " from tbl_order ord"
       + " inner join tbl_cart tc on ord.cart_id = tc.cart_id"
+      + " WHERE ord.order_status = '1'"
       + " group by MONTH(ord.created_date)"
       + " order by MONTH(ord.created_date)", nativeQuery = true)
   List<EachMonthOrderDto> findAllByMonth();
