@@ -3,6 +3,8 @@ package com.graduationproject.backend.backendwebsiteshoe.service;
 import com.graduationproject.backend.backendwebsiteshoe.dto.IContact;
 import com.graduationproject.backend.backendwebsiteshoe.entity.ContactEntity;
 import com.graduationproject.backend.backendwebsiteshoe.repository.ContactRepository;
+import java.util.Optional;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -49,4 +51,11 @@ public class ContactService {
     return contactRepository.save(contactEntity);
   }
 
+  public ContactEntity update(Long contactId) {
+    Optional<ContactEntity> contactEntity = contactRepository.findById(contactId);
+    ContactEntity contactEntity1 = new ContactEntity();
+    BeanUtils.copyProperties(contactEntity.get(), contactEntity1);
+    contactEntity1.setStatus(Boolean.TRUE);
+    return contactRepository.save(contactEntity1);
+  }
 }

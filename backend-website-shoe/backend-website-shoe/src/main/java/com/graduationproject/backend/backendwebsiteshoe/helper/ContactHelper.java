@@ -119,4 +119,8 @@ public class ContactHelper {
         contactModel.getContactStatus().equals(Constant.TRUE) ? Boolean.TRUE : Boolean.FALSE);
     return contactEntity;
   }
+
+  public ContactEntity update(Long contactId) {
+    return contactService.update(contactId);
+  }
 }

@@ -49,7 +49,7 @@ public class AuthController {
    * @return response entity.
    */
   @PostMapping("/sign-up")
-  public ResponseEntity<?> registerUser(@Validated @RequestBody SignUpForm signUpForm) {
+  public ResponseEntity<?> registerUser(@RequestBody SignUpForm signUpForm) {
     return authHelper.registerUser(signUpForm);
   }
 

@@ -98,11 +98,11 @@ public class AuthHelper {
           .body(new SignUpResponse("Error: Username is already taken!"));
     }
 
-    if (userService.existsByEmail(signUpForm.getEmail())) {
-      return ResponseEntity
-          .badRequest()
-          .body(new SignUpResponse("Error: Email is already in use!"));
-    }
+//    if (userService.existsByEmail(signUpForm.getEmail())) {
+//      return ResponseEntity
+//          .badRequest()
+//          .body(new SignUpResponse("Error: Email is already in use!"));
+//    }
     if (!CollectionUtils.isEmpty(signUpForm.getRoleIdList())) {
       List<UserEntity> userEntityList = new ArrayList<>();
       for (int i = 0; i < signUpForm.getRoleIdList().size(); i++) {
