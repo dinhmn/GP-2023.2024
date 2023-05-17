@@ -23,7 +23,7 @@
           class="flex items-center justify-around w-full py-2 my-1 rounded-[4px] bg-[#F8F8F8] text-cyan-800"
         >
           <div
-            class="relative flex flex-col items-center justify-center transition-all cursor-pointer -z-1 hover:text-brown"
+            class="flex flex-col items-center justify-center transition-all cursor-pointer hover:scale-105 hover:text-brown"
             v-for="(item, index) in trademark"
             :key="index"
           >

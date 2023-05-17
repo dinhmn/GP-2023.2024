@@ -10,6 +10,7 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@fawmi/vue-google-maps": "^0.9.79",
     "@popperjs/core": "^2.11.7",
     "@vuelidate/core": "^2.0.2",
     "@vuelidate/validators": "^2.0.2",
