@@ -264,7 +264,9 @@ async function getAllDataArticle(loading) {
   loading.value = true
   try {
     axios
-      .get('http://localhost:8088/api/article/init/pageable?page_no=0&page_size=4')
+      .get(
+        'http://localhost:8088/api/article/init/pageable?page_no=0&page_size=4&sort_direction=DESC'
+      )
       .then((response) => {
         article.push(response.data.articleDTOList)
       })

@@ -224,30 +224,18 @@ export default {
     onSubmit() {
       this.v$.$validate()
       if (!this.v$.$error) {
-        // if ANY fail validation
-        // store.dispatch('auth/register', this.).then(
-        //   (response) => {
-        //     console.log(response)
-        //     this.success = true
-        //     this.register = true
-        //   },
-        //   (error) => {
-        //     this.register = false
-        //     this.success = false
-        //     console.log(error)
-        //   }
-        // )
-        AuthService.register(this.data).then(
-          (response) => {
-            console.log(response)
-            this.success = true
-            this.register = true
-          },
-          () => {
-            this.success = true
-            this.register = true
-          }
-        )
+        console.log(this.data)
+        AuthService.register(this.data)
+          .then(
+            (response) => {
+              console.log(response)
+              this.register = true
+            },
+            () => {
+              this.register = true
+            }
+          )
+          .finally(() => (this.success = true))
       } else {
         this.success = false
       }

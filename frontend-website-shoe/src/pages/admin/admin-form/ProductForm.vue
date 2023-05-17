@@ -1,5 +1,5 @@
 <template lang="">
-  <div class="relative">
+  <div class="relative min-h-[100vh]">
     <div
       :class="modal.isDisplay == true && modal.isDisplay !== 'none' ? 'opacity-5 select-none' : ''"
     >

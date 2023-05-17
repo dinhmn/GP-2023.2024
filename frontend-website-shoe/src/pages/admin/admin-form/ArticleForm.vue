@@ -1,5 +1,5 @@
 <template lang="">
-  <div class="relative h-full">
+  <div class="relative min-h-[100vh]">
     <div>
       <div class="text-white">
         <router-link :to="{ name: 'ArticleAdmin' }">
@@ -103,14 +103,14 @@ import Button from '@/components/common/button/Button.vue'
 import { useRoute, useRouter } from 'vue-router'
 import ArticleService from '@/stores/modules/ArticleService'
 import { INSERT, UPDATE, ARTICLE_NEW, ARTICLE_EDIT } from '../../../constants/index'
-const state = reactive({
+const state = ref({
   articleId: 1,
   articleName: '',
   articleDescription: '',
   productId: 1,
   articleStatus: '1'
 })
-const form = reactive({ ...state })
+const form = reactive({ ...state.value })
 const fileName = ref('')
 const file = ref()
 const onChangeFile = (event) => {
@@ -125,20 +125,20 @@ onMounted(() => {
   }
 })
 const switchSelectStatus = (event) => {
-  state.articleStatus = event.target.value
+  state.value.articleStatus = event.target.value
 }
 
 async function onSubmitForm(pathName) {
   try {
     if (ARTICLE_NEW === pathName) {
-      ArticleService.insertOrUpdate(file.value, state, '/register', INSERT)
+      ArticleService.insertOrUpdate(file.value, state.value, '/register', INSERT)
     }
 
     if (ARTICLE_EDIT === pathName) {
-      ArticleService.insertOrUpdate(file.value, state, '/update', UPDATE)
+      ArticleService.insertOrUpdate(file.value, state.value, '/update', UPDATE)
     }
     router.push({ name: 'ArticleAdmin' })
-    Object.assign(state, form)
+    Object.assign(state.value, form)
   } catch (e) {
     console.log(e)
   }
@@ -152,9 +152,8 @@ async function getById(articleId) {
       headers: res.headers,
       data: res.data
     }
-
-    // fetchData(result.data, api)
-    console.log(result.data)
+    state.value = result.data
+    fileName.value = result.data.fileName
   } catch (error) {
     fortmatResponse(error.response?.data) || error
   }

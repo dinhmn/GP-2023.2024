@@ -67,7 +67,7 @@
                 className="min-w-[60px] px-2 text-sm bg-green-700 hover:bg-green-600 block text-center m-0 hover:text-white"
                 name="edit"
               >
-                Edit
+                Sửa
               </button>
             </router-link>
 
@@ -76,7 +76,7 @@
               name="delete"
               @click.prevent="onDelete($event, item.categoryId, item.productId)"
             >
-              Delete
+              Xóa
             </button>
           </td>
         </tr>

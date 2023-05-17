@@ -20,5 +20,9 @@ class ContactService {
       },
     });
   }
+
+  update(contactId) {
+    return http.put(API_CONTACT_PREFIX + '/update/' + contactId)
+  }
 }
 export default new ContactService();

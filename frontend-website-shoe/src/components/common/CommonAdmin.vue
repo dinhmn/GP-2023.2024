@@ -1,5 +1,5 @@
 <template lang="">
-  <div class="w-full text-white h-[100vh]">
+  <div class="w-full text-white min-h-[100vh]">
     <h2 class="w-full my-2 mb-4 font-bold">
       <span class="text-xl">Dashboard</span> <strong> > </strong>
       <span class="text-[#17b1ea] text-xl">{{ props.title }}</span>

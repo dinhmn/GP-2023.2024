@@ -1,5 +1,5 @@
 <template lang="">
-  <div class="h-[100vh]">
+  <div class="min-h-[100vh]">
     <div class="text-white">
       <router-link :to="{ name: 'CategoryAdmin' }">
         <Button

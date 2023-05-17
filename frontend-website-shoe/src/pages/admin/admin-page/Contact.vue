@@ -36,19 +36,19 @@
     <template v-slot:tbody>
       <tbody>
         <tr v-for="(item, index) in api.data" :key="index">
-          <td>{{ index }}</td>
+          <td>{{ index + 1 }}</td>
           <td>{{ item.contactName }}</td>
           <td>{{ item.contactMessage }}</td>
           <td>{{ item.contactEmail }}</td>
           <td>{{ new Date(item.createdDate).toLocaleDateString().replaceAll('/', '-') }}</td>
           <td>
             <strong
-              v-if="item.status === '0'"
+              v-if="item.status === false"
               class="px-[20px] py-[4px] text-xs text-yellow-700 bg-yellow-400 rounded-full"
               >Chờ</strong
             >
             <strong
-              v-if="item.status === '1'"
+              v-if="item.status === true"
               class="px-[20px] py-[4px] text-xs min-w-[100px] text-green-700 bg-green-400 rounded-full"
               >Xác nhận</strong
             >
@@ -57,7 +57,10 @@
             <button
               class="block min-w-[60px] px-2 m-0 text-sm text-center bg-green-700 hover:bg-green-600 mr-3"
               name="delete"
-              v-if="item.status == null"
+              :class="
+                item.status == 0 || item.status == null ? '' : 'opacity-50 pointer-events-none'
+              "
+              @click="onConfirm($event, item.contactId)"
             >
               Xác nhận
             </button>
@@ -169,6 +172,15 @@ async function onSearch() {
 
     fetchData(result.data, api)
     api.data = result.data.contactList
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+async function onConfirm(event, contactId) {
+  try {
+    await ContactService.update(contactId)
+    getAllData(api, 0)
   } catch (error) {
     console.log(error)
   }
