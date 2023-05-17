@@ -273,9 +273,7 @@ const sendMail = (event, item) => {
     mailName: 'Xác nhận đơn hàng',
     mailTo: 'ngocdinh2k1@gmail.com',
     mailFrom: 'ngocdinh11052001@gmail.com',
-    mailSubject: `Chào bạn ${
-      item.customerLastName !== null ? item.customerLastName : item.customerFirstName
-    }, Xác nhận đơn hàng`
+    mailSubject: `Chào bạn, Mail xác nhận đơn hàng`
   }
   axios
     .post('http://localhost:8088/api/send-mail/post/' + item.orderId, requestModel)
