@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -70,6 +71,7 @@ public class InvoiceService {
       JRBeanCollectionDataSource dataSource =
           new JRBeanCollectionDataSource(Collections.singletonList("Invoice"));
 
+      exportParameters.put(JRParameter.IS_IGNORE_PAGINATION, true);
       // Render the PDF file
       JasperUtils.renderAsPdf(report, exportParameters, dataSource, output);
 
