@@ -43,7 +43,7 @@ public class DataSourceConfig {
     databasePopulator.setContinueOnError(true);
 
     // TODO: Add script to use test UI
-    // databasePopulator.addScript(new ClassPathResource("templates/table/create_table.sql"));
+    // databasePopulator.addScript(new ClassPathResource("templates/table/V1__create_table.sql"));
     //  databasePopulator.addScripts(
     //     new PathMatchingResourcePatternResolver().getResources(SQL_PATTERN)
     // );
