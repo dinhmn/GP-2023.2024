@@ -39,15 +39,6 @@ const routes = [
     component: () => import("../pages/user/Contact.vue"),
   },
   {
-    path: "/article/:articleId",
-    name: "Article",
-    meta: {
-      layout: 'user',
-      auth: false
-    },
-    component: () => import("../pages/user/Article.vue"),
-  },
-  {
     path: "/payment",
     name: "Payment",
     meta: {
@@ -138,15 +129,6 @@ const routes = [
       auth: true
     },
     component: () => import("../pages/admin/admin-page/Contact.vue")
-  },
-  {
-    name: "ArticleAdmin",
-    path: "/admin/article",
-    meta: {
-      layout: 'admin',
-      auth: true
-    },
-    component: () => import("../pages/admin/admin-page/Article.vue")
   },
   {
     name: "ArticleRegisterAdmin",
